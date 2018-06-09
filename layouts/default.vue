@@ -6,29 +6,36 @@
           General
         </p>
         <ul class="menu-list">
-          <li><nuxt-link to="/dashboard">Dashboard</nuxt-link></li>
+          <li><nuxt-link to="/Dashboard">Dashboard</nuxt-link></li>
           <li><nuxt-link to="/Stations">Stations</nuxt-link></li>
+          <li><nuxt-link to="/Roles">Roles</nuxt-link></li>
+          <li><nuxt-link to="/Bookings">Bookings</nuxt-link></li>
         </ul>
         <p class="menu-label">
           Administration
         </p>
         <ul class="menu-list">
-          <li><nuxt-link to="/users">Manage Users</nuxt-link></li>
-          <li><nuxt-link to="/roles">Roles &amp; Permissions</nuxt-link></li>
+          <li><nuxt-link to="/Users">Manage Users</nuxt-link></li>
+          <li><nuxt-link to="/Users/permissions">Roles &amp; Permissions</nuxt-link></li>
         </ul>
-      </aside>
+      </aside> 
     </div>
-    <nuxt class="container"/>
+    <div class="container">
+      <nuxt/>
+    </div>
   </div>
 </template>
 
 <style>
+
 #app {
   margin: 5px;
 }
 
 .container {
-  float: right;
+  /* float: right; */
+  display: flex;
+  justify-content: flex-start;
 }
 
 html {
