@@ -18,7 +18,7 @@
           <li><nuxt-link to="/Users">Manage Users</nuxt-link></li>
           <li><nuxt-link to="/Users/permissions">Roles &amp; Permissions</nuxt-link></li>
         </ul>
-      </aside> 
+      </aside>
     </div>
     <div class="container">
       <nuxt/>
