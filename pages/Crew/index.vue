@@ -5,7 +5,7 @@
       <b-field expanded>
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon>
-        <span>11:20AM to 11:40AM</span>
+        <span> 11:20AM to 11:40AM </span>
       </button>
       </b-field>
 
@@ -20,10 +20,14 @@
     </b-field>
 
 
-    <b-table :data="tableDataSimple">
+    <b-table
+      :data="tableDataSimple"
+      :checked-rows.sync="checkedRows"
+      checkedRows
+    >
 
       <template slot-scope="props" >
-        <b-table-column field="queue_No" label="Queue No." width="120" >
+        <b-table-column class="row" field="queue_No" label="Queue No." width="120" >
           {{ props.row.queue_No }}
         </b-table-column>
 
@@ -44,11 +48,21 @@
         </b-table-column>
       </template>
     </b-table>
+
+    <!--<button class="button is-medium is-danger" @click="danger">-->
+      <!--Launch toast (custom)-->
+    <!--</button>-->
+
+    <template slot="bottom-right">
+      <b>Total checked</b>: 6/9
+    </template>
+
   </section>
 </template>
 
 <script>
   export default{
+
     data() {
       const tableDataSimple = [
         { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:21AM', 'status': 'Confirmed' },
@@ -62,6 +76,19 @@
       return {
         tableDataSimple,
       }
+    },
+
+    methods:{
+      danger() {
+        this.$toast.open({
+          duration: 5000,
+          message: 'User does not have any bookings!',
+          position: 'is-bottom',
+          type: 'is-danger'
+        })
+      }
+
+
     }
   }
 </script>
