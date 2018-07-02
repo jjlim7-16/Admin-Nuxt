@@ -1,169 +1,67 @@
 <template>
-  <h2>Home Page</h2>
-</template>
+	<div id="form" class="box container">
+    <b-field label='Username' :type="errors.has('username') ? 'is-danger': ''" 
+			:message="errors.has('username') ? errors.first('username') : ''">
+			<b-input placeholder='Username' v-model='username' name='username' data-vv-as="'Username'"
+			v-validate="'required|alpha'"></b-input>
+		</b-field>
 
-<!--<template>
-  <aside class="menu app-sidebar animated" :class="{ slideInLeft: show, slideOutLeft: !show }">
-    <p class="menu-label">
-      General
-    </p>
-    <ul class="menu-list">
-      <li v-for="(item, index) in menu" :key="(item, index)">
-        <router-link :to="item.path" :exact="true" :aria-expanded="isExpanded(item) ? 'true' : 'false'" v-if="item.path" @click.native="toggle(index, item)">
-          <span class="icon is-small"><i :class="['fa', item.meta.icon]"></i></span>
-          {{ item.meta.label || item.name }}
-          <span class="icon is-small is-angle" v-if="item.children && item.children.length">
-            <i class="fa fa-angle-down"></i>
-          </span>
-        </router-link>
-        <a :aria-expanded="isExpanded(item)" v-else @click="toggle(index, item)">
-          <span class="icon is-small"><i :class="['fa', item.meta.icon]"></i></span>
-          {{ item.meta.label || item.name }}
-          <span class="icon is-small is-angle" v-if="item.children && item.children.length">
-            <i class="fa fa-angle-down"></i>
-          </span>
-        </a>
+    <b-field label='Password' :type="errors.has('password') ? 'is-danger': ''" 
+			:message="errors.has('password') ? errors.first('password') : ''">
+			<b-input type='password' placeholder='Password' v-model='password' name='password' data-vv-as="'Password'"
+			v-validate="'required'"></b-input>
+		</b-field>
 
-        <expanding v-if="item.children && item.children.length">
-          <ul v-show="isExpanded(item)">
-            <li v-for="subItem in item.children" :key="subItem" v-if="subItem.path">
-              <router-link :to="generatePath(item, subItem)">
-                {{ subItem.meta && subItem.meta.label || subItem.name }}
-              </router-link>
-            </li>
-          </ul>
-        </expanding>
-      </li>
-    </ul>
-  </aside>
+    <br/>
+    <button class="button is-success" @click="login()">Login</button>
+  </div>
 </template>
 
 <script>
-import Expanding from 'vue-bulma-expanding'
-import { mapGetters, mapActions } from 'vuex'
+// import Cookie from 'js-cookie'
+
 export default {
-  components: {
-    Expanding
-  },
-  props: {
-    show: Boolean
-  },
-  data () {
+  middleware: 'auth',
+  layout: 'fullscreen',
+  data() {
     return {
-      isReady: false
+      username: '',
+      password: ''
     }
   },
-  mounted () {
-    let route = this.$route
-    if (route.name) {
-      this.isReady = true
-      this.shouldExpandMatchItem(route)
-    }
-  },
-  computed: mapGetters({
-    menu: 'menuitems'
-  }),
   methods: {
-    ...mapActions([
-      'expandMenu'
-    ]),
-    isExpanded (item) {
-      return item.meta.expanded
-    },
-    toggle (index, item) {
-      this.expandMenu({
-        index: index,
-        expanded: !item.meta.expanded
-      })
-    },
-    shouldExpandMatchItem (route) {
-      let matched = route.matched
-      let lastMatched = matched[matched.length - 1]
-      let parent = lastMatched.parent || lastMatched
-      const isParent = parent === lastMatched
-      if (isParent) {
-        const p = this.findParentFromMenu(route)
-        if (p) {
-          parent = p
-        }
-      }
-      if ('expanded' in parent.meta && !isParent) {
-        this.expandMenu({
-          item: parent,
-          expanded: true
-        })
-      }
-    },
-    generatePath (item, subItem) {
-      return `${item.component ? item.path + '/' : ''}${subItem.path}`
-    },
-    findParentFromMenu (route) {
-      const menu = this.menu
-      for (let i = 0, l = menu.length; i < l; i++) {
-        const item = menu[i]
-        const k = item.children && item.children.length
-        if (k) {
-          for (let j = 0; j < k; j++) {
-            if (item.children[j].name === route.name) {
-              return item
-            }
+    // async login() {
+    //   await this.$store.dispatch("api/auth/login", {
+    //     username: this.username,
+    //     password: this.password
+    //   })
+    //   .then(result => {
+    //     console.log("result", result)
+    //     this.$router.push({ path: '/Admin' })
+    //   })
+    //   .catch(error => {
+    //     this.loading = false
+    //     if (error.response && error.response.data) {
+    //       // this.alert = {
+    //       //   type: "error",
+    //       //   message: error.response.data.message || error.response.status
+    //       // }
+    //     }
+    //   })
+    // }
+    async login() {
+      this.error = null
+      return this.$auth
+        .loginWith('local', {
+          data: {
+            username: this.username,
+            password: this.password
           }
-        }
-      }
-    }
-  },
-  watch: {
-    $route (route) {
-      this.isReady = true
-      this.shouldExpandMatchItem(route)
+        })
+        .catch(e => {
+          this.error = e + ''
+        })
     }
   }
 }
 </script>
-
-<style lang="scss">
-@import '~bulma/sass/utilities/variables';
-@import '~bulma/sass/utilities/mixins';
-.app-sidebar {
-  position: fixed;
-  top: 50px;
-  left: 0;
-  bottom: 0;
-  padding: 20px 0 50px;
-  width: 180px;
-  min-width: 45px;
-  max-height: 100vh;
-  height: calc(100% - 50px);
-  z-index: 1024 - 1;
-  background: #FFF;
-  box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
-  overflow-y: auto;
-  overflow-x: hidden;
-  @include mobile() {
-    transform: translate3d(-180px, 0, 0);
-  }
-  .icon {
-    vertical-align: baseline;
-    &.is-angle {
-      position: absolute;
-      right: 10px;
-      transition: transform .377s ease;
-    }
-  }
-  .menu-label {
-    padding-left: 5px;
-  }
-  .menu-list {
-    li a {
-      &[aria-expanded="true"] {
-        .is-angle {
-          transform: rotate(180deg);
-        }
-      }
-    }
-    li a + ul {
-      margin: 0 10px 0 15px;
-    }
-  }
-}
-</style>-->

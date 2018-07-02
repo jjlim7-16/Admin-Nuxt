@@ -1,41 +1,14 @@
 <template>
-  <div id="app" class="columns">
-    <div class="column is-one-fifth" id="nav">
-      <aside class="sidebar menu is-hidden-touch">
-        <p class="menu-label">
-          General
-        </p>
-        <ul class="menu-list">
-          <li><nuxt-link to="/Admin/Dashboard">Dashboard</nuxt-link></li>
-          <li><nuxt-link to="/Admin/Stations">Stations</nuxt-link></li>
-          <li><nuxt-link to="/Admin/Roles">Roles</nuxt-link></li>
-          <li><nuxt-link to="/Admin/Bookings">Bookings</nuxt-link></li>
-        </ul>
-        <p class="menu-label">
-          Administration
-        </p>
-        <ul class="menu-list">
-          <li><nuxt-link to="/Admin/Users">Manage Users</nuxt-link></li>
-          <li><nuxt-link to="/Admin/Users/permissions">Roles &amp; Permissions</nuxt-link></li>
-        </ul>
-      </aside> 
-    </div>
-    <div class="container">
-      <nuxt/>
-    </div>
+  <div id="container" class="level container">
+    <nuxt/>
   </div>
 </template>
 
 <style>
 
-#app {
-  margin: 5px;
-}
-
-.container {
-  /* float: right; */
-  display: flex;
-  justify-content: flex-start;
+#container {
+  max-width: 40%;
+  margin-top: 10%;
 }
 
 html {
