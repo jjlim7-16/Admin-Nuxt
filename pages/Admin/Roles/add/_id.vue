@@ -93,8 +93,8 @@ export default {
 	methods: {
 		submit() {
 			let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-			let role = new DataModel.Role(this.roleName.trim(),this.capacity,
-			this.duration, this.files[0], this.stationId)
+			let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
+			this.files[0], this.stationId)
 			
 			let formData = new FormData()
 			formData.append(stationName + '-' + role.roleName, this.files[0])

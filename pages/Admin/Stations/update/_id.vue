@@ -65,15 +65,7 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
-
-function WebFormData(name, description, noOfRSlots, startTime, endTime, file) {
-	this.name = name,
-	this.description = description,
-	this.noOfRSlots = noOfRSlots,
-	this.startTime = startTime,
-	this.endTime = endTime,
-	this.file = file
-}
+import DataModel from '../../../../models/dataModel.js'
 
 export default {
 	data() {
@@ -115,20 +107,21 @@ export default {
 	},
 	methods: {
 		submit() {
-			let webFormData = new WebFormData(this.name, this.description, 2, 
-			moment(this.startTime, 'HH:mm').format('HH:mm'), moment(this.endTime, 'HH:mm').format('HH:mm'), 
-			this.files[0])
+			let webFormData = new DataModel.Station(this.name, this.description, 
+			moment(this.startTime, 'HH:mm').format('HH:mm'), 
+			moment(this.endTime, 'HH:mm').format('HH:mm'), this.files[0])
 			
 			let formData = new FormData()
 			//console.log(formData)
 			formData.append(webFormData.name, webFormData.file)
 			formData.append('webFormData', JSON.stringify(webFormData))
 			console.log(webFormData)
+			
 			axios.put('http://localhost:8000/stations/' + this.$route.params['id'],
 				formData
-			).then((res) => {
+			).then(res => {
 				// console.log(res.data)
-				if (res.data.toLowerCase() === 'success') {
+				if (res.status === 200) {
 					this.$dialog.alert({
 						title: 'Update Station',
 						message: 'The Station: ' + this.name + ' has been updated successfully',
@@ -144,18 +137,27 @@ export default {
 			})
 		},
 		remove() {
+			this.$dialog.confirm({
+				title: 'Remove Station',
+				message: 'Are you sure you want to remove this station?',
+				type: 'is-danger',
+				hasIcon: true,
+				icon: 'times-circle',
+				onConfirm: () => confirmDelete()
+			})
+		},
+		confirmDelete() {
 			axios.delete('http://localhost:8000/stations/' + this.$route.params['id'])
 			.then(res => {
-				if (res.data.toLowerCase() === 'success') {
-					this.$dialog.alert({
+				if (res.status === 200) {
+					this.$dialog.confirm({
 						title: 'Remove Station',
 						message: 'The Station: ' + this.name + ' has been removed successfully',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						iconPack: 'mdi'
+						onConfirm: () => this.$route.push('/Admin/Stations')
 					})
-					this.$route.push('/Admin/Stations')
 				}
 			})
 			.catch(() => {

@@ -132,8 +132,7 @@ v-if='files && files.length'>
 	methods: {
 		addRole() {
 			let roleExist = false;
-			let role = new DataModel.Role(this.roleName.trim(),this.capacity,
-			this.duration, this.files[0])
+			let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2, this.files[0])
 			
 			if (roleList.length > 0) {
 				let i = 0;
@@ -218,7 +217,7 @@ export default {
 				})
 			}
 			else {
-				let station = new DataModel.Station(this.name.trim(),this.description.trim(), 2,
+				let station = new DataModel.Station(this.name.trim(),this.description.trim(), 
 				moment(this.startTime, 'HH:mm').format('HH:mm'), moment(this.endTime, 'HH:mm').format('HH:mm'), 
 				this.roles)
 

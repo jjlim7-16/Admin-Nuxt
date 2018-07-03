@@ -36,8 +36,8 @@
 				</b-table-column>
 
 				<b-table-column label="Actions" centered>
-					<router-link v-if="$route.params['id']" :to="{ path: `Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
-					<router-link v-else :to="{ path: `Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
+					<router-link v-if="$route.params['id']" :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
+					<router-link v-else :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
 				</b-table-column>
 			</template>
 		</b-table>

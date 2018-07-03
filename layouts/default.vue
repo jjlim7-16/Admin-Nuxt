@@ -26,6 +26,13 @@
   </div>
 </template>
 
+<script>
+export default {
+  // middleware: 'checkPath'
+}
+</script>
+
+
 <style>
 
 #app {

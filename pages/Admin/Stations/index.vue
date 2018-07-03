@@ -40,15 +40,15 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left">
-							<router-link :to="{ path: `Stations/Update/${props.row.station_id}`}">
+							<router-link :to="{ path: `/Admin/Stations/Update/${props.row.station_id}`}">
 								Update Stations
 							</router-link>
 						</b-dropdown-item>
 						<b-dropdown-item style="text-align: left">
-							<router-link :to="{ path: `Roles/add/${props.row.station_id}`}">Add Role</router-link>
+							<router-link :to="{ path: `/Admin/Roles/add/${props.row.station_id}`}">Add Role</router-link>
 						</b-dropdown-item>
 						<b-dropdown-item style="text-align: left">
-							<router-link :to="{ path: `Roles/${props.row.station_id}`}">Manage Roles</router-link>
+							<router-link :to="{ path: `/Admin/Roles/${props.row.station_id}`}">Manage Roles</router-link>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
@@ -77,25 +77,25 @@ export default {
 		.then((res) => {
 			// console.log(res.data)
 			this.data = res.data
-			return axios.get('http://localhost:8000/stations/image', {
-				headers: {
-					'Content-type': 'application/json',
-					'Accept': 'image/jpeg'
-				}
-			})
+			// return axios.get('http://localhost:8000/stations/image', {
+			// 	headers: {
+			// 		'Content-type': 'application/json',
+			// 		'Accept': 'image/jpeg'
+			// 	}
+			// })
 		})
-		.then(res => {
-			console.log('Saving File..')
-			const blob = new Blob([res.data], {
-				type: 'image/jpeg'
-			})
-			// console.log(blob)
-			// FileSaver.saveAs(blob, '../../../assets/images/test.jpeg')
-			let fileReader = new FileReader()
-			let image = fileReader.readAsDataURL(blob)
-			// this.FileSaver.saveAs(blob, 'testing.jpeg')
-			// this.data = res.data
-		})
+		// .then(res => {
+		// 	console.log('Saving File..')
+		// 	const blob = new Blob([res.data], {
+		// 		type: 'image/jpeg'
+		// 	})
+		// 	// console.log(blob)
+		// 	// FileSaver.saveAs(blob, '../../../assets/images/test.jpeg')
+		// 	let fileReader = new FileReader()
+		// 	let image = fileReader.readAsDataURL(blob)
+		// 	// this.FileSaver.saveAs(blob, 'testing.jpeg')
+		// 	// this.data = res.data
+		// })
 		.catch(() => {
 			console.log('FAIL')
 		})

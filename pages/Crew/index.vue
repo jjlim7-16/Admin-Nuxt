@@ -35,10 +35,6 @@
           {{ props.row.role_name }}
         </b-table-column>
 
-        <b-table-column field="kidzos" label="Kidzos">
-          {{ props.row.kidzos }}
-        </b-table-column>
-
         <b-table-column field="time_in" label="Time in" centered>
           {{ props.row.time_in }}
         </b-table-column>
@@ -62,16 +58,15 @@
 
 <script>
   export default{
-
     data() {
       const tableDataSimple = [
-        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:21AM', 'status': 'Confirmed' },
-        { 'queue_No': 1001, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '-', 'status': 'Pending' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
+        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'time_in': '11:21AM', 'status': 'Confirmed' },
+        { 'queue_No': 1001, 'role_name': 'Cabin Crew', 'time_in': '-', 'status': 'Pending' },
+        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
+        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
+        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
+        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
+        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
       ]
       return {
         tableDataSimple,
