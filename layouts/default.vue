@@ -16,7 +16,7 @@
         </p>
         <ul class="menu-list">
           <li><nuxt-link to="/Admin/Users">Manage Users</nuxt-link></li>
-          <li><nuxt-link to="/Admin/Users/permissions">Roles &amp; Permissions</nuxt-link></li>
+          <li><nuxt-link to="/Admin/Users">Roles &amp; Permissions</nuxt-link></li>
         </ul>
       </aside>
     </div>
@@ -25,13 +25,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  // middleware: 'checkPath'
-}
-</script>
-
 
 <style>
 

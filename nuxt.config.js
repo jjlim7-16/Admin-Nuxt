@@ -28,8 +28,8 @@ module.exports = {
 	plugins: [
 		{ src: '~plugins/vee-validate.js', ssr: true },
 		{ src: '~plugins/vue-chartjs.js', ssr: false },
-		'~plugins/axios.js',
-		'~plugins/checkPath.js'
+		{ src: '~plugins/socket-io.js', ssr: false },
+		'~plugins/axios.js'
 	],
 	/*
 	** Headers of the page
