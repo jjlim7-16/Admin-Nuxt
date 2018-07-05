@@ -110,6 +110,6 @@ export default {
 
 <style>
 #content {
-  margin: 25px 60px 25px 70px;
+  margin: 120px 60px 25px 100px;
 }
 </style>
