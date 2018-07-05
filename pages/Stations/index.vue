@@ -109,7 +109,5 @@ export default {
 </script>
 
 <style>
-#content {
-  margin: 120px 60px 25px 100px;
-}
+
 </style>

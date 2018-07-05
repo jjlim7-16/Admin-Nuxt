@@ -79,6 +79,7 @@
   background-color: white;
   width: 100%;
   height: 100%;
+  margin: 120px 60px 25px 100px;
 }
 
 .menu-label {
