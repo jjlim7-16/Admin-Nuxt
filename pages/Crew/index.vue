@@ -1,5 +1,5 @@
 <template>
-  <section id="content"  class="column is-four-fifths">
+  <section id="content"  class="box">
 
     <b-field grouped>
       <b-field expanded>
@@ -21,57 +21,55 @@
 
 
     <b-table
-      :data="tableDataSimple"
+      :data = "tableDataSimple"
+      :row-class="(row, index) => row.status === 'Confirmed' && 'is-success'"
       :checked-rows.sync="checkedRows"
       checkedRows
     >
 
-      <template slot-scope="props" >
-        <b-table-column class="row" field="queue_No" label="Queue No." width="120" >
+      <template slot-scope="props">
+        <b-table-column field="queue_No" label="Queue No." width="150" sortable>
           {{ props.row.queue_No }}
         </b-table-column>
 
-        <b-table-column field="role_name" label="Role Name">
+        <b-table-column field="role_name" label="Role Name" centered>
           {{ props.row.role_name }}
-        </b-table-column>
-
-        <b-table-column field="kidzos" label="Kidzos">
-          {{ props.row.kidzos }}
         </b-table-column>
 
         <b-table-column field="time_in" label="Time in" centered>
           {{ props.row.time_in }}
         </b-table-column>
 
-        <b-table-column field="status" label="Status">
+        <b-table-column field="status" label="Status" centered>
           {{ props.row.status }}
         </b-table-column>
       </template>
     </b-table>
 
+
     <!--<button class="button is-medium is-danger" @click="danger">-->
-      <!--Launch toast (custom)-->
+    <!--Launch toast (custom)-->
     <!--</button>-->
 
-    <template slot="bottom-right">
+    <b-field id="attendance">
       <b>Total checked</b>: 6/9
-    </template>
+    </b-field>
 
   </section>
 </template>
 
 <script>
   export default{
-
+    layout: 'crewMenu',
     data() {
       const tableDataSimple = [
-        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:21AM', 'status': 'Confirmed' },
-        { 'queue_No': 1001, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '-', 'status': 'Pending' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'kidzos': 10, 'time_in': '11:20AM', 'status': 'Confirmed' },
+        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'time_in': '11:21AM', 'status': 'Confirmed' },
+        { 'queue_No': 1001, 'role_name': 'Cabin Crew', 'time_in': '-', 'status': 'Pending' },
+        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'time_in': '11:21AM', 'status': 'Confirmed' },
+        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'time_in': '11:21AM', 'status': 'Confirmed' },
+        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'time_in': '11:21AM', 'status': 'Confirmed' },
+        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'time_in': '11:21AM', 'status': 'Confirmed' },
+        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'time_in': '11:21AM', 'status': 'Confirmed' },
       ]
       return {
         tableDataSimple,
@@ -95,6 +93,17 @@
 
 <style>
   #content {
-    margin: 25px 60px 25px 70px;
+    margin: 25px;
   }
+
+  #attendance{
+    margin-top: 20px;
+    margin-left: 720px;
+  }
+
+  tr.is-success {
+    background: #C0FFCF;
+    color: #000;
+  }
+
 </style>

@@ -3,20 +3,7 @@
     <div class="column is-2" id="nav">
       <aside class="sidebar menu is-hidden-touch">
         <img src="~/static/img-whitelogo.png" alt="logo">
-        <p class="menu-label">
-          General
-        </p>
-        <ul class="menu-list">
-          <li><nuxt-link to="/Admin/Dashboard">Dashboard</nuxt-link></li>
-          <li><nuxt-link to="/Admin/Stations">Manage Stations</nuxt-link></li>
-          <li><nuxt-link to="/Admin/Roles">Manage Roles</nuxt-link></li>
-        </ul>
-        <p class="menu-label">
-          Administration
-        </p>
-        <ul class="menu-list">
-          <li><nuxt-link to="/Admin/Users">Manage Users</nuxt-link></li>
-        </ul>
+
         <ul class="menu-list">
           <li id="logout" class="mdi mdi-logout" ><nuxt-link to="/Users">Logout</nuxt-link></li>
         </ul>
@@ -29,16 +16,7 @@
 </template>
 
 <style>
-  .title {
-    position: fixed;
-    padding: 25px 40px;
-    margin-left: 316px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    background: white;
-    box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
-  }
+
   #app {
     margin: 5px;
   }
@@ -59,6 +37,7 @@
     font-size: 18px;
     color: white;
   }
+
   #content {
     padding: 20px;
     box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
@@ -67,9 +46,7 @@
     height: 100%;
     margin: 120px 60px 25px 100px;
   }
-  .menu-label {
-    color: rgba(255,255,255,0.72)
-  }
+
   .menu img {
     display: block;
     margin: 20px auto;
@@ -82,7 +59,7 @@
   .container {
     float: right;
     display: flex;
-    margin-left: 200px;
+    margin-left: 250px;
     margin-right: auto;
     height: 100%;
     width: 1920px;
@@ -102,33 +79,5 @@
     box-sizing: border-box;
     margin: 0;
   }
-  .menu-list a.nuxt-link-active {
-    background-color: #ff4c65;
-    color: #fff;
-  }
-  .button--green {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #3b8070;
-    color: #3b8070;
-    text-decoration: none;
-    padding: 10px 30px;
-  }
-  .button--green:hover {
-    color: #fff;
-    background-color: #3b8070;
-  }
-  .button--grey {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #35495e;
-    color: #35495e;
-    text-decoration: none;
-    padding: 10px 30px;
-    margin-left: 15px;
-  }
-  .button--grey:hover {
-    color: #fff;
-    background-color: #35495e;
-  }
+
 </style>
