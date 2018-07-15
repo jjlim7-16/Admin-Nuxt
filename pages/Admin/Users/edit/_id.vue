@@ -1,13 +1,14 @@
 <template>
-  <section id="content" class="box column is-four-fifths">
+  <section id="content" class="box">
     <b>Username*</b>
-    <b-field>
-      <b-input  maxlength="30" rounded></b-input>
+    <b-field width="410px">
+      <b-input type="name"  maxlength="30"></b-input>
     </b-field>
+
 
     <b>Station Name</b>
     <b-field>
-      <b-select placeholder="Select a station"  rounded>
+      <b-select placeholder="Select a station" >
         <option value="1">ALL</option>
         <option value="2">Aviation Academy</option>
         <option value="3">Pizza Hut</option>
@@ -17,9 +18,9 @@
 
     <b>Password*</b>
     <b-field>
-      <b-input type="password"  maxlength="30" rounded password-reveal></b-input>
+      <b-input type="password"  maxlength="30"  password-reveal></b-input>
       <p class="control" >
-        <button type="is-rounded" class="button is-primary">Generate</button>
+        <button  class="button is-primary">Generate</button>
       </p>
     </b-field>
 

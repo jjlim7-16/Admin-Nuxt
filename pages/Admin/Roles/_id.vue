@@ -1,6 +1,6 @@
 <template>
 	<section id="content" class="box column is-four-fifths">
-		<b-field grouped group-multiline>
+        <b-field grouped group-multiline>
 			<b-field label="Filter By Stations:" style="margin-top: 5px;"></b-field>&nbsp;
 			<b-select v-model="filter">
 				<option>All</option>

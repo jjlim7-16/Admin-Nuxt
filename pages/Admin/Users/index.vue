@@ -9,6 +9,9 @@
 
     </b-field>
 
+    <div class="shadow">
+      <div class="tableContent">
+
     <b-table
       :data = "tableDataSimple"
       striped
@@ -49,6 +52,8 @@
         </b-table-column>
       </template>
     </b-table>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -92,5 +97,25 @@
 
   #btnAddUser{
     margin-left: 820px;
+  }
+
+
+  .shadow {
+    margin: 40px;
+    background-color: #fff; /* Needed for IEs */
+
+    -moz-box-shadow: 5px 5px 5px #fff;
+    -webkit-box-shadow: 5px 5px 5px #fff;
+    box-shadow: 5px 5px 5px #fff;
+
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
+    zoom: 1;
+  }
+
+  .shadow .tableContent {
+    position: relative; /* This protects the inner element from being blurred */
+    padding: 2px;
+    background-color: #DDD;
   }
 </style>
