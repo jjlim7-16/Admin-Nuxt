@@ -5,7 +5,7 @@
       <b-field expanded>
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon>
-        <span> 11:20AM to 11:40AM </span>
+        <span> {{ seesionStartTime }} to {{ sessionEndTime }} </span>
       </button>
       </b-field>
 
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import axios from 'axios'
   export default{
     layout: 'crewMenu',
     data() {
@@ -73,9 +74,30 @@
       ]
       return {
         tableDataSimple,
+			  data: [],
+			  filter: 'All',
+			  bookingList: [],
+        seesionStartTime,
+        sessionEndTime,
+        stationName,
+        stationID,
       }
     },
+	beforeCreate() {
+		axios.get('http://localhost:8000/bookings/getbookinglist/1')
+		.then((res) => {
+			this.data = res.data[0]
+			this.bookingList = res.data[1]
+      this.seesionStartTime = res.data[1][1].session_start
+			}
+		})
+		.catch(() => {
+			console.log('FAIL')
+		})
+	},
+	computed: {
 
+	},
     methods:{
       danger() {
         this.$toast.open({
