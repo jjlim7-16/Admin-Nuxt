@@ -1,11 +1,11 @@
 <template>
-  <section id="content"  class="column is-four-fifths">
+  <section id="content"  class="box">
 
     <b-field grouped>
       <b-field expanded>
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon>
-        <span> 11:20AM to 11:40AM </span>
+        <span> {{ sessionStartTime }} to {{ sessionEndTime }} </span>
       </button>
       </b-field>
 
@@ -21,17 +21,18 @@
 
 
     <b-table
-      :data="tableDataSimple"
+      :data = "bookingList"
+      :row-class="(row, index) => row.booking_status === 'Confirmed' && 'is-success'"
       :checked-rows.sync="checkedRows"
       checkedRows
     >
 
-      <template slot-scope="props" >
-        <b-table-column class="row" field="queue_No" label="Queue No." width="120" >
-          {{ props.row.queue_No }}
+      <template slot-scope="props">
+        <b-table-column field="queue_no" label="Queue No." width="150" sortable>
+          {{ props.row.queue_no }}
         </b-table-column>
 
-        <b-table-column field="role_name" label="Role Name">
+        <b-table-column field="role_name" label="Role Name" centered>
           {{ props.row.role_name }}
         </b-table-column>
 
@@ -39,41 +40,29 @@
           {{ props.row.time_in }}
         </b-table-column>
 
-        <b-table-column field="status" label="Status">
-          {{ props.row.status }}
+        <b-table-column field="booking_status" label="Status" centered>
+          {{ props.row.booking_status }}
         </b-table-column>
       </template>
     </b-table>
 
+
     <!--<button class="button is-medium is-danger" @click="danger">-->
-      <!--Launch toast (custom)-->
+    <!--Launch toast (custom)-->
     <!--</button>-->
 
-    <template slot="bottom-right">
-      <b>Total checked</b>: 6/9
-    </template>
+    <b-field id="attendance">
+      <b>Total checked</b>: {{ numberOfConfirm }}/{{ numberOfBooking }}
+    </b-field>
 
   </section>
 </template>
 
 <script>
+import axios from 'axios'
   export default{
-    data() {
-      const tableDataSimple = [
-        { 'queue_No': 1000, 'role_name': 'Cabin Crew', 'time_in': '11:21AM', 'status': 'Confirmed' },
-        { 'queue_No': 1001, 'role_name': 'Cabin Crew', 'time_in': '-', 'status': 'Pending' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
-        { 'queue_No': 1002, 'role_name': 'Cabin Crew', 'time_in': '11:20AM', 'status': 'Confirmed' },
-      ]
-      return {
-        tableDataSimple,
-      }
-    },
-
-    methods:{
+    layout: 'crewMenu',
+    methods: {
       danger() {
         this.$toast.open({
           duration: 5000,
@@ -82,14 +71,82 @@
           type: 'is-danger'
         })
       }
+    },
+    data(){
+      return {
+			  bookingList: [],
+        sessionStartTime:"",
+        sessionEndTime:"",
+        stationName:"",
+        stationID:"",
+        numberOfBooking:0,
+      }
+    },
+    created() {
+      let theData;
+      let startTime;
+      let endTime;
+      axios.get('http://localhost:8000/bookings/getbookinglist/1')
+		  .then((res) => {
+        if(res.status == "200") {
+          console.log(res.data)
+          console.log(res.data[0])
+			    theData = res.data;
+			    this.bookingList = theData;
+         
+          startTime = theData[0].session_start;
+          var H = +startTime.substr(0, 2);
+          var h = H % 12 || 12;
+          var ampm = (H < 12 || H === 24) ? "AM" : "PM";
+          this.sessionStartTime = h + startTime.substr(2, 3) + ampm;
+          
+          endTime = theData[0].session_end;
+          H = +endTime.substr(0, 2);
+          h = H % 12 || 12;
+          ampm = (H < 12 || H === 24) ? "AM" : "PM";
+          this.sessionEndTime = h + endTime.substr(2, 3) + ampm;
 
+          this.numberOfBooking = theData.length;
 
-    }
+        }else{
+          console.dir(res.status);
+        }
+			})
+		.catch((err) => {
+			console.log('FAIL')
+      console.log(err.message);
+		});
+    },
+    computed:{
+      numberOfConfirm() {
+        var count = 0;
+          for (var i in this.bookingList) {
+            if(this.bookingList[i].booking_status === "Confirmed"){
+              count++;
+            }else{
+            
+            }
+          }
+          return count
+        }
+
+      } 
   }
 </script>
 
 <style>
   #content {
-    margin: 25px 60px 25px 70px;
+    margin: 25px;
   }
+
+  #attendance{
+    margin-top: 20px;
+    margin-left: 720px;
+  }
+
+  tr.is-success {
+    background: #C0FFCF;
+    color: #000;
+  }
+
 </style>
