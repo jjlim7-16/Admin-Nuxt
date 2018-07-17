@@ -18,7 +18,7 @@
         <button class="button" @click="login()">Login</button>
       </div>
     </div>
-</section>
+  </section>
 </template>
 
 <script>

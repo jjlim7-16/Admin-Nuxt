@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <nuxt/>
-  </div>
+  <nuxt/>
 </template>
 
-<style scoped>
+<style>
 
 #box-form {
   max-width: 45%;
