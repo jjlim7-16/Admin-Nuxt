@@ -1,5 +1,5 @@
 <template>
-	<div id="form" class="box">
+	<div id="content" class="box" style="width: 46%">
 		<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''" 
 			:message="errors.has('station') ? errors.first('station') : ''">
 			<b-select expanded placeholder='Select Station' v-model="stationId"
@@ -120,9 +120,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-#form {
-	margin: 25px 60px 25px 70px;
-}
-</style>

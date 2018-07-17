@@ -1,5 +1,5 @@
 <template>
-	<div id="form">
+	<div id="content" class="box" style="width: 46%">
 		<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''" 
 			:message="errors.has('station') ? errors.first('station') : ''">
 			<b-select placeholder='Select Station' v-model="stationId" name="stationId" v-validate="'required'"
@@ -123,24 +123,17 @@ export default {
 			axios.delete("http://localhost:8000/roles/" + this.$route.params['id'])
 			.then(res => {
 				if (res.status === 200) {
-					this.$dialog.alert({
-						title: 'Delete Role',
-						message: `The Role \'${this.roleName}\' has been successfully deleted`,
+					this.$dialog.confirm({
+						title: 'Remove Station',
+						message: 'The Station: ' + this.name + ' has been removed successfully',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						iconPack: 'mdi'
+						onConfirm: () => this.$router.push('/Admin/Roles')
 					})
-					this.$route.push('/Admin/Roles')
 				}
 			})
 		}
 	}
 }
 </script>
-
-<style>
-#form {
-	margin: 25px 60px 25px 70px;
-}
-</style>

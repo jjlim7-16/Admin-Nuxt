@@ -42,6 +42,7 @@
     "uws": "^10.148.1",
     "vee-validate": "^2.1.0-beta.1",
     "vue-chartjs": "^3.3.2",
+    "vue-charts": "^0.2.1",
     "vue-formly": "^2.5.8",
     "vue-formly-buefy": "^1.0.2",
     "vue-socket.io": "^2.1.1-b",

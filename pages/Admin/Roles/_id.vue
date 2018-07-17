@@ -1,5 +1,5 @@
 <template>
-	<section id="content" class="box column is-four-fifths">
+	<section id="content" class="box" style="margin-left: 5px;">
 		<b-field grouped group-multiline>
 			<b-field label="Filter By Stations:" style="margin-top: 5px;"></b-field>&nbsp;
 			<b-select v-model="filter">
@@ -93,9 +93,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-#content {
-	margin: 25px 60px 25px 70px;
-}
-</style>

@@ -59,6 +59,10 @@ module.exports = {
 		/*
 		** Run ESLint on save
 		*/
+		vendor: [
+			'chart.js',
+			'vue-chartjs'
+		],
 		extend (config, { isDev, isClient }) {
 			if (isDev && isClient) {
 				config.resolve.alias['vue'] = 'vue/dist/vue.common'

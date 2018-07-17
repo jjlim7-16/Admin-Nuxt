@@ -75,6 +75,7 @@ import moment from 'moment'
 import DataModel from '../../../models/dataModel.js'
 
 let roleList = []
+let stationName = ''
 const ModalForm = {
 	template: `<div>
 <div class='modal-card' style='width: 560px'>
@@ -135,11 +136,14 @@ v-if='files && files.length'>
 			let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2, this.files[0])
 			
 			if (roleList.length > 0) {
-				let i = 0;
+				let i = 0
 				for (i = 0; i < roleList.length; i++) {
 					if (this.roleName === roleList[i].roleName) {
-						roleExist = true;
+						roleExist = true
 						this.alertCustomError()
+					}
+					if (this.roleName === stationName) {
+						this.alertRoleExists()
 					}
 				}
 			}
@@ -148,14 +152,12 @@ v-if='files && files.length'>
 				this.$parent.close()
 			}
 		},
-		alertCustomError() {
+		alertRoleExists() {
 			this.$dialog.alert({
 				title: "Error",
 				message: `Error! The Role \'${this.roleName}\' Already Exists`,
 				type: "is-danger",
-				// hasIcon: true,
-				// icon: "times-circle",
-				// iconPack: "mdi"
+				hasIcon: true
 			})
 		}
 	},
@@ -225,28 +227,30 @@ export default {
 				formData.append(station.name, this.files[0])
 				for (var i = 0; i < station.roles.length; i++) {
 					let file = station.roles[i].file
-					formData.append(station.name + "-" + station.roles[i].roleName, file)
+					formData.append("Role-" + station.roles[i].roleName, file)
 				}
 				formData.append('webFormData', JSON.stringify(station))
 				// console.log(formData.get('station'))
 
 				axios.post("http://localhost:8000/stations/", formData)
 					.then(res => {
+						roleList = []
+						this.roles = roleList
 						if (res.status === 200) {
 							this.$dialog.alert({
 								title: 'Add Station',
-								message: 'A new station has been successfully added.',
+								message: `A new station \'${this.name}\' has been successfully added.`,
 								type: 'is-success',
 								hasIcon: true,
 								icon: 'check-circle',
 								iconPack: 'mdi'
 							})
-							this.name = ''
-							this.description = ''
-							this.startTime = this.minTime
-							this.endTime = this.maxTime
-							this.files = []
-							this.roles = []
+							// this.name = ''
+							// this.description = ''
+							// this.startTime = this.minTime
+							// this.endTime = this.maxTime
+							// this.files = []
+							this.$router.push('/Admin/Stations')
 						}
 						else {
 							console.log(res)
@@ -272,6 +276,7 @@ export default {
 	},
 	beforeUpdate() {
 		this.roles = roleList
+		stationName = this.name
 		// console.log(moment(this.startTime, 'HH:mm').format('HH:mm').toString())
 		// console.log(this.roles)
 	}

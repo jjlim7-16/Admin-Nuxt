@@ -1,7 +1,7 @@
 <template>
-	<section id="content" class="box">
+	<section id="content" class="box" style="margin-left: 5px;">
 		<b-field grouped group-multiline>
-			<b-input placeholder="Filter By Station Name" v-model="filter"></b-input>
+			<b-input placeholder="Search By Station Name" v-model="filter"></b-input>
 		</b-field>
 
 		<b-table
@@ -13,25 +13,27 @@
 			default-sort="station_id">
 
 			<template slot-scope="props">
-				<b-table-column field="station_id" label="ID" width="65" sortable numeric>
+				<b-table-column field="station_id" label="ID" width="50" sortable numeric>
 					{{ props.row.station_id }}
 				</b-table-column>
 
-				<b-table-column field="station_name" label="Station Name" width="240" sortable>
+				<b-table-column field="station_name" label="Station Name" width="180" sortable>
 					{{ props.row.station_name }}
 				</b-table-column>
 
-				<b-table-column field="(station_start)" label="Start Time" width="150" sortable centered>
-					<span class="tag is-success">
-						{{ props.row.station_start.slice(0,5) }}
-					</span>
+				<b-table-column field="station_start" label="Operating Hours" width="150" sortable centered>
+					{{ props.row.station_start.slice(0,5) + ' - ' + props.row.station_end.slice(0,5) }}
 				</b-table-column>
-
-				<b-table-column field="station_end" label="End Time" width="150" sortable centered>
-					<span class="tag is-success">
-						{{ props.row.station_end.slice(0,5) }}
-					</span>
+				
+				<b-table-column field="is_active" label="Status" width="150" sortable centered>
+					<span v-if="props.row.is_active===1" class="tag is-success">Active</span>
+					<span v-else class="tag is-success">Inactive</span>
 				</b-table-column>
+				
+				<!-- <b-table-column field="is_active" label="Status" width="150" centered>
+					<b-switch v-if="props.row.is_active===1" :value='true'></b-switch>
+					<b-switch v-else :value='false'></b-switch>
+				</b-table-column> -->
 
 				<b-table-column label='Actions' width="150" centered>
 					<b-dropdown>
@@ -39,15 +41,15 @@
 							<b-icon icon="dots-vertical"></b-icon>
 						</button>
 
-						<b-dropdown-item style="text-align: left">
+						<b-dropdown-item style="text-align: left" has-link>
 							<router-link :to="{ path: `/Admin/Stations/Update/${props.row.station_id}`}">
 								Update Stations
 							</router-link>
 						</b-dropdown-item>
-						<b-dropdown-item style="text-align: left">
+						<b-dropdown-item style="text-align: left" has-link>
 							<router-link :to="{ path: `/Admin/Roles/add/${props.row.station_id}`}">Add Role</router-link>
 						</b-dropdown-item>
-						<b-dropdown-item style="text-align: left">
+						<b-dropdown-item style="text-align: left" has-link>
 							<router-link :to="{ path: `/Admin/Roles/${props.row.station_id}`}">Manage Roles</router-link>
 						</b-dropdown-item>
 					</b-dropdown>
@@ -116,9 +118,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-#content {
-	margin: 25px 60px 25px 70px;
-}
-</style>

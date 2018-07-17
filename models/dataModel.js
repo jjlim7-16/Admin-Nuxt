@@ -7,11 +7,17 @@ module.exports = {
 		this.file = file
 		this.stationId = stationId
 	},
-	Station: function (name, description, startTime, endTime, roles) {
+	Station: function (name, description, startTime, endTime, roles = null) {
 		this.name = name
 		this.description = description
 		this.startTime = startTime
 		this.endTime = endTime
 		this.roles = roles
+	},
+	Limit: function (stationId, roleId, date, limit) {
+		this.stationId = stationId
+		this.roleId = roleId
+		this.date = date
+		this.limit = limit
 	}
 }

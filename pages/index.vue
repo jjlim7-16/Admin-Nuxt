@@ -1,20 +1,21 @@
 <template>
-	<div id="form" class="box container">
-    <b-field label='Username' :type="errors.has('username') ? 'is-danger': ''" 
-			:message="errors.has('username') ? errors.first('username') : ''">
-			<b-input placeholder='Username' v-model='username' name='username' data-vv-as="'Username'"
-			v-validate="'required|alpha'"></b-input>
-		</b-field>
+	<section id="form" class="columns is-centered section">
+    <div class="box column is-5 is-narrow">
+      <b-field label='Username' :type="errors.has('username') ? 'is-danger': ''" 
+        :message="errors.has('username') ? errors.first('username') : ''">
+        <b-input placeholder='Username' v-model='username' name='username' data-vv-as="'Username'"
+        v-validate="'required|alpha'"></b-input>
+      </b-field>
 
-    <b-field label='Password' :type="errors.has('password') ? 'is-danger': ''" 
-			:message="errors.has('password') ? errors.first('password') : ''">
-			<b-input type='password' placeholder='Password' v-model='password' name='password' data-vv-as="'Password'"
-			v-validate="'required'"></b-input>
-		</b-field>
+      <b-field label='Password' :type="errors.has('password') ? 'is-danger': ''" 
+        :message="errors.has('password') ? errors.first('password') : ''">
+        <b-input type='password' placeholder='Password' v-model='password' name='password' data-vv-as="'Password'"
+        v-validate="'required'"></b-input>
+      </b-field>
 
-    <br/>
-    <button class="button is-success" @click="login()">Login</button>
-  </div>
+      <button class="button is-success" @click="login()">Login</button>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -65,3 +66,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* #form {
+  max-width: 45%;
+  margin-top: 10%;
+} */
+
+.is-vertical-center {
+  display: flex;
+  align-items: center;
+}
+</style>

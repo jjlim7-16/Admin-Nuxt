@@ -109,13 +109,13 @@ export default {
 		submit() {
 			let webFormData = new DataModel.Station(this.name, this.description, 
 			moment(this.startTime, 'HH:mm').format('HH:mm'), 
-			moment(this.endTime, 'HH:mm').format('HH:mm'), this.files[0])
+			moment(this.endTime, 'HH:mm').format('HH:mm'))
 			
 			let formData = new FormData()
 			//console.log(formData)
-			formData.append(webFormData.name, webFormData.file)
+			formData.append(webFormData.name, this.files[0])
 			formData.append('webFormData', JSON.stringify(webFormData))
-			console.log(webFormData)
+			console.log(formData.get(webFormData.name))
 			
 			axios.put('http://localhost:8000/stations/' + this.$route.params['id'],
 				formData
@@ -140,10 +140,10 @@ export default {
 			this.$dialog.confirm({
 				title: 'Remove Station',
 				message: 'Are you sure you want to remove this station?',
+				confirmText: 'Remove Station',
 				type: 'is-danger',
 				hasIcon: true,
-				icon: 'times-circle',
-				onConfirm: () => confirmDelete()
+				onConfirm: () => this.confirmDelete()
 			})
 		},
 		confirmDelete() {
@@ -156,7 +156,7 @@ export default {
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						onConfirm: () => this.$route.push('/Admin/Stations')
+						onConfirm: () => this.$router.push('/Admin/Stations')
 					})
 				}
 			})

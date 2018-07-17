@@ -1,13 +1,13 @@
 <template>
-  <div id="container" class="level container">
+  <div>
     <nuxt/>
   </div>
 </template>
 
-<style>
+<style scoped>
 
-#container {
-  max-width: 40%;
+#box-form {
+  max-width: 45%;
   margin-top: 10%;
 }
 
