@@ -1,19 +1,21 @@
 <template>
   <section>
-    <img src="img-whitelogo.png" alt="logo"/>
+    <img src="img-whitelogo.png" alt="logo" />
     <div id="form" class="columns is-centered section">
       <div class="box column is-5">
-        <b-field label='Username'>
+        <b-field :type="errors.has('username') ? 'is-danger': ''"
+        :message="errors.has('username') ? errors.first('username') : ''">
           <b-input placeholder='Username' v-model='username' name='username' data-vv-as="'Username'"
           v-validate="'required|alpha'"></b-input>
         </b-field>
 
-        <b-field label='Password'>
+        <b-field :type="errors.has('password') ? 'is-danger': ''"
+        :message="errors.has('password') ? errors.first('password') : ''">
           <b-input type='password' placeholder='Password' v-model='password' name='password' data-vv-as="'Password'"
           v-validate="'required'"></b-input>
         </b-field>
 
-        <button class="button is-success" @click="login()">Login</button>
+        <button class="button" @click="login()">Login</button>
       </div>
     </div>
 </section>
@@ -23,15 +25,15 @@
 // import Cookie from 'js-cookie'
 
 export default {
-  // middleware: 'auth',
-  layout: 'fullscreen'
-  // data() {
-  //   return {
-  //     username: '',
-  //     password: ''
-  //   }
-  // },
-  // methods: {
+  middleware: 'auth',
+  layout: 'fullscreen',
+  data() {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
   //   // async login() {
   //   //   await this.$store.dispatch("api/auth/login", {
   //   //     username: this.username,
@@ -51,20 +53,20 @@ export default {
   //   //     }
   //   //   })
   //   // }
-  //   async login() {
-  //     this.error = null
-  //     return this.$auth
-  //       .loginWith('local', {
-  //         data: {
-  //           username: this.username,
-  //           password: this.password
-  //         }
-  //       })
-  //       .catch(e => {
-  //         this.error = e + ''
-  //       })
-  //   }
-  // }
+    async login() {
+      this.error = null
+      return this.$auth
+        .loginWith('local', {
+          data: {
+            username: this.username,
+            password: this.password
+          }
+        })
+        .catch(e => {
+          this.error = e + ''
+        })
+    }
+  }
 }
 </script>
 
@@ -74,9 +76,9 @@ img {
   display: block;
   margin: 90px auto;
   width: 18%;
-  height: 18%;
-  top: 50%;
+  height: auto;
 }
+
 #form {
   position: absolute;
   width: 100%;
@@ -89,9 +91,14 @@ img {
   padding: 25px;
 }
 
+.field {
+  margin-top: 20px;
+}
+
 .button {
   width: 100%;
   background-color: #FF4C65;
+  color: white;
   font-weight: bold;
   margin: 15px 0;
 }
