@@ -66,14 +66,8 @@ import axios from 'axios'
   export default{
     layout: 'crewMenu',
     methods: {
-      danger() {
-        this.$toast.open({
-          duration: 5000,
-          message: 'User does not have any bookings!',
-          position: 'is-bottom',
-          type: 'is-danger'
-        })
-      }
+
+  
     },
     data(){
       return {
@@ -113,52 +107,98 @@ import axios from 'axios'
         }
 			})
 		.catch((err) => {
-			console.log('FAIL')
+			console.log('FAILA')
       console.log(err.message);
 		});
     },
-     mounted() {
+    mounted() {
     let self = this;
     var isExist = false;
+    let scannedID = "";
+    let scannedArray = [];
     window.onkeypress = function(e) {
       if (e.key == 'Enter') {
+       
         scannedID = scannedArray.join('');
-        for(var i in this,bookingList){
+         console.log(scannedID);
+        for(var i in this.bookingList){
+          console.log("inside for loop");
           if(this.bookingList[i].rfid=scannedID){
             isExist = true;
+            var booking_id = his.bookingList[i].booking_id;
             this.bookingList[i].booking_status = "Admitted";
+            this.bookingList[i].time_in = moment.format('HH:mm:ss');
+            let webFormData = new WebFormData(this.bookingList[i].booking_status, this.bookingList[i].time_in)
+			
+			let formData = new FormData()
+			//console.log(formData)
+			formData.append(webFormData.name)
+			formData.append('webFormData', JSON.stringify(webFormData))
+			console.log(webFormData)
+			axios.put('http://localhost:8000/bookings/' + booking_id,
+				formData
+			).then((res) => {
+				// console.log(res.data)
 
+			})
+			.catch(() => {
+				console.log('FAILURE')
+			})
           }
         }
-        if(isExist==false){
+      }
+      if(isExist==false){
             let booking;
             axios.get(`http://localhost:8000/bookings/` + scannedID)
               .then((res) => {
                 if(res.status == "200") {
-                  booking = res.data[0];
-                  this.userBookingRoleName = booking.role_name;
-                  this.userBookingStationName = booking.station_name;
-                  this.userBookingRSessionStartTime = booking.session_start;
-                  this.userBookingSsessionEndTime = booking.session_end;
-                  console.log(res.data)
-                  //POP UP BOX
+                   console.log(res.data)
+                  if(res!=null){
+                    booking = res.data[0];
+                    this.userBookingRoleName = booking.role_name;
+                    this.userBookingStationName = booking.station_name;
+                    this.userBookingSessionStartTime = booking.session_start;
+                    this.userBookingSsessionEndTime = booking.session_end;
+                    this.$dialog.alert({
+						        title: 'Wrong Booking',
+						        message: 'You have a booking as ' + this.userBookingRoleName + ' at ' + this.userBookingStationName +" from " + this.userBookingRSessionStartTime +" to "+ this.userBookingSessionEndTime,
+						        type: 'is-danger',
+						        hasIcon: true,
+						        icon: 'times-circle',
+						        iconPack: 'fa'
+                    });
+                  }else{
+                    this.$toast.open({
+                    duration: 5000,
+                    message: 'User does not have any bookings!',
+                    position: 'is-bottom',
+                    type: 'is-danger'
+                    })       
                 }
+              }
                 else {
+ 
                   console.dir(res.status);
-                  //POP UP BOX
-                }
+ 
+					      }
+				   
+     
               })
               .catch((err) => {
-                console.log('Fail');
+                console.log('FailAA');
                 booking = null;
-              });
-
-            return booking;
-        }
+                this.$toast.open({
+                duration: 5000,
+                message: 'User does not have any bookings!',
+                position: 'is-bottom',
+                type: 'is-danger'
+                }) 
+              });           
+        
       } else {
         scannedArray.push(e.key);
       }
-    };
+    }
   },
     
     computed:{
@@ -172,20 +212,7 @@ import axios from 'axios'
             }
           }
           return count
-        },
- 		bookingList() {
-			if (this.filter !== '') {
-				let data = []
-				for (var i in this.data) {
-					if (this.data[i].queue_no.toLowerCase().includes(this.filter.toLowerCase())) {
-						data.push(this.data[i])
-					}
-				}
-				return data
-			}
-			return this.data
-		},
-
+        }
       } 
   }
 </script>
