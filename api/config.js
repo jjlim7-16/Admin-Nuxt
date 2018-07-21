@@ -2,8 +2,8 @@ module.exports = {
 	db: {
 		host: 'localhost',
 		user: 'root',
-		password: '12345',
-		database: 'kidzania_fyp_v2'
+		password: 'P@ssw0rd',
+		database: 'kidzania_v3'
 	},
 	env: 'dev',
 	port: '8080',

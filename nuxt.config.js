@@ -16,7 +16,6 @@ module.exports = {
 		redirect: {
 			login: '/',
 			logout: '/',
-			home: '/Admin/Stations',
 			callback: '/callback'
 		},
 		plugins: ['~plugins/auth.js']

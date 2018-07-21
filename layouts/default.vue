@@ -26,6 +26,20 @@
   </div>
 </template>
 
+<script>
+export default {
+  methods: {
+    async logout() {
+      return this.$auth.logout()
+    }
+  },
+  fetch ({ redirect }) {
+    redirect('/Admin/Stations')
+  }
+}
+</script>
+
+
 <style>
 
 #app {
