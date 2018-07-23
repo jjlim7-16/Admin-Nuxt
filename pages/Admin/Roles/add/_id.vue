@@ -80,6 +80,7 @@ export default {
 			this.stationList = res.data[1]
 			this.roleList = res.data[0]
 		})
+		this.$store.commit('setPageTitle', 'Add Role')
 	},
 	mounted() {
 		if (this.$route.params['id']) {

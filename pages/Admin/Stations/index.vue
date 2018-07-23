@@ -15,10 +15,6 @@
 			detail-key="station_id">
 
 			<template slot-scope="props">
-				<b-table-column field="station_id" label="ID" width="50" sortable numeric>
-					{{ props.row.station_id }}
-				</b-table-column>
-
 				<b-table-column field="station_name" label="Station Name" width="180" sortable>
 					{{ props.row.station_name }}
 				</b-table-column>
@@ -32,11 +28,6 @@
 					<span v-else class="tag is-danger">Inactive</span>
 				</b-table-column>
 				
-				<!-- <b-table-column field="is_active" label="Status" width="150" centered>
-					<b-switch v-if="props.row.is_active===1" :value='true'></b-switch>
-					<b-switch v-else :value='false'></b-switch>
-				</b-table-column> -->
-
 				<b-table-column label='Actions' width="150" centered>
 					<b-dropdown>
 						<button class="button is-primary is-small is-inverted" slot="trigger">
@@ -65,8 +56,8 @@
 			<template slot="detail" slot-scope="props">
 				<article class="media">
 					<figure class="media-left">
-						<p class="image is-64x64">
-							<img src="~/static/128x128.png">
+						<p class="image is-64x64" style="margin-top: 10px;">
+							<img :src="'http://25.37.100.106:8000/stations/getImage/' + props.row.station_id">
 						</p>
 					</figure>
 					<div class="media-content">
@@ -83,7 +74,7 @@
 		</b-table>
 		<router-link to="/Admin/Stations/add" tag="button" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
-			<span>Add Stations</span>
+			<span>Add Station</span>
 		</router-link>
 	</section>
 </template>
@@ -111,6 +102,7 @@ export default {
 		.catch(() => {
 			console.log('FAIL')
 		})
+		this.$store.commit('setPageTitle', 'Manage Stations')
 	},
 	methods: {
 		updateStationStatus(station_id, newActiveStatus) {
@@ -143,6 +135,7 @@ export default {
 					}
 				})
 			})
+			
 		}
 	},
 	computed: {

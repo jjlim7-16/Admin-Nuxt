@@ -63,6 +63,7 @@
 <script>
 import axios from 'axios'
 import DataModel from '../../../../models/dataModel.js'
+import config from '~/config'
 
 export default {
 	data() {
@@ -86,6 +87,7 @@ export default {
 			this.capacity = data.capacity
 			this.stationId = data.station_id
 		})
+		this.$store.commit('setPageTitle', 'Edit Role')
 	},
 	computed: {
 		isDisabled() {

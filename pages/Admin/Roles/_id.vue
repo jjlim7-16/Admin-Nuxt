@@ -28,7 +28,7 @@
 				</b-table-column>
 
 				<b-table-column field="durationInMins" label="Duration" sortable centered>
-					{{ props.row.durationInMins }}
+					{{ props.row.durationInMins + ' mins' }}
 				</b-table-column>
 
 				<b-table-column field="capacity" label="Capacity" sortable centered>
@@ -64,6 +64,8 @@ export default {
 		}
 	},
 	beforeCreate() {
+		this.$store.commit('setPageTitle', 'Manage Roles')
+		
 		axios.get(`http://${config.serverURL}/roles/`)
 		.then((res) => {
 			this.data = res.data[0]

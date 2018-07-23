@@ -90,6 +90,8 @@ export default {
 		}
 	},
 	beforeCreate() {
+		this.$store.commit('setPageTitle', 'Manage Limit Settings')
+
 		axios.get(`http://${config.serverURL}/limit/`)
 		.then(res => {
 			this.data = res.data[0]

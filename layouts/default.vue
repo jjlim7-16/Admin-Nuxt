@@ -28,20 +28,20 @@
       </aside>
     </div>
 
-    <!-- <div class="container">
+    <div class="container">
       <div class="level">
         <div class="level-item">
           <p class="nav-title" style="margin-left: 210px;">
-            <strong>Manage Stations</strong>
+            <strong>{{ this.$store.state.pageName }}</strong>
           </p>
         </div>
       </div>
 
       <nuxt/>
-    </div> -->
-    <div class="container">
-      <nuxt/>
     </div>
+    <!-- <div class="container">
+      <nuxt/>
+    </div> -->
   </div>
 </template>
 

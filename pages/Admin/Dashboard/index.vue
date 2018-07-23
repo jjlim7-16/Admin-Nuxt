@@ -1,5 +1,5 @@
 <template>
-  <section id="dashboard" class="section">
+  <section id="content">
     <div>
       <div class="level">
         <div class="level-item has-text-centered">
@@ -76,7 +76,8 @@ export default {
       this.stationList = res.data[1]
       this.stationId = this.stationList[0].station_id
       // console.log(this.stationList.find(i => i.station_id === this.stationId).station_name)
-		})
+    })
+    this.$store.commit('setPageTitle', 'Dashboard')
   },
   beforeMount() {
     let socket = io.socketio.connect(`http://${config.serverURL}/dashboard`)
@@ -122,7 +123,7 @@ export default {
 </script>
 
 <style scoped>
-#dashboard {
+#content {
   margin: 100px 35px 30px;
 }
 </style>

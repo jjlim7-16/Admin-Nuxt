@@ -47,18 +47,15 @@
 <script>
 import config from '~/config.js'
 
-    export default {
-      name: "add.vue",
-      data(){
-          return{
-            radio:"Admin"
-        }
-      }
+export default {
+  name: "add.vue",
+  data() {
+		return {
+			radio:"Admin"
     }
+	},
+	beforeCreate() {
+		this.$store.commit('setPageTitle', 'Add User')
+	}
+}
 </script>
-
-<style scoped>
-  #content {
-    margin: 15px;
-  }
-</style>
