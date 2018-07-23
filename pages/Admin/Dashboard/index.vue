@@ -26,7 +26,7 @@
           </b-field>
           <my-line class="box" :width="800" :data='filterTimeData'></my-line>
         </div>
-        
+
         <!-- <realtime :data="byTimeData"></realtime> -->
       </div>
       <div class="level">
@@ -38,7 +38,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- <div class="is-pulled-right" style="margin-left: 30px;">
       <div class="box">
         <doughnut :data='byStationData'></doughnut>

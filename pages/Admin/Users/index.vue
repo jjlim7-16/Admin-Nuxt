@@ -1,55 +1,51 @@
 <template>
-	<section id="content" class="box">
+  <section id="content" class="box">
 
-		<b-field>
-			<router-link to="/Admin/Users/add" tag="button" class="button is-danger is-pulled-right" id="btnAddUser">
-				<b-icon icon="plus-circle"></b-icon>
-				<span>Add User</span>
-			</router-link>
+    <b-field>
+      <router-link to="/Admin/Users/add" tag="button" class="button is-primary" id="btnAddUser">
+        <b-icon icon="plus-circle"></b-icon>
+        <span>Add User</span>
+      </router-link>
+    </b-field>
 
-		</b-field>
+    <b-table
+      :data = "tableDataSimple"
+      striped
+      hoverable>
 
-		<b-table
-			:data = "tableDataSimple"
-			striped
-			hoverable
-		>
+      <template slot-scope="props">
+        <b-table-column class="row" field="username" label="Username"  sortable>
+          {{ props.row.username }}
+        </b-table-column>
 
-			<template slot-scope="props">
-				<b-table-column class="row" field="username" label="Username"  sortable>
-					{{ props.row.username }}
-				</b-table-column>
+        <b-table-column field="station_name" label="Station Name" centered sortable>
+          {{ props.row.station_name }}
+        </b-table-column>
 
-				<b-table-column field="station_name" label="Station Name" centered sortable>
-					{{ props.row.station_name }}
-				</b-table-column>
+        <b-table-column field="role" label="Role"  centered sortable>
+          {{ props.row.role }}
+        </b-table-column>
 
-				<b-table-column field="role" label="Role"  centered sortable>
-					{{ props.row.role }}
-				</b-table-column>
+        <b-table-column field="password" label="Password"  centered sortable>
+          {{ props.row.password }}
+        </b-table-column>
 
-				<b-table-column field="password" label="Password"  centered sortable>
-					{{ props.row.password }}
-				</b-table-column>
+        <b-table-column field="last_logged_in" label="Last Logged In" centered  sortable>
+          <span >{{ new Date(props.row.last_logged_in).toLocaleDateString()}} </span>
+        </b-table-column>
 
-				<b-table-column field="last_logged_in" label="Last Logged In" centered  sortable>
-					<span >{{ new Date(props.row.last_logged_in).toLocaleDateString()}} </span>
-				</b-table-column>
-
-				<b-table-column field="action" label="Action"  centered>
-					<router-link to="/Admin/Users/edit" tag="button" class="button is-primary">
-						<span> {{ props.row.action }}Edit</span>
-					</router-link>
-
-					&nbsp;
-
-					<button class="button is-danger" @click="confirmCustomDelete">
-						<span> {{ props.row.action }}Delete</span>
-					</button>
-				</b-table-column>
-			</template>
-		</b-table>
-	</section>
+        <b-table-column field="action" label="Action"  centered>
+            <router-link to="/Admin/Users/edit" tag="button" class="button is-primary">
+              <span> {{ props.row.action }}Edit</span>
+            </router-link>
+            &nbsp;
+          <button class="button is-danger" @click="confirmCustomDelete">
+            <span> {{ props.row.action }}Delete</span>
+          </button>
+        </b-table-column>
+      </template>
+    </b-table>
+  </section>
 </template>
 
 
@@ -85,3 +81,15 @@ import config from '~/config.js'
 		}
 	}
 </script>
+
+<style scoped>
+
+/* #table{
+  outline: #47494e 5px;
+} */
+
+#btnAddUser{
+  float: right;
+}
+
+</style>
