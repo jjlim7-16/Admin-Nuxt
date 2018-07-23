@@ -1,13 +1,11 @@
 <template>
-  <div id="container" class="level container">
-    <nuxt/>
-  </div>
+  <nuxt/>
 </template>
 
 <style>
 
-#container {
-  max-width: 40%;
+#box-form {
+  max-width: 45%;
   margin-top: 10%;
 }
 
@@ -20,6 +18,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+  background-color: #FF4C65;
 }
 
 *, *:before, *:after {

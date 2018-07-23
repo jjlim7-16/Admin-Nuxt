@@ -1,5 +1,5 @@
 <template>
-	<div id="form" class="box">
+	<div id="content" class="box" style="width: 46%">
 		<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''" 
 			:message="errors.has('station') ? errors.first('station') : ''">
 			<b-select expanded placeholder='Select Station' v-model="stationId"
@@ -31,7 +31,7 @@
 			</b-field>
 
 			<b-field label='Duration'>
-				<b-select placeholder='Select Activity Duration' v-model="duration">
+				<b-select placeholder='Select Activity Duration' :value="getDuration">
 					<option value="20">20 mins</option>
 					<option value="30">30 mins</option>
 					<option value="40">40 mins</option>
@@ -61,6 +61,7 @@
 <script>
 import axios from 'axios'
 import DataModel from '../../../../models/dataModel.js'
+import config from '~/config.js'
 
 export default {
 	data() {
@@ -74,55 +75,64 @@ export default {
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/roles/')
+		axios.get(`http://${config.serverURL}/roles/`)
 		.then((res) => {
 			this.stationList = res.data[1]
+			this.roleList = res.data[0]
 		})
 	},
-	beforeMount() {
+	mounted() {
 		if (this.$route.params['id']) {
 			this.stationId = this.$route.params['id']
 		}
 	},
 	computed: {
     isDisabled() {
-      console.log(this.files[0]);
-      return !this.roleName || !this.capacity || !this.files[0];
-    }
+      return !this.roleName || !this.capacity || !this.files[0]
+		},
+		getDuration() {
+			if (this.stationId && this.roleList) {
+				return this.roleList.find(i => i.station_id === this.stationId).durationInMins
+			}
+		}
 	},
 	methods: {
 		submit() {
-			let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-			let role = new DataModel.Role(this.roleName.trim(),this.capacity,
-			this.duration, this.files[0], this.stationId)
-			
-			let formData = new FormData()
-			formData.append(stationName + '-' + role.roleName, this.files[0])
-			formData.append('webFormData', JSON.stringify(role))
-			
-			axios.post("http://localhost:8000/roles/", formData)
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.alert({
-						title: 'Add Role',
-						message: `A new role has been successfully added to \'${stationName}\'.`,
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						iconPack: 'mdi'
-					})
-				}
-			})
-			.catch(err => {
-				console.log(err)
-			})
+			// let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
+			if (this.roleList.find(i => i.role_name === this.roleName.trim())) {
+				this.$dialog.alert({
+					title: "Role Exists",
+					message: `Error! The Role \'${this.roleName}\' Already Exists`,
+					type: "is-danger",
+					hasIcon: true
+				})
+			}
+			else {
+				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
+				this.files[0], this.stationId)
+				
+				let formData = new FormData()
+				formData.append('Role-' + role.roleName, this.files[0])
+				formData.append('webFormData', JSON.stringify(role))
+				
+				axios.post(`http://${config.serverURL}/roles/`, formData)
+				.then(res => {
+					if (res.status === 200) {
+						this.$dialog.alert({
+							title: 'Add Role',
+							message: `A new role has been successfully added to \'${stationName}\'.`,
+							type: 'is-success',
+							hasIcon: true,
+							icon: 'check-circle',
+							iconPack: 'mdi'
+						})
+					}
+				})
+				.catch(err => {
+					console.log(err)
+				})
+			}
 		}
 	}
 }
 </script>
-
-<style>
-#form {
-	margin: 25px 60px 25px 70px;
-}
-</style>

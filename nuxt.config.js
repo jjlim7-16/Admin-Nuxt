@@ -16,17 +16,14 @@ module.exports = {
 		redirect: {
 			login: '/',
 			logout: '/',
-			home: '/Admin/Stations',
 			callback: '/callback'
 		},
 		plugins: ['~plugins/auth.js']
 	},
-
-	// axios: {
-	// 	baseURL: 'http://localhost:8000/api/'
-	// },
 	plugins: [
 		{ src: '~plugins/vee-validate.js', ssr: true },
+		{ src: '~plugins/vue-chartjs.js', ssr: false },
+		{ src: '~plugins/socket-io.js', ssr: false },
 		'~plugins/axios.js'
 	],
 	/*
@@ -57,6 +54,10 @@ module.exports = {
 		/*
 		** Run ESLint on save
 		*/
+		vendor: [
+			'chart.js',
+			'vue-chartjs'
+		],
 		extend (config, { isDev, isClient }) {
 			if (isDev && isClient) {
 				config.resolve.alias['vue'] = 'vue/dist/vue.common'

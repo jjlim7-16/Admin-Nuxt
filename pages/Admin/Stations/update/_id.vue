@@ -29,7 +29,7 @@
 
 			<b-field label='Image' style="margin-top: -10px">
 				<b-field class='file'>
-					<b-upload v-model='files' accept="image/*">
+					<b-upload v-model='files' accept="image/*" @input="imageChanged = true">
 						<a class='button is-primary'>
 							<b-icon icon='upload'></b-icon>
 							<span>Upload Image</span>
@@ -65,15 +65,8 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
-
-function WebFormData(name, description, noOfRSlots, startTime, endTime, file) {
-	this.name = name,
-	this.description = description,
-	this.noOfRSlots = noOfRSlots,
-	this.startTime = startTime,
-	this.endTime = endTime,
-	this.file = file
-}
+import DataModel from '../../../../models/dataModel.js'
+import config from '~/config'
 
 export default {
 	data() {
@@ -90,13 +83,16 @@ export default {
 			maxTime: max,
 			startTime: min,
 			endTime: max,
-			files: []
+			files: [],
+			imageChanged: false,
+			origData: null
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/stations/' + this.$route.params['id'])
+		axios.get(`http://${config.serverURL}/stations/` + this.$route.params['id'])
     .then((res) => {
 			let data = res.data[0]
+			this.origData = data
 			this.name = data.station_name
 			this.description = data.description
 			let start = new Date()
@@ -111,31 +107,44 @@ export default {
     })
     .catch(() => {
       console.log('FAIL')
-    })
+		})
+		
+		axios.get(`http://${config.serverURL}/stations/image`)
+		.then(res => {
+			if (res.status === 200) {
+				let file = new File([res.data], 'image.png', {type: 'image/png'})
+				this.files.push(file)
+				console.log(file)
+			}
+		})
+		.catch(e => {
+			console.log(e)
+		})
 	},
 	methods: {
 		submit() {
-			let webFormData = new WebFormData(this.name, this.description, 2, 
-			moment(this.startTime, 'HH:mm').format('HH:mm'), moment(this.endTime, 'HH:mm').format('HH:mm'), 
-			this.files[0])
+			let webFormData = new DataModel.Station(this.name, this.description, 
+			moment(this.startTime, 'HH:mm').format('HH:mm'), 
+			moment(this.endTime, 'HH:mm').format('HH:mm'))
 			
 			let formData = new FormData()
 			//console.log(formData)
-			formData.append(webFormData.name, webFormData.file)
+			if (this.imageChanged === true) formData.append(webFormData.name, this.files[0])
 			formData.append('webFormData', JSON.stringify(webFormData))
-			console.log(webFormData)
-			axios.put('http://localhost:8000/stations/' + this.$route.params['id'],
+			console.log(formData.get('webFormData'))
+			
+			axios.put(`http://${config.serverURL}/stations/` + this.$route.params['id'],
 				formData
-			).then((res) => {
-				// console.log(res.data)
-				if (res.data.toLowerCase() === 'success') {
-					this.$dialog.alert({
+			).then(res => {
+				if (res.status === 200) {
+					this.$dialog.confirm({
 						title: 'Update Station',
 						message: 'The Station: ' + this.name + ' has been updated successfully',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						iconPack: 'mdi'
+						iconPack: 'mdi',
+						onConfirm: () => this.$router.push('/Admin/Stations')
 					})
 				}
 			})
@@ -144,18 +153,27 @@ export default {
 			})
 		},
 		remove() {
-			axios.delete('http://localhost:8000/stations/' + this.$route.params['id'])
+			this.$dialog.confirm({
+				title: 'Remove Station',
+				message: 'Are you sure you want to remove this station?',
+				confirmText: 'Remove Station',
+				type: 'is-danger',
+				hasIcon: true,
+				onConfirm: () => this.confirmDelete()
+			})
+		},
+		confirmDelete() {
+			axios.delete(`http://${config.serverURL}/stations/` + this.$route.params['id'])
 			.then(res => {
-				if (res.data.toLowerCase() === 'success') {
-					this.$dialog.alert({
+				if (res.status === 200) {
+					this.$dialog.confirm({
 						title: 'Remove Station',
 						message: 'The Station: ' + this.name + ' has been removed successfully',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						iconPack: 'mdi'
+						onConfirm: () => this.$router.push('/Admin/Stations')
 					})
-					this.$route.push('/Admin/Stations')
 				}
 			})
 			.catch(() => {
@@ -165,7 +183,14 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-      return !this.name || !this.description || !this.files[0]
+      if (this.origData) {
+				console.log(this.files[0])
+				return (this.origData.station_name === this.name && 
+				this.origData.description === this.description && 
+				moment(this.origData.station_start, 'HH:mm').format('HH:mm') === moment(this.startTime, 'HH:mm').format('HH:mm') && 
+				moment(this.origData.station_end, 'HH:mm').format('HH:mm') === moment(this.endTime, 'HH:mm').format('HH:mm') &&
+				this.imageChanged === false)
+			}
     }
 	}
 }

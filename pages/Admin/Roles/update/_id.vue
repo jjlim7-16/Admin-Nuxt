@@ -1,5 +1,5 @@
 <template>
-	<div id="form">
+	<div id="content" class="box" style="width: 46%">
 		<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''" 
 			:message="errors.has('station') ? errors.first('station') : ''">
 			<b-select placeholder='Select Station' v-model="stationId" name="stationId" v-validate="'required'"
@@ -76,7 +76,7 @@ export default {
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/roles/' + this.$route.params['id'])
+		axios.get(`http://${config.serverURL}/roles/` + this.$route.params['id'])
 		.then((res) => {
 			this.stationList = res.data[1]
 			
@@ -95,14 +95,14 @@ export default {
 	methods: {
 		update() {
 			let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-			let role = new DataModel.Role(this.roleName.trim(),this.capacity,
-			this.duration, this.files[0], this.stationId)
+			let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2, 
+			this.files[0], this.stationId)
 			
 			let formData = new FormData()
 			formData.append(stationName + '-' + role.roleName, this.files[0])
 			formData.append('webFormData', JSON.stringify(role))
 			
-			axios.put("http://localhost:8000/roles/" + this.$route.params['id'], formData)
+			axios.put(`http://${config.serverURL}/roles/` + this.$route.params['id'], formData)
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.alert({
@@ -120,27 +120,20 @@ export default {
 			})
 		},
 		remove() {
-			axios.delete("http://localhost:8000/roles/" + this.$route.params['id'])
+			axios.delete(`http://${config.serverURL}/roles/` + this.$route.params['id'])
 			.then(res => {
 				if (res.status === 200) {
-					this.$dialog.alert({
-						title: 'Delete Role',
-						message: `The Role \'${this.roleName}\' has been successfully deleted`,
+					this.$dialog.confirm({
+						title: 'Remove Station',
+						message: 'The Station: ' + this.name + ' has been removed successfully',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						iconPack: 'mdi'
+						onConfirm: () => this.$router.push('/Admin/Roles')
 					})
-					this.$route.push('/Admin/Roles')
 				}
 			})
 		}
 	}
 }
 </script>
-
-<style>
-#form {
-	margin: 25px 60px 25px 70px;
-}
-</style>

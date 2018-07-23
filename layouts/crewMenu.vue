@@ -5,7 +5,7 @@
         <img src="~/static/img-whitelogo.png" alt="logo">
 
         <ul class="menu-list">
-          <li id="logout" class="mdi mdi-logout" ><nuxt-link to="/Users">Logout</nuxt-link></li>
+          <li id="logout"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>Logout</a></li>
         </ul>
       </aside>
     </div>
@@ -14,6 +14,17 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    async logout() {
+      return this.$auth.logout()
+    }
+  }
+}
+</script>
+
 
 <style>
 

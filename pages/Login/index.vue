@@ -34,39 +34,39 @@ export default {
     }
   },
   methods: {
+  //   // async login() {
+  //   //   await this.$store.dispatch("api/auth/login", {
+  //   //     username: this.username,
+  //   //     password: this.password
+  //   //   })
+  //   //   .then(result => {
+  //   //     console.log("result", result)
+  //   //     this.$router.push({ path: '/Admin' })
+  //   //   })
+  //   //   .catch(error => {
+  //   //     this.loading = false
+  //   //     if (error.response && error.response.data) {
+  //   //       // this.alert = {
+  //   //       //   type: "error",
+  //   //       //   message: error.response.data.message || error.response.status
+  //   //       // }
+  //   //     }
+  //   //   })
+  //   // }
     async login() {
-      try {
-        console.log('Login...')
-        await this.$auth.loginWith('local', {
+      this.error = null
+      return this.$auth
+        .loginWith('local', {
           data: {
             username: this.username,
             password: this.password
           }
         })
-        if (this.$auth.loggedIn) {
-          console.log('Logged In')
-          console.log(this.$auth.user_type)
-          if (this.$auth.user.user_type === 'Admin') {
-            this.$router.push('/Admin/Stations')
-          }
-        }
-      } catch (e) {
-        console.log(e)
-      }
+        .catch(e => {
+          this.error = e + ''
+        })
     }
-  },
-  beforeMount() {
-    if (this.$auth.loggedIn) {
-      console.log('Is Logged In')
-      const user = this.$auth.user
-      if (user.user_type === 'Admin') {
-        this.$router.push('/Admin/Stations')
-      }
-      else {
-        this.$router.push('/Crew/')
-      }
-    }
-  },
+  }
 }
 </script>
 
@@ -74,9 +74,7 @@ export default {
 
 img {
   display: block;
-  margin: auto;
-  margin-top: 5%;
-  position: relative;
+  margin: 90px auto;
   width: 18%;
   height: auto;
 }

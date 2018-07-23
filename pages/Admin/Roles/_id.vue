@@ -1,6 +1,6 @@
 <template>
-	<section id="content" class="box column is-four-fifths">
-        <b-field grouped group-multiline>
+	<section id="content" class="box" style="margin-left: 5px;">
+		<b-field grouped group-multiline>
 			<b-field label="Filter By Stations:" style="margin-top: 5px;"></b-field>&nbsp;
 			<b-select v-model="filter">
 				<option>All</option>
@@ -36,17 +36,21 @@
 				</b-table-column>
 
 				<b-table-column label="Actions" centered>
-					<router-link v-if="$route.params['id']" :to="{ path: `Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
-					<router-link v-else :to="{ path: `Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
+					<router-link v-if="$route.params['id']" :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
+					<router-link v-else :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
 				</b-table-column>
 			</template>
 		</b-table>
-		<router-link to="/Admin/Roles/add" tag="button" class="button is-primary">Add Role</router-link>
+		<router-link to="/Admin/Roles/add" tag="button" class="button is-primary">
+			<b-icon icon="plus-circle"></b-icon>
+			<span>Add Role</span>
+		</router-link>
 	</section>
 </template>
 
 <script>
 import axios from 'axios'
+import config from '~/config.js'
 
 export default {
 	data () {
@@ -60,7 +64,7 @@ export default {
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/roles/')
+		axios.get(`http://${config.serverURL}/roles/`)
 		.then((res) => {
 			this.data = res.data[0]
 			this.stationList = res.data[1]
@@ -93,9 +97,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-#content {
-	margin: 25px 60px 25px 70px;
-}
-</style>
