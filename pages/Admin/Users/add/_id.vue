@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import config from '~/config.js'
+
     export default {
       name: "add.vue",
       data(){

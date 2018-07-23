@@ -29,7 +29,7 @@
 
 			<b-field label='Image' style="margin-top: -10px">
 				<b-field class='file'>
-					<b-upload v-model='files' accept="image/*">
+					<b-upload v-model='files' accept="image/*" @input="imageChanged = true">
 						<a class='button is-primary'>
 							<b-icon icon='upload'></b-icon>
 							<span>Upload Image</span>
@@ -66,6 +66,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import DataModel from '../../../../models/dataModel.js'
+import config from '~/config'
 
 export default {
 	data() {
@@ -82,13 +83,16 @@ export default {
 			maxTime: max,
 			startTime: min,
 			endTime: max,
-			files: []
+			files: [],
+			imageChanged: false,
+			origData: null
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/stations/' + this.$route.params['id'])
+		axios.get(`http://${config.serverURL}/stations/` + this.$route.params['id'])
     .then((res) => {
 			let data = res.data[0]
+			this.origData = data
 			this.name = data.station_name
 			this.description = data.description
 			let start = new Date()
@@ -103,7 +107,19 @@ export default {
     })
     .catch(() => {
       console.log('FAIL')
-    })
+		})
+		
+		axios.get(`http://${config.serverURL}/stations/image`)
+		.then(res => {
+			if (res.status === 200) {
+				let file = new File([res.data], 'image.png', {type: 'image/png'})
+				this.files.push(file)
+				console.log(file)
+			}
+		})
+		.catch(e => {
+			console.log(e)
+		})
 	},
 	methods: {
 		submit() {
@@ -113,22 +129,22 @@ export default {
 			
 			let formData = new FormData()
 			//console.log(formData)
-			formData.append(webFormData.name, this.files[0])
+			if (this.imageChanged === true) formData.append(webFormData.name, this.files[0])
 			formData.append('webFormData', JSON.stringify(webFormData))
-			console.log(formData.get(webFormData.name))
+			console.log(formData.get('webFormData'))
 			
-			axios.put('http://localhost:8000/stations/' + this.$route.params['id'],
+			axios.put(`http://${config.serverURL}/stations/` + this.$route.params['id'],
 				formData
 			).then(res => {
-				// console.log(res.data)
 				if (res.status === 200) {
-					this.$dialog.alert({
+					this.$dialog.confirm({
 						title: 'Update Station',
 						message: 'The Station: ' + this.name + ' has been updated successfully',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						iconPack: 'mdi'
+						iconPack: 'mdi',
+						onConfirm: () => this.$router.push('/Admin/Stations')
 					})
 				}
 			})
@@ -147,7 +163,7 @@ export default {
 			})
 		},
 		confirmDelete() {
-			axios.delete('http://localhost:8000/stations/' + this.$route.params['id'])
+			axios.delete(`http://${config.serverURL}/stations/` + this.$route.params['id'])
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.confirm({
@@ -167,7 +183,14 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-      return !this.name || !this.description || !this.files[0]
+      if (this.origData) {
+				console.log(this.files[0])
+				return (this.origData.station_name === this.name && 
+				this.origData.description === this.description && 
+				moment(this.origData.station_start, 'HH:mm').format('HH:mm') === moment(this.startTime, 'HH:mm').format('HH:mm') && 
+				moment(this.origData.station_end, 'HH:mm').format('HH:mm') === moment(this.endTime, 'HH:mm').format('HH:mm') &&
+				this.imageChanged === false)
+			}
     }
 	}
 }

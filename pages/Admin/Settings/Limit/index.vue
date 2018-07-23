@@ -76,6 +76,7 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
+import config from '~/config.js'
 
 export default {
 	data() {
@@ -89,7 +90,7 @@ export default {
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/limit/')
+		axios.get(`http://${config.serverURL}/limit/`)
 		.then(res => {
 			this.data = res.data[0]
 			this.dateList = res.data[1]
@@ -104,7 +105,7 @@ export default {
 				type: 'is-danger',
 				hasIcon: true,
 				onConfirm: () => 
-				axios.delete('http://localhost:8000/limit/' + limit_id)
+				axios.delete(`http://${config.serverURL}/limit/` + limit_id)
 				.then(res => {
 					if (res.status === 200) {
 						this.$dialog.alert({

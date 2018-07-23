@@ -73,6 +73,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import DataModel from '../../../models/dataModel.js'
+import config from '~/config.js'
 
 let roleList = []
 let stationName = ''
@@ -154,7 +155,7 @@ v-if='files && files.length'>
 		},
 		alertRoleExists() {
 			this.$dialog.alert({
-				title: "Error",
+				title: "Role Exists",
 				message: `Error! The Role \'${this.roleName}\' Already Exists`,
 				type: "is-danger",
 				hasIcon: true
@@ -201,7 +202,7 @@ export default {
 		}
 	},
 	beforeMount() {
-		axios.get('http://localhost:8000/stations')
+		axios.get(`http://${config.serverURL}/stations`)
 		.then(res => {
 			this.stationList = res.data
 		})
@@ -232,7 +233,7 @@ export default {
 				formData.append('webFormData', JSON.stringify(station))
 				// console.log(formData.get('station'))
 
-				axios.post("http://localhost:8000/stations/", formData)
+				axios.post(`http://${config.serverURL}/stations/`, formData)
 					.then(res => {
 						roleList = []
 						this.roles = roleList

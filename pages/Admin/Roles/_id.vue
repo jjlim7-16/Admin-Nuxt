@@ -41,12 +41,16 @@
 				</b-table-column>
 			</template>
 		</b-table>
-		<router-link to="/Admin/Roles/add" tag="button" class="button is-primary">Add Role</router-link>
+		<router-link to="/Admin/Roles/add" tag="button" class="button is-primary">
+			<b-icon icon="plus-circle"></b-icon>
+			<span>Add Role</span>
+		</router-link>
 	</section>
 </template>
 
 <script>
 import axios from 'axios'
+import config from '~/config.js'
 
 export default {
 	data () {
@@ -60,7 +64,7 @@ export default {
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/roles/')
+		axios.get(`http://${config.serverURL}/roles/`)
 		.then((res) => {
 			this.data = res.data[0]
 			this.stationList = res.data[1]

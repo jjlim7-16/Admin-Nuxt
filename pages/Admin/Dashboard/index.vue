@@ -1,17 +1,5 @@
 <template>
   <section id="dashboard" class="section">
-    <!-- <div>
-      <div class="box">
-        <h4>No. Of Visitors Today</h4>
-        <p>{{ noOfBookings }}</p>
-      </div>
-      <div class="box">
-        <my-line :data='data'></my-line>
-      </div>
-      <div class="box">
-        <bar :data='bardata'></bar>
-      </div>
-    </div> -->
     <div>
       <div class="level">
         <div class="level-item has-text-centered">
@@ -28,7 +16,17 @@
         </div>
       </div>
       <div class="level">
-        <my-line class="box" :width="800" :data='byTimeData'></my-line>
+        <div class="box">
+          <b-field>
+            <b-select v-model="stationId">
+              <option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
+                {{station.station_name}}
+              </option>
+            </b-select>
+          </b-field>
+          <my-line class="box" :width="800" :data='filterTimeData'></my-line>
+        </div>
+        
         <!-- <realtime :data="byTimeData"></realtime> -->
       </div>
       <div class="level">
@@ -53,19 +51,13 @@
 </template>
 
 <script>
-import Chart from 'chart.js'
 import axios from 'axios'
 import moment from 'moment'
-import DoughnutChart from '@/components/DoughnutChart'
-import BarChart from '@/components/bar-chart'
 import io from '../../../plugins/socket-io.js'
+import config from '~/config.js'
 // import { mapGetters } from 'vuex'
 
 export default {
-  components: {
-    DoughnutChart,
-    BarChart
-  },
   data() {
     return {
       noOfBookings: 0,
@@ -73,11 +65,21 @@ export default {
       data: [65, 59, 87, 81, 56, 55, 36],
       bardata: [65, 59, 87, 81, 56, 55, 36],
       byStationData: [],
-      byTimeData: [5]
+      byTimeData: {},
+      stationList: null,
+      stationId: null
     }
   },
+  async beforeCreate() {
+    await axios.get(`http://${config.serverURL}/roles/`)
+		.then((res) => {
+      this.stationList = res.data[1]
+      this.stationId = this.stationList[0].station_id
+      // console.log(this.stationList.find(i => i.station_id === this.stationId).station_name)
+		})
+  },
   beforeMount() {
-    let socket = io.socketio.connect('http://localhost:8000')
+    let socket = io.socketio.connect(`http://${config.serverURL}/dashboard`)
     socket.on('getBookingCount', (data) => {
       this.noOfBookings = data
     })
@@ -88,12 +90,33 @@ export default {
       this.bardata = data
     })
     socket.on('getBookingByTime', (data) => {
-      // console.log(data)
       this.byTimeData = data
     })
     socket.on('getBookingByStation', (data) => {
       this.byStationData = data
     })
+  },
+  computed: {
+    filterTimeData() {
+      // let station = this.stationList.find(i => i.station_id === this.stationId).station_name
+      // return this.byStationData[station]
+      let data = {}
+      // let station = this.stationList.find(i => i.station_id === this.stationId).station_name
+      // console.log(station)
+      let station = ''
+      for (var i in this.stationList) {
+        if (this.stationList[i].station_id === this.stationId) {
+          station = this.stationList[i].station_name
+          break
+        }
+      }
+      // data[station] = []
+      // data[station] = this.byTimeData[station]
+      data['station'] = station
+      data['results'] = this.byTimeData[station]
+      console.log(data)
+      return data
+    }
   }
 }
 </script>
@@ -103,4 +126,3 @@ export default {
   margin: 100px 35px 30px;
 }
 </style>
-

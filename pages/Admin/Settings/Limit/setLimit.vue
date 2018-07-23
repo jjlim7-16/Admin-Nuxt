@@ -39,6 +39,7 @@
 import axios from 'axios'
 import DataModel from '../../../../models/dataModel.js'
 import moment from 'moment'
+import config from '~/config.js'
 
 export default {
 	data() {
@@ -53,7 +54,7 @@ export default {
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/roles/')
+		axios.get(`http://${config.serverURL}/roles/`)
 		.then((res) => {
 			this.roleList = res.data[0]
 		})
@@ -76,7 +77,7 @@ export default {
 			let webFormData = new DataModel.Limit(stationId, this.roleId, 
 				date, this.limit)
 			
-			axios.post("http://localhost:8000/limit/", webFormData)
+			axios.post(`http://${config.serverURL}/limit/`, webFormData)
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.alert({

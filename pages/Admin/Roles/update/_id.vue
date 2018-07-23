@@ -76,7 +76,7 @@ export default {
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/roles/' + this.$route.params['id'])
+		axios.get(`http://${config.serverURL}/roles/` + this.$route.params['id'])
 		.then((res) => {
 			this.stationList = res.data[1]
 			
@@ -102,7 +102,7 @@ export default {
 			formData.append(stationName + '-' + role.roleName, this.files[0])
 			formData.append('webFormData', JSON.stringify(role))
 			
-			axios.put("http://localhost:8000/roles/" + this.$route.params['id'], formData)
+			axios.put(`http://${config.serverURL}/roles/` + this.$route.params['id'], formData)
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.alert({
@@ -120,7 +120,7 @@ export default {
 			})
 		},
 		remove() {
-			axios.delete("http://localhost:8000/roles/" + this.$route.params['id'])
+			axios.delete(`http://${config.serverURL}/roles/` + this.$route.params['id'])
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.confirm({

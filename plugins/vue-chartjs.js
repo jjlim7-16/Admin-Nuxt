@@ -21,29 +21,14 @@ Vue.component('my-line', {
 					labels: this.timeData,
 					datasets: [
 						{
-							label: this.chartData[0].station_name,
-							fill: false,
+							label: this.chartData.station,
 							// backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#ea344f', '#f4ac32'],
-							borderColor: '#3cba9f',
+							borderColor: 'rgba(255,99,132,1)',
 							borderWidth: 2,
 							radius: 2,
-							backgroundColor: '#3cba9f',
-							data: this.chartData
+							backgroundColor: 'rgba(255, 99, 132, 0.2)',
+							data: this.chartData.results
 						}
-						// {
-						// 	label: 'Test2',
-						// 	fill: false,
-						// 	// backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#ea344f', '#f4ac32'],
-						// 	borderColor: this.color,
-						// 	backgroundColor: this.color,
-						// 	data: [{
-						// 		x: moment('10:00', 'HH:mm a'),
-						// 		y: 60
-						// 	}, {
-						// 		x: moment('10:30', 'HH:mm a'),
-						// 		y: 30
-						// 	}]
-						// }
 					]
 				},
 				{
@@ -94,6 +79,8 @@ Vue.component('my-line', {
 	},
 	computed: {
 		chartData: function () {
+			console.log('Data.......')
+			console.log(this.data)
 			return this.data
 		},
 		timeData: function () {
@@ -103,7 +90,6 @@ Vue.component('my-line', {
 				arr.push(time.format('HH:mm a'))
 				time = time.add(30, 'minutes')
 			}
-			console.log(arr)
 			return arr
 		}
 	},
@@ -135,6 +121,12 @@ Vue.component('line-chart', {
 							fill: false,
 							borderColor: '#3e95cd',
 							backgroundColor: '#3e95cd',
+							data: this.chartData
+						},
+						{
+							fill: false,
+							borderColor: '#5879a4',
+							backgroundColor: '#5879a4',
 							data: this.chartData
 						}
 					]
@@ -184,7 +176,6 @@ Vue.component('line-chart', {
 				arr.push(time.format('HH:mm a'))
 				time = time.add(30, 'minutes')
 			}
-			console.log(arr)
 			return arr
 		}
 	},
@@ -199,20 +190,22 @@ Vue.component('line-chart', {
 	}
 })
 
-Vue.component('realtime', {
-	extends: Line,
-	// mixins: [reactiveProp],
+Vue.component('grouped-bar', {
+	extends: Bar,
 	props: ['data', 'options'],
 	mounted () {
-		this.renderLineChart()
+		// this.renderChart(this.data, this.options)
+		this.renderBarChart()
 	},
 	methods: {
-		renderLineChart: function () {
+		renderGroupBarChart: function () {
 			this.renderChart(
 				{
+					labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
 					datasets: [
 						{
-							data: []
+							backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#ea344f', '#f4ac32'],
+							data: this.chartData
 						}
 					]
 				},
@@ -222,36 +215,17 @@ Vue.component('realtime', {
 					},
 					title: {
 						display: true,
-						text: 'No. Of Bookings By Date',
+						text: 'No. of Bookings By Day',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
 					},
 					scales: {
-						xAxes: [{
-							type: 'realtime'
-						}]
-					},
-					plugins: {
-						streaming: {
-							duration: 20000,
-							refresh: 1000,
-							delay: 1000,
-							frameRate: 30,
-							pause: false,
-							onRefresh: function (chart) {
-								// socket.on('getBookingByTime', data => {
-								// 	chart.data.datasets[0].data.push({
-								// 		x: Date.now(),
-								// 		y: data
-								// 	})
-								// })
-								chart.data.datasets[0].data.push({
-									x: Date.now(),
-									y: this.chartData
-								})
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
 							}
-						}
+						}]
 					},
 					responsive: true,
 					maintainAspectRatio: false
@@ -262,6 +236,15 @@ Vue.component('realtime', {
 	computed: {
 		chartData: function () {
 			return this.data
+		}
+	},
+	watch: {
+		data: function () {
+			if (this._chart) {
+				this._chart.destroy()
+			}
+			// this.renderChart(this.data, this.options)
+			this.renderGroupBarChart()
 		}
 	}
 })
@@ -343,7 +326,7 @@ Vue.component('doughnut', {
 							data: this.chartData.data
 						}
 					],
-					labels: ['KFC', 'Pizza']
+					labels: this.chartData.stations
 				},
 				{
 					title: {

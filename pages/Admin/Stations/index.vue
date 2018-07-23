@@ -10,7 +10,9 @@
 			:per-page="perPage"
 			:current-page.sync="currentPage"
 			default-sort-direction="asc"
-			default-sort="station_id">
+			default-sort="station_id"
+			detailed
+			detail-key="station_id">
 
 			<template slot-scope="props">
 				<b-table-column field="station_id" label="ID" width="50" sortable numeric>
@@ -27,7 +29,7 @@
 				
 				<b-table-column field="is_active" label="Status" width="150" sortable centered>
 					<span v-if="props.row.is_active===1" class="tag is-success">Active</span>
-					<span v-else class="tag is-success">Inactive</span>
+					<span v-else class="tag is-danger">Inactive</span>
 				</b-table-column>
 				
 				<!-- <b-table-column field="is_active" label="Status" width="150" centered>
@@ -52,17 +54,44 @@
 						<b-dropdown-item style="text-align: left" has-link>
 							<router-link :to="{ path: `/Admin/Roles/${props.row.station_id}`}">Manage Roles</router-link>
 						</b-dropdown-item>
+						<b-dropdown-item style="text-align: left" has-link>
+							<a v-if="props.row.is_active === 1" @click="updateStationStatus(props.row.station_id, 0)">Deactivate Station</a>
+							<a v-else-if="props.row.is_active === 0" @click="updateStationStatus(props.row.station_id, 1)">Activate Station</a>
+						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
 			</template>
+
+			<template slot="detail" slot-scope="props">
+				<article class="media">
+					<figure class="media-left">
+						<p class="image is-64x64">
+							<img src="~/static/128x128.png">
+						</p>
+					</figure>
+					<div class="media-content">
+						<div class="content">
+							<p>
+								<strong>{{ props.row.station_name }}</strong>
+								<br>
+								{{ props.row.description }}
+							</p>
+						</div>
+					</div>
+				</article>
+			</template>
 		</b-table>
-		<router-link to="/Admin/Stations/add" tag="button" class="button is-primary">Add Stations</router-link>
+		<router-link to="/Admin/Stations/add" tag="button" class="button is-primary">
+			<b-icon icon="plus-circle"></b-icon>
+			<span>Add Stations</span>
+		</router-link>
 	</section>
 </template>
 
 <script>
 import axios from 'axios'
 import FileSaver from 'file-saver'
+import config from '~/config.js'
 
 export default {
 	data () {
@@ -75,32 +104,46 @@ export default {
 		}
 	},
 	beforeCreate() {
-		axios.get('http://localhost:8000/stations/')
+		axios.get(`http://${config.serverURL}/stations/`)
 		.then((res) => {
-			// console.log(res.data)
 			this.data = res.data
-			// return axios.get('http://localhost:8000/stations/image', {
-			// 	headers: {
-			// 		'Content-type': 'application/json',
-			// 		'Accept': 'image/jpeg'
-			// 	}
-			// })
 		})
-		// .then(res => {
-		// 	console.log('Saving File..')
-		// 	const blob = new Blob([res.data], {
-		// 		type: 'image/jpeg'
-		// 	})
-		// 	// console.log(blob)
-		// 	// FileSaver.saveAs(blob, '../../../assets/images/test.jpeg')
-		// 	let fileReader = new FileReader()
-		// 	let image = fileReader.readAsDataURL(blob)
-		// 	// this.FileSaver.saveAs(blob, 'testing.jpeg')
-		// 	// this.data = res.data
-		// })
 		.catch(() => {
 			console.log('FAIL')
 		})
+	},
+	methods: {
+		updateStationStatus(station_id, newActiveStatus) {
+			let formData = { 'newActiveStatus': newActiveStatus }
+			let action = (newActiveStatus === 1) ? 'Activate' : 'Deactivate'
+			this.$dialog.confirm({
+				title: `${action} Station`,
+				message: `Are you sure you want to ${action.toLowerCase()} this station?`,
+				confirmText: `${action} Station`,
+				type: 'is-danger',
+				hasIcon: true,
+				onConfirm: () => axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
+				.then(res => {
+					if (res.status === 200) {
+						this.$dialog.alert({
+							title: `${action} Station`,
+							message: `Station Has Been Successfully ${action + 'd'}`,
+							type: 'is-success',
+							hasIcon: true,
+							icon: 'check-circle',
+							iconPack: 'mdi'
+						})
+						axios.get(`http://${config.serverURL}/stations/`)
+						.then((res) => {
+							this.data = res.data
+						})
+						.catch(() => {
+							console.log('FAIL')
+						})
+					}
+				})
+			})
+		}
 	},
 	computed: {
 		filteredData() {

@@ -16,15 +16,10 @@ module.exports = {
 		redirect: {
 			login: '/',
 			logout: '/',
-			home: '/Admin/Stations',
 			callback: '/callback'
 		},
 		plugins: ['~plugins/auth.js']
 	},
-
-	// axios: {
-	// 	baseURL: 'http://localhost:8000/api/'
-	// },
 	plugins: [
 		{ src: '~plugins/vee-validate.js', ssr: true },
 		{ src: '~plugins/vue-chartjs.js', ssr: false },

@@ -35,19 +35,38 @@ export default {
   },
   methods: {
     async login() {
-      this.error = null
-      return this.$auth
-        .loginWith('local', {
+      try {
+        console.log('Login...')
+        await this.$auth.loginWith('local', {
           data: {
             username: this.username,
             password: this.password
           }
         })
-        .catch(e => {
-          this.error = e + ''
-        })
+        if (this.$auth.loggedIn) {
+          console.log('Logged In')
+          console.log(this.$auth.user_type)
+          if (this.$auth.user.user_type === 'Admin') {
+            this.$router.push('/Admin/Stations')
+          }
+        }
+      } catch (e) {
+        console.log(e)
+      }
     }
-  }
+  },
+  beforeMount() {
+    if (this.$auth.loggedIn) {
+      console.log('Is Logged In')
+      const user = this.$auth.user
+      if (user.user_type === 'Admin') {
+        this.$router.push('/Admin/Stations')
+      }
+      else {
+        this.$router.push('/Crew/')
+      }
+    }
+  },
 }
 </script>
 

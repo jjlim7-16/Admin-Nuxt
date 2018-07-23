@@ -51,8 +51,8 @@ app.post('/login', (req, res) => {
 		})
 	}
 
-	let sql = 'Select username, password_hash, account_type from user_accounts ua, account_type a ' +
-	'where a.account_type_id = ua.account_type_id AND username = ?'
+	let sql = `Select username, password_hash, account_type, station_id from user_accounts ua, account_type a 
+	where a.account_type_id = ua.account_type_id AND username = ?`
 
 	db.query(sql, username, (error, results) => {
 		if (error) {
@@ -67,24 +67,15 @@ app.post('/login', (req, res) => {
 		bcrypt.compare(password, user.password_hash, (error, result) => {
 			if (error) return res.status(500).json({type: 'error', message: 'bcrypt error', error})
 			if (result) {
-				// let token = jsonwebtoken.sign({id: user.id, username: user.username}, config.jwtToken, {expiresIn: 7})
-				// req.session.authUser = { session: username }
-				// res.setHeader('Set-Cookie', [`access_token=${token}`])
-				// res.json({
-				// 	type: 'success',
-				// 	message: 'User logged in.',
-				// 	user: {id: user.id, username: user.username, usertype: user.account_type},
-				// 	token: token
-				// })
 				const accessToken = jsonwebtoken.sign(
 					{
 						username,
 						name: 'User ' + username,
-						scope: ['test', 'user']
+						user_type: user.account_type,
+						station: user.station_id
 					},
 					'dummy'
 				)
-				// req.session.authUser = { session: username }
 				res.json({
 					token: { accessToken }
 				})

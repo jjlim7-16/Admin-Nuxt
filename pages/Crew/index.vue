@@ -60,6 +60,8 @@
 
 <script>
 import axios from 'axios'
+import config from '~/config.js'
+
   export default{
     layout: 'crewMenu',
     methods: {
@@ -86,9 +88,9 @@ import axios from 'axios'
       let theData;
       let startTime;
       let endTime;
-      axios.get('http://localhost:8000/bookings/getbookinglist/1')
+      axios.get(`http://${config.serverURL}/bookings/getbookinglist/1`)
 		  .then((res) => {
-        if(res.status == "200") {
+        if(res.status === 200) {
           console.log(res.data)
           console.log(res.data[0])
 			    theData = res.data;
