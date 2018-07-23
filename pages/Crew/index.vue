@@ -25,8 +25,7 @@
     <b-table
       :data = "bookingList"
       :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success'"
-      :checked-rows.sync="checkedRows"
-      checkedRows
+  
     >
 
       <template slot-scope="props">
@@ -69,7 +68,8 @@ import moment from 'moment'
     methods: {
       setRefresh() {
            var day = new Date;
-           var currentTime = moment(day).format('HH:mm:ss');      
+           var currentTime = moment(day).format('HH:mm:ss');   
+           console.log(currenttime);   
            //console.log("currenttime",currentTime.duration.get('minutes'));
     
           
