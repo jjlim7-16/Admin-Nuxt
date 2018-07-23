@@ -63,44 +63,70 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment'
   export default{
     layout: 'crewMenu',
     methods: {
-
+      setRefresh() {
+           var day = new Date;
+           var currentTime = moment(day).format('HH:mm:ss');      
+           //console.log("currenttime",currentTime.duration.get('minutes'));
+    
+          
+          //  setTimeout(function(){ alert("You"); }, 3000);
+          //  if(currentTime.isAfter(this.sessionStartTime)){
+     
+          //    setTimeout(function(){ alert("You"); }, 3000);
+          //  }else{
+          var duration = moment.duration(currentTime.diff("19:12:10"));
+                console.log(duration);
+             var miliseconds = duration.as('milliseconds');
+              console.log(miliseconds);
+            setTimeout(function(){ alert("Hello"); }, 30000);
+       //   }
+       
+                   
+          // setTimeout(function(){
+          //  this.$router.go(this.$router.curentRoute);
+          // },60000)
+      }
   
     },
     data(){
       return {
-        timeList: this.$store.state.stationSessionTimeList,
 			  bookingList: [],
         sessionStartTime:"",
         sessionEndTime:"",
-        stationName:"",
+        stationName:"", 
         stationID:"",
         numberOfBooking:0,
         userBookingRoleName: "",
         userBookingStationName: "",
         userBookingIsBooked: false,
         userBookingSessionStartTime: "",
-        userBookingSessionEndTime:""
+        userBookingSessionEndTime:"",
+        apiAddress : "http://172.22.72.176:8000/bookings"
       }
     },
     created() {
       let theData;
       let startTime;
       let endTime;
-      axios.get('http://localhost:8000/bookings/getbookinglist/1')
+
+      axios.get('http://172.22.42.223:8000/bookings/getbookinglist/1')
 		  .then((res) => {
         if(res.status == "200") {
           console.log(res.data)
           console.log(res.data[0])
 			    theData = res.data;
 			    this.bookingList = theData;
+          
          
           this.sessionStartTime = theData[0].session_start;       
           this.sessionEndTime = theData[0].session_end;
           this.stationName = theData[0].station_name;
           this.numberOfBooking = theData.length;
+          this.setRefresh();
 
         }else{
           console.dir(res.status);
@@ -108,7 +134,7 @@ import axios from 'axios'
 			})
 		.catch((err) => {
 			console.log('FAILA')
-      console.log(err.message);
+      
 		});
     },
     mounted() {
@@ -116,6 +142,7 @@ import axios from 'axios'
     var isExist = false;
     let scannedID = "";
     let scannedArray = [];
+    
     window.onkeypress = function(e) {
       if (e.key == 'Enter') {
        
@@ -127,7 +154,8 @@ import axios from 'axios'
             isExist = true;
             var booking_id = his.bookingList[i].booking_id;
             this.bookingList[i].booking_status = "Admitted";
-            this.bookingList[i].time_in = moment.format('HH:mm:ss');
+             var day = new Date;
+            this.bookingList[i].time_in = moment(day).format('HH:mm');
             let webFormData = new WebFormData(this.bookingList[i].booking_status, this.bookingList[i].time_in)
 			
 			let formData = new FormData()
@@ -200,6 +228,7 @@ import axios from 'axios'
       }
     }
   },
+
     
     computed:{
       numberOfConfirm() {
