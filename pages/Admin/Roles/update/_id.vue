@@ -1,6 +1,6 @@
 <template>
-	<div id="content" class="box" style="width: 46%">
-		<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''" 
+	<div id="content" class="box">
+		<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''"
 			:message="errors.has('station') ? errors.first('station') : ''">
 			<b-select placeholder='Select Station' v-model="stationId" name="stationId" v-validate="'required'"
 			data-vv-as="'Station'" expanded>
@@ -10,12 +10,12 @@
 			</b-select>
 		</b-field>
 
-		<b-field label='Role Name*' width="410px" :type="errors.has('roleName') ? 'is-danger': ''" 
+		<b-field label='Role Name*' width="410px" :type="errors.has('roleName') ? 'is-danger': ''"
 			:message="errors.has('roleName') ? errors.first('roleName') : ''">
-			<b-input 
-				placeholder='Enter Role Title' 
-				name="roleName" 
-				v-model="roleName" 
+			<b-input
+				placeholder='Enter Role Title'
+				name="roleName"
+				v-model="roleName"
 				data-vv-as="'Role Name'"
 				v-validate="'required|alpha_spaces'">
 			</b-input>
@@ -52,7 +52,7 @@
 				</span>
 			</b-field>
 		</b-field>
-		
+
 		<br/>
 		<button class="button is-success" :disabled="isDisabled" @click="update()">Update Role</button>
 		&nbsp;&nbsp;
@@ -63,6 +63,7 @@
 <script>
 import axios from 'axios'
 import DataModel from '../../../../models/dataModel.js'
+import config from '~/config.js'
 
 export default {
 	data() {
@@ -79,7 +80,7 @@ export default {
 		axios.get(`http://${config.serverURL}/roles/` + this.$route.params['id'])
 		.then((res) => {
 			this.stationList = res.data[1]
-			
+
 			let data = res.data[0][0]
 			this.roleName = data.role_name
 			this.duration = data.durationInMins
@@ -95,13 +96,13 @@ export default {
 	methods: {
 		update() {
 			let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-			let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2, 
+			let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
 			this.files[0], this.stationId)
-			
+
 			let formData = new FormData()
 			formData.append(stationName + '-' + role.roleName, this.files[0])
 			formData.append('webFormData', JSON.stringify(role))
-			
+
 			axios.put(`http://${config.serverURL}/roles/` + this.$route.params['id'], formData)
 			.then(res => {
 				if (res.status === 200) {
@@ -137,3 +138,7 @@ export default {
 	}
 }
 </script>
+
+<style>
+
+</style>

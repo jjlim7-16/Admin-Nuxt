@@ -1,6 +1,6 @@
 <template>
-	<div id="content" class="box" style="width: 46%">
-		<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''" 
+	<div id="content" class="box">
+		<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
 			:message="errors.has('station') ? errors.first('station') : ''">
 			<b-select expanded placeholder='Select Station' v-model="stationId"
 				name="station" v-validate="'required'" data-vv-as="'Station'">
@@ -10,12 +10,12 @@
 			</b-select>
 		</b-field>
 
-		<b-field label='Role Name*' :type="errors.has('roleName') ? 'is-danger': ''" 
+		<b-field label='Role Name *' :type="errors.has('roleName') ? 'is-danger': ''"
 			:message="errors.has('roleName') ? errors.first('roleName') : ''">
-			<b-input 
-				placeholder='Enter Role Title' 
-				name="roleName" 
-				v-model="roleName" 
+			<b-input
+				placeholder='Enter Role Title'
+				name="roleName"
+				v-model="roleName"
 				data-vv-as="'Role Name'"
 				v-validate="'required|alpha_spaces'">
 			</b-input>
@@ -52,7 +52,7 @@
         </span>
       </b-field>
     </b-field>
-		
+
 		<br/>
 		<button class="button is-success" :disabled="isDisabled" @click="submit()">Add Role</button>
 	</div>
@@ -110,11 +110,11 @@ export default {
 			else {
 				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
 				this.files[0], this.stationId)
-				
+
 				let formData = new FormData()
 				formData.append('Role-' + role.roleName, this.files[0])
 				formData.append('webFormData', JSON.stringify(role))
-				
+
 				axios.post(`http://${config.serverURL}/roles/`, formData)
 				.then(res => {
 					if (res.status === 200) {

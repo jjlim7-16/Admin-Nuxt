@@ -2,7 +2,7 @@
   <section id="content" class="box">
 
     <b-field>
-      <router-link to="/Admin/Users/add" tag="button" class="button is-danger" id="btnAddUser">
+      <router-link to="/Admin/Users/add" tag="button" class="button is-primary" id="btnAddUser">
         <b-icon icon="plus-circle"></b-icon>
         <span>Add User</span>
       </router-link>
@@ -12,8 +12,7 @@
     <b-table
       :data = "tableDataSimple"
       striped
-      hoverable
-    >
+      hoverable>
 
       <template slot-scope="props">
         <b-table-column class="row" field="username" label="Username"  sortable>
@@ -40,9 +39,7 @@
             <router-link to="/Admin/Users/edit" tag="button" class="button is-primary">
               <span> {{ props.row.action }}Edit</span>
             </router-link>
-
-          <button class="button is-white"></button>
-
+            &nbsp;
           <button class="button is-danger" @click="confirmCustomDelete">
             <span> {{ props.row.action }}Delete</span>
           </button>
@@ -84,15 +81,14 @@ import config from '~/config.js'
   }
 </script>
 
-<style>
-  #content {
-    margin: 15px;
-  }
-#table{
+<style scoped>
+
+/* #table{
   outline: #47494e 5px;
+} */
+
+#btnAddUser{
+  float: right;
 }
 
-  #btnAddUser{
-    margin-left: 820px;
-  }
 </style>

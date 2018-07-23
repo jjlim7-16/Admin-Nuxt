@@ -1,6 +1,6 @@
 <template>
 	<div id='form' class="box">
-		<b-field label='Station Name *' width="410px" :type="errors.has('name') ? 'is-danger': ''" 
+		<b-field label='Station Name *' width="410px" :type="errors.has('name') ? 'is-danger': ''"
 			:message="errors.has('name') ? errors.first('name') : ''">
 			<b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'"
 			v-validate="'required|alpha_spaces'"></b-input>
@@ -45,8 +45,8 @@
 		<b-field label="Roles" >
 			<b-field grouped group-multiline>
 				<div class="control" v-if="roles.length>0" v-for="role in roles" :key="role.roleName">
-					<b-tag v-if="(role.roleName)" 
-						type="is-primary" size="is-medium" 
+					<b-tag v-if="(role.roleName)"
+						type="is-primary" size="is-medium"
 						attached closable
 						@close="removeRole(role)">
 						{{role.roleName}}
@@ -84,7 +84,7 @@ const ModalForm = {
 <p class='modal-card-title'>Add Role</p>
 </header>
 <section class='modal-card-body'>
-<b-field label='Role Name' :type="errors.has('roleName') ? 'is-danger': ''" 
+<b-field label='Role Name' :type="errors.has('roleName') ? 'is-danger': ''"
 :message="errors.has('roleName') ? errors.first('roleName') : ''">
 <b-input style='width: 280px'
 v-model='roleName'
@@ -135,7 +135,7 @@ v-if='files && files.length'>
 		addRole() {
 			let roleExist = false;
 			let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2, this.files[0])
-			
+
 			if (roleList.length > 0) {
 				let i = 0
 				for (i = 0; i < roleList.length; i++) {
@@ -220,8 +220,8 @@ export default {
 				})
 			}
 			else {
-				let station = new DataModel.Station(this.name.trim(),this.description.trim(), 
-				moment(this.startTime, 'HH:mm').format('HH:mm'), moment(this.endTime, 'HH:mm').format('HH:mm'), 
+				let station = new DataModel.Station(this.name.trim(),this.description.trim(),
+				moment(this.startTime, 'HH:mm').format('HH:mm'), moment(this.endTime, 'HH:mm').format('HH:mm'),
 				this.roles)
 
 				let formData = new FormData()

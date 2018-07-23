@@ -7,8 +7,8 @@
         <p class="menu-label">General</p>
         <ul class="menu-list">
           <li><nuxt-link to="/Admin/Dashboard">Dashboard</nuxt-link></li>
-          <li><nuxt-link to="/Admin/Stations">Stations</nuxt-link></li>
-          <li><nuxt-link to="/Admin/Roles">Roles</nuxt-link></li>
+          <li><nuxt-link to="/Admin/Stations">Manage Stations</nuxt-link></li>
+          <li><nuxt-link to="/Admin/Roles">Manage Roles</nuxt-link></li>
         </ul>
 
         <p class="menu-label">Settings</p>
@@ -79,6 +79,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
+  min-width: 20%;
 }
 
 #logout {
@@ -98,7 +99,8 @@ export default {
   background-color: white;
   width: 100%;
   height: 100%;
-  margin: 120px 60px 25px 100px;
+  /* margin: 120px 60px 25px 100px; */
+  margin: 20px 50px;
 }
 
 .menu-label {

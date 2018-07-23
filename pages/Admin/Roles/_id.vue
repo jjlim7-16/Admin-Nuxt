@@ -27,7 +27,7 @@
 					{{ props.row.role_name }}
 				</b-table-column>
 
-				<b-table-column field="durationInMins" label="Duration" sortable centered>
+				<b-table-column field="durationInMins" label="Duration (mins)" sortable centered>
 					{{ props.row.durationInMins }}
 				</b-table-column>
 
@@ -36,8 +36,8 @@
 				</b-table-column>
 
 				<b-table-column label="Actions" centered>
-					<router-link v-if="$route.params['id']" :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
-					<router-link v-else :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Update Role</router-link>
+					<router-link v-if="$route.params['id']" :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Edit</router-link>
+					<router-link v-else :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Edit</router-link>
 				</b-table-column>
 			</template>
 		</b-table>
