@@ -9,18 +9,18 @@
           <li><nuxt-link to="/Admin/Dashboard">Dashboard</nuxt-link></li>
           <li><nuxt-link to="/Admin/Stations">Manage Stations</nuxt-link></li>
           <li><nuxt-link to="/Admin/Roles">Manage Roles</nuxt-link></li>
+          <li><nuxt-link to="/Admin/Settings/Limit">Manage Limits</nuxt-link></li>
         </ul>
 
-        <p class="menu-label">Settings</p>
+        <!-- <p class="menu-label">Settings</p>
         <ul class="menu-list">
           <li><nuxt-link to="/Admin/Settings/Limit">Manage Limits</nuxt-link></li>
-          <!-- <li><nuxt-link to="/Admin/Settings/Limit/setLimit">Set New Limit</nuxt-link></li> -->
-        </ul>
+          <li><nuxt-link to="/Admin/Settings/Limit/setLimit">Set New Limit</nuxt-link></li>
+        </ul> -->
 
         <p class="menu-label">Administration</p>
         <ul class="menu-list">
           <li><nuxt-link to="/Admin/Users">Manage Users</nuxt-link></li>
-          <!-- <li><nuxt-link to="/Admin/Users">Roles &amp; Permissions</nuxt-link></li> -->
         </ul>
         <ul class="menu-list">
           <li id="logout"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>Logout</a></li>
@@ -29,15 +29,13 @@
     </div>
 
     <div class="container">
-      <p class="nav-title">
-        <strong>{{ this.$store.state.pageName }}</strong>
+      <p class="nav-title has-text-weight-semibold is-size-4">
+        {{ this.$store.state.pageName }}
       </p>
 
       <nuxt/>
     </div>
-    <!-- <div class="container">
-      <nuxt/>
-    </div> -->
+
   </div>
 </template>
 
@@ -57,13 +55,13 @@ export default {
 .nav-title {
   position: fixed;
   padding: 25px 40px;
-  /* margin-left: 316px; */
   right: 0;
   top: 0;
   width: 80%;
   background: white;
   box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
   z-index: 5;
+  color: #2C2C2C;
 }
 
 #app {
@@ -83,7 +81,6 @@ export default {
   position: fixed;
   display: inline;
   bottom: 30px;
-  /* width: 18.7%; */
   width: 15%;
   text-align: center;
   font-size: 18px;
@@ -96,9 +93,7 @@ export default {
   background-color: white;
   width: 100%;
   height: 100%;
-  /* margin: 120px 60px 25px 100px; */
-  /* margin: 20px 50px; */
-  margin: 15vh 5vw
+  margin: 15vh 5vw;
 }
 
 .menu-label {

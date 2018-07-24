@@ -51,7 +51,7 @@
 					</b-dropdown>
 				</b-table-column>
 			</template>
-			
+
 			<template slot="empty">
 				<section class="section">
 					<div class="content has-text-grey has-text-centered">
@@ -90,7 +90,7 @@ export default {
 		}
 	},
 	beforeCreate() {
-		this.$store.commit('setPageTitle', 'Manage Limit Settings')
+		this.$store.commit('setPageTitle', 'Manage Limits')
 
 		axios.get(`http://${config.serverURL}/limit/`)
 		.then(res => {
@@ -106,7 +106,7 @@ export default {
 				confirmText: 'Delete Limit',
 				type: 'is-danger',
 				hasIcon: true,
-				onConfirm: () => 
+				onConfirm: () =>
 				axios.delete(`http://${config.serverURL}/limit/` + limit_id)
 				.then(res => {
 					if (res.status === 200) {
