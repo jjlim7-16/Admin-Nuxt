@@ -29,13 +29,9 @@
     </div>
 
     <div class="container">
-      <div class="level">
-        <div class="level-item">
-          <p class="nav-title" style="margin-left: 210px;">
-            <strong>{{ this.$store.state.pageName }}</strong>
-          </p>
-        </div>
-      </div>
+      <p class="nav-title">
+        <strong>{{ this.$store.state.pageName }}</strong>
+      </p>
 
       <nuxt/>
     </div>
@@ -61,12 +57,13 @@ export default {
 .nav-title {
   position: fixed;
   padding: 25px 40px;
-  margin-left: 316px;
-  left: 0;
+  /* margin-left: 316px; */
+  right: 0;
   top: 0;
-  width: 100%;
+  width: 80%;
   background: white;
   box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
+  z-index: 5;
 }
 
 #app {

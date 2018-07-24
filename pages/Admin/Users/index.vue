@@ -77,7 +77,6 @@ import config from '~/config.js'
 					onConfirm: () => this.$toast.open('Account deleted!')
 				})
 			}
-
 		}
 	}
 </script>
