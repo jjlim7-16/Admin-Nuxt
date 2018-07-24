@@ -1,6 +1,6 @@
 <template>
-	<div id='form' class="box">
-		<b-field label='Station Name *' width="410px" :type="errors.has('name') ? 'is-danger': ''"
+	<section id='content' class="box">
+		<b-field label='Station Name *' width="410px" :type="errors.has('name') ? 'is-danger': ''" 
 			:message="errors.has('name') ? errors.first('name') : ''">
 			<b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'"
 			v-validate="'required|alpha_spaces'"></b-input>
@@ -66,7 +66,7 @@
 
 		<br/>
 		<button class="button is-success" :disabled="isDisabled" @click="submit()">Add Station</button>
-	</div>
+	</section>
 </template>
 
 <script>
@@ -97,9 +97,7 @@ v-validate="'required|alpha_spaces'">
 <b-field grouped>
 <b-field label='Capacity'>
 <b-select v-model='capacity' placeholder='Select Max. Capacity' required>
-<option>4</option>
-<option>6</option>
-<option>8</option>
+	<option v-for="i in 12" :key="i">{{ i }}</option>
 </b-select>
 </b-field>
 <b-field label='Duration'>
@@ -206,6 +204,7 @@ export default {
 		.then(res => {
 			this.stationList = res.data
 		})
+		this.$store.commit('setPageTitle', 'Add Station')
 	},
 	methods: {
 		submit() {
@@ -283,9 +282,12 @@ export default {
 	}
 }
 </script>
+<<<<<<< HEAD
+=======
 
 <style>
 #form {
 	margin: 25px 60px 25px 70px;
 }
 </style>
+>>>>>>> origin/chermaineBranch

@@ -1,5 +1,5 @@
 <template>
-	<div id="content" class="box" style="width: 46%">
+	<section id="content" class="box" style="width: 46%">
 		<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''" 
 			:message="errors.has('role') ? errors.first('role') : ''">
 			<b-select expanded placeholder='Select Role' v-model="roleId"
@@ -22,17 +22,14 @@
 		<b-field grouped>
 			<b-field label='Set Limit'>
 				<b-select v-model='limit' placeholder='Select Limit' required>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
+					<option v-for="i in 10" :key="i">{{ i }}</option>
 				</b-select>
 			</b-field>
 		</b-field>
 
 		<br/>
 		<button class="button is-success" :disabled="isDisabled" @click="submit()">Set Limit</button>
-	</div>
+	</section>
 </template>
 
 <script>
@@ -54,6 +51,8 @@ export default {
 		}
 	},
 	beforeCreate() {
+		this.$store.commit('setPageTitle', 'Set New Limit')
+		
 		axios.get(`http://${config.serverURL}/roles/`)
 		.then((res) => {
 			this.roleList = res.data[0]

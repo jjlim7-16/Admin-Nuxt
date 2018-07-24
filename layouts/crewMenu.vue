@@ -15,6 +15,7 @@
   </div>
 </template>
 
+<<<<<<< HEAD
 <script>
 export default {
   methods: {
@@ -25,6 +26,8 @@ export default {
 }
 </script>
 
+=======
+>>>>>>> origin/BNBranch
 
 <style>
 

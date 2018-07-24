@@ -6,7 +6,6 @@
         <b-icon icon="plus-circle"></b-icon>
         <span>Add User</span>
       </router-link>
-
     </b-field>
 
     <b-table
@@ -53,32 +52,33 @@
 <script>
 import config from '~/config.js'
 
-  export default{
-    layout: 'default',
-    data() {
-      const tableDataSimple = [
-        { 'username': 'op-kenneth', 'station_name': 'ALL', 'role': 'Admin', 'password': '*****','last_logged_in':'05/19/2018  12:00' },
-        { 'username': 'op-kenneth', 'station_name': 'ALL', 'role': 'Admin', 'password': '*****','last_logged_in':'05/19/2018  12:00' },
-      ]
-      return {
-        tableDataSimple,
-      }
-    },
-
-    methods:{
-      confirmCustomDelete() {
-        this.$dialog.confirm({
-          title: 'Deleting account',
-          message: 'Are you sure you want to <b>delete</b> your account? This action cannot be undone.',
-          confirmText: 'Delete Account',
-          type: 'is-danger',
-          hasIcon: true,
-          onConfirm: () => this.$toast.open('Account deleted!')
-        })
-      }
-
-    }
-  }
+	export default{
+		layout: 'default',
+		data() {
+			const tableDataSimple = [
+				{ 'username': 'op-kenneth', 'station_name': 'ALL', 'role': 'Admin', 'password': '*****','last_logged_in':'05/19/2018  12:00' },
+				{ 'username': 'op-kenneth', 'station_name': 'ALL', 'role': 'Admin', 'password': '*****','last_logged_in':'05/19/2018  12:00' },
+			]
+			return {
+				tableDataSimple,
+			}
+		},
+		beforeCreate() {
+			this.$store.commit('setPageTitle', 'Manage Users')
+		},
+		methods:{
+			confirmCustomDelete() {
+				this.$dialog.confirm({
+					title: 'Deleting account',
+					message: 'Are you sure you want to <b>delete</b> your account? This action cannot be undone.',
+					confirmText: 'Delete Account',
+					type: 'is-danger',
+					hasIcon: true,
+					onConfirm: () => this.$toast.open('Account deleted!')
+				})
+			}
+		}
+	}
 </script>
 
 <style scoped>

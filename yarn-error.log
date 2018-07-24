@@ -2,19 +2,25 @@ Arguments:
   C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
 
 PATH: 
-  C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files\dotnet\;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\MySQL\MySQL Fabric 1.5 & MySQL Utilities 1.5\;C:\Program Files (x86)\MySQL\MySQL Fabric 1.5 & MySQL Utilities 1.5\Doctrine extensions for PHP\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Java\jdk1.8.0_45\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\nodejs\;C:\WINDOWS\System32\OpenSSH\;C:\Users\Jiayu\AppData\Local\Microsoft\WindowsApps;C:\Users\Jiayu\AppData\Local\GitHubDesktop\bin;C:\Users\Jiayu\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Users\Jiayu\AppData\Local\Yarn\bin;C:\Program Files\nodejs;C:\Users\Jiayu\AppData\Roaming\npm;
+  C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\libnvvp;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\Scripts\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\;C:\Program Files\Microsoft MPI\Bin\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\WINDOWS\System32\Wbem;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\dotnet\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\MySQL\MySQL Fabric 1.5 & MySQL Utilities 1.5\;C:\Program Files (x86)\MySQL\MySQL Fabric 1.5 & MySQL Utilities 1.5\Doctrine extensions for PHP\;C:\Program Files\Git\cmd;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\extras\CUPTI\libx64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin;C:\cuda\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\nodejs;C:\Users\LIM_JING_JIE\Anaconda3\Library\bin\graphviz;C:\Program Files\nodejs\;C:\Program Files\MySQL\MySQL Server 5.7\bin;;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Yarn\bin\;C:\Intel\computer_vision_sdk_2018.1.265\opencv\x64\vc14\bin;C:\Intel\computer_vision_sdk_2018.1.265\openvx\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\LIM JING JIE\AppData\Local\GitHubDesktop\bin;C:\Users\LIM_JING_JIE\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\LIM_JING_JIE\AppData\Local\GitHubDesktop\bin;C:\Users\LIM_JING_JIE\AppData\Roaming\npm;C:\Program Files\MongoDB\Server\3.6\bin;C:\Users\LIM_JING_JIE\Anaconda3\Scripts;C:\Program Files\Docker Toolbox;C:\Users\LIM_JING_JIE\AppData\Local\Programs\MiKTeX 2.9\miktex\bin\x64\;C:\Users\LIM_JING_JIE\AppData\Local\Microsoft\WindowsApps;C:\Users\LIM_JING_JIE\AppData\Local\Yarn\bin;C:\Users\LIM_JING_JIE\Anaconda3;C:\IntelPython3;C:\IntelPython3\Scripts
 
 Yarn version: 
-  1.6.0
+  1.7.0
 
 Node version: 
-  8.11.1
+  8.9.4
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: ENOENT: no such file or directory, lstat 'C:\Users\Jiayu\AppData\Local\Yarn\Cache\v1\npm-material-design-icons-3.0.1-9a71c48747218ebca51e51a66da682038cdcb7bf\action\drawable-mdpi\ic_3d_rotation_black_18dp.png'
+  SyntaxError: C:\Users\LIM_JING_JIE\Dropbox\FYP\Admin-Nuxt\package.json: Unexpected token < in JSON at position 1351
+      at JSON.parse (<anonymous>)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:1130:59
+      at Generator.next (<anonymous>)
+      at step (C:\Program Files (x86)\Yarn\lib\cli.js:98:30)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:109:13
+      at <anonymous>
 
 npm manifest: 
   {
@@ -39,26 +45,37 @@ npm manifest:
       "body-parser": "^1.18.3",
       "buefy": "^0.6.6",
       "chart.js": "^2.7.2",
+      "chartjs-plugin-streaming": "^1.5.0",
       "cookie": "^0.3.1",
       "cookie-parser": "^1.4.3",
       "cookieparser": "^0.1.0",
       "express": "^4.16.3",
       "express-jwt": "^5.3.1",
       "file-saver": "^1.3.8",
+      "fs": "0.0.1-security",
       "http-proxy-middleware": "^0.18.0",
       "js-cookie": "^2.2.0",
       "jsonwebtoken": "^8.3.0",
       "moment": "^2.22.2",
+      "multer": "^1.3.1",
       "mysql": "^2.15.0",
       "node-sass": "^4.9.0",
       "nuxt": "^1.0.0",
       "nuxt-buefy": "^0.0.4",
       "nuxt-material-design-icons": "^1.0.4",
       "sass-loader": "^7.0.1",
+      "socket.io": "^2.1.1",
+      "uws": "^10.148.1",
       "vee-validate": "^2.1.0-beta.1",
       "vue-chartjs": "^3.3.2",
+      "vue-charts": "^0.2.1",
       "vue-formly": "^2.5.8",
       "vue-formly-buefy": "^1.0.2",
+  <<<<<<< HEAD
+      "vue-socket.io": "^2.1.1-b",
+  =======
+      "vue-table-component": "^2.0.0-alpha.1",
+  >>>>>>> origin/BNBranch
       "vuetify": "^1.0.19"
     },
     "devDependencies": {
@@ -234,6 +251,10 @@ Lockfile:
     version "5.5.3"
     resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.5.3.tgz#f473dd47e0277a08e28e9bec5aeeb04751f0b8c9"
   
+  after@0.8.2:
+    version "0.8.2"
+    resolved "https://registry.yarnpkg.com/after/-/after-0.8.2.tgz#fedb394f9f0e02aa9768e702bda23b505fae7e1f"
+  
   ajv-keywords@^2.1.0:
     version "2.1.1"
     resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-2.1.1.tgz#617997fc5f60576894c435f940d819e135b80762"
@@ -320,6 +341,10 @@ Lockfile:
       micromatch "^3.1.4"
       normalize-path "^2.1.1"
   
+  append-field@^0.1.0:
+    version "0.1.0"
+    resolved "https://registry.yarnpkg.com/append-field/-/append-field-0.1.0.tgz#6ddc58fa083c7bc545d3c5995b2830cc2366d44a"
+  
   aproba@^1.0.3, aproba@^1.1.1:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
@@ -382,6 +407,10 @@ Lockfile:
   array-unique@^0.3.2:
     version "0.3.2"
     resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
+  
+  arraybuffer.slice@~0.0.7:
+    version "0.0.7"
+    resolved "https://registry.yarnpkg.com/arraybuffer.slice/-/arraybuffer.slice-0.0.7.tgz#3bbc4275dd584cc1b10809b89d4e8b63a69e7675"
   
   arrify@^1.0.0:
     version "1.0.1"
@@ -1051,6 +1080,10 @@ Lockfile:
     version "6.18.0"
     resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
   
+  backo2@1.0.2:
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
+  
   balanced-match@0.1.0:
     version "0.1.0"
     resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.1.0.tgz#b504bd05869b39259dd0c5efc35d843176dccc4a"
@@ -1063,9 +1096,17 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   
+  base64-arraybuffer@0.1.5:
+    version "0.1.5"
+    resolved "https://registry.yarnpkg.com/base64-arraybuffer/-/base64-arraybuffer-0.1.5.tgz#73926771923b5a19747ad666aa5cd4bf9c6e9ce8"
+  
   base64-js@^1.0.2:
     version "1.3.0"
     resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.0.tgz#cab1e6118f051095e58b5281aea8c1cd22bfc0e3"
+  
+  base64id@1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/base64id/-/base64id-1.0.0.tgz#47688cb99bb6804f0e06d3e763b1c32e57d8e6b6"
   
   base@^0.11.1:
     version "0.11.2"
@@ -1092,6 +1133,12 @@ Lockfile:
       nan "2.10.0"
       node-pre-gyp "0.9.1"
   
+  better-assert@~1.0.0:
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/better-assert/-/better-assert-1.0.2.tgz#40866b9e1b9e0b55b481894311e68faffaebc522"
+    dependencies:
+      callsite "1.0.0"
+  
   bfj-node4@^5.2.0:
     version "5.3.1"
     resolved "https://registry.yarnpkg.com/bfj-node4/-/bfj-node4-5.3.1.tgz#e23d8b27057f1d0214fc561142ad9db998f26830"
@@ -1111,6 +1158,10 @@ Lockfile:
   binary-extensions@^1.0.0:
     version "1.11.0"
     resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.11.0.tgz#46aa1751fb6a2f93ee5e689bb1087d4b14c6c205"
+  
+  blob@0.0.4:
+    version "0.0.4"
+    resolved "https://registry.yarnpkg.com/blob/-/blob-0.0.4.tgz#bcf13052ca54463f30f9fc7e95b9a47630a94921"
   
   block-stream@*:
     version "0.0.9"
@@ -1324,6 +1375,13 @@ Lockfile:
     version "0.7.1"
     resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.1.tgz#73c2e3b2930c90cc272029cbd19918b493fca486"
   
+  busboy@^0.2.11:
+    version "0.2.14"
+    resolved "https://registry.yarnpkg.com/busboy/-/busboy-0.2.14.tgz#6c2a622efcf47c57bbbe1e2a9c37ad36c7925453"
+    dependencies:
+      dicer "0.2.5"
+      readable-stream "1.1.x"
+  
   bytes@3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.0.0.tgz#d32815404d689699f85a4ea4fa8755dd13a96048"
@@ -1365,6 +1423,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/caller-path/-/caller-path-0.1.0.tgz#94085ef63581ecd3daa92444a8fe94e82577751f"
     dependencies:
       callsites "^0.2.0"
+  
+  callsite@1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/callsite/-/callsite-1.0.0.tgz#280398e5d664bd74038b6f0905153e6e8af1bc20"
   
   callsites@^0.2.0:
     version "0.2.0"
@@ -1463,7 +1525,7 @@ Lockfile:
     version "0.4.2"
     resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
   
-  chart.js@^2.7.2:
+  chart.js@^2.7.0, chart.js@^2.7.2:
     version "2.7.2"
     resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.2.tgz#3c9fde4dc5b95608211bdefeda7e5d33dffa5714"
     dependencies:
@@ -1482,6 +1544,13 @@ Lockfile:
     dependencies:
       chartjs-color-string "^0.5.0"
       color-convert "^0.5.3"
+  
+  chartjs-plugin-streaming@^1.5.0:
+    version "1.5.0"
+    resolved "https://registry.yarnpkg.com/chartjs-plugin-streaming/-/chartjs-plugin-streaming-1.5.0.tgz#5906fd4cf4c6e8aae513205a4a370fa9c864992d"
+    dependencies:
+      chart.js "^2.7.0"
+      moment "^2.10.2"
   
   check-types@^7.3.0:
     version "7.3.0"
@@ -1692,9 +1761,17 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   
-  component-emitter@^1.2.1:
+  component-bind@1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/component-bind/-/component-bind-1.0.0.tgz#00c608ab7dcd93897c0009651b1d3a8e1e73bbd1"
+  
+  component-emitter@1.2.1, component-emitter@^1.2.1:
     version "1.2.1"
     resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
+  
+  component-inherit@0.0.3:
+    version "0.0.3"
+    resolved "https://registry.yarnpkg.com/component-inherit/-/component-inherit-0.0.3.tgz#645fc4adf58b72b649d5cae65135619db26ff143"
   
   compressible@~2.0.13:
     version "2.0.13"
@@ -1718,7 +1795,7 @@ Lockfile:
     version "0.0.1"
     resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   
-  concat-stream@^1.5.0, concat-stream@^1.6.0:
+  concat-stream@^1.5.0, concat-stream@^1.5.2, concat-stream@^1.6.0:
     version "1.6.2"
     resolved "https://registry.yarnpkg.com/concat-stream/-/concat-stream-1.6.2.tgz#904bdf194cd3122fc675c77fc4ac3d4ff0fd1a34"
     dependencies:
@@ -2068,7 +2145,7 @@ Lockfile:
     dependencies:
       ms "2.0.0"
   
-  debug@^3.1.0:
+  debug@^3.1.0, debug@~3.1.0:
     version "3.1.0"
     resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
     dependencies:
@@ -2172,6 +2249,13 @@ Lockfile:
   detect-libc@^1.0.2:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
+  
+  dicer@0.2.5:
+    version "0.2.5"
+    resolved "https://registry.yarnpkg.com/dicer/-/dicer-0.2.5.tgz#5996c086bb33218c812c090bddc09cd12facb70f"
+    dependencies:
+      readable-stream "1.1.x"
+      streamsearch "0.1.2"
   
   diffie-hellman@^5.0.0:
     version "5.0.3"
@@ -2310,6 +2394,43 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.1.tgz#ed29634d19baba463b6ce6b80a37213eab71ec43"
     dependencies:
       once "^1.4.0"
+  
+  engine.io-client@~3.2.0:
+    version "3.2.1"
+    resolved "https://registry.yarnpkg.com/engine.io-client/-/engine.io-client-3.2.1.tgz#6f54c0475de487158a1a7c77d10178708b6add36"
+    dependencies:
+      component-emitter "1.2.1"
+      component-inherit "0.0.3"
+      debug "~3.1.0"
+      engine.io-parser "~2.1.1"
+      has-cors "1.1.0"
+      indexof "0.0.1"
+      parseqs "0.0.5"
+      parseuri "0.0.5"
+      ws "~3.3.1"
+      xmlhttprequest-ssl "~1.5.4"
+      yeast "0.1.2"
+  
+  engine.io-parser@~2.1.0, engine.io-parser@~2.1.1:
+    version "2.1.2"
+    resolved "https://registry.yarnpkg.com/engine.io-parser/-/engine.io-parser-2.1.2.tgz#4c0f4cff79aaeecbbdcfdea66a823c6085409196"
+    dependencies:
+      after "0.8.2"
+      arraybuffer.slice "~0.0.7"
+      base64-arraybuffer "0.1.5"
+      blob "0.0.4"
+      has-binary2 "~1.0.2"
+  
+  engine.io@~3.2.0:
+    version "3.2.0"
+    resolved "https://registry.yarnpkg.com/engine.io/-/engine.io-3.2.0.tgz#54332506f42f2edc71690d2f2a42349359f3bf7d"
+    dependencies:
+      accepts "~1.3.4"
+      base64id "1.0.0"
+      cookie "0.3.1"
+      debug "~3.1.0"
+      engine.io-parser "~2.1.0"
+      ws "~3.3.1"
   
   enhanced-resolve@^3.4.0, enhanced-resolve@^3.4.1:
     version "3.4.1"
@@ -2960,6 +3081,10 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   
+  fs@0.0.1-security:
+    version "0.0.1-security"
+    resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+  
   fsevents@^1.1.2:
     version "1.1.3"
     resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.1.3.tgz#11f82318f5fe7bb2cd22965a108e9306208216d8"
@@ -3145,6 +3270,16 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/has-ansi/-/has-ansi-2.0.0.tgz#34f5049ce1ecdf2b0649af3ef24e45ed35416d91"
     dependencies:
       ansi-regex "^2.0.0"
+  
+  has-binary2@~1.0.2:
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/has-binary2/-/has-binary2-1.0.3.tgz#7776ac627f3ea77250cfc332dab7ddf5e4f5d11d"
+    dependencies:
+      isarray "2.0.1"
+  
+  has-cors@1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/has-cors/-/has-cors-1.1.0.tgz#5e474793f7ea9843d1bb99c23eef49ff126fff39"
   
   has-flag@^1.0.0:
     version "1.0.0"
@@ -3734,6 +3869,10 @@ Lockfile:
   isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
+  
+  isarray@2.0.1:
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/isarray/-/isarray-2.0.1.tgz#a37d94ed9cda2d59865c9f76fe596ee1f338741e"
   
   isexe@^2.0.0:
     version "2.0.0"
@@ -4335,6 +4474,19 @@ Lockfile:
     version "2.1.1"
     resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   
+  multer@^1.3.1:
+    version "1.3.1"
+    resolved "https://registry.yarnpkg.com/multer/-/multer-1.3.1.tgz#c3fb3b35f50c7eefe873532f90d3dde02ce6e040"
+    dependencies:
+      append-field "^0.1.0"
+      busboy "^0.2.11"
+      concat-stream "^1.5.2"
+      mkdirp "^0.5.1"
+      object-assign "^3.0.0"
+      on-finished "^2.3.0"
+      type-is "^1.6.4"
+      xtend "^4.0.0"
+  
   mustache@^2.3.0:
     version "2.3.0"
     resolved "https://registry.yarnpkg.com/mustache/-/mustache-2.3.0.tgz#4028f7778b17708a489930a6e52ac3bca0da41d0"
@@ -4675,9 +4827,17 @@ Lockfile:
     version "0.8.2"
     resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
   
+  object-assign@^3.0.0:
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-3.0.0.tgz#9bedd5ca0897949bca47e7ff408062d549f587f2"
+  
   object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
+  
+  object-component@0.0.3:
+    version "0.0.3"
+    resolved "https://registry.yarnpkg.com/object-component/-/object-component-0.0.3.tgz#f0c69aa50efc95b866c186f400a33769cb2f1291"
   
   object-copy@^0.1.0:
     version "0.1.0"
@@ -4716,7 +4876,7 @@ Lockfile:
     dependencies:
       isobject "^3.0.1"
   
-  on-finished@~2.3.0:
+  on-finished@^2.3.0, on-finished@~2.3.0:
     version "2.3.0"
     resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
     dependencies:
@@ -4861,6 +5021,18 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/parse-json/-/parse-json-2.2.0.tgz#f480f40434ef80741f8469099f8dea18f55a4dc9"
     dependencies:
       error-ex "^1.2.0"
+  
+  parseqs@0.0.5:
+    version "0.0.5"
+    resolved "https://registry.yarnpkg.com/parseqs/-/parseqs-0.0.5.tgz#d5208a3738e46766e291ba2ea173684921a8b89d"
+    dependencies:
+      better-assert "~1.0.0"
+  
+  parseuri@0.0.5:
+    version "0.0.5"
+    resolved "https://registry.yarnpkg.com/parseuri/-/parseuri-0.0.5.tgz#80204a50d4dbb779bfdc6ebe2778d90e4bce320a"
+    dependencies:
+      better-assert "~1.0.0"
   
   parseurl@~1.3.2:
     version "1.3.2"
@@ -5759,6 +5931,15 @@ Lockfile:
       isarray "0.0.1"
       string_decoder "~0.10.x"
   
+  readable-stream@1.1.x:
+    version "1.1.14"
+    resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
+    dependencies:
+      core-util-is "~1.0.0"
+      inherits "~2.0.1"
+      isarray "0.0.1"
+      string_decoder "~0.10.x"
+  
   readable-stream@2.3.3:
     version "2.3.3"
     resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.3.tgz#368f2512d79f9d46fdfc71349ae7878bbc1eb95c"
@@ -6312,6 +6493,48 @@ Lockfile:
     dependencies:
       hoek "4.x.x"
   
+  socket.io-adapter@~1.1.0:
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-1.1.1.tgz#2a805e8a14d6372124dd9159ad4502f8cb07f06b"
+  
+  socket.io-client@2.1.1, socket.io-client@^2.0.0:
+    version "2.1.1"
+    resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-2.1.1.tgz#dcb38103436ab4578ddb026638ae2f21b623671f"
+    dependencies:
+      backo2 "1.0.2"
+      base64-arraybuffer "0.1.5"
+      component-bind "1.0.0"
+      component-emitter "1.2.1"
+      debug "~3.1.0"
+      engine.io-client "~3.2.0"
+      has-binary2 "~1.0.2"
+      has-cors "1.1.0"
+      indexof "0.0.1"
+      object-component "0.0.3"
+      parseqs "0.0.5"
+      parseuri "0.0.5"
+      socket.io-parser "~3.2.0"
+      to-array "0.1.4"
+  
+  socket.io-parser@~3.2.0:
+    version "3.2.0"
+    resolved "https://registry.yarnpkg.com/socket.io-parser/-/socket.io-parser-3.2.0.tgz#e7c6228b6aa1f814e6148aea325b51aa9499e077"
+    dependencies:
+      component-emitter "1.2.1"
+      debug "~3.1.0"
+      isarray "2.0.1"
+  
+  socket.io@^2.1.1:
+    version "2.1.1"
+    resolved "https://registry.yarnpkg.com/socket.io/-/socket.io-2.1.1.tgz#a069c5feabee3e6b214a75b40ce0652e1cfb9980"
+    dependencies:
+      debug "~3.1.0"
+      engine.io "~3.2.0"
+      has-binary2 "~1.0.2"
+      socket.io-adapter "~1.1.0"
+      socket.io-client "2.1.1"
+      socket.io-parser "~3.2.0"
+  
   sort-keys@^1.0.0:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-1.1.2.tgz#441b6d4d346798f1b4e49e8920adfba0e543f9ad"
@@ -6486,6 +6709,10 @@ Lockfile:
   stream-shift@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/stream-shift/-/stream-shift-1.0.0.tgz#d5c752825e5367e786f78e18e445ea223a155952"
+  
+  streamsearch@0.1.2:
+    version "0.1.2"
+    resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-0.1.2.tgz#808b9d0e56fc273d809ba57338e929919a1a9f1a"
   
   strict-uri-encode@^1.0.0:
     version "1.1.0"
@@ -6682,6 +6909,10 @@ Lockfile:
     dependencies:
       os-tmpdir "~1.0.2"
   
+  to-array@0.1.4:
+    version "0.1.4"
+    resolved "https://registry.yarnpkg.com/to-array/-/to-array-0.1.4.tgz#17e6c11f73dd4f3d74cda7a4ff3238e9ad9bf890"
+  
   to-arraybuffer@^1.0.0:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/to-arraybuffer/-/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
@@ -6768,7 +6999,7 @@ Lockfile:
     dependencies:
       prelude-ls "~1.1.2"
   
-  type-is@~1.6.15, type-is@~1.6.16:
+  type-is@^1.6.4, type-is@~1.6.15, type-is@~1.6.16:
     version "1.6.16"
     resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.16.tgz#f89ce341541c672b25ee7ae3c73dee3b2be50194"
     dependencies:
@@ -6830,6 +7061,10 @@ Lockfile:
   uid-number@^0.0.6:
     version "0.0.6"
     resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
+  
+  ultron@~1.1.0:
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c"
   
   union-value@^1.0.0:
     version "1.0.0"
@@ -6957,6 +7192,10 @@ Lockfile:
     version "3.2.1"
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
   
+  uws@^10.148.1:
+    version "10.148.1"
+    resolved "https://registry.yarnpkg.com/uws/-/uws-10.148.1.tgz#fd1a79cf6118a388e0a1bed8a1397030d2c4fd2c"
+  
   validate-npm-package-license@^3.0.1:
     version "3.0.3"
     resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.3.tgz#81643bcbef1bdfecd4623793dc4648948ba98338"
@@ -6997,6 +7236,13 @@ Lockfile:
   vue-chartjs@^3.3.2:
     version "3.3.2"
     resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-3.3.2.tgz#1bdbf859d0f5df6cac75d8510e51aee5865638ab"
+  
+  vue-charts@^0.2.1:
+    version "0.2.1"
+    resolved "https://registry.yarnpkg.com/vue-charts/-/vue-charts-0.2.1.tgz#4748e1f485b5d4671e314a24c0099db86633bd31"
+    dependencies:
+      lodash "^4.3.0"
+      vue "^2.0.3"
   
   vue-eslint-parser@^2.0.3:
     version "2.0.3"
@@ -7067,12 +7313,22 @@ Lockfile:
       serialize-javascript "^1.3.0"
       source-map "0.5.6"
   
+  vue-socket.io@^2.1.1-b:
+    version "2.1.1-b"
+    resolved "https://registry.yarnpkg.com/vue-socket.io/-/vue-socket.io-2.1.1-b.tgz#bcffcdeb1647a979e6533d63d1f29c0f55411c8c"
+    dependencies:
+      socket.io-client "^2.0.0"
+  
   vue-style-loader@^3.0.0:
     version "3.1.2"
     resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-3.1.2.tgz#6b66ad34998fc9520c2f1e4d5fa4091641c1597a"
     dependencies:
       hash-sum "^1.0.2"
       loader-utils "^1.0.2"
+  
+  vue-table-component@^2.0.0-alpha.1:
+    version "2.0.0-alpha.1"
+    resolved "https://registry.yarnpkg.com/vue-table-component/-/vue-table-component-2.0.0-alpha.1.tgz#620a13eacf1f84f59b5062bdb99c4e73a0170884"
   
   vue-template-compiler@^2.5.13:
     version "2.5.16"
@@ -7085,7 +7341,7 @@ Lockfile:
     version "1.6.0"
     resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
   
-  vue@^2.2.6, vue@^2.5.13:
+  vue@^2.0.3, vue@^2.2.6, vue@^2.5.13:
     version "2.5.16"
     resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
   
@@ -7256,6 +7512,18 @@ Lockfile:
       async-limiter "~1.0.0"
       safe-buffer "~5.1.0"
   
+  ws@~3.3.1:
+    version "3.3.3"
+    resolved "https://registry.yarnpkg.com/ws/-/ws-3.3.3.tgz#f1cf84fe2d5e901ebce94efaece785f187a228f2"
+    dependencies:
+      async-limiter "~1.0.0"
+      safe-buffer "~5.1.0"
+      ultron "~1.1.0"
+  
+  xmlhttprequest-ssl@~1.5.4:
+    version "1.5.5"
+    resolved "https://registry.yarnpkg.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.5.5.tgz#c2876b06168aadc40e57d97e81191ac8f4398b3e"
+  
   xtend@^4.0.0, xtend@~4.0.1:
     version "4.0.1"
     resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
@@ -7338,3 +7606,7 @@ Lockfile:
       cliui "^2.1.0"
       decamelize "^1.0.0"
       window-size "0.1.0"
+  
+  yeast@0.1.2:
+    version "0.1.2"
+    resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"

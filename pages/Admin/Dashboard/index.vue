@@ -1,15 +1,15 @@
 <template>
-  <section id="dashboard" class="section">
+  <section id="content">
     <div>
       <div class="level">
         <div class="level-item has-text-centered">
-          <div class="box" style="width: 400px; margin-right: 35px;">
+          <div class="box" style="width: 80%;">
             <p class="heading">No. Of Bookings Today</p>
             <p class="title">{{ noOfBookings }}</p>
           </div>
         </div>
         <div class="level-item has-text-centered">
-          <div class="box" style="width: 400px;">
+          <div class="box" style="width: 80%;">
             <p class="heading">Avg. Bookings Per Visitor</p>
             <p class="title">{{ avgBookings }}</p>
           </div>
@@ -24,17 +24,17 @@
               </option>
             </b-select>
           </b-field>
-          <my-line class="box" :width="800" :data='filterTimeData'></my-line>
+          <my-line :width="850" :data='filterTimeData'></my-line>
         </div>
 
         <!-- <realtime :data="byTimeData"></realtime> -->
       </div>
       <div class="level">
         <div class="level-left">
-          <bar class="box level-item" style="width: 400px;" :data='bardata'></bar>
+          <bar class="box level-item" :data='bardata'></bar>
         </div>
         <div class="level-right">
-          <doughnut class="box level-item" style="width: 400px;" :data='byStationData'></doughnut>
+          <doughnut class="box level-item" :data='byStationData'></doughnut>
         </div>
       </div>
     </div>
@@ -71,12 +71,13 @@ export default {
     }
   },
   async beforeCreate() {
+    this.$store.commit('setPageTitle', 'Dashboard')
     await axios.get(`http://${config.serverURL}/roles/`)
 		.then((res) => {
       this.stationList = res.data[1]
       this.stationId = this.stationList[0].station_id
       // console.log(this.stationList.find(i => i.station_id === this.stationId).station_name)
-		})
+    })
   },
   beforeMount() {
     let socket = io.socketio.connect(`http://${config.serverURL}/dashboard`)
@@ -122,7 +123,7 @@ export default {
 </script>
 
 <style scoped>
-#dashboard {
+/* #content {
   margin: 100px 35px 30px;
-}
+} */
 </style>

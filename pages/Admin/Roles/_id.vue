@@ -1,5 +1,5 @@
 <template>
-	<section id="content" class="box" style="margin-left: 5px;">
+	<section id="content" class="box">
 		<b-field grouped group-multiline>
 			<b-field label="Filter By Stations:" style="margin-top: 5px;"></b-field>&nbsp;
 			<b-select v-model="filter">
@@ -27,8 +27,8 @@
 					{{ props.row.role_name }}
 				</b-table-column>
 
-				<b-table-column field="durationInMins" label="Duration (mins)" sortable centered>
-					{{ props.row.durationInMins }}
+				<b-table-column field="durationInMins" label="Duration" sortable centered>
+					{{ props.row.durationInMins + ' mins' }}
 				</b-table-column>
 
 				<b-table-column field="capacity" label="Capacity" sortable centered>
@@ -64,6 +64,8 @@ export default {
 		}
 	},
 	beforeCreate() {
+		this.$store.commit('setPageTitle', 'Manage Roles')
+		
 		axios.get(`http://${config.serverURL}/roles/`)
 		.then((res) => {
 			this.data = res.data[0]

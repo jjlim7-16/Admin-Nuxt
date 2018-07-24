@@ -1,5 +1,5 @@
 <template>
-	<div id="form" class="box">
+	<section id="content" class="box">
 		<div class="is-pulled-left">
 			<b-field label='Station Name*' style="width: 410px">
 				<b-input placeholder='Enter Station Name' v-model="name" required></b-input>
@@ -59,7 +59,7 @@
 				</b-upload>
 			</b-field>
 		</div>
-	</div>
+	</section>
 </template>
 
 <script>
@@ -89,6 +89,8 @@ export default {
 		}
 	},
 	beforeCreate() {
+		this.$store.commit('setPageTitle', 'Update Station')
+		
 		axios.get(`http://${config.serverURL}/stations/` + this.$route.params['id'])
     .then((res) => {
 			let data = res.data[0]
@@ -196,11 +198,7 @@ export default {
 }
 </script>
 
-<style>
-#form {
-  float: left;
-	margin: 25px 60px 25px 70px;
-}
+<style scoped>
 #img {
 	margin-left: 35px;
 }

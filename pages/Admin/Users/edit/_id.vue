@@ -1,8 +1,8 @@
 <template>
-  <section id="content" class="box column is-four-fifths">
+  <section id="content" style="width: 50%;" class="box">
     <b>Username*</b>
     <b-field>
-      <b-input  maxlength="30" rounded></b-input>
+      <b-input rounded></b-input>
     </b-field>
 
     <b>Station Name</b>
@@ -46,18 +46,15 @@
 </template>
 
 <script>
-  export default {
-    name: "edit.vue",
-    data(){
-      return{
-        radio:"Admin"
-      }
+export default {
+  name: "edit.vue",
+  data() {
+    return {
+      radio: "Admin"
     }
+  },
+  beforeCreate() {
+    this.$store.commit('setPageTitle', 'Edit User Account')
   }
+}
 </script>
-
-<style scoped>
-  #content {
-    margin: 15px;
-  }
-</style>
