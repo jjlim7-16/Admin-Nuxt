@@ -46,7 +46,11 @@
     "vue-charts": "^0.2.1",
     "vue-formly": "^2.5.8",
     "vue-formly-buefy": "^1.0.2",
+<<<<<<< HEAD
     "vue-socket.io": "^2.1.1-b",
+=======
+    "vue-table-component": "^2.0.0-alpha.1",
+>>>>>>> origin/BNBranch
     "vuetify": "^1.0.19"
   },
   "devDependencies": {
