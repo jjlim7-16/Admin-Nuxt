@@ -123,7 +123,7 @@ export default {
 </script>
 
 <style scoped>
-#content {
+/* #content {
   margin: 100px 35px 30px;
-}
+} */
 </style>

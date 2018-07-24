@@ -57,7 +57,7 @@
 				<article class="media">
 					<figure class="media-left">
 						<p class="image is-64x64" style="margin-top: 10px;">
-							<img :src="`http://${config.serverURL}/stations/getImage/ + ${props.row.station_id}`">
+							<img :src="`http://${serverURL}/stations/getImage/${props.row.station_id}`">
 						</p>
 					</figure>
 					<div class="media-content">
@@ -88,7 +88,8 @@ export default {
 			paginated: true,
 			perPage: 5,
 			data: [],
-			filter: ''
+			filter: '',
+			serverURL: config.serverURL
 		}
 	},
 	beforeCreate() {

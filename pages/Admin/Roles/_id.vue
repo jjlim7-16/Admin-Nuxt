@@ -1,5 +1,5 @@
 <template>
-	<section id="content" class="box" style="margin-left: 5px;">
+	<section id="content" class="box">
 		<b-field grouped group-multiline>
 			<b-field label="Filter By Stations:" style="margin-top: 5px;"></b-field>&nbsp;
 			<b-select v-model="filter">
