@@ -97,7 +97,8 @@ export default {
   width: 100%;
   height: 100%;
   /* margin: 120px 60px 25px 100px; */
-  margin: 20px 50px;
+  /* margin: 20px 50px; */
+  margin: 15vh 5vw
 }
 
 .menu-label {

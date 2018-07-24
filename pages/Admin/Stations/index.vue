@@ -1,6 +1,6 @@
 <template>
-<section id="content" style="margin-left: 5px;">
-	<router-link to="/Admin/Stations/add" tag="button" class="button is-primary">
+<section id="content">
+	<router-link to="/Admin/Stations/add" tag="button" class="button is-primary" style="margin-bottom: 3vh;">
 		<b-icon icon="plus-circle"></b-icon>
 		<span>Add Station</span>
 	</router-link>
@@ -34,9 +34,7 @@
 					</button>
 
 					<b-dropdown-item style="text-align: left" has-link>
-						<router-link :to="{ path: `/Admin/Stations/Update/${props.row.station_id}`}">
-							Edit
-						</router-link>
+						<router-link :to="{ path: `/Admin/Stations/Update/${props.row.station_id}`}">Edit</router-link>
 					</b-dropdown-item>
 					<b-dropdown-item style="text-align: left" has-link>
 						<router-link :to="{ path: `/Admin/Roles/${props.row.station_id}`}">Manage Role(s)</router-link>
@@ -64,8 +62,7 @@
 						<div class="content">
 							<p>
 								<strong>{{ props.row.station_name }}</strong>
-								<br>
-								{{ props.row.description }}
+								<br>{{ props.row.description }}
 							</p>
 						</div>
 					</div>

@@ -1,9 +1,29 @@
 <template>
 	<div id="content" class="box">
+		<div class="is-pulled-right">
+			<b-field label="Image">
+				<b-upload v-model="files"
+					multiple
+					drag-drop>
+					<section class="section">
+						<div class="content has-text-centered">
+							<p>
+								<b-icon
+									icon="upload"
+									size="is-large">
+								</b-icon>
+							</p>
+							<p>Drop your files here or click to upload</p>
+						</div>
+					</section>
+				</b-upload>
+			</b-field>
+		</div>
 		<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
 			:message="errors.has('station') ? errors.first('station') : ''">
 			<b-select expanded placeholder='Select Station' v-model="stationId"
-				name="station" v-validate="'required'" data-vv-as="'Station'">
+				name="station" v-validate="'required'" data-vv-as="'Station'"
+				style="width: 30vw;">
 				<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
 					{{station.station_name}}
 				</option>
@@ -17,16 +37,15 @@
 				name="roleName"
 				v-model="roleName"
 				data-vv-as="'Role Name'"
-				v-validate="'required|alpha_spaces'">
+				v-validate="'required|alpha_spaces'"
+				style="width: 30vw;">
 			</b-input>
 		</b-field>
 
 		<b-field grouped>
 			<b-field label='Capacity'>
-				<b-select v-model='capacity' placeholder='Select Max. Capacity' required>
-					<option>4</option>
-					<option>6</option>
-					<option>8</option>
+				<b-select size="5" v-model='capacity' placeholder='Select Max. Capacity' required>
+					<option v-for="i in 12" :key="i">{{ i }}</option>
 				</b-select>
 			</b-field>
 

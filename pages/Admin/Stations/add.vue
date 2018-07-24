@@ -97,9 +97,7 @@ v-validate="'required|alpha_spaces'">
 <b-field grouped>
 <b-field label='Capacity'>
 <b-select v-model='capacity' placeholder='Select Max. Capacity' required>
-<option>4</option>
-<option>6</option>
-<option>8</option>
+	<option v-for="i in 12" :key="i">{{ i }}</option>
 </b-select>
 </b-field>
 <b-field label='Duration'>

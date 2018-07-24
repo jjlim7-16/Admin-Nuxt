@@ -22,10 +22,7 @@
 		<b-field grouped>
 			<b-field label='Set Limit'>
 				<b-select v-model='limit' placeholder='Select Limit' required>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
+					<option v-for="i in 10" :key="i">{{ i }}</option>
 				</b-select>
 			</b-field>
 		</b-field>
