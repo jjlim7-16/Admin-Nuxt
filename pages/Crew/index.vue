@@ -23,7 +23,7 @@
 
 
     <b-table
-      :data = "bookingList"
+      :data = "filteredData"
       :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success'"
   
     >
@@ -61,204 +61,231 @@
 </template>
 
 <script>
-import axios from 'axios'
-import moment from 'moment'
-  export default{
-    layout: 'crewMenu',
-    methods: {
-      setRefresh() {
-           var day = new Date;
-           var currentTime = moment(day).format('HH:mm:ss');   
-           console.log(currenttime);   
-           //console.log("currenttime",currentTime.duration.get('minutes'));
-    
-          
-          //  setTimeout(function(){ alert("You"); }, 3000);
-          //  if(currentTime.isAfter(this.sessionStartTime)){
-     
-          //    setTimeout(function(){ alert("You"); }, 3000);
-          //  }else{
-          var duration = moment.duration(currentTime.diff("19:12:10"));
-                console.log(duration);
-             var miliseconds = duration.as('milliseconds');
-              console.log(miliseconds);
-            setTimeout(function(){ alert("Hello"); }, 30000);
-       //   }
-       
-                   
-          // setTimeout(function(){
-          //  this.$router.go(this.$router.curentRoute);
-          // },60000)
-      }
-  
-    },
-    data(){
-      return {
-			  bookingList: [],
-        sessionStartTime:"",
-        sessionEndTime:"",
-        stationName:"", 
-        stationID:"",
-        numberOfBooking:0,
-        userBookingRoleName: "",
-        userBookingStationName: "",
-        userBookingIsBooked: false,
-        userBookingSessionStartTime: "",
-        userBookingSessionEndTime:"",
-        apiAddress : "http://172.22.72.176:8000/bookings"
-      }
-    },
-    created() {
-      let theData;
-      let startTime;
-      let endTime;
+import axios from "axios";
+import moment from "moment";
 
-      axios.get('http://172.22.42.223:8000/bookings/getbookinglist/1')
-		  .then((res) => {
-        if(res.status == "200") {
-          console.log(res.data)
-          console.log(res.data[0])
-			    theData = res.data;
-			    this.bookingList = theData;
-          
-         
-          this.sessionStartTime = theData[0].session_start;       
+export default {
+  layout: "crewMenu",
+  methods: {
+    setRefresh() {
+     
+      var day = new Date();
+      var currentTime = moment(day, "HH:mm:ss");
+      //this.sessionStartTime = "15:19:00";
+      var refreshTime = moment(this.sessionStartTime, "HH:mm:ss").add(
+        5,
+        "minutes"
+      );
+      console.log(currentTime);
+      //console.log(currentTime.add(11, 'minutes').format('hh:mm A'));
+      //console.log("currenttime",currentTime.duration.get('minutes'));
+
+      console.log(
+        new moment(this.sessionStartTime, "HH:mm")
+          .add(11, "minutes")
+          .format("hh:mm A")
+      );
+      //  setTimeout(function(){ alert("You"); }, 3000);
+      console.log(
+        currentTime.isAfter(
+          new moment(this.sessionStartTime, "HH:mm:ss")
+            .add(5, "minutes")
+            .format("hh:mm A")
+        )
+      );
+      if (currentTime.isAfter(refreshTime)) {
+        console.log("current time is after nearest session start + 5mins");
+        //   console.log(currentTime.diff(currentTime));
+
+        this.$router.go();
+      } else {
+        console.log("current time is before nearest session start + 5mins");
+        var duration = moment.duration(refreshTime.diff(currentTime));
+
+        var miliseconds = duration.as("milliseconds");
+        console.log(miliseconds);
+
+        setTimeout(() => {
+          this.$router.go()
+        }, miliseconds);
+      }
+    }
+  },
+  data() {
+    return {
+      bookingList: [],
+      sessionStartTime: "",
+      sessionEndTime: "",
+      stationName: "",
+      stationID: "",
+      numberOfBooking: 0,
+      filter:"",
+      userBookingRoleName: "",
+      userBookingStationName: "",
+      userBookingIsBooked: false,
+      userBookingSessionStartTime: "",
+      userBookingSessionEndTime: "",
+      apiAddress: "http://172.22.72.176:8000/bookings"
+    };
+  },
+  created() {
+    let theData;
+    let startTime;
+    let endTime;
+
+    axios
+      .get("http://172.22.43.84:8000/bookings/getbookinglist/1")
+      .then(res => {
+        if (res.status == "200") {
+          console.log(res.data);
+          console.log(res.data[0]);
+          theData = res.data;
+          this.bookingList = theData;
+
+          this.sessionStartTime = theData[0].session_start;
           this.sessionEndTime = theData[0].session_end;
           this.stationName = theData[0].station_name;
           this.numberOfBooking = theData.length;
           this.setRefresh();
-
-        }else{
+        } else {
           console.dir(res.status);
         }
-			})
-		.catch((err) => {
-			console.log('FAILA')
-      
-		});
-    },
-    mounted() {
+      })
+      .catch(err => {
+        console.log("FAILA");
+      });
+  },
+  mounted() {
     let self = this;
     var isExist = false;
     let scannedID = "";
     let scannedArray = [];
-    
+
     window.onkeypress = function(e) {
-      if (e.key == 'Enter') {
-       
-        scannedID = scannedArray.join('');
-         console.log(scannedID);
-        for(var i in this.bookingList){
+      if (e.key == "Enter") {
+        scannedID = scannedArray.join("");
+        console.log(scannedID);
+        for (var i in this.bookingList) {
           console.log("inside for loop");
-          if(this.bookingList[i].rfid=scannedID){
+          if ((this.bookingList[i].rfid = scannedID)) {
             isExist = true;
             var booking_id = his.bookingList[i].booking_id;
             this.bookingList[i].booking_status = "Admitted";
-             var day = new Date;
-            this.bookingList[i].time_in = moment(day).format('HH:mm');
-            let webFormData = new WebFormData(this.bookingList[i].booking_status, this.bookingList[i].time_in)
-			
-			let formData = new FormData()
-			//console.log(formData)
-			formData.append(webFormData.name)
-			formData.append('webFormData', JSON.stringify(webFormData))
-			console.log(webFormData)
-			axios.put('http://localhost:8000/bookings/' + booking_id,
-				formData
-			).then((res) => {
-				// console.log(res.data)
+            var day = new Date();
+            this.bookingList[i].time_in = moment(day).format("HH:mm");
+            let webFormData = new WebFormData(
+              this.bookingList[i].booking_status,
+              this.bookingList[i].time_in
+            );
 
-			})
-			.catch(() => {
-				console.log('FAILURE')
-			})
+            let formData = new FormData();
+            //console.log(formData)
+            formData.append(webFormData.name);
+            formData.append("webFormData", JSON.stringify(webFormData));
+            console.log(webFormData);
+            axios
+              .put("http://localhost:8000/bookings/" + booking_id, formData)
+              .then(res => {
+                // console.log(res.data)
+              })
+              .catch(() => {
+                console.log("FAILURE");
+              });
           }
         }
       }
-      if(isExist==false){
-            let booking;
-            axios.get(`http://localhost:8000/bookings/` + scannedID)
-              .then((res) => {
-                if(res.status == "200") {
-                   console.log(res.data)
-                  if(res!=null){
-                    booking = res.data[0];
-                    this.userBookingRoleName = booking.role_name;
-                    this.userBookingStationName = booking.station_name;
-                    this.userBookingSessionStartTime = booking.session_start;
-                    this.userBookingSsessionEndTime = booking.session_end;
-                    this.$dialog.alert({
-						        title: 'Wrong Booking',
-						        message: 'You have a booking as ' + this.userBookingRoleName + ' at ' + this.userBookingStationName +" from " + this.userBookingRSessionStartTime +" to "+ this.userBookingSessionEndTime,
-						        type: 'is-danger',
-						        hasIcon: true,
-						        icon: 'times-circle',
-						        iconPack: 'fa'
-                    });
-                  }else{
-                    this.$toast.open({
-                    duration: 5000,
-                    message: 'User does not have any bookings!',
-                    position: 'is-bottom',
-                    type: 'is-danger'
-                    })       
-                }
-              }
-                else {
- 
-                  console.dir(res.status);
- 
-					      }
-				   
-     
-              })
-              .catch((err) => {
-                console.log('FailAA');
-                booking = null;
+      if (isExist == false) {
+        let booking;
+        axios
+          .get(`http://localhost:8000/bookings/` + scannedID)
+          .then(res => {
+            if (res.status == "200") {
+              console.log(res.data);
+              if (res != null) {
+                booking = res.data[0];
+                this.userBookingRoleName = booking.role_name;
+                this.userBookingStationName = booking.station_name;
+                this.userBookingSessionStartTime = booking.session_start;
+                this.userBookingSsessionEndTime = booking.session_end;
+                this.$dialog.alert({
+                  title: "Wrong Booking",
+                  message:
+                    "You have a booking as " +
+                    this.userBookingRoleName +
+                    " at " +
+                    this.userBookingStationName +
+                    " from " +
+                    this.userBookingRSessionStartTime +
+                    " to " +
+                    this.userBookingSessionEndTime,
+                  type: "is-danger",
+                  hasIcon: true,
+                  icon: "times-circle",
+                  iconPack: "fa"
+                });
+              } else {
                 this.$toast.open({
-                duration: 5000,
-                message: 'User does not have any bookings!',
-                position: 'is-bottom',
-                type: 'is-danger'
-                }) 
-              });           
-        
+                  duration: 5000,
+                  message: "User does not have any bookings!",
+                  position: "is-bottom",
+                  type: "is-danger"
+                });
+              }
+            } else {
+              console.dir(res.status);
+            }
+          })
+          .catch(err => {
+            console.log("FailAA");
+            booking = null;
+
+          });
       } else {
         scannedArray.push(e.key);
       }
-    }
+    };
   },
 
-    
-    computed:{
-      numberOfConfirm() {
-        var count = 0;
-          for (var i in this.bookingList) {
-            if(this.bookingList[i].booking_status === "Admitted"){
-              count++;
-            }else{
-            
-            }
-          }
-          return count
+  computed: {
+    filteredData(){
+     if(this.filter !== ''){
+       let data =[]
+      for (var i in this.bookingList){
+        if(this.bookingList[i].queue_no.toLowerCase().includes(this.filter.toLowerCase())){
+          data.push(this.bookingList[i])
         }
-      } 
+      }
+      return data
+     }
+     return this.bookingList
+    },
+
+    numberOfConfirm() {
+      var count = 0;
+      for (var i in this.bookingList) {
+        if (this.bookingList[i].booking_status === "Admitted") {
+          count++;
+        } else {
+        }
+      }
+      return count;
+    }
   }
+};
 </script>
 
 <style>
-  #content {
-    margin: 25px;
-  }
+#content {
+  margin: 25px;
+}
 
-  #attendance{
-    margin-top: 20px;
-    margin-left: 720px;
-  }
+#attendance {
+  margin-top: 20px;
+  margin-left: 720px;
+}
 
-  tr.is-success {
-    background: #C0FFCF;
-    color: #000;
-  }
-
+tr.is-success {
+  background: #c0ffcf;
+  color: #000;
+}
 </style>
