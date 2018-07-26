@@ -1,45 +1,41 @@
 <template>
-  <section id="content">
-    <div>
-      <div class="level">
-        <div class="level-item has-text-centered">
-          <div class="box" style="width: 80%;">
-            <p class="heading">No. Of Bookings Today</p>
-            <p class="title">{{ noOfBookings }}</p>
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div class="box" style="width: 80%;">
-            <p class="heading">Avg. Bookings Per Visitor</p>
-            <p class="title">{{ avgBookings }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="level">
-        <div class="box">
-          <b-field>
-            <b-select v-model="stationId">
-              <option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
-                {{station.station_name}}
-              </option>
-            </b-select>
-          </b-field>
-          <my-line :width="850" :data='filterTimeData'></my-line>
-        </div>
-
-        <!-- <realtime :data="byTimeData"></realtime> -->
-      </div>
-      <div class="level">
-        <div class="level-left">
-          <bar class="box level-item" :data='bardata'></bar>
-        </div>
-        <div class="level-right">
-          <doughnut class="box level-item" :data='byStationData'></doughnut>
-        </div>
+<section id="content">
+  <div class="container columns is-multiline myContainer is-centered">
+    <div class="column is-half has-text-centered">
+      <div class="box fullWidth">
+        <p class="heading">No. Of Bookings Today</p>
+        <p class="title">{{ noOfBookings }}</p>
       </div>
     </div>
+    <div class="column is-half has-text-centered">
+      <div class="box fullWidth">
+        <p class="heading">Avg. Bookings Per Visitor</p>
+        <p class="title">{{ avgBookings }}</p>
+      </div>
+    </div>
+    <div class="column fullWidth">
+      <div class="box container fullWidth">
+        <b-field>
+          <b-select v-model="stationId">
+            <option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
+              {{station.station_name}}
+            </option>
+          </b-select>
+        </b-field>
+        <my-line :width="850" :data='filterTimeData'></my-line>
+      </div>
 
-    <!-- <div class="is-pulled-right" style="margin-left: 30px;">
+      <!-- <realtime :data="byTimeData"></realtime> -->
+    </div>
+    <div class="column is-half has-text-centered">
+      <bar class="box fullWidth" :data='bardata'></bar>
+    </div>
+    <div class="column is-half has-text-centered">
+      <doughnut class="box fullWidth" :data='byStationData'></doughnut>
+    </div>
+  </div>
+
+  <!-- <div class="is-pulled-right" style="margin-left: 30px;">
       <div class="box">
         <doughnut :data='byStationData'></doughnut>
       </div>
@@ -47,7 +43,7 @@
         <realtime :data="byTimeData"></realtime>
       </div>
     </div> -->
-  </section>
+</section>
 </template>
 
 <script>
@@ -73,11 +69,11 @@ export default {
   async beforeCreate() {
     this.$store.commit('setPageTitle', 'Dashboard')
     await axios.get(`http://${config.serverURL}/roles/`)
-		.then((res) => {
-      this.stationList = res.data[1]
-      this.stationId = this.stationList[0].station_id
-      // console.log(this.stationList.find(i => i.station_id === this.stationId).station_name)
-    })
+      .then((res) => {
+        this.stationList = res.data[1]
+        this.stationId = this.stationList[0].station_id
+        // console.log(this.stationList.find(i => i.station_id === this.stationId).station_name)
+      })
   },
   beforeMount() {
     let socket = io.socketio.connect(`http://${config.serverURL}/dashboard`)
@@ -126,4 +122,19 @@ export default {
 /* #content {
   margin: 100px 35px 30px;
 } */
+.fullWidth {
+  width: 100%;
+  max-width: 100%;
+}
+
+.column {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.myContainer {
+  margin: auto;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
-	<section id="content" class="box" style="width: 46%">
-		<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''" 
+	<section id="content" class="box">
+		<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''"
 			:message="errors.has('role') ? errors.first('role') : ''">
 			<b-select expanded placeholder='Select Role' v-model="roleId"
 				name="role" v-validate="'required'" data-vv-as="'Role'">
@@ -52,7 +52,7 @@ export default {
 	},
 	beforeCreate() {
 		this.$store.commit('setPageTitle', 'Set New Limit')
-		
+
 		axios.get(`http://${config.serverURL}/roles/`)
 		.then((res) => {
 			this.roleList = res.data[0]
@@ -73,9 +73,9 @@ export default {
 			let stationId = this.roleList.find(i => i.role_id === this.roleId).station_id
 			let roleName = this.roleList.find(i => i.role_id === this.roleId).role_name
 			let date = moment(this.date).format('YYYY-MM-DD')
-			let webFormData = new DataModel.Limit(stationId, this.roleId, 
+			let webFormData = new DataModel.Limit(stationId, this.roleId,
 				date, this.limit)
-			
+
 			axios.post(`http://${config.serverURL}/limit/`, webFormData)
 			.then(res => {
 				if (res.status === 200) {

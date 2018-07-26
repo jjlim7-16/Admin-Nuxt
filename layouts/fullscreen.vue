@@ -1,7 +1,7 @@
 <template>
   <nuxt/>
 </template>
-
+<!--
 <style>
 
 #box-form {
@@ -19,6 +19,8 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
   background-color: #FF4C65;
+  height: 100%;
+  width: 100%;
 }
 
 *, *:before, *:after {
@@ -59,4 +61,4 @@ html {
   color: #fff;
   background-color: #35495e;
 }
-</style>
+</style> -->

@@ -1,5 +1,5 @@
 <template>
-	<section id="content" class="box" style="margin-left: 5px;">
+	<section id="content" class="box">
 		<b-field grouped group-multiline>
 			<b-field label="Filter By Date:" style="margin-top: 5px;"></b-field>&nbsp;
 			<b-select placeholder="Filter By Date" v-model="filter">
@@ -18,7 +18,7 @@
 			default-sort="date">
 
 			<template slot-scope="props">
-				<b-table-column field="session_date" label="Date" width="120" sortable>
+				<b-table-column field="session_date" label="Date" sortable>
 					{{ props.row.session_date }}
 				</b-table-column>
 
@@ -34,7 +34,7 @@
 					{{ props.row.booking_limit }}
 				</b-table-column>
 
-				<b-table-column label='Actions' width="150" centered>
+				<b-table-column label='Actions' centered>
 					<b-dropdown>
 						<button class="button is-primary is-small is-inverted" slot="trigger">
 							<b-icon icon="dots-vertical"></b-icon>
