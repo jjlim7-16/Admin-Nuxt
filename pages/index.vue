@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section id="fullScreen">
     <img src="img-whitelogo.png" alt="logo" />
     <div id="form" class="columns is-centered section" @keyup.enter="login()">
       <div class="box column is-5">
@@ -78,11 +78,16 @@ export default {
 </script>
 
 <style scoped>
+#fullScreen {
+  background-color: #FF4C65;
+  height: 100vh;
+  width: 100vw;
+}
 
 img {
   display: block;
   margin: auto;
-  margin-top: 5%;
+  padding-top: 5%;
   position: relative;
   width: 18%;
   height: auto;
@@ -111,5 +116,4 @@ img {
   font-weight: bold;
   margin: 15px 0;
 }
-
 </style>

@@ -18,7 +18,7 @@
 			default-sort="date">
 
 			<template slot-scope="props">
-				<b-table-column field="session_date" label="Date" width="120" sortable>
+				<b-table-column field="session_date" label="Date" sortable>
 					{{ props.row.session_date }}
 				</b-table-column>
 
@@ -34,7 +34,7 @@
 					{{ props.row.booking_limit }}
 				</b-table-column>
 
-				<b-table-column label='Actions' width="150" centered>
+				<b-table-column label='Actions' centered>
 					<b-dropdown>
 						<button class="button is-primary is-small is-inverted" slot="trigger">
 							<b-icon icon="dots-vertical"></b-icon>
@@ -51,7 +51,7 @@
 					</b-dropdown>
 				</b-table-column>
 			</template>
-			
+
 			<template slot="empty">
 				<section class="section">
 					<div class="content has-text-grey has-text-centered">
@@ -91,7 +91,7 @@ export default {
 		}
 	},
 	beforeCreate() {
-		this.$store.commit('setPageTitle', 'Manage Limit Settings')
+		this.$store.commit('setPageTitle', 'Manage Limits')
 
 		axios.get(`http://${config.serverURL}/limit/`)
 		.then(res => {
@@ -107,7 +107,7 @@ export default {
 				confirmText: 'Delete Limit',
 				type: 'is-danger',
 				hasIcon: true,
-				onConfirm: () => 
+				onConfirm: () =>
 				axios.delete(`http://${config.serverURL}/limit/` + limit_id)
 				.then(res => {
 					if (res.status === 200) {

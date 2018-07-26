@@ -1,5 +1,5 @@
 <template>
-	<section id="content" class="box" style="width: 46%">
+	<section id="content" class="box">
 		<b-field label="Select Date*">
 			<b-datepicker
 				placeholder="Click to select..."
