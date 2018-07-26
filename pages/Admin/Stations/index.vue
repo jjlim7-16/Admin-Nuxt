@@ -52,22 +52,22 @@
 		</template>
 
     <template slot="detail" slot-scope="props">
-				<article class="media">
-					<figure class="media-left">
-						<p class="image is-64x64" style="margin-top: 10px;">
-							<img :src="`http://${serverURL}/stations/getImage/${props.row.station_id}`">
+			<article class="media">
+				<figure class="media-left">
+					<p class="image is-64x64" style="margin-top: 10px;">
+						<img :src="`http://${serverURL}/stations/getImage/${props.row.station_id}`">
+					</p>
+				</figure>
+				<div class="media-content">
+					<div class="content">
+						<p>
+							<strong>{{ props.row.station_name }}</strong>
+							<br>{{ props.row.description }}
 						</p>
-					</figure>
-					<div class="media-content">
-						<div class="content">
-							<p>
-								<strong>{{ props.row.station_name }}</strong>
-								<br>{{ props.row.description }}
-							</p>
-						</div>
 					</div>
-				</article>
-			</template>
+				</div>
+			</article>
+		</template>
   </b-table>
 
 </section>
@@ -126,10 +126,10 @@ export default {
 						.then((res) => {
 							this.data = res.data
 						})
-						.catch(() => {
-							console.log('FAIL')
-						})
 					}
+				})
+				.catch(err => {
+					console.log(err)
 				})
 			})
 			

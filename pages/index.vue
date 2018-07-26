@@ -1,12 +1,12 @@
 <template>
   <section>
     <img src="img-whitelogo.png" alt="logo" />
-    <div id="form" class="columns is-centered section">
+    <div id="form" class="columns is-centered section" @keyup.enter="login()">
       <div class="box column is-5">
         <b-field :type="errors.has('username') ? 'is-danger': ''"
         :message="errors.has('username') ? errors.first('username') : ''">
           <b-input placeholder='Username' v-model='username' name='username' data-vv-as="'Username'"
-          v-validate="'required|alpha'"></b-input>
+          v-validate="'required|alpha_dash'"></b-input>
         </b-field>
 
         <b-field :type="errors.has('password') ? 'is-danger': ''"
@@ -22,10 +22,10 @@
 </template>
 
 <script>
-// import Cookie from 'js-cookie'
+import Cookie from 'js-cookie'
+import config from '~/config'
 
 export default {
-  middleware: 'auth',
   layout: 'fullscreen',
   data() {
     return {
@@ -35,38 +35,45 @@ export default {
   },
   methods: {
     async login() {
-      try {
-        console.log('Login...')
-        await this.$auth.loginWith('local', {
-          data: {
-            username: this.username,
-            password: this.password
-          }
-        })
-        if (this.$auth.loggedIn) {
-          console.log('Logged In')
-          console.log(this.$auth.user_type)
-          if (this.$auth.user.user_type === 'Admin') {
-            this.$router.push('/Admin/Stations')
-          }
-        }
-      } catch (e) {
-        console.log(e)
-      }
+			try {
+				let res = await this.$axios.post(`http://${config.serverURL}/auth/login`, {
+					username: this.username,
+					password: this.password
+				})
+				if (res.status === 200) {
+					const auth = res.data
+					this.$store.commit('update', auth)
+					Cookie.set('auth', auth)
+					if (auth.user.account_type === 'Admin') {
+						this.$router.push('/Admin/Dashboard')
+					}
+					if (auth.user.account_type === 'Crew') {
+						this.$router.push(`/Crew/${this.$store.user.station_id}`)
+					}
+				}
+			} catch (err) {
+				this.$dialog.alert({
+					title: `Login Failed`,
+					message: err.response.data.message,
+					type: 'is-danger',
+					hasIcon: true,
+					iconPack: 'mdi'
+				})
+			}
     }
   },
   beforeMount() {
-    if (this.$auth.loggedIn) {
+    if (this.$store.state.loggedIn === true) {
       console.log('Is Logged In')
-      const user = this.$auth.user
-      if (user.user_type === 'Admin') {
-        this.$router.push('/Admin/Stations')
+      const user = this.$store.state.user
+      if (user.account_type === 'Admin') {
+        this.$router.push('/Admin/Dashboard')
       }
       else {
         this.$router.push('/Crew/')
       }
     }
-  },
+  }
 }
 </script>
 

@@ -44,8 +44,9 @@
 <script>
 export default {
   methods: {
-    async logout() {
-      return this.$auth.logout()
+    logout() {
+      this.$store.commit('logout')
+      this.$router.push('/')
     }
   }
 }

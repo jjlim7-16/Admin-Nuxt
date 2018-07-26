@@ -53,7 +53,7 @@
 					<section class="section">
 						<div class="content has-text-centered">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
-							<p>Drop your files here or click to upload</p>
+							<p>Drop your image here or click to upload</p>
 						</div>
 					</section>
 				</b-upload>
@@ -84,6 +84,7 @@ export default {
 			startTime: min,
 			endTime: max,
 			files: [],
+			imageData: null,
 			imageChanged: false,
 			origData: null
 		}
@@ -116,7 +117,6 @@ export default {
 			if (res.status === 200) {
 				let file = new File([res.data], 'image.png', {type: 'image/png'})
 				this.files.push(file)
-				console.log(file)
 			}
 		})
 		.catch(e => {
@@ -193,13 +193,7 @@ export default {
 				moment(this.origData.station_end, 'HH:mm').format('HH:mm') === moment(this.endTime, 'HH:mm').format('HH:mm') &&
 				this.imageChanged === false)
 			}
-    }
+		}
 	}
 }
 </script>
-
-<style scoped>
-#img {
-	margin-left: 35px;
-}
-</style>

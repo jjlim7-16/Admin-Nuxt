@@ -2,23 +2,17 @@
 	<div id="content" class="box">
 		<div class="is-pulled-right">
 			<b-field label="Image">
-				<b-upload v-model="files"
-					multiple
-					drag-drop>
+				<b-upload v-model="files" drag-drop>
 					<section class="section">
 						<div class="content has-text-centered">
-							<p>
-								<b-icon
-									icon="upload"
-									size="is-large">
-								</b-icon>
-							</p>
-							<p>Drop your files here or click to upload</p>
+							<p><b-icon icon="upload" size="is-large"></b-icon></p>
+							<p>Drop your image here or click to upload</p>
 						</div>
 					</section>
 				</b-upload>
 			</b-field>
 		</div>
+		
 		<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
 			:message="errors.has('station') ? errors.first('station') : ''">
 			<b-select expanded placeholder='Select Station' v-model="stationId"

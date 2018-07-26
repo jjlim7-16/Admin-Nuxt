@@ -1,25 +1,5 @@
 module.exports = {
-	modules: ['nuxt-buefy', '@nuxtjs/axios', '@nuxtjs/auth'],
-	auth: {
-		strategies: {
-			local: {
-				endpoints: {
-					// login: { url: '/api/auth/login', method: 'post', propertyName: 'token' },
-					// logout: { url: '/api/auth/logout', method: 'post' },
-					// user: { url: '/api/auth/user', method: 'get', propertyName: 'data' }
-					login: { propertyName: 'token.accessToken' }
-				},
-				tokenRequired: true,
-				tokenType: 'bearer'
-			}
-		},
-		redirect: {
-			login: '/',
-			logout: '/',
-			callback: '/callback'
-		},
-		plugins: ['~plugins/auth.js']
-	},
+	modules: ['nuxt-buefy', '@nuxtjs/axios'],
 	plugins: [
 		{ src: '~plugins/vee-validate.js', ssr: true },
 		{ src: '~plugins/vue-chartjs.js', ssr: false },
@@ -38,10 +18,6 @@ module.exports = {
 		],
 		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
 	},
-	serverMiddleware: ['./api/auth'],
-	axios: { proxy: true },
-	proxy: { '/api/': 'http://localhost:3000' },
-	router: { middleware: ['auth'] },
 	/*
 	** Customize the progress bar color
 	*/

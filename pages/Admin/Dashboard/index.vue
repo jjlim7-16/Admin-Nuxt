@@ -115,7 +115,6 @@ export default {
       // data[station] = this.byTimeData[station]
       data['station'] = station
       data['results'] = this.byTimeData[station]
-      console.log(data)
       return data
     }
   }

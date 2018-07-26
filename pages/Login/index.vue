@@ -25,7 +25,6 @@
 // import Cookie from 'js-cookie'
 
 export default {
-  middleware: 'auth',
   layout: 'fullscreen',
   data() {
     return {

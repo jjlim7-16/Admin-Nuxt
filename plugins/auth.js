@@ -1,6 +1,7 @@
 export default async function ({ app }) {
-	if (!app.$auth.loggedIn) {
+	console.log(app.store.state.loggedIn)
+	if (!app.store.state.loggedIn) {
 		return
 	}
-	console.log(app.$auth.$state.user.user_type)
+	console.log(app.store.state.loggedIn)
 }
