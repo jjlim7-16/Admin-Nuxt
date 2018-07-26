@@ -141,7 +141,10 @@ export default {
 }
 
 #myNavTitle {
-  max-width: 90%;
+  max-width: 100%;
+  font-size: 1.6rem;
+  padding: 0 3.5vw;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
 }
 
 #logout {
@@ -188,7 +191,7 @@ export default {
 
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -246,6 +249,22 @@ html {
 }
 
 @media only screen and (max-width: 600px) {
+  html {
+    font-size: 1rem;
+    overflow: scroll;
+  }
+  .menu-label {
+    color: black;
+    padding: 0 2.5vw;
+  }
+  #myNavTitle {
+    font-size: 1.2rem;
+    padding: 0;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.16);
+  }
+  .centerTextBox {
+    /* margin-left: 28%; */
+  }
   .container {
     display: block;
   }
