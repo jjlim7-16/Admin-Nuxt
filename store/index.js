@@ -20,9 +20,19 @@ const createStore = () => {
 				let accessToken = null
 				if (req.headers.cookie) {
 					var parsed = cookieparser.parse(req.headers.cookie)
-					accessToken = JSON.parse(parsed.auth)
+					if (parsed.auth) {
+						accessToken = JSON.parse(parsed.auth)
+					}
 				}
 				commit('update', accessToken)
+			},
+			logout ({ commit }) {
+				return new Promise((resolve, reject) => {
+					setTimeout(() => {
+						commit('update', null)
+						resolve()
+					}, 1000)
+				})
 			}
 		}
 	})

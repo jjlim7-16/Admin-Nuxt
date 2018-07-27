@@ -34,7 +34,7 @@
 					</button>
 
 					<b-dropdown-item style="text-align: left" has-link paddingless>
-						<router-link :to="{ path: `/Admin/Stations/Update/${props.row.station_id}`}">Edit</router-link>
+						<router-link :to="{ path: `/Admin/Stations/Update/${props.row.station_id}`}">Edit Station</router-link>
 					</b-dropdown-item>
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<router-link :to="{ path: `/Admin/Roles/${props.row.station_id}`}">Manage Role(s)</router-link>

@@ -53,6 +53,8 @@ import io from '../../../plugins/socket-io.js'
 import config from '~/config.js'
 // import { mapGetters } from 'vuex'
 
+let socket
+
 export default {
   data() {
     return {
@@ -62,21 +64,18 @@ export default {
       bardata: [65, 59, 87, 81, 56, 55, 36],
       byStationData: [],
       byTimeData: {},
-      stationList: null,
+      stationList: {},
       stationId: null
     }
   },
   async beforeCreate() {
     this.$store.commit('setPageTitle', 'Dashboard')
-    await axios.get(`http://${config.serverURL}/roles/`)
-      .then((res) => {
-        this.stationList = res.data[1]
-        this.stationId = this.stationList[0].station_id
-        // console.log(this.stationList.find(i => i.station_id === this.stationId).station_name)
-      })
+    let res = await axios.get(`http://${config.serverURL}/roles/`)
+    this.stationList = res.data[1]
+    this.stationId = this.stationList[0].station_id
   },
   beforeMount() {
-    let socket = io.socketio.connect(`http://${config.serverURL}/dashboard`)
+    socket = io.socketio.connect(`http://${config.serverURL}/dashboard`)
     socket.on('getBookingCount', (data) => {
       this.noOfBookings = data
     })
@@ -113,6 +112,9 @@ export default {
       data['results'] = this.byTimeData[station]
       return data
     }
+  },
+  destroyed() {
+    socket.close()
   }
 }
 </script>

@@ -214,7 +214,6 @@ export default {
 					message: `The Station: \'${this.name}\' already exists`,
 					type: 'is-danger',
 					hasIcon: true,
-					icon: 'times-circle',
 					iconPack: 'mdi'
 				})
 			}
@@ -230,36 +229,27 @@ export default {
 					formData.append("Role-" + station.roles[i].roleName, file)
 				}
 				formData.append('webFormData', JSON.stringify(station))
-				// console.log(formData.get('station'))
 
 				axios.post(`http://${config.serverURL}/stations/`, formData)
-					.then(res => {
-						roleList = []
-						this.roles = roleList
-						if (res.status === 200) {
-							this.$dialog.alert({
-								title: 'Add Station',
-								message: `A new station \'${this.name}\' has been successfully added.`,
-								type: 'is-success',
-								hasIcon: true,
-								icon: 'check-circle',
-								iconPack: 'mdi'
-							})
-							// this.name = ''
-							// this.description = ''
-							// this.startTime = this.minTime
-							// this.endTime = this.maxTime
-							// this.files = []
-							this.$router.push('/Admin/Stations')
-						}
-						else {
-							console.log(res)
-						}
-					})
-					.catch((err) => {
-						console.log(err)
-					})
-				}
+				.then(res => {
+					roleList = []
+					this.roles = roleList
+					if (res.status === 200) {
+						this.$dialog.confirm({
+							title: 'Add Station',
+							message: `A new station \'${this.name}\' has been successfully added.`,
+							type: 'is-success',
+							hasIcon: true,
+							icon: 'check-circle',
+							iconPack: 'mdi',
+							onConfirm: () => this.$router.push('/Admin/Stations')
+						})
+					}
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+			}
 		},
 		removeRole(role) {
 			this.roles.splice(this.roles.findIndex(i => i.roleName === role.roleName), 1)
@@ -277,17 +267,6 @@ export default {
 	beforeUpdate() {
 		this.roles = roleList
 		stationName = this.name
-		// console.log(moment(this.startTime, 'HH:mm').format('HH:mm').toString())
-		// console.log(this.roles)
 	}
 }
 </script>
-<<<<<<< HEAD
-=======
-
-<style>
-#form {
-	margin: 25px 60px 25px 70px;
-}
-</style>
->>>>>>> origin/chermaineBranch

@@ -48,7 +48,7 @@ export default {
 						this.$router.push('/Admin/Dashboard')
 					}
 					if (auth.user.account_type === 'Crew') {
-						this.$router.push(`/Crew/${this.$store.user.station_id}`)
+						this.$router.push(`/Crew/${auth.user.station_id}`)
 					}
 				}
 			} catch (err) {

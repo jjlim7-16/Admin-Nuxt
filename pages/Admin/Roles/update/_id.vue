@@ -1,60 +1,79 @@
 <template>
 	<div id="content" class="box">
-		<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''"
-			:message="errors.has('station') ? errors.first('station') : ''">
-			<b-select placeholder='Select Station' v-model="stationId" name="stationId" v-validate="'required'"
-			data-vv-as="'Station'" expanded>
-				<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
-					{{station.station_name}}
-				</option>
-			</b-select>
-		</b-field>
-
-		<b-field label='Role Name*' width="410px" :type="errors.has('roleName') ? 'is-danger': ''"
-			:message="errors.has('roleName') ? errors.first('roleName') : ''">
-			<b-input
-				placeholder='Enter Role Title'
-				name="roleName"
-				v-model="roleName"
-				data-vv-as="'Role Name'"
-				v-validate="'required|alpha_spaces'">
-			</b-input>
-		</b-field>
-
-		<b-field grouped>
-			<b-field label='Capacity'>
-				<b-select v-model='capacity' placeholder='Select Max. Capacity' required>
-					<option v-for="i in 12" :key="i">{{ i }}</option>
+		<div class="is-pulled-left">
+			<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''"
+				:message="errors.has('station') ? errors.first('station') : ''">
+				<b-select placeholder='Select Station' v-model="stationId" name="stationId" v-validate="'required'"
+				data-vv-as="'Station'" expanded>
+					<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
+						{{station.station_name}}
+					</option>
 				</b-select>
 			</b-field>
 
-			<b-field label='Duration'>
-				<b-select placeholder='Select Activity Duration' v-model="duration" required>
-					<option value="20">20 mins</option>
-					<option value="30">30 mins</option>
-					<option value="40">40 mins</option>
-				</b-select>
+			<b-field label='Role Name*' width="410px" :type="errors.has('roleName') ? 'is-danger': ''"
+				:message="errors.has('roleName') ? errors.first('roleName') : ''">
+				<b-input
+					placeholder='Enter Role Title'
+					name="roleName"
+					v-model="roleName"
+					data-vv-as="'Role Name'"
+					v-validate="'required|alpha_spaces'">
+				</b-input>
 			</b-field>
-		</b-field>
 
-		<b-field label='Image*'>
-			<b-field class='file'>
-				<b-upload v-model='files' accept="image/*">
-					<a class='button is-primary'>
-						<b-icon icon='upload'></b-icon>
-						<span>Upload Image</span>
-					</a>
+			<b-field grouped>
+				<b-field label='Capacity'>
+					<b-select v-model='capacity' placeholder='Select Max. Capacity' required>
+						<option v-for="i in 12" :key="i">{{ i }}</option>
+					</b-select>
+				</b-field>
+
+				<b-field label='Duration'>
+					<b-select placeholder='Select Activity Duration' v-model="duration" required>
+						<option value="20">20 mins</option>
+						<option value="30">30 mins</option>
+						<option value="40">40 mins</option>
+					</b-select>
+				</b-field>
+			</b-field>
+
+			<b-field label='Image*'>
+				<b-field class='file'>
+					<b-upload v-model='files' accept="image/*">
+						<a class='button is-primary'>
+							<b-icon icon='upload'></b-icon>
+							<span>Upload Image</span>
+						</a>
+					</b-upload>
+					<span class='file-name' v-if='files && files.length'>
+					{{ files[0].name }}
+					</span>
+				</b-field>
+			</b-field>
+
+			<br/>
+			<button class="button is-success" :disabled="isDisabled" @click="update()">Update Role</button>
+			&nbsp;&nbsp;
+			<button class="button is-danger" @click="remove()">Delete Role</button>
+		</div>
+		<div class="is-pulled-right">
+			<b-field label="Image">
+				<b-upload v-model="files" drag-drop>
+					<section class="section" v-if="!files || files.length <= 0">
+						<div class="content has-text-centered" id="preview">
+							<p><b-icon icon="upload" size="is-large"></b-icon></p>
+							<p>Drop your image here or click to upload</p>
+						</div>
+					</section>
+					<section class="image-section" v-else-if="files && files.length > 0">
+						<figure id="preview" class="content has-text-centered image is-4by3">
+							<img :src="readImageFile">
+						</figure>
+					</section>
 				</b-upload>
-				<span class='file-name' v-if='files && files.length'>
-				{{ files[0].name }}
-				</span>
 			</b-field>
-		</b-field>
-
-		<br/>
-		<button class="button is-success" :disabled="isDisabled" @click="update()">Update Role</button>
-		&nbsp;&nbsp;
-		<button class="button is-danger" @click="remove()">Delete Role</button>
+		</div>
 	</div>
 </template>
 
@@ -71,20 +90,21 @@ export default {
 			duration: 20,
 			files: [],
 			stationList: [],
-			stationId: null
+			stationId: null,
+			imageurl: ''
 		}
 	},
-	beforeCreate() {
-		axios.get(`http://${config.serverURL}/roles/` + this.$route.params['id'])
-		.then((res) => {
-			this.stationList = res.data[1]
-
-			let data = res.data[0][0]
-			this.roleName = data.role_name
-			this.duration = data.durationInMins
-			this.capacity = data.capacity
-			this.stationId = data.station_id
-		})
+	async beforeCreate() {
+		let res = await axios.get(`http://${config.serverURL}/roles/` + this.$route.params['id'])
+		this.stationList = res.data[1]
+		let data = res.data[0][0]
+		this.roleName = data.role_name
+		this.duration = data.durationInMins
+		this.capacity = data.capacity
+		this.stationId = data.station_id
+		
+		// res = await axios.get(`http://${config.serverURL}/roles/` + this.$route.params['id'])
+		
 		this.$store.commit('setPageTitle', 'Edit Role')
 	},
 	computed: {
@@ -138,6 +158,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#preview {
+	width: 20vw;
+	height: 80%;
+}
 
+.section {
+	height: 30vh;
+}
+
+.image-section {
+	padding: 24px;
+}
 </style>

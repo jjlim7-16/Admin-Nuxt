@@ -15,19 +15,20 @@
   </div>
 </template>
 
-<<<<<<< HEAD
 <script>
 export default {
   methods: {
-    async logout() {
-      return this.$auth.logout()
+    logout() {
+      this.$store.dispatch('logout')
+      .then(() => {
+        Cookie.set('auth', null)
+        this.$router.push('/')
+      })
     }
   }
 }
 </script>
 
-=======
->>>>>>> origin/BNBranch
 
 <style>
 

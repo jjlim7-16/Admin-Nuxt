@@ -89,6 +89,8 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+
 export default {
   data() {
     return {
@@ -97,8 +99,11 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.commit('logout')
-      this.$router.push('/')
+      this.$store.dispatch('logout')
+      .then(() => {
+        Cookie.set('auth', null)
+        this.$router.push('/')
+      })
     },
     toggleMenu() {
       this.menuIsActive = !this.menuIsActive;
@@ -106,7 +111,6 @@ export default {
   }
 }
 </script>
-
 
 <style>
 .navbar-menu {

@@ -1,7 +1,7 @@
 <template>
 	<section id="content" class="box">
 		<div class="is-pulled-left">
-			<b-field label='Station Name*' style="width: 410px">
+			<b-field label='Station Name*'>
 				<b-input placeholder='Enter Station Name' v-model="name" required></b-input>
 			</b-field>
 
@@ -23,11 +23,11 @@
 				</b-field>
 			</b-field>
 
-			<b-field label="Description" width="410px">
+			<b-field label="Description">
 				<b-input maxlength="500" type="textarea" v-model="description"></b-input>
 			</b-field>
 
-			<b-field label='Image' style="margin-top: -10px">
+			<b-field label='Image' style="margin-top: -2vh">
 				<b-field class='file'>
 					<b-upload v-model='files' accept="image/*" @input="imageChanged = true">
 						<a class='button is-primary'>
@@ -47,14 +47,19 @@
 			<button class="button is-danger" @click='remove()'>Remove Station</button>
 		</div>
 
-		<div class="is-pulled-right" id="img">
+		<div class="is-pulled-right">
 			<b-field label="Image">
-				<b-upload v-model="files" drag-drop>
-					<section class="section">
-						<div class="content has-text-centered">
+				<b-upload v-model="files"  drag-drop>
+					<section class="section" v-if="!files || files.length <= 0">
+						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
 							<p>Drop your image here or click to upload</p>
 						</div>
+					</section>
+					<section class="image-section" v-else-if="files && files.length > 0">
+						<figure id="preview" class="content has-text-centered image is-4by3">
+							<img :src="readImageFile">
+						</figure>
 					</section>
 				</b-upload>
 			</b-field>
@@ -84,16 +89,16 @@ export default {
 			startTime: min,
 			endTime: max,
 			files: [],
-			imageData: null,
+			imageurl: '',
 			imageChanged: false,
 			origData: null
 		}
 	},
-	beforeCreate() {
+	async beforeCreate() {
 		this.$store.commit('setPageTitle', 'Update Station')
 		
-		axios.get(`http://${config.serverURL}/stations/` + this.$route.params['id'])
-    .then((res) => {
+		try {
+			let res = await axios.get(`http://${config.serverURL}/stations/` + this.$route.params['id'])
 			let data = res.data[0]
 			this.origData = data
 			this.name = data.station_name
@@ -107,21 +112,16 @@ export default {
 			end.setHours(data.station_end.slice(0,2))
 			end.setMinutes(data.station_end.slice(3,5))
 			this.endTime = end
-    })
-    .catch(() => {
-      console.log('FAIL')
-		})
-		
-		axios.get(`http://${config.serverURL}/stations/image`)
-		.then(res => {
-			if (res.status === 200) {
-				let file = new File([res.data], 'image.png', {type: 'image/png'})
-				this.files.push(file)
-			}
-		})
-		.catch(e => {
-			console.log(e)
-		})
+			
+			res = await axios.get(`http://${config.serverURL}/stations/getImage/${this.$route.params.id}`)
+			// let file = new File([res.data.image], res.data.filename, {type: `image/${res.data.filetype}`})
+			let file = new File([res.data], 'Aviation Academy.jpg', { type: 'image/*' })
+			this.files.push(file)
+			this.imageurl = `http://${config.serverURL}/stations/getImage/${this.$route.params.id}`
+			
+		} catch (error) {
+			console.log(error)
+		}
 	},
 	methods: {
 		submit() {
@@ -186,14 +186,37 @@ export default {
 	computed: {
 		isDisabled() {
       if (this.origData) {
-				console.log(this.files[0])
 				return (this.origData.station_name === this.name && 
 				this.origData.description === this.description && 
 				moment(this.origData.station_start, 'HH:mm').format('HH:mm') === moment(this.startTime, 'HH:mm').format('HH:mm') && 
 				moment(this.origData.station_end, 'HH:mm').format('HH:mm') === moment(this.endTime, 'HH:mm').format('HH:mm') &&
 				this.imageChanged === false)
 			}
+		},
+		readImageFile() {
+			if (!this.imageChanged) {
+				this.imageurl = `http://${config.serverURL}/stations/getImage/${this.$route.params.id}`
+			}
+			else {
+				this.imageurl = URL.createObjectURL(this.files[0])
+			}
+			return this.imageurl
 		}
 	}
 }
 </script>
+
+<style scoped>
+#preview {
+	width: 20vw;
+	height: 80%;
+}
+
+.section {
+	height: 30vh;
+}
+
+.image-section {
+	padding: 24px;
+}
+</style>
