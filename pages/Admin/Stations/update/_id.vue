@@ -24,12 +24,12 @@
 			</b-field>
 
 			<b-field label="Description">
-				<b-input maxlength="500" type="textarea" v-model="description"></b-input>
+				<b-input maxlength="500" type="textarea" v-model="description" required></b-input>
 			</b-field>
 
 			<b-field label='Image' style="margin-top: -2vh">
 				<b-field class='file'>
-					<b-upload v-model='files' accept="image/*" @input="imageChanged = true">
+					<b-upload v-model='files' accept="image/*">
 						<a class='button is-primary'>
 							<b-icon icon='upload'></b-icon>
 							<span>Upload Image</span>
@@ -49,7 +49,7 @@
 
 		<div class="is-pulled-right">
 			<b-field label="Image">
-				<b-upload v-model="files"  drag-drop>
+				<b-upload v-model="files" @input="imageChanged = true" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
@@ -94,65 +94,77 @@ export default {
 			origData: null
 		}
 	},
-	async beforeCreate() {
+	async beforeMount() {
 		this.$store.commit('setPageTitle', 'Update Station')
 		
 		try {
-			let res = await axios.get(`http://${config.serverURL}/stations/` + this.$route.params['id'])
-			let data = res.data[0]
-			this.origData = data
-			this.name = data.station_name
-			this.description = data.description
+			let res = await this.$axios.get(`http://${config.serverURL}/stations/` + this.$route.params['id'])
+			this.origData = res.data[0]
+			this.name = this.origData.station_name
+			this.description = this.origData.description
 			let start = new Date()
-			start.setHours(data.station_start.slice(0,2))
-			start.setMinutes(data.station_start.slice(3,5))
+			start.setHours(this.origData.station_start.slice(0,2))
+			start.setMinutes(this.origData.station_start.slice(3,5))
 			this.startTime = start
 			
 			let end = new Date()
-			end.setHours(data.station_end.slice(0,2))
-			end.setMinutes(data.station_end.slice(3,5))
+			end.setHours(this.origData.station_end.slice(0,2))
+			end.setMinutes(this.origData.station_end.slice(3,5))
 			this.endTime = end
 			
-			res = await axios.get(`http://${config.serverURL}/stations/getImage/${this.$route.params.id}`)
-			// let file = new File([res.data.image], res.data.filename, {type: `image/${res.data.filetype}`})
-			let file = new File([res.data], 'Aviation Academy.jpg', { type: 'image/*' })
+			res = await this.$axios.get(`http://${config.serverURL}/stations/getImage/${this.$route.params.id}`)
+			let file = new File([res.data], 'image', { type: 'image/*' })
 			this.files.push(file)
 			this.imageurl = `http://${config.serverURL}/stations/getImage/${this.$route.params.id}`
 			
+			res = await this.$axios.get(`http://${config.serverURL}/stations/`)
+
 		} catch (error) {
 			console.log(error)
 		}
 	},
 	methods: {
-		submit() {
-			let webFormData = new DataModel.Station(this.name, this.description, 
-			moment(this.startTime, 'HH:mm').format('HH:mm'), 
-			moment(this.endTime, 'HH:mm').format('HH:mm'))
-			
-			let formData = new FormData()
-			//console.log(formData)
-			if (this.imageChanged === true) formData.append(webFormData.name, this.files[0])
-			formData.append('webFormData', JSON.stringify(webFormData))
-			console.log(formData.get('webFormData'))
-			
-			axios.put(`http://${config.serverURL}/stations/` + this.$route.params['id'],
-				formData
-			).then(res => {
-				if (res.status === 200) {
-					this.$dialog.confirm({
-						title: 'Update Station',
-						message: 'The Station: ' + this.name + ' has been updated successfully',
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						iconPack: 'mdi',
-						onConfirm: () => this.$router.push('/Admin/Stations')
-					})
+		async submit() {
+			let res = await this.$axios.get(`http://${config.serverURL}/stations/`)
+			if (res.data.find(i => i.station_name.toLowerCase() === this.name.trim().toLowerCase() 
+			&& i.station_id != this.$route.params.id)) {
+				this.$dialog.alert({
+					title: "Station Exists",
+					message: `Error! The Station \'${this.name}\' Already Exists`,
+					type: "is-danger",
+					hasIcon: true
+				})
+			}
+			else {
+				let webFormData = new DataModel.Station(this.name.trim(), this.description.trim(), 
+				moment(this.startTime, 'HH:mm').format('HH:mm'), 
+				moment(this.endTime, 'HH:mm').format('HH:mm'))
+				
+				let formData = new FormData()
+				if (this.imageChanged === true) {
+					formData.append(webFormData.name, this.files[0])
 				}
-			})
-			.catch(() => {
-				console.log('FAILURE')
-			})
+				formData.append('webFormData', JSON.stringify(webFormData))
+				
+				this.$axios.put(`http://${config.serverURL}/stations/` + this.$route.params['id'],
+					formData
+				).then(res => {
+					if (res.status === 200) {
+						this.$dialog.confirm({
+							title: 'Update Station',
+							message: 'The Station: ' + this.name + ' has been updated successfully',
+							type: 'is-success',
+							hasIcon: true,
+							icon: 'check-circle',
+							iconPack: 'mdi',
+							onConfirm: () => this.$router.push('/Admin/Stations')
+						})
+					}
+				})
+				.catch(() => {
+					console.log('FAIL')
+				})
+			}
 		},
 		remove() {
 			this.$dialog.confirm({
@@ -165,7 +177,7 @@ export default {
 			})
 		},
 		confirmDelete() {
-			axios.delete(`http://${config.serverURL}/stations/` + this.$route.params['id'])
+			this.$axios.delete(`http://${config.serverURL}/stations/` + this.$route.params['id'])
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.confirm({
@@ -179,7 +191,7 @@ export default {
 				}
 			})
 			.catch(() => {
-				console.log('FAILURE')
+				console.log('FAIL')
 			})
 		}
 	},
@@ -190,7 +202,7 @@ export default {
 				this.origData.description === this.description && 
 				moment(this.origData.station_start, 'HH:mm').format('HH:mm') === moment(this.startTime, 'HH:mm').format('HH:mm') && 
 				moment(this.origData.station_end, 'HH:mm').format('HH:mm') === moment(this.endTime, 'HH:mm').format('HH:mm') &&
-				this.imageChanged === false)
+				this.imageChanged === false) || !this.name || !this.description || !this.files[0]
 			}
 		},
 		readImageFile() {

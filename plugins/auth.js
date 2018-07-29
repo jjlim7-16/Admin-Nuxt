@@ -1,7 +1,7 @@
-export default async function ({ app }) {
-	console.log(app.store.state.loggedIn)
-	if (!app.store.state.loggedIn) {
-		return
-	}
-	console.log(app.store.state.loggedIn)
-}
+// export default ({store, app: { $axios }}) => {
+// 	if (store.state.auth) {
+// 		// config.headers.common['Authorization'] = store.state.auth.token
+// 		$axios.setToken(store.state.auth.token, 'Bearer')
+// 		// $axios.defaults.headers.common.Authorization = store.state.auth.token
+// 	}
+// }

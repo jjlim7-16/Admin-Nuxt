@@ -51,10 +51,10 @@ export default {
 			date: new Date()
 		}
 	},
-	async beforeCreate() {
+	async beforeMount() {
 		this.$store.commit('setPageTitle', 'Set New Limit')
 		
-		let res = await axios.get(`http://${config.serverURL}/limit/${this.$route.params['id']}`)
+		let res = await this.$axios.get(`http://${config.serverURL}/limit/${this.$route.params['id']}`)
 		this.roleId = res.data[0].role_id
 		this.roleName = res.data[0].role_name
 		this.stationName = res.data[0].station_name
@@ -68,7 +68,7 @@ export default {
 			let webFormData = new DataModel.Limit(this.stationId, this.roleId, 
 				date, this.limit)
 
-			axios.put(`http://${config.serverURL}/limit/${this.$route.params['id']}`, webFormData)
+			this.$axios.put(`http://${config.serverURL}/limit/${this.$route.params['id']}`, webFormData)
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.alert({

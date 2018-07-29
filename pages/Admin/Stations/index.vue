@@ -90,14 +90,10 @@ export default {
 			serverURL: config.serverURL
 		}
 	},
-	beforeCreate() {
-		axios.get(`http://${config.serverURL}/stations/`)
-		.then((res) => {
-			this.data = res.data
-		})
-		.catch(() => {
-			console.log('FAIL')
-		})
+	async beforeMount() {
+		let res = await this.$axios.get(`http://${config.serverURL}/stations/`)
+		this.data = res.data
+
 		this.$store.commit('setPageTitle', 'Manage Stations')
 	},
 	methods: {
@@ -112,7 +108,7 @@ export default {
 				confirmText: `${action} Station`,
 				type: 'is-danger',
 				hasIcon: true,
-				onConfirm: () => axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
+				onConfirm: () => this.$axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
 				.then(res => {
 					if (res.status === 200) {
 						this.$dialog.alert({
@@ -123,7 +119,7 @@ export default {
 							icon: 'check-circle',
 							iconPack: 'mdi'
 						})
-						axios.get(`http://${config.serverURL}/stations/`)
+						this.$axios.get(`http://${config.serverURL}/stations/`)
 						.then((res) => {
 							this.data = res.data
 						})
@@ -139,13 +135,7 @@ export default {
 	computed: {
 		filteredData() {
 			if (this.filter !== '') {
-				let data = []
-				for (var i in this.data) {
-					if (this.data[i].station_name.toLowerCase().includes(this.filter.toLowerCase())) {
-						data.push(this.data[i])
-					}
-				}
-				return data
+				return this.data.filter(i => i.station_name.toLowerCase().includes(this.filter.toLowerCase()))
 			}
 			return this.data
 		}

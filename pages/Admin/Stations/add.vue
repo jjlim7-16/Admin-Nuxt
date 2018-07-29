@@ -70,7 +70,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import moment from 'moment'
 import DataModel from '../../../models/dataModel.js'
 import config from '~/config.js'
@@ -195,20 +194,17 @@ export default {
 			maxTime: max,
 			startTime: min,
 			endTime: max,
-			files: [],
-			stationList: []
+			files: []
 		}
 	},
 	beforeMount() {
-		axios.get(`http://${config.serverURL}/stations`)
-		.then(res => {
-			this.stationList = res.data
-		})
 		this.$store.commit('setPageTitle', 'Add Station')
 	},
 	methods: {
-		submit() {
-			if (this.stationList.find(i => i.station_name.toLowerCase() === this.name.toLowerCase())) {
+		async submit() {
+			let res = await this.$axios.get(`http://${config.serverURL}/stations`)
+
+			if (res.data.find(i => i.station_name.toLowerCase() === this.name.toLowerCase())) {
 				this.$dialog.alert({
 					title: 'Error: Add Station',
 					message: `The Station: \'${this.name}\' already exists`,
@@ -223,14 +219,14 @@ export default {
 				this.roles)
 
 				let formData = new FormData()
+				formData.append('webFormData', JSON.stringify(station))
 				formData.append(station.name, this.files[0])
 				for (var i = 0; i < station.roles.length; i++) {
 					let file = station.roles[i].file
 					formData.append("Role-" + station.roles[i].roleName, file)
 				}
-				formData.append('webFormData', JSON.stringify(station))
 
-				axios.post(`http://${config.serverURL}/stations/`, formData)
+				this.$axios.post(`http://${config.serverURL}/stations/`, formData)
 				.then(res => {
 					roleList = []
 					this.roles = roleList

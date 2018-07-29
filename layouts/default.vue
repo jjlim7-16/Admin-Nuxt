@@ -102,6 +102,7 @@ export default {
       this.$store.dispatch('logout')
       .then(() => {
         Cookie.set('auth', null)
+        this.$axios.setToken(false)
         this.$router.push('/')
       })
     },
@@ -112,7 +113,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .navbar-menu {
   display: none;
 }

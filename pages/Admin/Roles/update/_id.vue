@@ -1,6 +1,6 @@
 <template>
 	<div id="content" class="box">
-		<div class="is-pulled-left">
+		<div class="is-pulled-left" style="width: 33vw;">
 			<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
 				<b-select placeholder='Select Station' v-model="stationId" name="stationId" v-validate="'required'"
@@ -11,7 +11,7 @@
 				</b-select>
 			</b-field>
 
-			<b-field label='Role Name*' width="410px" :type="errors.has('roleName') ? 'is-danger': ''"
+			<b-field label='Role Name*' :type="errors.has('roleName') ? 'is-danger': ''"
 				:message="errors.has('roleName') ? errors.first('roleName') : ''">
 				<b-input
 					placeholder='Enter Role Title'
@@ -22,44 +22,29 @@
 				</b-input>
 			</b-field>
 
-			<b-field grouped>
-				<b-field label='Capacity'>
-					<b-select v-model='capacity' placeholder='Select Max. Capacity' required>
-						<option v-for="i in 12" :key="i">{{ i }}</option>
-					</b-select>
-				</b-field>
-
-				<b-field label='Duration'>
-					<b-select placeholder='Select Activity Duration' v-model="duration" required>
-						<option value="20">20 mins</option>
-						<option value="30">30 mins</option>
-						<option value="40">40 mins</option>
-					</b-select>
-				</b-field>
+			<b-field label='Duration'>
+				<b-select placeholder='Select Activity Duration' v-model="duration" required>
+					<option value="20">20 mins</option>
+					<option value="30">30 mins</option>
+					<option value="40">40 mins</option>
+				</b-select>
 			</b-field>
 
-			<b-field label='Image*'>
-				<b-field class='file'>
-					<b-upload v-model='files' accept="image/*">
-						<a class='button is-primary'>
-							<b-icon icon='upload'></b-icon>
-							<span>Upload Image</span>
-						</a>
-					</b-upload>
-					<span class='file-name' v-if='files && files.length'>
-					{{ files[0].name }}
-					</span>
-				</b-field>
+			<b-field label='Capacity'>
+				<b-select v-model='capacity' placeholder='Select Max. Capacity' required>
+					<option v-for="i in 12" :key="i">{{ i }}</option>
+				</b-select>
 			</b-field>
 
-			<br/>
-			<button class="button is-success" :disabled="isDisabled" @click="update()">Update Role</button>
-			&nbsp;&nbsp;
-			<button class="button is-danger" @click="remove()">Delete Role</button>
+			<div style="bottom: 0; position: absolute; margin-bottom: 10vh;">
+				<button class="button is-success" :disabled="isDisabled" @click="update()">Update Role</button>
+				&nbsp;&nbsp;
+				<button class="button is-danger" @click="remove()">Delete Role</button>
+			</div>
 		</div>
-		<div class="is-pulled-right">
+		<div class="is-pulled-left" style="margin-left: 5vw;">
 			<b-field label="Image">
-				<b-upload v-model="files" drag-drop>
+				<b-upload v-model="files" @input="imageChanged=true" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
@@ -67,7 +52,7 @@
 						</div>
 					</section>
 					<section class="image-section" v-else-if="files && files.length > 0">
-						<figure id="preview" class="content has-text-centered image is-4by3">
+						<figure id="preview" class="content has-text-centered image is-4by5">
 							<img :src="readImageFile">
 						</figure>
 					</section>
@@ -78,7 +63,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import DataModel from '../../../../models/dataModel.js'
 import config from '~/config.js'
 
@@ -91,56 +75,91 @@ export default {
 			files: [],
 			stationList: [],
 			stationId: null,
-			imageurl: ''
+			imageurl: '',
+			currRole: null,
+			imageChanged: false
 		}
 	},
-	async beforeCreate() {
-		let res = await axios.get(`http://${config.serverURL}/roles/` + this.$route.params['id'])
-		this.stationList = res.data[1]
-		let data = res.data[0][0]
-		this.roleName = data.role_name
-		this.duration = data.durationInMins
-		this.capacity = data.capacity
-		this.stationId = data.station_id
-		
-		// res = await axios.get(`http://${config.serverURL}/roles/` + this.$route.params['id'])
-		
-		this.$store.commit('setPageTitle', 'Edit Role')
+	async beforeMount() {
+		try {
+			let res = await this.$axios.get(`http://${config.serverURL}/roles/${this.$route.params['id']}`)
+			this.stationList = res.data[1]
+			this.currRole = res.data[0][0]
+			this.roleName = this.currRole.role_name
+			this.duration = this.currRole.durationInMins
+			this.capacity = this.currRole.capacity
+			this.stationId = this.currRole.station_id
+			
+			res = await this.$axios.get(`http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`)
+			let file = new File([res.data], 'image', { type: 'image/*' })
+			this.files.push(file)
+			this.imageurl = `http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`
+			
+			this.$store.commit('setPageTitle', 'Edit Role')
+		} catch(err) {
+			console.log(err)
+		}
 	},
 	computed: {
 		isDisabled() {
-			return !this.roleName || !this.capacity || !this.files[0];
+			if (this.currRole) {
+				return (this.currRole.role_name === this.roleName && this.currRole.capacity === this.capacity
+				&& this.imageChanged === false) || !this.roleName || !this.capacity || !this.files[0]
+			}
+		},
+		readImageFile() {
+			if (!this.imageChanged) {
+				this.imageurl = `http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`
+			}
+			else {
+				this.imageurl = URL.createObjectURL(this.files[0])
+			}
+			return this.imageurl
 		}
 	},
 	methods: {
-		update() {
-			let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-			let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
-			this.files[0], this.stationId)
+		async update() {
+			let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
+			if (res.data[0].find(i => i.role_name === this.roleName.trim() 
+			&& i.role_id !== this.currRole.role_id)) {
+				this.$dialog.alert({
+					title: "Role Exists",
+					message: `Error! The Role \'${this.roleName}\' Already Exists`,
+					type: "is-danger",
+					hasIcon: true
+				})
+			}
+			else {
+				let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
+				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
+				this.files[0], this.stationId)
 
-			let formData = new FormData()
-			formData.append(stationName + '-' + role.roleName, this.files[0])
-			formData.append('webFormData', JSON.stringify(role))
-
-			axios.put(`http://${config.serverURL}/roles/` + this.$route.params['id'], formData)
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.alert({
-						title: 'Update Role',
-						message: `The Role \'${this.roleName}\' has been successfully updated`,
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						iconPack: 'mdi'
-					})
+				let formData = new FormData()
+				if (this.imageChanged) {
+					formData.append('Role-' + role.roleName, this.files[0])
 				}
-			})
-			.catch(err => {
-				console.log(err)
-			})
+				formData.append('webFormData', JSON.stringify(role))
+
+				this.$axios.put(`http://${config.serverURL}/roles/` + this.$route.params['id'], formData)
+				.then(res => {
+					if (res.status === 200) {
+						this.$dialog.alert({
+							title: 'Update Role',
+							message: `The Role \'${this.roleName}\' has been successfully updated`,
+							type: 'is-success',
+							hasIcon: true,
+							icon: 'check-circle',
+							iconPack: 'mdi'
+						})
+					}
+				})
+				.catch(err => {
+					console.log(err)
+				})
+			}
 		},
 		remove() {
-			axios.delete(`http://${config.serverURL}/roles/` + this.$route.params['id'])
+			this.$axios.delete(`http://${config.serverURL}/roles/` + this.$route.params['id'])
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.confirm({
@@ -160,8 +179,8 @@ export default {
 
 <style scoped>
 #preview {
-	width: 20vw;
-	height: 80%;
+	width: 15vw;
+	height: 60%;
 }
 
 .section {
@@ -169,6 +188,6 @@ export default {
 }
 
 .image-section {
-	padding: 24px;
+	padding: 12px;
 }
 </style>

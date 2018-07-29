@@ -43,7 +43,8 @@ export default {
 				if (res.status === 200) {
 					const auth = res.data
 					this.$store.commit('update', auth)
-					Cookie.set('auth', auth)
+          Cookie.set('auth', auth)
+          this.$axios.setToken(auth.token, 'Bearer')
 					if (auth.user.account_type === 'Admin') {
 						this.$router.push('/Admin/Dashboard')
 					}

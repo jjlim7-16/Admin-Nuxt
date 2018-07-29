@@ -4,7 +4,8 @@ module.exports = {
 		{ src: '~plugins/vee-validate.js', ssr: true },
 		{ src: '~plugins/vue-chartjs.js', ssr: false },
 		{ src: '~plugins/socket-io.js', ssr: false },
-		'~plugins/axios.js'
+		'~plugins/axios.js',
+		'~plugins/auth.js'
 	],
 	/*
 	** Headers of the page

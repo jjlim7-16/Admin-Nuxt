@@ -68,13 +68,12 @@ export default {
       stationId: null
     }
   },
-  async beforeCreate() {
+  async beforeMount() {
     this.$store.commit('setPageTitle', 'Dashboard')
-    let res = await axios.get(`http://${config.serverURL}/roles/`)
+    let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
     this.stationList = res.data[1]
     this.stationId = this.stationList[0].station_id
-  },
-  beforeMount() {
+
     socket = io.socketio.connect(`http://${config.serverURL}/dashboard`)
     socket.on('getBookingCount', (data) => {
       this.noOfBookings = data

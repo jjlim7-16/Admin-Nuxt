@@ -131,27 +131,26 @@ export default {
     let startTime;
     let endTime;
 
-    axios
-      .get(`http://${config.serverURL}/bookings/getbookinglist/1`)
-      .then(res => {
-        if (res.status === 200) {
-          console.log(res.data);
-          console.log(res.data[0]);
-          theData = res.data;
-          this.bookingList = theData;
+    this.$axios.get(`http://${config.serverURL}/bookings/getbookinglist/1`)
+    .then(res => {
+      if (res.status === 200) {
+        console.log(res.data)
+        console.log(res.data[0])
+        theData = res.data
+        this.bookingList = theData
 
-          this.sessionStartTime = theData[0].session_start;
-          this.sessionEndTime = theData[0].session_end;
-          this.stationName = theData[0].station_name;
-          this.numberOfBooking = theData.length;
-          this.setRefresh();
-        } else {
-          console.dir(res.status);
-        }
-      })
-      .catch(err => {
-        console.log("FAILA");
-      });
+        this.sessionStartTime = theData[0].session_start
+        this.sessionEndTime = theData[0].session_end
+        this.stationName = theData[0].station_name
+        this.numberOfBooking = theData.length
+        this.setRefresh()
+      } else {
+        console.dir(res.status)
+      }
+    })
+    .catch(err => {
+      console.log("FAIL")
+    });
   },
   mounted() {
     let self = this;
@@ -176,68 +175,65 @@ export default {
               this.bookingList[i].time_in
             );
 
-            let formData = new FormData();
+            let formData = new FormData()
             //console.log(formData)
-            formData.append(webFormData.name);
-            formData.append("webFormData", JSON.stringify(webFormData));
-            console.log(webFormData);
-            axios
-              .put(`http://${config.serverURL}/bookings/` + booking_id, formData)
-              .then(res => {
-                // console.log(res.data)
-              })
-              .catch(() => {
-                console.log("FAILURE");
-              });
+            formData.append(webFormData.name)
+            formData.append("webFormData", JSON.stringify(webFormData))
+            console.log(webFormData)
+            this.$axios.put(`http://${config.serverURL}/bookings/` + booking_id, formData)
+            .then(res => {
+              // console.log(res.data)
+            })
+            .catch(() => {
+              console.log("FAILURE")
+            })
           }
         }
       }
       if (isExist == false) {
-        let booking;
-        axios
-          .get(`http://${config.serverURL}/bookings/` + scannedID)
-          .then(res => {
-            if (res.status === 200) {
-              console.log(res.data);
-              if (res.data != null) {
-                booking = res.data[0];
-                this.userBookingRoleName = booking.role_name;
-                this.userBookingStationName = booking.station_name;
-                this.userBookingSessionStartTime = booking.session_start;
-                this.userBookingSsessionEndTime = booking.session_end;
-                this.$dialog.alert({
-                  title: "Wrong Booking",
-                  message:
-                    "You have a booking as " +
-                    this.userBookingRoleName +
-                    " at " +
-                    this.userBookingStationName +
-                    " from " +
-                    this.userBookingRSessionStartTime +
-                    " to " +
-                    this.userBookingSessionEndTime,
-                  type: "is-danger",
-                  hasIcon: true,
-                  icon: "times-circle",
-                  iconPack: "fa"
-                });
-              } else {
-                this.$toast.open({
-                  duration: 5000,
-                  message: "User does not have any bookings!",
-                  position: "is-bottom",
-                  type: "is-danger"
-                });
-              }
+        let booking
+        this.$axios.get(`http://${config.serverURL}/bookings/` + scannedID)
+        .then(res => {
+          if (res.status === 200) {
+            console.log(res.data);
+            if (res.data != null) {
+              booking = res.data[0];
+              this.userBookingRoleName = booking.role_name;
+              this.userBookingStationName = booking.station_name;
+              this.userBookingSessionStartTime = booking.session_start;
+              this.userBookingSsessionEndTime = booking.session_end;
+              this.$dialog.alert({
+                title: "Wrong Booking",
+                message:
+                  "You have a booking as " +
+                  this.userBookingRoleName +
+                  " at " +
+                  this.userBookingStationName +
+                  " from " +
+                  this.userBookingRSessionStartTime +
+                  " to " +
+                  this.userBookingSessionEndTime,
+                type: "is-danger",
+                hasIcon: true,
+                icon: "times-circle",
+                iconPack: "fa"
+              });
             } else {
-              console.dir(res.status);
+              this.$toast.open({
+                duration: 5000,
+                message: "User does not have any bookings!",
+                position: "is-bottom",
+                type: "is-danger"
+              });
             }
-          })
-          .catch(err => {
-            console.log("FailAA");
-            booking = null;
-
-          });
+          } else {
+            console.dir(res.status);
+          }
+        })
+        .catch(err => {
+          console.log("Fail")
+          booking = null
+        })
       } else {
         scannedArray.push(e.key);
       }

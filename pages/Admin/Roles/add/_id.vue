@@ -24,40 +24,24 @@
 				</b-input>
 			</b-field>
 
-			<b-field grouped>
-				<b-field label='Capacity'>
-					<b-select size="5" v-model='capacity' placeholder='Select Max. Capacity' required>
-						<option v-for="i in 12" :key="i">{{ i }}</option>
-					</b-select>
-				</b-field>
-
-				<b-field label='Duration'>
-					<b-select placeholder='Select Activity Duration' :value="getDuration">
-						<option value="20">20 mins</option>
-						<option value="30">30 mins</option>
-						<option value="40">40 mins</option>
-					</b-select>
-				</b-field>
+			<b-field label='Duration'>
+				<b-select placeholder='Select Activity Duration' :value="getDuration" disabled>
+					<option value="20">20 mins</option>
+					<option value="30">30 mins</option>
+					<option value="40">40 mins</option>
+				</b-select>
 			</b-field>
 
-			<b-field label='Image*'>
-				<b-field class='file'>
-					<b-upload v-model='files' accept="image/*">
-						<a class='button is-primary'>
-							<b-icon icon='upload'></b-icon>
-							<span>Upload Image</span>
-						</a>
-					</b-upload>
-					<span class='file-name' v-if='files && files.length'>
-					{{ files[0].name }}
-					</span>
-				</b-field>
+			<b-field label='Capacity'>
+				<b-select size="5" v-model='capacity' placeholder='Select Max. Capacity' required>
+					<option v-for="i in 12" :key="i" :value="i">{{ i }}</option>
+				</b-select>
 			</b-field>
-
-			<br/>
-			<button class="button is-success" :disabled="isDisabled" @click="submit()">Add Role</button>
+			
+			<button class="button is-success" :disabled="isDisabled" @click="submit()" 
+			style="position: absolute; bottom: 0; margin-bottom: 12vh;">Add Role</button>
 		</div>
-		<div class="is-pulled-right">
+		<div class="is-pulled-left" style="margin-left: 5vw;">
 			<b-field label="Image">
 				<b-upload v-model="files" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
@@ -67,7 +51,7 @@
 						</div>
 					</section>
 					<section class="image-section" v-else-if="files && files.length > 0">
-						<figure id="preview" class="content has-text-centered image is-4by3">
+						<figure id="preview" class="content has-text-centered image is-4by5">
 							<img :src="readImageFile">
 						</figure>
 					</section>
@@ -95,7 +79,7 @@ export default {
 			imageurl: ''
 		}
 	},
-	async beforeCreate() {
+	async beforeMount() {
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.stationList = res.data[1]
 		this.roleList = res.data[0]
@@ -122,8 +106,9 @@ export default {
 		}
 	},
 	methods: {
-		submit() {
-			// let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
+		async submit() {
+			let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
+			this.roleList = res.data[0]
 			if (this.roleList.find(i => i.role_name === this.roleName.trim())) {
 				this.$dialog.alert({
 					title: "Role Exists",
@@ -133,6 +118,7 @@ export default {
 				})
 			}
 			else {
+				let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
 				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
 				this.files[0], this.stationId)
 
@@ -140,21 +126,19 @@ export default {
 				formData.append('Role-' + role.roleName, this.files[0])
 				formData.append('webFormData', JSON.stringify(role))
 
-				axios.post(`http://${config.serverURL}/roles/`, formData)
+				this.$axios.post(`http://${config.serverURL}/roles/`, formData)
 				.then(res => {
 					if (res.status === 200) {
-						this.$dialog.alert({
+						this.$dialog.confirm({
 							title: 'Add Role',
 							message: `A new role has been successfully added to \'${stationName}\'.`,
 							type: 'is-success',
 							hasIcon: true,
 							icon: 'check-circle',
-							iconPack: 'mdi'
+							iconPack: 'mdi',
+							onConfirm: () => this.$router.push('/Admin/Roles')
 						})
 					}
-				})
-				.catch(err => {
-					console.log(err)
 				})
 			}
 		}
@@ -169,11 +153,10 @@ export default {
 }
 
 .section {
-	height: 30vh;
+	height: 33vh;
 }
 
 .image-section {
-	padding: 24px;
+	padding: 12px;
 }
 </style>
-

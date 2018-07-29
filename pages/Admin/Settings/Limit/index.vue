@@ -1,6 +1,6 @@
 <template>
 	<section id="content" class="box">
-		<b-field grouped group-multiline v-if="isEmpty !== true">
+		<b-field grouped group-multiline>
 			<b-field label="Filter By Date:" style="margin-top: 0.9vh;"></b-field>&nbsp;
 			<b-select placeholder="Filter By Date" v-model="filter">
 				<option v-for="(date, index) in dateList" :key="index">
@@ -66,7 +66,8 @@
 				</section>
 			</template>
 		</b-table>
-		<router-link to="/Admin/Settings/Limit/setLimit" tag="button" class="button is-primary">
+		<router-link to="/Admin/Settings/Limit/setLimit" 
+		style="bottom: 0; position: absolute; margin-bottom: 10vh;" tag="button" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
 			<span>Set New Limit</span>
 		</router-link>
@@ -90,14 +91,12 @@ export default {
 			date: new Date()
 		}
 	},
-	beforeCreate() {
+	async beforeMount() {
 		this.$store.commit('setPageTitle', 'Manage Limits')
 
-		axios.get(`http://${config.serverURL}/limit/`)
-		.then(res => {
-			this.data = res.data[0]
-			this.dateList = res.data[1]
-		})
+		let res = this.$axios.get(`http://${config.serverURL}/limit/`)
+		this.data = res.data[0]
+		this.dateList = res.data[1]
 	},
 	methods: {
 		deleteLimit(limit_id) {
@@ -108,7 +107,7 @@ export default {
 				type: 'is-danger',
 				hasIcon: true,
 				onConfirm: () =>
-				axios.delete(`http://${config.serverURL}/limit/` + limit_id)
+				this.$axios.delete(`http://${config.serverURL}/limit/` + limit_id)
 				.then(res => {
 					if (res.status === 200) {
 						this.$dialog.confirm({

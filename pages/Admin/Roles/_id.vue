@@ -15,8 +15,7 @@
 			:paginated="paginated"
 			:per-page="perPage"
 			:current-page.sync="currentPage"
-			default-sort-direction="asc"
-			default-sort="station_id">
+			:default-sort="['station_name', 'asc']">
 
 			<template slot-scope="props">
 				<b-table-column field="station_name" label="Station Name" sortable>
@@ -63,38 +62,23 @@ export default {
 			stationList: []
 		}
 	},
-	beforeCreate() {
+	beforeMount() {
 		this.$store.commit('setPageTitle', 'Manage Roles')
 		
-		axios.get(`http://${config.serverURL}/roles/`)
-		.then((res) => {
-			this.data = res.data[0]
-			this.stationList = res.data[1]
-			if (this.$route.params['id'] !== 'All') {
-				for (var i in this.data) {
-					if (this.data[i].station_id === parseInt(this.$route.params['id'])) {
-						this.filter = this.data[i].station_name
-						break
-					}
-				}
-			}
-		})
-		.catch(() => {
-			console.log('FAIL')
-		})
+		let res = this.$axios.get(`http://${config.serverURL}/roles/`)
+		this.data = res.data[0]
+		this.stationList = res.data[1]
+		if (this.$route.params['id']) {
+			this.data.filter(i => i.station_id === parseInt(this.$route.params['id']))
+			this.filter = this.data[0].station_name
+		}
 	},
 	computed: {
 		filteredData: function() {
 			if (this.filter === 'All') {
 				return this.data
 			}
-			let data = []
-			for (var x in this.data) {
-				if (this.data[x].station_name === this.filter) {
-					data.push(this.data[x])
-				}
-			}
-			return data
+			return this.data.filter(i => i.station_name === this.filter)
 		}
 	}
 }
