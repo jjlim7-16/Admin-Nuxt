@@ -113,7 +113,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .navbar-menu {
   display: none;
 }
