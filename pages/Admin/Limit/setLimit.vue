@@ -85,7 +85,7 @@ export default {
 						hasIcon: true,
 						icon: 'check-circle',
 						iconPack: 'mdi',
-						onConfirm: () => this.$router.push('/Admin/Settings/Limit')
+						onConfirm: () => this.$router.push('/Admin/Limit')
 					})
 				}
 			})

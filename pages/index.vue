@@ -98,6 +98,7 @@ img {
   position: absolute;
   width: 100%;
   top: 50%;
+  margin: auto;
   transform: translateY(-50%);
 }
 

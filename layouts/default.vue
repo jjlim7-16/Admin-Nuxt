@@ -16,7 +16,7 @@
           <nuxt-link to="/Admin/Roles">Manage Roles</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/Admin/Settings/Limit">Manage Limits</nuxt-link>
+          <nuxt-link to="/Admin/Limit">Manage Limits</nuxt-link>
         </li>
       </ul>
 
@@ -63,7 +63,7 @@
                   <nuxt-link to="/Admin/Roles">Manage Roles</nuxt-link>
                 </li>
                 <li class="navbar-item">
-                  <nuxt-link to="/Admin/Settings/Limit">Manage Limits</nuxt-link>
+                  <nuxt-link to="/Admin/Limit">Manage Limits</nuxt-link>
                 </li>
               </ul>
 
@@ -92,6 +92,7 @@
 import Cookie from 'js-cookie'
 
 export default {
+  // middleware: 'authenticated',
   data() {
     return {
       menuIsActive: false

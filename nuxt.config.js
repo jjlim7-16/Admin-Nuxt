@@ -1,5 +1,5 @@
 module.exports = {
-	modules: ['nuxt-buefy', '@nuxtjs/axios'],
+	modules: ['nuxt-buefy', '@nuxtjs/axios', ['@nuxtjs/pwa', { icon: false }]],
 	plugins: [
 		{ src: '~plugins/vee-validate.js', ssr: true },
 		{ src: '~plugins/vue-chartjs.js', ssr: false },
@@ -7,6 +7,9 @@ module.exports = {
 		'~plugins/axios.js',
 		'~plugins/auth.js'
 	],
+	router: {
+		// middleware: ['authenticated']
+	},
 	/*
 	** Headers of the page
 	*/

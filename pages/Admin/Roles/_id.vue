@@ -62,10 +62,10 @@ export default {
 			stationList: []
 		}
 	},
-	beforeMount() {
+	async beforeMount() {
 		this.$store.commit('setPageTitle', 'Manage Roles')
 		
-		let res = this.$axios.get(`http://${config.serverURL}/roles/`)
+		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.data = res.data[0]
 		this.stationList = res.data[1]
 		if (this.$route.params['id']) {

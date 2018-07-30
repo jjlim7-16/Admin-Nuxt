@@ -1,4 +1,4 @@
-export default function ({$axios, app, store}) {
+export default function ({$axios, redirect, store}) {
 	$axios.onRequest(config => {
 		config.headers['Content-Type'] = 'application/json'
 		config.headers['Access-Control-Allow-Origin'] = '*'
@@ -8,5 +8,7 @@ export default function ({$axios, app, store}) {
 		// config.headers.common['Authorization'] = store.state.auth.token
 		$axios.setToken(store.state.auth.token, 'Bearer')
 		// $axios.defaults.headers.common.Authorization = store.state.auth.token
+	} else {
+		return redirect('/')
 	}
 }

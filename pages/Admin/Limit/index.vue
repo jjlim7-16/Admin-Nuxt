@@ -41,7 +41,7 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link>
-							<router-link :to="{ path: `/Admin/Settings/Limit/Update/${props.row.limit_id}`}">
+							<router-link :to="{ path: `/Admin/Limit/Update/${props.row.limit_id}`}">
 								Update Limit
 							</router-link>
 						</b-dropdown-item>
@@ -66,7 +66,7 @@
 				</section>
 			</template>
 		</b-table>
-		<router-link to="/Admin/Settings/Limit/setLimit" 
+		<router-link to="/Admin/Limit/setLimit" 
 		style="bottom: 0; position: absolute; margin-bottom: 10vh;" tag="button" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
 			<span>Set New Limit</span>
@@ -117,7 +117,7 @@ export default {
 							hasIcon: true,
 							icon: 'check-circle',
 							iconPack: 'mdi',
-							onConfirm: () => this.$router.go({path: '/Admin/Settings/Limit', force: true})
+							onConfirm: () => this.$router.go({path: '/Admin/Limit', force: true})
 						})
 					}
 				})
