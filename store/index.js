@@ -1,25 +1,26 @@
 import Vuex from 'vuex'
 var cookieparser = require('cookieparser')
 
-const createStore = () =>  {
-	return new Vuex.Store( {
+const createStore = () => {
+	return new Vuex.Store({
 		state: {
-			pageName:'', 
-			auth:null
-		}, 
+			pageName: '',
+			auth: null
+		},
 		mutations: {
 			setPageTitle (state, payload) {
 				state.pageName = payload
-			}, 
+			},
 			update (state, data) {
 				state.auth = data
-			}, setSocket:(state, socket) =>  {
-				state.io = socket; 
-				console.log("Socket Connected"); 
+			},
+			setSocket (state, socket) {
+				state.io = socket
+				console.log('Socket Connected')
 			}
-		}, 
+		},
 		actions: {
-			nuxtServerInit ( {commit },  {req }) {
+			nuxtServerInit ({commit}, {req}) {
 				let accessToken = null
 				if (req.headers.cookie) {
 					var parsed = cookieparser.parse(req.headers.cookie)
@@ -28,10 +29,10 @@ const createStore = () =>  {
 					}
 				}
 				commit('update', accessToken)
-			}, 
-			logout ( {commit }) {
-				return new Promise((resolve, reject) =>  {
-					setTimeout(() =>  {
+			},
+			logout ({commit}) {
+				return new Promise((resolve, reject) => {
+					setTimeout(() => {
 						commit('update', null)
 						resolve()
 					}, 1000)
