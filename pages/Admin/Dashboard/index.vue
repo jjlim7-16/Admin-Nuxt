@@ -49,7 +49,7 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
-import io from '../../../plugins/socket-io.js'
+import io from '~/plugins/socket-io.js'
 import config from '~/config.js'
 // import { mapGetters } from 'vuex'
 

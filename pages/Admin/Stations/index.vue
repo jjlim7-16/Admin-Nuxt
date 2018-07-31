@@ -75,7 +75,6 @@
 
 <script>
 import axios from 'axios'
-import FileSaver from 'file-saver'
 import config from '~/config.js'
 
 export default {

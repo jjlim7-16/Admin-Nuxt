@@ -7,9 +7,6 @@ module.exports = {
 		'~plugins/axios.js',
 		'~plugins/auth.js'
 	],
-	router: {
-		// middleware: ['authenticated']
-	},
 	/*
 	** Headers of the page
 	*/

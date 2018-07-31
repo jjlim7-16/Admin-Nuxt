@@ -1,44 +1,34 @@
 <template>
-	<section id="content" class="box">
-		<div class="is-pulled-left">
+	<section id="content" class="box columns">
+		<div class="column is-6">
 			<b-field label='Station Name*'>
 				<b-input placeholder='Enter Station Name' v-model="name" required></b-input>
 			</b-field>
 
-			<b-field grouped>
-				<b-field label="Select Start Time">
-					<b-timepicker v-model="startTime"
-						:min-time='minTime'
-						:max-time='maxTime'
-						:increment-minutes=10>
-					</b-timepicker>
-				</b-field>
+			<div class="columns">
+				<div class="column is-half">
+					<b-field label="Select Start Time">
+						<b-timepicker v-model="startTime"
+							:min-time='minTime'
+							:max-time='maxTime'
+							:increment-minutes=10>
+						</b-timepicker>
+					</b-field>
+				</div>
 
-				<b-field label="Select End Time">
-					<b-timepicker v-model="endTime"
-						:min-time='minTime'
-						:max-time='maxTime'
-						:increment-minutes=10>
-					</b-timepicker>
-				</b-field>
-			</b-field>
+				<div class="column is-half">
+					<b-field label="Select End Time">
+						<b-timepicker v-model="endTime"
+							:min-time='minTime'
+							:max-time='maxTime'
+							:increment-minutes=10>
+						</b-timepicker>
+					</b-field>
+				</div>
+			</div>
 
 			<b-field label="Description">
-				<b-input maxlength="500" type="textarea" v-model="description" required></b-input>
-			</b-field>
-
-			<b-field label='Image' style="margin-top: -2vh">
-				<b-field class='file'>
-					<b-upload v-model='files' accept="image/*">
-						<a class='button is-primary'>
-							<b-icon icon='upload'></b-icon>
-							<span>Upload Image</span>
-						</a>
-					</b-upload>
-					<span class='file-name' v-if='files && files.length'>
-					{{ files[0].name }}
-					</span>
-				</b-field>
+				<b-input rows='5' maxlength="500" type="textarea" v-model="description" required></b-input>
 			</b-field>
 
 			<br/>
@@ -47,13 +37,13 @@
 			<button class="button is-danger" @click='remove()'>Remove Station</button>
 		</div>
 
-		<div class="is-pulled-right">
+		<div class="column is-4">
 			<b-field label="Image">
 				<b-upload v-model="files" @input="imageChanged = true" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
-							<p>Drop your image here or click to upload</p>
+							<p>Click to upload an image</p>
 						</div>
 					</section>
 					<section class="image-section" v-else-if="files && files.length > 0">
@@ -70,7 +60,7 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
-import DataModel from '../../../../models/dataModel.js'
+import DataModel from '~/models/dataModel.js'
 import config from '~/config'
 
 export default {
@@ -89,7 +79,6 @@ export default {
 			startTime: min,
 			endTime: max,
 			files: [],
-			imageurl: '',
 			imageChanged: false,
 			origData: null
 		}
@@ -115,7 +104,6 @@ export default {
 			res = await this.$axios.get(`http://${config.serverURL}/stations/getImage/${this.$route.params.id}`)
 			let file = new File([res.data], 'image', { type: 'image/*' })
 			this.files.push(file)
-			this.imageurl = `http://${config.serverURL}/stations/getImage/${this.$route.params.id}`
 			
 			res = await this.$axios.get(`http://${config.serverURL}/stations/`)
 
@@ -206,13 +194,14 @@ export default {
 			}
 		},
 		readImageFile() {
+			let imageurl = ''
 			if (!this.imageChanged) {
-				this.imageurl = `http://${config.serverURL}/stations/getImage/${this.$route.params.id}`
+				imageurl = `http://${config.serverURL}/stations/getImage/${this.$route.params.id}`
 			}
 			else {
-				this.imageurl = URL.createObjectURL(this.files[0])
+				imageurl = URL.createObjectURL(this.files[0])
 			}
-			return this.imageurl
+			return imageurl
 		}
 	}
 }

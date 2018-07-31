@@ -1,148 +1,159 @@
 <template>
-	<section id='content' class="box">
-		<b-field label='Station Name *' width="410px" :type="errors.has('name') ? 'is-danger': ''" 
-			:message="errors.has('name') ? errors.first('name') : ''">
-			<b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'"
-			v-validate="'required|alpha_spaces'"></b-input>
-		</b-field>
-
-		<b-field grouped>
-			<b-field label="Select Start Time">
-				<b-timepicker v-model="startTime"
-					:min-time='minTime'
-					:max-time='maxTime'
-					:increment-minutes=10>
-				</b-timepicker>
+	<section id='content' class="box columns">
+		<div class="column is-6">
+			<b-field label='Station Name *' :type="errors.has('name') ? 'is-danger': ''" 
+				:message="errors.has('name') ? errors.first('name') : ''">
+				<b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'"
+				v-validate="'required|alpha_spaces'"></b-input>
 			</b-field>
 
-			<b-field label="Select End Time">
-				<b-timepicker v-model="endTime"
-					:min-time='minTime'
-					:max-time='maxTime'
-					:increment-minutes=10>
-				</b-timepicker>
-			</b-field>
-		</b-field>
-
-		<b-field label="Description" width="410px">
-			<b-input maxlength="500" type="textarea" v-model="description" required></b-input>
-		</b-field>
-
-		<b-field label='Image' style="margin-top: -10px">
-			<b-field class='file'>
-				<b-upload v-model='files' accept="image/*">
-					<a class='button is-primary'>
-						<b-icon icon='upload'></b-icon>
-						<span>Upload Image</span>
-					</a>
-				</b-upload>
-				<span class='file-name' v-if='files && files.length'>
-				{{ files[0].name }}
-				</span>
-			</b-field>
-		</b-field>
-
-		<b-field label="Roles" >
-			<b-field grouped group-multiline>
-				<div class="control" v-if="roles.length>0" v-for="role in roles" :key="role.roleName">
-					<b-tag v-if="(role.roleName)"
-						type="is-primary" size="is-medium"
-						attached closable
-						@close="removeRole(role)">
-						{{role.roleName}}
-					</b-tag>
+			<div class="columns">
+				<div class="column is-half">
+					<b-field label="Select Start Time">
+						<b-timepicker v-model="startTime"
+							:min-time='minTime'
+							:max-time='maxTime'
+							:increment-minutes=10>
+						</b-timepicker>
+					</b-field>
 				</div>
-				<button class="button is-primary"
-					@click="isComponentModalActive = true">
-					<b-icon icon="plus-circle"></b-icon>
-					<span>Add Role</span>
-				</button>
+
+				<div class="column is-half">
+					<b-field label="Select End Time">
+						<b-timepicker v-model="endTime"
+							:min-time='minTime'
+							:max-time='maxTime'
+							:increment-minutes=10>
+						</b-timepicker>
+					</b-field>
+				</div>
+			</div>
+
+			<b-field label="Description">
+				<b-input maxlength="500" type="textarea" v-model="description" required></b-input>
 			</b-field>
-		</b-field>
 
-		<b-modal :active.sync="isComponentModalActive" @click="onClose()" has-modal-card>
-			<modal-form></modal-form>
-		</b-modal>
+			<b-field label="Roles" style="margin-top: -2vh;">
+				<b-field grouped group-multiline>
+					<div class="control" v-if="roles.length>0" v-for="role in roles" :key="role.roleName">
+						<b-tag v-if="(role.roleName)"
+							type="is-primary" size="is-medium"
+							attached closable
+							@close="removeRole(role)">
+							{{role.roleName}}
+						</b-tag>
+					</div>
+					<button class="button is-primary"
+						@click="isComponentModalActive = true">
+						<b-icon icon="plus-circle"></b-icon>
+						<span>Add Role</span>
+					</button>
+				</b-field>
+			</b-field>
 
-		<br/>
-		<button class="button is-success" :disabled="isDisabled" @click="submit()">Add Station</button>
+			<b-modal :active.sync="isComponentModalActive" @click="onClose()" has-modal-card>
+				<modal-form></modal-form>
+			</b-modal>
+
+			<br/>
+			<button class="button is-success" style="margin-bottom: 4vh;" 
+			:disabled="isDisabled" @submit.prevent="validateBeforeSubmit">Add Station</button>
+		</div>
+
+		<div class="column is-4" style="margin-left: 5vw;">
+			<b-field label="Image">
+				<b-upload v-model="files" drag-drop>
+					<section class="section" v-if="!files || files.length <= 0">
+						<div class="content has-text-centered" id="preview">
+							<p><b-icon icon="upload" size="is-large"></b-icon></p>
+							<p>Click to upload an image</p>
+						</div>
+					</section>
+					<section class="image-section" v-else-if="files && files.length > 0">
+						<figure id="preview" class="content has-text-centered image is-4by3">
+							<img :src="readImageFile">
+						</figure>
+					</section>
+				</b-upload>
+			</b-field>
+		</div>
 	</section>
 </template>
 
 <script>
 import moment from 'moment'
-import DataModel from '../../../models/dataModel.js'
+import DataModel from '~/models/dataModel.js'
 import config from '~/config.js'
 
 let roleList = []
-let stationName = ''
 const ModalForm = {
 	template: `<div>
-<div class='modal-card' style='width: 560px'>
+<div class='modal-card'>
 <header class='modal-card-head'>
 <p class='modal-card-title'>Add Role</p>
 </header>
-<section class='modal-card-body'>
-<b-field label='Role Name' :type="errors.has('roleName') ? 'is-danger': ''"
-:message="errors.has('roleName') ? errors.first('roleName') : ''">
-<b-input style='width: 280px'
-v-model='roleName'
-placeholder='New Role'
-name="roleName"
-data-vv-as="'Role Name'"
-v-validate="'required|alpha_spaces'">
-</b-input>
-</b-field>
-<b-field grouped>
-<b-field label='Capacity'>
-<b-select v-model='capacity' placeholder='Select Max. Capacity' required>
-	<option v-for="i in 12" :key="i">{{ i }}</option>
-</b-select>
-</b-field>
-<b-field label='Duration'>
-<b-select placeholder='Select Activity Duration' v-model="duration">
-<option value="20">20 mins</option>
-<option value="30">30 mins</option>
-<option value="40">40 mins</option>
-</b-select>
-</b-field>
-</b-field grouped>
-<b-field label='Image'>
-<b-field class='file'>
-<b-upload v-model='files' accept="image/*">
-<a class='button is-primary'>
-<b-icon icon='upload'></b-icon>
-<span>Upload Image</span>
-</a>
-</b-upload>
-<span class='file-name'
-v-if='files && files.length'>
-{{ files[0].name }}
-</span>
-</b-field>
-</b-field>
+<section class='modal-card-body columns is-marginless'>
+	<div class='column'>
+		<b-field label='Role Name' :type="errors.has('roleName') ? 'is-danger': ''"
+		:message="errors.has('roleName') ? errors.first('roleName') : ''">
+			<b-input
+				v-model='roleName'
+				placeholder='New Role'
+				name="roleName"
+				data-vv-as="'Role Name'"
+				v-validate="'required|alpha_spaces'">
+			</b-input>
+		</b-field>
+		<b-field class='columns' grouped>
+			<div class='column is-half'>
+				<b-field label='Duration'>
+					<b-select expanded placeholder='Select Activity Duration' v-model="duration">
+						<option value="20">20 mins</option>
+						<option value="30">30 mins</option>
+						<option value="40">40 mins</option>
+					</b-select>
+				</b-field>
+			</div>
+			<div class='column is-half'>
+				<b-field label='Capacity'>
+					<b-select expanded v-model='capacity' placeholder='Select Max. Capacity' required>
+						<option v-for="i in 12" :key="i">{{ i }}</option>
+					</b-select>
+				</b-field>
+			</div>
+		</b-field>
+		<b-field label='Image'>
+			<b-field class='file'>
+				<b-upload v-model='files' accept="image/*">
+					<a class='button is-primary'>
+					<b-icon icon='upload'></b-icon>
+					<span>Upload Image</span>
+					</a>
+				</b-upload>
+				<span class='file-name'
+					v-if='files && files.length'>
+					{{ files[0].name }}
+				</span>
+			</b-field>
+		</b-field>
+	</div>
 </section>
 <footer class='modal-card-foot'>
 <button class='button' type='button' @click='$parent.close()'>Close</button>
-<button class='button is-primary' :disabled='isDisabled' @click='addRole()'>Add New Role</button>
+<button class='button is-primary' :disabled='isDisabled' @click.prevent='validateBeforeSubmit()'>Add New Role</button>
 </footer>
 </div>
 </div> `,
 	methods: {
 		addRole() {
-			let roleExist = false;
-			let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2, this.files[0])
+			let roleExist = false
 
 			if (roleList.length > 0) {
 				let i = 0
-				for (i = 0; i < roleList.length; i++) {
-					if (this.roleName === roleList[i].roleName) {
-						roleExist = true
-						this.alertCustomError()
-					}
-					if (this.roleName === stationName) {
-						this.alertRoleExists()
-					}
+				let roleName = roleList.find(i => i.roleName.toLowerCase() === 
+				this.roleName.trim().toLowerCase()).roleName
+				if (roleName) {
+					this.alertRoleExists()
 				}
 			}
 			if (roleExist === false) {
@@ -157,6 +168,23 @@ v-if='files && files.length'>
 				type: "is-danger",
 				hasIcon: true
 			})
+		},
+		validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.addRole()
+				} else {
+					this.$dialog.alert({
+						title: "Error",
+						message: `Error! Please correct errors before submitting again.`,
+						type: "is-danger",
+						hasIcon: true
+					})
+				}
+			})
+			.catch(() => {
+				return false
+			})
 		}
 	},
 	data() {
@@ -169,7 +197,7 @@ v-if='files && files.length'>
 	},
 	computed: {
 		isDisabled() {
-			return !this.roleName || !this.capacity || !this.files[0];
+			return !this.roleName || !this.capacity || !this.files[0]
 		}
 	}
 }
@@ -194,7 +222,8 @@ export default {
 			maxTime: max,
 			startTime: min,
 			endTime: max,
-			files: []
+			files: [],
+
 		}
 	},
 	beforeMount() {
@@ -204,7 +233,7 @@ export default {
 		async submit() {
 			let res = await this.$axios.get(`http://${config.serverURL}/stations`)
 
-			if (res.data.find(i => i.station_name.toLowerCase() === this.name.toLowerCase())) {
+			if (res.data.find(i => i.station_name.toLowerCase() === this.name.trim().toLowerCase())) {
 				this.$dialog.alert({
 					title: 'Error: Add Station',
 					message: `The Station: \'${this.name}\' already exists`,
@@ -247,6 +276,16 @@ export default {
 				})
 			}
 		},
+		validateBeforeSubmit(e) {
+			e.preventDefault()
+			this.$validator.validateAll().then(() => {
+				console.log('TRUE')
+			})
+			.catch(() => {
+				console.log('FALSE')
+				return false
+			})
+		},
 		removeRole(role) {
 			this.roles.splice(this.roles.findIndex(i => i.roleName === role.roleName), 1)
 			roleList = this.roles;
@@ -258,11 +297,30 @@ export default {
 		},
 		getRoles() {
 			roles = roleList
+		},
+		readImageFile() {
+			if (this.files[0]) {
+				return URL.createObjectURL(this.files[0])
+			}
 		}
 	},
 	beforeUpdate() {
 		this.roles = roleList
-		stationName = this.name
 	}
 }
 </script>
+
+<style scoped>
+#preview {
+	width: 20vw;
+	height: 80%;
+}
+
+.section {
+	height: 30vh;
+}
+
+.image-section {
+	padding: 24px;
+}
+</style>

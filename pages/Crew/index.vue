@@ -62,7 +62,7 @@
 import axios from "axios";
 import moment from "moment";
 import config from "~/config";
-import io from "../../../plugins/socket-io.js";
+import io from "~/plugins/socket-io.js";
 let socket;
 
 function WebFormData(booking_status) {

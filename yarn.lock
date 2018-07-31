@@ -2837,10 +2837,6 @@ file-loader@^1.1.6:
     loader-utils "^1.0.2"
     schema-utils "^0.4.5"
 
-file-saver@^1.3.8:
-  version "1.3.8"
-  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-1.3.8.tgz#e68a30c7cb044e2fb362b428469feb291c2e09d8"
-
 file-type@^3.1.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-3.9.0.tgz#257a078384d1db8087bc449d107d52a52672b9e9"
@@ -6479,7 +6475,7 @@ socket.io-adapter@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-1.1.1.tgz#2a805e8a14d6372124dd9159ad4502f8cb07f06b"
 
-socket.io-client@2.1.1, socket.io-client@^2.0.0:
+socket.io-client@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-2.1.1.tgz#dcb38103436ab4578ddb026638ae2f21b623671f"
   dependencies:
@@ -7233,17 +7229,6 @@ vue-eslint-parser@^2.0.3:
     esquery "^1.0.0"
     lodash "^4.17.4"
 
-vue-formly-buefy@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/vue-formly-buefy/-/vue-formly-buefy-1.0.2.tgz#410591ad9314acb1d3e3ccfee4db2e0f50078614"
-
-vue-formly@^2.5.8:
-  version "2.5.8"
-  resolved "https://registry.yarnpkg.com/vue-formly/-/vue-formly-2.5.8.tgz#f1dbf4f4df23afd0c0f941ddd7fe0ce195750575"
-  dependencies:
-    babel-runtime "^6.23.0"
-    vue "^2.2.6"
-
 vue-hot-reload-api@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
@@ -7291,12 +7276,6 @@ vue-server-renderer@^2.5.13:
     serialize-javascript "^1.3.0"
     source-map "0.5.6"
 
-vue-socket.io@^2.1.1-b:
-  version "2.1.1-b"
-  resolved "https://registry.yarnpkg.com/vue-socket.io/-/vue-socket.io-2.1.1-b.tgz#bcffcdeb1647a979e6533d63d1f29c0f55411c8c"
-  dependencies:
-    socket.io-client "^2.0.0"
-
 vue-style-loader@^3.0.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-3.1.2.tgz#6b66ad34998fc9520c2f1e4d5fa4091641c1597a"
@@ -7315,13 +7294,9 @@ vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 
-vue@^2.0.3, vue@^2.2.6, vue@^2.5.13:
+vue@^2.0.3, vue@^2.5.13:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
-
-vuetify@^1.0.19:
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.8.tgz#3aef842ddc9b7ec348e7ce273a24f2f8ebb1cea9"
 
 vuex@^3.0.1:
   version "3.0.1"

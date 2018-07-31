@@ -36,11 +36,10 @@
 				</b-select>
 			</b-field>
 
-			<div style="bottom: 0; position: absolute; margin-bottom: 10vh;">
-				<button class="button is-success" :disabled="isDisabled" @click="update()">Update Role</button>
-				&nbsp;&nbsp;
-				<button class="button is-danger" @click="remove()">Delete Role</button>
-			</div>
+			<br>
+			<button class="button is-success" :disabled="isDisabled" @click="update()">Update Role</button>
+			&nbsp;&nbsp;
+			<button class="button is-danger" @click="remove()">Delete Role</button>
 		</div>
 		<div class="is-pulled-left" style="margin-left: 5vw;">
 			<b-field label="Image">
@@ -48,7 +47,7 @@
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
-							<p>Drop your image here or click to upload</p>
+							<p>Click to upload an image</p>
 						</div>
 					</section>
 					<section class="image-section" v-else-if="files && files.length > 0">
@@ -63,7 +62,7 @@
 </template>
 
 <script>
-import DataModel from '../../../../models/dataModel.js'
+import DataModel from '~/models/dataModel.js'
 import config from '~/config.js'
 
 export default {
@@ -75,7 +74,6 @@ export default {
 			files: [],
 			stationList: [],
 			stationId: null,
-			imageurl: '',
 			currRole: null,
 			imageChanged: false
 		}
@@ -108,13 +106,14 @@ export default {
 			}
 		},
 		readImageFile() {
+			let imageurl = ''
 			if (!this.imageChanged) {
-				this.imageurl = `http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`
+				imageurl = `http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`
 			}
 			else {
-				this.imageurl = URL.createObjectURL(this.files[0])
+				imageurl = URL.createObjectURL(this.files[0])
 			}
-			return this.imageurl
+			return imageurl
 		}
 	},
 	methods: {
