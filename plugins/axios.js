@@ -8,7 +8,7 @@ export default function ({$axios, redirect, store}) {
 		// config.headers.common['Authorization'] = store.state.auth.token
 		$axios.setToken(store.state.auth.token, 'Bearer')
 		// $axios.defaults.headers.common.Authorization = store.state.auth.token
-	} else {
-		return redirect('/')
-	}
+	} // else {
+	// 	return redirect('/')
+	// }
 }

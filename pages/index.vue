@@ -53,9 +53,13 @@ export default {
 					}
 				}
 			} catch (err) {
-				this.$dialog.alert({
+        let msg = 'Internal Server Error. Please Contact Administrator.'
+        if (err.response.data) {
+          msg = err.response.data.message
+        }
+        this.$dialog.alert({
 					title: `Login Failed`,
-					message: err.response.data.message,
+					message: msg,
 					type: 'is-danger',
 					hasIcon: true,
 					iconPack: 'mdi'

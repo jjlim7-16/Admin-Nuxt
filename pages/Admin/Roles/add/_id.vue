@@ -1,11 +1,10 @@
 <template>
-	<section id="content" class="box">
-		<div class="is-pulled-left">
+	<section id="content" class="box columns">
+		<div class="column is-6">
 			<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
 				<b-select expanded placeholder='Select Station' v-model="stationId"
-					name="station" v-validate="'required'" data-vv-as="'Station'"
-					style="width: 30vw;">
+					name="station" v-validate="'required'" data-vv-as="'Station'">
 					<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
 						{{station.station_name}}
 					</option>
@@ -19,13 +18,12 @@
 					name="roleName"
 					v-model="roleName"
 					data-vv-as="'Role Name'"
-					v-validate="'required|alpha_spaces'"
-					style="width: 30vw;">
+					v-validate="'required|alpha_spaces'">
 				</b-input>
 			</b-field>
 
 			<b-field label='Duration'>
-				<b-select placeholder='Select Activity Duration' :value="getDuration" disabled>
+				<b-select expanded placeholder='Select Activity Duration' :value="getDuration" disabled>
 					<option value="20">20 mins</option>
 					<option value="30">30 mins</option>
 					<option value="40">40 mins</option>
@@ -33,21 +31,21 @@
 			</b-field>
 
 			<b-field label='Capacity'>
-				<b-select size="5" v-model='capacity' placeholder='Select Max. Capacity' required>
+				<b-select expanded size="5" v-model='capacity' placeholder='Select Max. Capacity' required>
 					<option v-for="i in 12" :key="i" :value="i">{{ i }}</option>
 				</b-select>
 			</b-field>
 			
-			<button class="button is-success" :disabled="isDisabled" @click="submit()" 
-			style="position: absolute; bottom: 0; margin-bottom: 12vh;">Add Role</button>
+			<br>
+			<button class="button is-success" :disabled="isDisabled" @click="submit()">Add Role</button>
 		</div>
-		<div class="is-pulled-left" style="margin-left: 5vw;">
+		<div class="column is-4" style="margin-left: 2vw;">
 			<b-field label="Image">
 				<b-upload v-model="files" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
-							<p>Drop your image here or click to upload</p>
+							<p>Click to upload an image</p>
 						</div>
 					</section>
 					<section class="image-section" v-else-if="files && files.length > 0">
@@ -63,7 +61,7 @@
 
 <script>
 import axios from 'axios'
-import DataModel from '../../../../models/dataModel.js'
+import DataModel from '~/models/dataModel.js'
 import config from '~/config.js'
 
 export default {

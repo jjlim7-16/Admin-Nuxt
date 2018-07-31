@@ -47,10 +47,17 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import axios from "axios";
 import moment from "moment";
 import io from "~/plugins/socket-io.js";
 import config from "~/config.js";
+=======
+import axios from 'axios'
+import moment from 'moment'
+import io from '~/plugins/socket-io.js'
+import config from '~/config.js'
+>>>>>>> 2d19697805d24e13e0c0b65a02f5b1d5fdd3f028
 // import { mapGetters } from 'vuex'
 
 let socket;
