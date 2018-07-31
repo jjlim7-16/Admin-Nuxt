@@ -1,5 +1,6 @@
 <template>
-  <section id="content"  class="box">
+<div>
+  <section id="content"  class="box"  v-if="showBooking">
     <h1>{{ stationName }}</h1>
     <b-field grouped>
       <b-field expanded>
@@ -56,13 +57,17 @@
     </b-field>
 
   </section>
+   <section id="errMessage"  class="box"  v-if="!showBooking">
+     <p>{{errMessage}}</p>
+   </section>
+   </div>
 </template>
 
 <script>
 import axios from "axios";
 import moment from "moment";
 import config from "~/config";
-import io from "../../../plugins/socket-io.js";
+import io from "~/plugins/socket-io.js";
 let socket;
 
 function WebFormData(booking_status) {
@@ -75,7 +80,7 @@ export default {
     setRefresh() {
       var day = new Date();
       var currentTime = moment(day, "HH:mm:ss");
-      //this.sessionStartTime = "15:19:00";
+      this.sessionStartTime = "14:20:00";
       var refreshTime = moment(this.sessionStartTime, "HH:mm:ss").add(
         5,
         "minutes"
@@ -121,8 +126,10 @@ export default {
       sessionStartTime: "",
       sessionEndTime: "",
       stationName: "",
-      stationID: "",
+      stationID: 0,
+      showBooking: true,
       numberOfBooking: 0,
+      errMessage: "",
       filter: "",
       userBookingRoleName: "",
       userBookingStationName: "",
@@ -132,24 +139,62 @@ export default {
     };
   },
   created() {
+    if (this.$route.params["id"]) {
+      this.stationID = parseInt(this.$route.params["id"]);
+    }
+    console.log(this.stationID);
+
     let theData;
     let startTime;
     let endTime;
 
     this.$axios
-      .get(`http://${config.serverURL}/bookings/getbookinglist/1`)
+      .get(
+        `http://${config.serverURL}/bookings/getbookinglist/${this.stationID}`
+      )
       .then(res => {
         if (res.status === 200) {
           console.log(res.data);
-          console.log(res.data[0]);
-          theData = res.data;
-          this.bookingList = theData;
+          if (res.data.length == 0) {
+            this.$axios
+              .get(
+                `http://${config.serverURL}/sessions/nextSession/${
+                  this.stationID
+                }`
+              )
+              .then(res => {
+                if (res.status === 200) {
+                  if (res.data.length > 0) {
+                    this.showBooking = false;
 
-          this.sessionStartTime = theData[0].session_start;
-          this.sessionEndTime = theData[0].session_end;
-          this.stationName = theData[0].station_name;
-          this.numberOfBooking = theData.length;
-          this.setRefresh();
+                    this.sessionStartTime = res.data.session_start;
+                    this.sessionEndTime = res.data.session_end;
+                    this.errMessage =
+                      "There are no bookings for next session: " +
+                      this.sessionStartTime +
+                      " to " +
+                      this.sessionEndTime +
+                      ", .";
+                  } else {
+                    this.showBooking = false;
+                    this.errMessage = "There are no more sessions today!";
+                  }
+                }
+              })
+              .catch(err => {
+                console.log("FAIL");
+              });
+          } else {
+            this.showBooking = true;
+            theData = res.data;
+            this.bookingList = theData;
+
+            this.sessionStartTime = theData[0].session_start;
+            this.sessionEndTime = theData[0].session_end;
+            this.stationName = theData[0].station_name;
+            this.numberOfBooking = theData.length;
+            this.setRefresh();
+          }
         } else {
           console.dir(res.status);
         }
