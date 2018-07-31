@@ -1,7 +1,7 @@
 <template>
 	<section id="content" class="box">
 
-		<!-- Add Role Button -->
+		<!-- Add Role button -->
 		<router-link to="/Admin/Roles/add" tag="button" id="addRoleBtn" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
 			<span>Add Role</span>

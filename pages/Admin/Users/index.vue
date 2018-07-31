@@ -1,18 +1,13 @@
 <template>
   <section id="content" class="box">
 
-    <b-field>
-      <router-link to="/Admin/Users/add" tag="button" class="button is-primary" id="btnAddUser">
-        <b-icon icon="plus-circle"></b-icon>
-        <span>Add User</span>
-      </router-link>
-    </b-field>
+    <!-- Add User button -->
+    <router-link to="/Admin/Users/add" tag="button" id="addUserBtn" class="button is-primary">
+      <b-icon icon="plus-circle"></b-icon>
+      <span>Add User</span>
+    </router-link>
 
-    <b-table
-      :data = "tableDataSimple"
-      striped
-      hoverable>
-
+    <b-table :data = "tableDataSimple" striped hoverable>
       <template slot-scope="props">
         <b-table-column class="row" field="username" label="Username"  sortable>
           {{ props.row.username }}
@@ -45,6 +40,7 @@
         </b-table-column>
       </template>
     </b-table>
+
   </section>
 </template>
 
@@ -83,12 +79,9 @@ import config from '~/config.js'
 
 <style scoped>
 
-/* #table{
-  outline: #47494e 5px;
-} */
-
-#btnAddUser{
+#addUserBtn{
   float: right;
+  margin: 0 0.18vw;
 }
 
 </style>
