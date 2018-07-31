@@ -135,5 +135,9 @@ img {
     width: 18%;
     padding-top: 3%;
   }
+
+  #form {
+    top: 60%;
+  }
 }
 </style>
