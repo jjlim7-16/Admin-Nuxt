@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  SyntaxError: C:\Users\BN\Dropbox\SchoolDocument\Year3semester1\FYP\Admin Portal\Admin-Nuxt\package.json: Unexpected token / in JSON at position 142
+  SyntaxError: C:\Users\BN\Dropbox\SchoolDocument\Year3semester1\FYP\Admin Portal\Admin-Nuxt\package.json: Unexpected token < in JSON at position 165
       at JSON.parse (<anonymous>)
       at C:\Program Files (x86)\Yarn\lib\cli.js:1130:59
       at Generator.next (<anonymous>)
@@ -24,74 +24,73 @@ Trace:
 
 npm manifest: 
   {
-  	"name":"Q-zee", 
-  	"version":"1.0.0", 
-  	"description":"Nuxt.js project", 
-  	"author":"Syoongy <mastersyong@gmail.com>", 
-  	"private":true, 
-  	// "config": {
-  	// 	"nuxt": {
-  	// 		"host": "172.22.58.87",
-  	// 		"port": "3000"
-  	// 	}
-  	// }, 
+  	"name": "Q-zee",
+  	"version": "1.0.0",
+  	"description": "Nuxt.js project",
+  	"author": "Syoongy <mastersyong@gmail.com>",
+  	"private": true,
+  	"config": {
+  		"nuxt": {
+  <<<<<<< HEAD
+  			"host": "localhost",
+  =======
+  			"host": "172.22.61.5",
+  >>>>>>> 2d19697805d24e13e0c0b65a02f5b1d5fdd3f028
+  			"port": "3000"
+  		}
+  	},
   	"scripts": {
-  		"dev":"nuxt", 
-  		"build":"nuxt build", 
-  		"start":"nuxt start", 
-  		"generate":"nuxt generate", 
-  		"lint":"eslint --ext .js,.vue --ignore-path .gitignore .", 
-  		"precommit":"npm run lint"
-  	}, 
+  		"dev": "nuxt",
+  		"build": "nuxt build",
+  		"start": "set NODE_ENV=production&&nuxt start",
+  		"generate": "nuxt generate",
+  		"lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+  		"precommit": "npm run lint"
+  	},
   	"dependencies": {
-  		"@mdi/font":"^2.4.85", 
-  		"@nuxtjs/axios":"^5.3.1", 
-  		"@nuxtjs/pwa":"^2.0.8", 
-  		"bcrypt":"^2.0.1", 
-  		"body-parser":"^1.18.3", 
-  		"buefy":"^0.6.6", 
-  		"chart.js":"^2.7.2", 
-  		"chartjs-plugin-streaming":"^1.5.0", 
-  		"cookie":"^0.3.1", 
-  		"cookie-parser":"^1.4.3", 
-  		"cookieparser":"^0.1.0", 
-  		"express":"^4.16.3", 
-  		"express-jwt":"^5.3.1", 
-  		"file-saver":"^1.3.8", 
-  		"fs":"0.0.1-security", 
-  		"http-proxy-middleware":"^0.18.0", 
-  		"js-cookie":"^2.2.0", 
-  		"jsonwebtoken":"^8.3.0", 
-  		"moment":"^2.22.2", 
-  		"multer":"^1.3.1", 
-  		"mysql":"^2.15.0", 
-  		"node-sass":"^4.9.0", 
-  		"nuxt":"^1.0.0", 
-  		"nuxt-buefy":"^0.0.4", 
-  		"nuxt-material-design-icons":"^1.0.4", 
-  		"sass-loader":"^7.0.1", 
-  		"socket.io":"^2.1.1", 
-  		"uws":"^10.148.1", 
-  		"vee-validate":"^2.1.0-beta.1", 
-  		"vue-chartjs":"^3.3.2", 
-  		"vue-charts":"^0.2.1", 
-  		"vue-formly":"^2.5.8", 
-  		"vue-formly-buefy":"^1.0.2", 
-  		"vue-socket.io":"^2.1.1-b", 
-  		"vuetify":"^1.0.19"
-  	}, 
+  		"@mdi/font": "^2.4.85",
+  		"@nuxtjs/axios": "^5.3.1",
+  		"@nuxtjs/pwa": "^2.0.8",
+  		"bcrypt": "^2.0.1",
+  		"body-parser": "^1.18.3",
+  		"buefy": "^0.6.6",
+  		"chart.js": "^2.7.2",
+  		"chartjs-plugin-streaming": "^1.5.0",
+  		"cookie": "^0.3.1",
+  		"cookie-parser": "^1.4.3",
+  		"cookieparser": "^0.1.0",
+  		"express": "^4.16.3",
+  		"express-jwt": "^5.3.1",
+  		"fs": "0.0.1-security",
+  		"http-proxy-middleware": "^0.18.0",
+  		"js-cookie": "^2.2.0",
+  		"jsonwebtoken": "^8.3.0",
+  		"moment": "^2.22.2",
+  		"multer": "^1.3.1",
+  		"mysql": "^2.15.0",
+  		"node-sass": "^4.9.0",
+  		"nuxt": "^1.0.0",
+  		"nuxt-buefy": "^0.0.4",
+  		"nuxt-material-design-icons": "^1.0.4",
+  		"sass-loader": "^7.0.1",
+  		"socket.io": "^2.1.1",
+  		"uws": "^10.148.1",
+  		"vee-validate": "^2.1.0-beta.1",
+  		"vue-chartjs": "^3.3.2",
+  		"vue-charts": "^0.2.1"
+  	},
   	"devDependencies": {
-  		"babel-eslint":"^8.2.1", 
-  		"cross-env":"^5.2.0", 
-  		"eslint":"^4.15.0", 
-  		"eslint-config-standard":"^11.0.0", 
-  		"eslint-friendly-formatter":"^3.0.0", 
-  		"eslint-loader":"^1.7.1", 
-  		"eslint-plugin-import":"^2.11.0", 
-  		"eslint-plugin-node":"^6.0.1", 
-  		"eslint-plugin-promise":"^3.7.0", 
-  		"eslint-plugin-standard":"^3.1.0", 
-  		"eslint-plugin-vue":"^4.0.0"
+  		"babel-eslint": "^8.2.1",
+  		"cross-env": "^5.2.0",
+  		"eslint": "^4.15.0",
+  		"eslint-config-standard": "^11.0.0",
+  		"eslint-friendly-formatter": "^3.0.0",
+  		"eslint-loader": "^1.7.1",
+  		"eslint-plugin-import": "^2.11.0",
+  		"eslint-plugin-node": "^6.0.1",
+  		"eslint-plugin-promise": "^3.7.0",
+  		"eslint-plugin-standard": "^3.1.0",
+  		"eslint-plugin-vue": "^4.0.0"
   	}
   }
 
@@ -2937,10 +2936,6 @@ Lockfile:
     dependencies:
       loader-utils "^1.0.2"
       schema-utils "^0.4.5"
-  
-  file-saver@^1.3.8:
-    version "1.3.8"
-    resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-1.3.8.tgz#e68a30c7cb044e2fb362b428469feb291c2e09d8"
   
   file-type@^3.1.0:
     version "3.9.0"
@@ -6580,7 +6575,7 @@ Lockfile:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-1.1.1.tgz#2a805e8a14d6372124dd9159ad4502f8cb07f06b"
   
-  socket.io-client@2.1.1, socket.io-client@^2.0.0:
+  socket.io-client@2.1.1:
     version "2.1.1"
     resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-2.1.1.tgz#dcb38103436ab4578ddb026638ae2f21b623671f"
     dependencies:
@@ -7334,17 +7329,6 @@ Lockfile:
       esquery "^1.0.0"
       lodash "^4.17.4"
   
-  vue-formly-buefy@^1.0.2:
-    version "1.0.2"
-    resolved "https://registry.yarnpkg.com/vue-formly-buefy/-/vue-formly-buefy-1.0.2.tgz#410591ad9314acb1d3e3ccfee4db2e0f50078614"
-  
-  vue-formly@^2.5.8:
-    version "2.5.8"
-    resolved "https://registry.yarnpkg.com/vue-formly/-/vue-formly-2.5.8.tgz#f1dbf4f4df23afd0c0f941ddd7fe0ce195750575"
-    dependencies:
-      babel-runtime "^6.23.0"
-      vue "^2.2.6"
-  
   vue-hot-reload-api@^2.2.0:
     version "2.3.0"
     resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
@@ -7392,12 +7376,6 @@ Lockfile:
       serialize-javascript "^1.3.0"
       source-map "0.5.6"
   
-  vue-socket.io@^2.1.1-b:
-    version "2.1.1-b"
-    resolved "https://registry.yarnpkg.com/vue-socket.io/-/vue-socket.io-2.1.1-b.tgz#bcffcdeb1647a979e6533d63d1f29c0f55411c8c"
-    dependencies:
-      socket.io-client "^2.0.0"
-  
   vue-style-loader@^3.0.0:
     version "3.1.2"
     resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-3.1.2.tgz#6b66ad34998fc9520c2f1e4d5fa4091641c1597a"
@@ -7416,13 +7394,9 @@ Lockfile:
     version "1.6.0"
     resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
   
-  vue@^2.0.3, vue@^2.2.6, vue@^2.5.13:
+  vue@^2.0.3, vue@^2.5.13:
     version "2.5.16"
     resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
-  
-  vuetify@^1.0.19:
-    version "1.1.8"
-    resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.8.tgz#3aef842ddc9b7ec348e7ce273a24f2f8ebb1cea9"
   
   vuex@^3.0.1:
     version "3.0.1"
