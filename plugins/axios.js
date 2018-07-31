@@ -5,10 +5,16 @@ export default function ({$axios, redirect, store}) {
 	})
 
 	if (store.state.auth) {
-		// config.headers.common['Authorization'] = store.state.auth.token
 		$axios.setToken(store.state.auth.token, 'Bearer')
-		// $axios.defaults.headers.common.Authorization = store.state.auth.token
-	} // else {
-	// 	return redirect('/')
-	// }
+		
+		if (store.state.auth.user) {
+			if (store.state.auth.user.account_type === 'Admin') {
+				return redirect('/Admin/Dashboard')
+			}
+			return redirect(`/Crew/${store.state.auth.user.station_id}`)
+		}
+	}
+	else {
+		return redirect('/')
+	}
 }
