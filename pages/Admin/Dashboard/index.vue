@@ -1,6 +1,6 @@
 <template>
 <section id="content">
-  <div class="container columns is-multiline myContainer is-centered">
+  <div class="columns is-multiline myContainer is-centered">
     <div class="column is-half has-text-centered">
       <div class="box fullWidth">
         <p class="heading">No. Of Bookings Today</p>

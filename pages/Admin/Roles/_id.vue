@@ -1,7 +1,15 @@
 <template>
 	<section id="content" class="box">
+
+		<!-- Add Role Button -->
+		<router-link to="/Admin/Roles/add" tag="button" id="addRoleBtn" class="button is-primary">
+			<b-icon icon="plus-circle"></b-icon>
+			<span>Add Role</span>
+		</router-link>
+
+		<!-- Filter by Station -->
 		<b-field grouped group-multiline>
-			<b-field label="Filter By Stations:" style="margin-top: 5px;"></b-field>&nbsp;
+			<b-field label="Filter By Station:" style="margin-top: 5px;"></b-field>&nbsp;
 			<b-select v-model="filter">
 				<option>All</option>
 				<option v-for="station in stationList" :key="station.station_name">
@@ -40,10 +48,7 @@
 				</b-table-column>
 			</template>
 		</b-table>
-		<router-link to="/Admin/Roles/add" tag="button" class="button is-primary">
-			<b-icon icon="plus-circle"></b-icon>
-			<span>Add Role</span>
-		</router-link>
+
 	</section>
 </template>
 
@@ -64,7 +69,7 @@ export default {
 	},
 	async beforeMount() {
 		this.$store.commit('setPageTitle', 'Manage Roles')
-		
+
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.data = res.data[0]
 		this.stationList = res.data[1]
@@ -83,3 +88,9 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+#addRoleBtn {
+	float: right;
+}
+</style>

@@ -122,4 +122,22 @@ img {
   font-weight: bold;
   margin: 15px 0;
 }
+
+@media only screen and (max-width: 767px) {
+  img {
+    width: 60%;
+    padding-top: 20%;
+  }
+}
+
+@media screen and (min-width:320px) and (max-width:840px) and (orientation:landscape) {
+  img {
+    width: 18%;
+    padding-top: 3%;
+  }
+
+  #form {
+    top: 60%;
+  }
+}
 </style>

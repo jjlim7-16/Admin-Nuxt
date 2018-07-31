@@ -38,7 +38,7 @@
       <header class="navbar header has-shadow mobileNav">
         <div class="container" id="myNavTitle">
           <div class="navbar-brand">
-            <div class="centerTextBox">
+            <div class="centerTextBox navbar-item">
               <p class="has-text-weight-semibold">
                 {{ this.$store.state.pageName }}
               </p>
@@ -49,7 +49,7 @@
             <span></span>
             </span>
           </div>
-          <div class="navbar-menu" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
+          <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
             <div class="navbar-end">
               <p class="menu-label">General</p>
               <ul class="menu-list">
@@ -69,13 +69,12 @@
 
               <p class="menu-label">Administration</p>
               <ul class="menu-list">
-                <li>
+                <li class="navbar-item">
                   <nuxt-link to="/Admin/Users">Manage Users</nuxt-link>
                 </li>
               </ul>
-
-              <ul class="menu-list">
-                <li id="logout"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>Logout</a></li>
+              <hr />
+              <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>Logout</a>
               </ul>
             </div>
           </div>
@@ -83,6 +82,7 @@
       </header>
 
     <nuxt/>
+    <BackToTop :visibleoffset="heightOfBrowser" style=""></BackToTop>
 
   </aside>
 </div>
@@ -90,12 +90,16 @@
 
 <script>
 import Cookie from 'js-cookie'
+import BackToTop from '~/components/BackToTop'
 
 export default {
-  // middleware: 'authenticated',
+  components: {
+    BackToTop
+  },
   data() {
     return {
-      menuIsActive: false
+      menuIsActive: false,
+      heightOfBrowser: 0
     }
   },
   methods: {
@@ -110,16 +114,24 @@ export default {
     toggleMenu() {
       this.menuIsActive = !this.menuIsActive;
     }
+  },
+  beforeMount() {
+    this.heightOfBrowser = window.innerHeight/7
+    console.log(window.innerHeight/7);
   }
 }
 </script>
 
 <style>
+.vue-back-to-top {
+  bottom: 4%;
+  right: 3%;
+}
 .navbar-menu {
   display: none;
 }
 
-.nav-title {
+/* .nav-title {
   position: fixed;
   padding: 25px 40px;
   right: 0;
@@ -129,14 +141,10 @@ export default {
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
   z-index: 5;
   color: #2C2C2C;
-}
+} */
 
 #app {
   margin: 5px;
-}
-
-.mobileNav {
-  height: 10vh;
 }
 
 #nav {
@@ -165,9 +173,6 @@ export default {
 }
 
 .myContent {
-  position: fixed;
-  right: 0;
-  top: 0;
   padding: 0;
   height: 100%;
 }
@@ -255,7 +260,7 @@ html {
   align-items: center;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 767px) {
   html {
     font-size: 1rem;
     overflow: scroll;
@@ -267,10 +272,6 @@ html {
   #myNavTitle {
     font-size: 1.2rem;
     padding: 0;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.16);
-  }
-  .centerTextBox {
-    /* margin-left: 28%; */
   }
   .container {
     display: block;
@@ -289,7 +290,36 @@ html {
     height: 100%;
   }
   .myContent {
-    position: inherit;
+    width: 100% !important;
+  }
+  hr {
+    margin: 0.2rem;
+  }
+}
+
+@media screen and (min-width:320px) and (max-width:840px) and (orientation:landscape) {
+  .myContent {
+    width: 100% !important;
+  }
+  #content {
+    margin: 0;
+    padding: 1.5vh 1.5vw;
+    height: 85%;
+  }
+  #myNavTitle {
+    font-size: 0.8rem;
+  }
+  #mobileNavbarMenu {
+    height: 50vh;
+    overflow-y: scroll;
+    box-shadow: none;
+  }
+  .menu-label {
+    color: black;
+    padding: 0 2.5vw;
+  }
+  hr {
+    margin: 0.2rem;
   }
 }
 </style>
