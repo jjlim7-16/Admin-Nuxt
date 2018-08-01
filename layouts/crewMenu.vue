@@ -16,12 +16,16 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+
 export default {
+  middleware: 'crewAuth',
   methods: {
     logout() {
       this.$store.dispatch('logout')
       .then(() => {
         Cookie.set('auth', null)
+        this.$axios.setToken(false)
         this.$router.push('/')
       })
     }

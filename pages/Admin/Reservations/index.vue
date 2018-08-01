@@ -2,9 +2,9 @@
 	<section id="content" class="box">
 
 		<!-- Set Limit button -->
-		<router-link to="/Admin/Limit/setLimit" tag="button" id="setLimitBtn" class="button is-primary">
+		<router-link to="/Admin/Reservations/add" tag="button" id="addBtn" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
-			<span>Set Limit</span>
+			<span>Make New Reservation</span>
 		</router-link>
 
 		<!-- Filter by Date -->
@@ -49,12 +49,12 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link>
-							<router-link :to="{ path: `/Admin/Limit/Update/${props.row.limit_id}`}">
+							<router-link :to="{ path: `/Admin/Limit/Update/${props.row.reservation_id}`}">
 								Update Limit
 							</router-link>
 						</b-dropdown-item>
 						<b-dropdown-item style="text-align: left" has-link>
-							<a @click="deleteLimit(props.row.limit_id)">Delete Limit</a>
+							<a @click="deleteLimit(props.row.reservation_id)">Delete Limit</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
@@ -69,7 +69,7 @@
 								size="is-large">
 							</b-icon>
 						</p>
-						<p>No Limits Has Been Found</p>
+						<p>No Reservations Are Made</p>
 					</div>
 				</section>
 			</template>
@@ -96,33 +96,32 @@ export default {
 		}
 	},
 	async beforeMount() {
-		this.$store.commit('setPageTitle', 'Manage Limits')
+		this.$store.commit('setPageTitle', 'Manage Reservations')
 
-		let res = await this.$axios.get(`http://${config.serverURL}/limit/`)
+		let res = await this.$axios.get(`http://${config.serverURL}/reservations/`)
 		this.data = res.data[0]
 		this.dateList = res.data[1]
-		console.log(res.data)
 	},
 	methods: {
-		deleteLimit(limit_id) {
+		deleteLimit(reservation_id) {
 			this.$dialog.confirm({
-				title: 'Delete Limit',
-				message: 'Are you sure you want to delete this limit set?',
-				confirmText: 'Delete Limit',
+				title: 'Cancellation',
+				message: 'Are you sure you want to cancel this reservation?',
+				confirmText: 'Cancel Reservation',
 				type: 'is-danger',
 				hasIcon: true,
 				onConfirm: () =>
-				this.$axios.delete(`http://${config.serverURL}/limit/` + limit_id)
+				this.$axios.delete(`http://${config.serverURL}/reservation/` + reservation_id)
 				.then(res => {
 					if (res.status === 200) {
 						this.$dialog.confirm({
-							title: 'Delete Limit',
-							message: `The limit has been successfully deleted`,
+							title: 'Cancellation',
+							message: `The reservation has been successfully cancelled`,
 							type: 'is-success',
 							hasIcon: true,
 							icon: 'check-circle',
 							iconPack: 'mdi',
-							onConfirm: () => this.$router.go({path: '/Admin/Limit', force: true})
+							onConfirm: () => this.$router.go({path: '/Admin/Reservations', force: true})
 						})
 					}
 				})
@@ -148,7 +147,7 @@ export default {
 </script>
 
 <style scoped>
-#setLimitBtn {
+#addBtn {
 	float: right;
 }
 </style>

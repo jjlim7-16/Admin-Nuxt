@@ -20,6 +20,9 @@
         <li>
           <nuxt-link to="/Admin/Limit">Manage Limits</nuxt-link>
         </li>
+        <li>
+          <nuxt-link to="/Admin/Reservations">Manage Reservations</nuxt-link>
+        </li>
       </ul>
 
       <p class="menu-label">Administration</p>
@@ -67,6 +70,9 @@
                 <li class="navbar-item">
                   <nuxt-link to="/Admin/Limit">Manage Limits</nuxt-link>
                 </li>
+                <li class="navbar-item">
+                  <nuxt-link to="/Admin/Reservations">Manage Reservations</nuxt-link>
+                </li>
               </ul>
 
               <p class="menu-label">Administration</p>
@@ -100,6 +106,7 @@ import Cookie from 'js-cookie'
 import BackToTop from '~/components/BackToTop'
 
 export default {
+  middleware: 'authenticated',
   components: {
     BackToTop
   },
@@ -124,7 +131,6 @@ export default {
   },
   beforeMount() {
     this.heightOfBrowser = window.innerHeight/7
-    console.log(window.innerHeight/7);
   }
 }
 </script>

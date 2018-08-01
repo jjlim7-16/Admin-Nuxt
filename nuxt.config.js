@@ -4,9 +4,11 @@ module.exports = {
 		{ src: '~plugins/vee-validate.js', ssr: true },
 		{ src: '~plugins/vue-chartjs.js', ssr: false },
 		{ src: '~plugins/socket-io.js', ssr: false },
-		'~plugins/axios.js',
-		'~plugins/auth.js'
+		{ src: '~plugins/axios.js', ssr: false }
 	],
+	router: {
+		// middleware: ['authenticated']
+	},
 	/*
 	** Headers of the page
 	*/

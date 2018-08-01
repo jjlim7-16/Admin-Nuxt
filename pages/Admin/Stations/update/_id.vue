@@ -1,8 +1,10 @@
 <template>
 	<section id="content" class="box columns">
 		<div class="column is-6">
-			<b-field label='Station Name*'>
-				<b-input placeholder='Enter Station Name' v-model="name" required></b-input>
+			<b-field label='Station Name*' :type="errors.has('name') ? 'is-danger': ''" 
+				:message="errors.has('name') ? errors.first('name') : ''">
+				<b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'"
+				v-validate.immediate="'required|alpha_spaces'"></b-input>
 			</b-field>
 
 			<div class="columns">
@@ -101,11 +103,11 @@ export default {
 			end.setMinutes(this.origData.station_end.slice(3,5))
 			this.endTime = end
 			
-			res = await this.$axios.get(`http://${config.serverURL}/stations/getImage/${this.$route.params.id}`)
+			res = await this.$axios.get(`http://${config.serverURL}/stations/getImage/${this.$route.params.id}`, {
+				responseType: 'blob'
+			})
 			let file = new File([res.data], 'image', { type: 'image/*' })
 			this.files.push(file)
-			
-			res = await this.$axios.get(`http://${config.serverURL}/stations/`)
 
 		} catch (error) {
 			console.log(error)
@@ -194,14 +196,9 @@ export default {
 			}
 		},
 		readImageFile() {
-			let imageurl = ''
-			if (!this.imageChanged) {
-				imageurl = `http://${config.serverURL}/stations/getImage/${this.$route.params.id}`
+			if (this.files) {
+				return URL.createObjectURL(this.files[0])
 			}
-			else {
-				imageurl = URL.createObjectURL(this.files[0])
-			}
-			return imageurl
 		}
 	}
 }

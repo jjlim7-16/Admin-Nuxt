@@ -35,7 +35,7 @@ const createStore = () => {
 					setTimeout(() => {
 						commit('update', null)
 						resolve()
-					}, 1000)
+					}, 500)
 				})
 			}
 		}

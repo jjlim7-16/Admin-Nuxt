@@ -66,28 +66,29 @@ export default {
       byTimeData: {},
       stationList: {},
       stationId: null
-    }
+    };
   },
   async beforeMount() {
-    this.$store.commit('setPageTitle', 'Dashboard')
-    let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
-    this.stationList = res.data[1]
-    this.stationId = this.stationList[0].station_id
+    this.$store.commit("setPageTitle", "Dashboard");
+    let res = await this.$axios.get(`http://${config.serverURL}/roles/`);
+    this.stationList = res.data[1];
+    this.stationId = this.stationList[0].station_id;
 
-    socket = io.socketio.connect(`http://${config.serverURL}/dashboard`)
-    socket.on('getBookingCount', (data) => {
+    socket = io.socketio.connect(`http://${config.serverURL}/dashboard`);
+    socket.on("getBookingCount", data => {
       this.noOfBookings = data
     })
-    socket.on('getAvgBookings', (data) => {
+    socket.on("getAvgBookings", data => {
+      console.log(data)
       this.avgBookings = data
     })
-    socket.on('getBookingByDay', (data) => {
+    socket.on("getBookingByDay", data => {
       this.bardata = data
     })
-    socket.on('getBookingByTime', (data) => {
+    socket.on("getBookingByTime", data => {
       this.byTimeData = data
     })
-    socket.on('getBookingByStation', (data) => {
+    socket.on("getBookingByStation", data => {
       this.byStationData = data
     })
   },
@@ -105,8 +106,6 @@ export default {
           break
         }
       }
-      // data[station] = []
-      // data[station] = this.byTimeData[station]
       data['station'] = station
       data['results'] = this.byTimeData[station]
       return data
@@ -115,7 +114,7 @@ export default {
   destroyed() {
     socket.close()
   }
-}
+};
 </script>
 
 <style scoped>

@@ -1,10 +1,6 @@
 import Vue from 'vue'
 import { Line, Bar, Doughnut } from 'vue-chartjs'
 import moment from 'moment'
-// import 'chartjs-plugin-streaming'
-// import axios from 'axios'
-// import io from './socket-io'
-// const { reactiveProp } = mixins
 
 Vue.component('my-line', {
 	extends: Line,
@@ -79,8 +75,6 @@ Vue.component('my-line', {
 	},
 	computed: {
 		chartData: function () {
-			console.log('Data.......')
-			console.log(this.data)
 			return this.data
 		},
 		timeData: function () {
