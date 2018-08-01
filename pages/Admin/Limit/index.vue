@@ -98,9 +98,10 @@ export default {
 	async beforeMount() {
 		this.$store.commit('setPageTitle', 'Manage Limits')
 
-		let res = this.$axios.get(`http://${config.serverURL}/limit/`)
+		let res = await this.$axios.get(`http://${config.serverURL}/limit/`)
 		this.data = res.data[0]
 		this.dateList = res.data[1]
+		console.log(res.data)
 	},
 	methods: {
 		deleteLimit(limit_id) {

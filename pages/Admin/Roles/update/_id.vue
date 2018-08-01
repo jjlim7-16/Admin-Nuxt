@@ -24,15 +24,16 @@
 
 			<b-field label='Duration'>
 				<b-select placeholder='Select Activity Duration' v-model="duration" required>
+					<option value="15">15 mins</option>
 					<option value="20">20 mins</option>
+					<option value="25">25 mins</option>
 					<option value="30">30 mins</option>
-					<option value="40">40 mins</option>
 				</b-select>
 			</b-field>
 
 			<b-field label='Capacity'>
 				<b-select v-model='capacity' placeholder='Select Max. Capacity' required>
-					<option v-for="i in 12" :key="i">{{ i }}</option>
+					<option v-for="i in 30" :key="i">{{ i }}</option>
 				</b-select>
 			</b-field>
 
@@ -88,10 +89,11 @@ export default {
 			this.capacity = this.currRole.capacity
 			this.stationId = this.currRole.station_id
 			
-			res = await this.$axios.get(`http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`)
-			let file = new File([res.data], 'image', { type: 'image/*' })
+			res = await this.$axios.get(`http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`, {
+				responseType: 'blob'
+			})
+			let file = new File([res.data], 'image.png', { type: 'image/png' })
 			this.files.push(file)
-			this.imageurl = `http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`
 			
 			this.$store.commit('setPageTitle', 'Edit Role')
 		} catch(err) {
@@ -106,14 +108,7 @@ export default {
 			}
 		},
 		readImageFile() {
-			let imageurl = ''
-			if (!this.imageChanged) {
-				imageurl = `http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`
-			}
-			else {
-				imageurl = URL.createObjectURL(this.files[0])
-			}
-			return imageurl
+			return URL.createObjectURL(this.files[0])
 		}
 	},
 	methods: {

@@ -124,7 +124,6 @@ export default {
   },
   beforeMount() {
     this.heightOfBrowser = window.innerHeight/7
-    console.log(window.innerHeight/7);
   }
 }
 </script>

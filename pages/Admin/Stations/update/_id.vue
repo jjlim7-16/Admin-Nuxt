@@ -103,11 +103,11 @@ export default {
 			end.setMinutes(this.origData.station_end.slice(3,5))
 			this.endTime = end
 			
-			res = await this.$axios.get(`http://${config.serverURL}/stations/getImage/${this.$route.params.id}`)
+			res = await this.$axios.get(`http://${config.serverURL}/stations/getImage/${this.$route.params.id}`, {
+				responseType: 'blob'
+			})
 			let file = new File([res.data], 'image', { type: 'image/*' })
 			this.files.push(file)
-			
-			res = await this.$axios.get(`http://${config.serverURL}/stations/`)
 
 		} catch (error) {
 			console.log(error)
@@ -196,14 +196,9 @@ export default {
 			}
 		},
 		readImageFile() {
-			let imageurl = ''
-			if (!this.imageChanged) {
-				imageurl = `http://${config.serverURL}/stations/getImage/${this.$route.params.id}`
+			if (this.files) {
+				return URL.createObjectURL(this.files[0])
 			}
-			else {
-				imageurl = URL.createObjectURL(this.files[0])
-			}
-			return imageurl
 		}
 	}
 }

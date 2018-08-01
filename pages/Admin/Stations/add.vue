@@ -1,6 +1,5 @@
 <template>
 <section id='content' class="box columns is-multiline">
-
   <div class="column is-6">
     <b-field label='Station Name *' :type="errors.has('name') ? 'is-danger': ''" :message="errors.has('name') ? errors.first('name') : ''">
       <b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'" rounded></b-input>
@@ -25,7 +24,8 @@
       <b-input maxlength="500" type="textarea" name="description" v-validate.immediate="'required'"
       data-vv-as="'Description'" v-model="description"></b-input>
     </b-field>
-
+  </div>
+  
   <div class="column is-4" style="margin-left: 5vw;">
     <b-field label="Image">
       <b-upload v-model="files" drag-drop>
@@ -96,7 +96,7 @@ const ModalForm = {
 				placeholder='New Role'
 				name="roleName"
 				data-vv-as="'Role Name'"
-				v-validate.immediate:roleName="'required|alpha_spaces'">
+				v-validate.immediate="'required|alpha_spaces'">
 			</b-input>
 		</b-field>
 		<b-field class='columns' grouped>
@@ -143,14 +143,14 @@ const ModalForm = {
 		addRole() {
 			let roleExist = false
 			if (roleList.length > 0) {
-				let i = 0
 				let roleName = roleList.find(i => i.roleName.toLowerCase() === 
-				this.roleName.trim().toLowerCase()).roleName
+        this.roleName.trim().toLowerCase()).roleName
 				if (roleName) {
 					this.alertRoleExists()
 				}
 			}
-			if (roleExist === false) {
+			if (!roleExist) {
+        let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2, this.files[0])
 				roleList.push(role)
 				this.$parent.close()
 			}
@@ -175,9 +175,6 @@ const ModalForm = {
 						hasIcon: true
 					})
 				}
-			})
-			.catch(() => {
-				return false
 			})
 		}
 	},
@@ -270,7 +267,6 @@ export default {
       }
     },
     validateBeforeSubmit(e) {
-      e.preventDefault()
       this.$validator.validateAll().then(() => {
           console.log('TRUE')
         })
@@ -292,7 +288,7 @@ export default {
       roles = roleList
     },
     readImageFile() {
-      if (this.files[0]) {
+      if (this.files) {
         return URL.createObjectURL(this.files[0])
       }
     }

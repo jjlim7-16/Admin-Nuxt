@@ -26,20 +26,20 @@
 
 			<b-field label='Duration'>
 				<b-select expanded placeholder='Select Activity Duration' :value="getDuration" disabled rounded>
+					<option value="15">15 mins</option>
 					<option value="20">20 mins</option>
+					<option value="25">25 mins</option>
 					<option value="30">30 mins</option>
-					<option value="40">40 mins</option>
 				</b-select>
 			</b-field>
 
 			<b-field label='Capacity'>
 				<b-select expanded size="5" v-model='capacity' placeholder='Select Max. Capacity' required rounded>
-					<option v-for="i in 12" :key="i" :value="i">{{ i }}</option>
+					<option v-for="i in 30" :key="i" :value="i">{{ i }}</option>
 				</b-select>
 			</b-field>
 
 			<br>
-
 			<!-- Add Role button -->
 			<button id="addRoleBtn" class="button is-success" :disabled="isDisabled" @click="submit()">Add Role</button>
 
@@ -82,8 +82,7 @@ export default {
 			files: [],
 			stationList: [],
 			stationId: null,
-			serverURL: config.serverURL,
-			imageurl: ''
+			serverURL: config.serverURL
 		}
 	},
 	async beforeMount() {
@@ -108,8 +107,9 @@ export default {
 			}
 		},
 		readImageFile() {
-			this.imageurl = URL.createObjectURL(this.files[0])
-			return this.imageurl
+			if (this.files) {
+				return URL.createObjectURL(this.files[0])
+			}
 		}
 	},
 	methods: {
