@@ -92,7 +92,7 @@ const ModalForm = {
 		:message="errors.has('roleName') ? errors.first('roleName') : ''">
 			<b-input
 				v-model='roleName'
-				placeholder='New Role'
+				placeholder='Enter Role Name'
 				name="roleName"
 				data-vv-as="'Role Name'"
 				v-validate="'required|alpha_spaces'">

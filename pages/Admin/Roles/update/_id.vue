@@ -1,7 +1,7 @@
 <template>
 	<div id="content" class="box">
 		<div class="is-pulled-left" style="width: 33vw;">
-			<b-field label='Station*' :type="errors.has('station') ? 'is-danger': ''"
+			<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
 				<b-select placeholder='Select Station' v-model="stationId" name="stationId" v-validate="'required'"
 				data-vv-as="'Station'" expanded>
@@ -11,10 +11,10 @@
 				</b-select>
 			</b-field>
 
-			<b-field label='Role Name*' :type="errors.has('roleName') ? 'is-danger': ''"
+			<b-field label='Role Name *' :type="errors.has('roleName') ? 'is-danger': ''"
 				:message="errors.has('roleName') ? errors.first('roleName') : ''">
 				<b-input
-					placeholder='Enter Role Title'
+					placeholder='Enter Role Name'
 					name="roleName"
 					v-model="roleName"
 					data-vv-as="'Role Name'"
@@ -87,12 +87,12 @@ export default {
 			this.duration = this.currRole.durationInMins
 			this.capacity = this.currRole.capacity
 			this.stationId = this.currRole.station_id
-			
+
 			res = await this.$axios.get(`http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`)
 			let file = new File([res.data], 'image', { type: 'image/*' })
 			this.files.push(file)
 			this.imageurl = `http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`
-			
+
 			this.$store.commit('setPageTitle', 'Edit Role')
 		} catch(err) {
 			console.log(err)
@@ -119,7 +119,7 @@ export default {
 	methods: {
 		async update() {
 			let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
-			if (res.data[0].find(i => i.role_name === this.roleName.trim() 
+			if (res.data[0].find(i => i.role_name === this.roleName.trim()
 			&& i.role_id !== this.currRole.role_id)) {
 				this.$dialog.alert({
 					title: "Role Exists",
