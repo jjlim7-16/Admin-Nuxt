@@ -1,22 +1,21 @@
 <template>
 <section id='content' class="box columns is-multiline">
+
   <div class="column is-6">
     <b-field label='Station Name *' :type="errors.has('name') ? 'is-danger': ''" :message="errors.has('name') ? errors.first('name') : ''">
-      <b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'"></b-input>
+      <b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'" rounded></b-input>
     </b-field>
 
     <div class="columns">
       <div class="column is-half">
         <b-field label="Select Start Time">
-          <b-timepicker v-model="startTime" :min-time='minTime' :max-time='maxTime' :increment-minutes='10'>
-          </b-timepicker>
+          <b-timepicker v-model="startTime" :min-time='minTime' :max-time='maxTime' :increment-minutes='10' rounded></b-timepicker>
         </b-field>
       </div>
 
       <div class="column is-half">
         <b-field label="Select End Time">
-          <b-timepicker v-model="endTime" :min-time='minTime' :max-time='maxTime' :increment-minutes='10'>
-          </b-timepicker>
+          <b-timepicker v-model="endTime" :min-time='minTime' :max-time='maxTime' :increment-minutes='10' rounded></b-timepicker>
         </b-field>
       </div>
     </div>
@@ -67,8 +66,12 @@
     </b-modal>
 
     <br/>
-    <button class="button is-success" style="margin-bottom: 4vh;" :disabled="isDisabled" @submit.prevent="validateBeforeSubmit">Add Station</button>
+
+    <!-- Add Station button -->
+    <button id="addStnBtn" class="button is-success" :disabled="isDisabled" @submit.prevent="validateBeforeSubmit">Add Station</button>
+
   </div>
+
 </section>
 </template>
 
@@ -301,6 +304,9 @@ export default {
 </script>
 
 <style scoped>
+/* #addStnBtn {
+  float: right;
+} */
 #preview {
   width: 20vw;
   height: 80%;

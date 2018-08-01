@@ -1,5 +1,7 @@
 <template>
 <div id="app" class="columns">
+
+  <!-- side navigation bar -->
   <div class="column is-2 is-hidden-touch" id="nav">
     <aside class="sidebar menu">
       <img src="~/static/img-whitelogo.png" alt="logo" />
@@ -32,11 +34,11 @@
       </ul>
 
     </aside>
-  </div>
+  </div> <!-- end of side navigation bar -->
 
   <aside class="column is-10 myContent">
       <header class="navbar header has-shadow mobileNav">
-        <div class="container" id="myNavTitle">
+        <div class="container" id="myPageTitle">
           <div class="navbar-brand">
             <div class="centerTextBox navbar-item">
               <p class="has-text-weight-semibold">
@@ -44,9 +46,9 @@
               </p>
             </div>
             <span class="navbar-burger burger" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
-          <span></span>
-            <span></span>
-            <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
             </span>
           </div>
           <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
@@ -73,9 +75,13 @@
                   <nuxt-link to="/Admin/Users">Manage Users</nuxt-link>
                 </li>
               </ul>
+
               <hr />
-              <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>Logout</a>
-              </ul>
+
+              <li class="navbar-item">
+                <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>&nbsp;Logout</a></ul>
+              </li>
+
             </div>
           </div>
         </div>
@@ -85,7 +91,8 @@
     <BackToTop :visibleoffset="heightOfBrowser" style=""></BackToTop>
 
   </aside>
-</div>
+
+</div> <!-- end of #app -->
 </template>
 
 <script>
@@ -123,84 +130,6 @@ export default {
 </script>
 
 <style>
-.vue-back-to-top {
-  bottom: 4%;
-  right: 3%;
-}
-.navbar-menu {
-  display: none;
-}
-
-/* .nav-title {
-  position: fixed;
-  padding: 25px 40px;
-  right: 0;
-  top: 0;
-  width: 80%;
-  background: white;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-  z-index: 5;
-  color: #2C2C2C;
-} */
-
-#app {
-  margin: 5px;
-}
-
-#nav {
-  background-color: #565656;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-
-#myNavTitle {
-  max-width: 100%;
-  font-size: 1.6rem;
-  padding: 0 3.5vw;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-}
-
-#logout {
-  position: fixed;
-  display: inline;
-  bottom: 30px;
-  width: 15%;
-  text-align: center;
-  font-size: 18px;
-  color: white;
-}
-
-.myContent {
-  padding: 0;
-  height: 100%;
-}
-
-#content {
-  padding: 3vh 1.5vw;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-  background-color: white;
-  height: 80%;
-  margin: 2vw;
-  overflow-y: auto;
-}
-
-.menu-label {
-  color: rgba(255, 255, 255, 0.72)
-}
-
-.menu img {
-  display: block;
-  margin: 20px auto;
-  width: 55%;
-  height: 55%;
-}
-
-.sidebar a {
-  color: white;
-}
-
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.2rem;
@@ -255,10 +184,78 @@ html {
   background-color: #35495e;
 }
 
-.centerTextBox {
+
+#app {
+  margin: 0px;
+}
+
+.navbar-menu {
+  display: none;
+}
+
+/* .centerTextBox {
   display: flex;
   align-items: center;
+} */
+
+#nav {
+  background-color: #565656;
+  height: 100vh;
+  display: block;
+  top: 0;
+  left: 0;
 }
+
+.menu img {
+  display: block;
+  margin: 20px auto;
+  width: 70%;
+}
+
+.menu-label {
+  color: rgba(255, 255, 255, 0.72)
+}
+
+.sidebar a {
+  color: white;
+}
+
+#logout {
+  position: fixed;
+  display: inline;
+  bottom: 30px;
+  width: 15%;
+  text-align: center;
+  font-size: 18px;
+  color: white;
+}
+
+#myPageTitle {
+  max-width: 100%;
+  font-size: 1.6rem;
+  padding: 1vh 2.5vw;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.myContent {
+  padding: 0;
+  height: 100%;
+}
+
+#content {
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  background-color: white;
+  height: 80%;
+  margin: 2vw;
+  overflow-y: auto;
+}
+
+
+.vue-back-to-top {
+  bottom: 4%;
+  right: 3%;
+}
+
 
 @media only screen and (max-width: 767px) {
   html {
@@ -269,15 +266,12 @@ html {
     color: black;
     padding: 0 2.5vw;
   }
-  #myNavTitle {
+  #myPageTitle {
     font-size: 1.2rem;
     padding: 0;
   }
   .container {
     display: block;
-  }
-  #app {
-    margin: 0;
   }
   .myContainer {
     float: none;
@@ -286,7 +280,6 @@ html {
   }
   #content {
     margin: 0;
-    padding: 1.5vh 1.5vw;
     height: 100%;
   }
   .myContent {
@@ -294,6 +287,9 @@ html {
   }
   hr {
     margin: 0.2rem;
+  }
+  #mobileNavbarMenu {
+    padding: 0.5rem 0.7rem;
   }
 }
 
@@ -303,11 +299,10 @@ html {
   }
   #content {
     margin: 0;
-    padding: 1.5vh 1.5vw;
     height: 85%;
   }
-  #myNavTitle {
-    font-size: 0.8rem;
+  #myPageTitle {
+    font-size: 1.2rem;
   }
   #mobileNavbarMenu {
     height: 50vh;
