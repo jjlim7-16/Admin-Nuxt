@@ -238,6 +238,7 @@ html {
 
 #myPageTitle {
   max-width: 100%;
+  height: 100%;
   font-size: 1.6rem;
   padding: 1vh 2.5vw;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.08);
@@ -245,7 +246,6 @@ html {
 
 .myContent {
   padding: 0;
-  height: 100%;
 }
 
 #content {
@@ -263,7 +263,7 @@ html {
 }
 
 
-@media only screen and (max-width: 767px) {
+@media only screen and (min-width:320px) and (max-width:840px) and (orientation:portrait) {
   html {
     font-size: 1rem;
     overflow: scroll;
@@ -286,16 +286,20 @@ html {
   }
   #content {
     margin: 0;
-    height: 100%;
+    min-height: 93%;
   }
   .myContent {
     width: 100% !important;
+    height: 100vh;
   }
   hr {
     margin: 0.2rem;
   }
   #mobileNavbarMenu {
     padding: 0.5rem 0.7rem;
+  }
+  .mobileNav {
+    height: 7%;
   }
 }
 
