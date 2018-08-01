@@ -19,6 +19,7 @@
 import Cookie from 'js-cookie'
 
 export default {
+  middleware: 'crewAuth',
   methods: {
     logout() {
       this.$store.dispatch('logout')

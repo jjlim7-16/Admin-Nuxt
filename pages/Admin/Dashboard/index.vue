@@ -76,44 +76,43 @@ export default {
 
     socket = io.socketio.connect(`http://${config.serverURL}/dashboard`);
     socket.on("getBookingCount", data => {
-      this.noOfBookings = data;
-    });
+      this.noOfBookings = data
+    })
     socket.on("getAvgBookings", data => {
-      this.avgBookings = data;
-    });
+      console.log(data)
+      this.avgBookings = data
+    })
     socket.on("getBookingByDay", data => {
-      this.bardata = data;
-    });
+      this.bardata = data
+    })
     socket.on("getBookingByTime", data => {
-      this.byTimeData = data;
-    });
+      this.byTimeData = data
+    })
     socket.on("getBookingByStation", data => {
-      this.byStationData = data;
-    });
+      this.byStationData = data
+    })
   },
   computed: {
     filterTimeData() {
       // let station = this.stationList.find(i => i.station_id === this.stationId).station_name
       // return this.byStationData[station]
-      let data = {};
+      let data = {}
       // let station = this.stationList.find(i => i.station_id === this.stationId).station_name
       // console.log(station)
-      let station = "";
+      let station = ''
       for (var i in this.stationList) {
         if (this.stationList[i].station_id === this.stationId) {
-          station = this.stationList[i].station_name;
-          break;
+          station = this.stationList[i].station_name
+          break
         }
       }
-      // data[station] = []
-      // data[station] = this.byTimeData[station]
-      data["station"] = station;
-      data["results"] = this.byTimeData[station];
-      return data;
+      data['station'] = station
+      data['results'] = this.byTimeData[station]
+      return data
     }
   },
   destroyed() {
-    socket.close();
+    socket.close()
   }
 };
 </script>
