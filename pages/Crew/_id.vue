@@ -338,7 +338,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #content {
   margin: 25px;
 }

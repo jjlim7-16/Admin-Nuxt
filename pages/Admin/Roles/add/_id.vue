@@ -1,10 +1,11 @@
 <template>
 	<section id="content" class="box columns">
+
 		<div class="column is-6">
 			<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
 				<b-select expanded placeholder='Select Station' v-model="stationId"
-					name="station" v-validate="'required'" data-vv-as="'Station'">
+					name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
 					<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
 						{{station.station_name}}
 					</option>
@@ -12,18 +13,19 @@
 			</b-field>
 
 			<b-field label='Role Name *' :type="errors.has('roleName') ? 'is-danger': ''"
-				:message="errors.has('roleName') ? errors.first('roleName') : ''">
+				:message="errors.has('roleName') ? errors.first('roleName') : ''" >
 				<b-input
-					placeholder='Enter Role Title'
+					placeholder='Enter Role Name'
 					name="roleName"
 					v-model="roleName"
 					data-vv-as="'Role Name'"
-					v-validate="'required|alpha_spaces'">
+					v-validate="'required|alpha_spaces'"
+					rounded>
 				</b-input>
 			</b-field>
 
 			<b-field label='Duration'>
-				<b-select expanded placeholder='Select Activity Duration' :value="getDuration" disabled>
+				<b-select expanded placeholder='Select Activity Duration' :value="getDuration" disabled rounded>
 					<option value="20">20 mins</option>
 					<option value="30">30 mins</option>
 					<option value="40">40 mins</option>
@@ -31,16 +33,21 @@
 			</b-field>
 
 			<b-field label='Capacity'>
-				<b-select expanded size="5" v-model='capacity' placeholder='Select Max. Capacity' required>
+				<b-select expanded size="5" v-model='capacity' placeholder='Select Max. Capacity' required rounded>
 					<option v-for="i in 12" :key="i" :value="i">{{ i }}</option>
 				</b-select>
 			</b-field>
-			
+
 			<br>
-			<button class="button is-success" :disabled="isDisabled" @click="submit()">Add Role</button>
-		</div>
+
+			<!-- Add Role button -->
+			<button id="addRoleBtn" class="button is-success" :disabled="isDisabled" @click="submit()">Add Role</button>
+
+		</div> <!-- end of column is-6 -->
+
+		<!-- Upload Image field -->
 		<div class="column is-4" style="margin-left: 2vw;">
-			<b-field label="Image">
+			<b-field label="Station Image">
 				<b-upload v-model="files" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
@@ -56,6 +63,8 @@
 				</b-upload>
 			</b-field>
 		</div>
+
+
 	</section>
 </template>
 

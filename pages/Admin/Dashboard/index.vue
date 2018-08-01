@@ -1,6 +1,6 @@
 <template>
-<section id="content">
-  <div class="container columns is-multiline myContainer is-centered">
+<section id="content" class="box">
+  <div class="columns is-multiline myContainer is-centered">
     <div class="column is-half has-text-centered">
       <div class="box fullWidth">
         <p class="heading">No. Of Bookings Today</p>
@@ -134,6 +134,10 @@ export default {
   max-width: 100%;
 }
 
+#content {
+  position: absolute;
+}
+
 .column {
   align-items: center;
   display: flex;
@@ -144,4 +148,11 @@ export default {
 .myContainer {
   margin: auto;
 }
+
+@media only screen and (max-width: 767px) {
+  #content {
+    position: relative;
+  }
+}
+
 </style>

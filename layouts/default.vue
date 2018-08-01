@@ -1,5 +1,7 @@
 <template>
 <div id="app" class="columns">
+
+  <!-- side navigation bar -->
   <div class="column is-2 is-hidden-touch" id="nav">
     <aside class="sidebar menu">
       <img src="~/static/img-whitelogo.png" alt="logo" />
@@ -32,24 +34,24 @@
       </ul>
 
     </aside>
-  </div>
+  </div> <!-- end of side navigation bar -->
 
   <aside class="column is-10 myContent">
       <header class="navbar header has-shadow mobileNav">
-        <div class="container" id="myNavTitle">
+        <div class="container" id="myPageTitle">
           <div class="navbar-brand">
-            <div class="centerTextBox">
+            <div class="centerTextBox navbar-item">
               <p class="has-text-weight-semibold">
                 {{ this.$store.state.pageName }}
               </p>
             </div>
             <span class="navbar-burger burger" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
-          <span></span>
-            <span></span>
-            <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
             </span>
           </div>
-          <div class="navbar-menu" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
+          <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
             <div class="navbar-end">
               <p class="menu-label">General</p>
               <ul class="menu-list">
@@ -69,33 +71,42 @@
 
               <p class="menu-label">Administration</p>
               <ul class="menu-list">
-                <li>
+                <li class="navbar-item">
                   <nuxt-link to="/Admin/Users">Manage Users</nuxt-link>
                 </li>
               </ul>
 
-              <ul class="menu-list">
-                <li id="logout"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>Logout</a></li>
-              </ul>
+              <hr />
+
+              <li class="navbar-item">
+                <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>&nbsp;Logout</a></ul>
+              </li>
+
             </div>
           </div>
         </div>
       </header>
 
     <nuxt/>
+    <BackToTop :visibleoffset="heightOfBrowser" style=""></BackToTop>
 
   </aside>
-</div>
+
+</div> <!-- end of #app -->
 </template>
 
 <script>
 import Cookie from 'js-cookie'
+import BackToTop from '~/components/BackToTop'
 
 export default {
-  // middleware: 'authenticated',
+  components: {
+    BackToTop
+  },
   data() {
     return {
-      menuIsActive: false
+      menuIsActive: false,
+      heightOfBrowser: 0
     }
   },
   methods: {
@@ -110,92 +121,15 @@ export default {
     toggleMenu() {
       this.menuIsActive = !this.menuIsActive;
     }
+  },
+  beforeMount() {
+    this.heightOfBrowser = window.innerHeight/7
+    console.log(window.innerHeight/7);
   }
 }
 </script>
 
 <style>
-.navbar-menu {
-  display: none;
-}
-
-.nav-title {
-  position: fixed;
-  padding: 25px 40px;
-  right: 0;
-  top: 0;
-  width: 80%;
-  background: white;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-  z-index: 5;
-  color: #2C2C2C;
-}
-
-#app {
-  margin: 5px;
-}
-
-.mobileNav {
-  height: 10vh;
-}
-
-#nav {
-  background-color: #565656;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-
-#myNavTitle {
-  max-width: 100%;
-  font-size: 1.6rem;
-  padding: 0 3.5vw;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-}
-
-#logout {
-  position: fixed;
-  display: inline;
-  bottom: 30px;
-  width: 15%;
-  text-align: center;
-  font-size: 18px;
-  color: white;
-}
-
-.myContent {
-  position: fixed;
-  right: 0;
-  top: 0;
-  padding: 0;
-  height: 100%;
-}
-
-#content {
-  padding: 3vh 1.5vw;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-  background-color: white;
-  height: 80%;
-  margin: 2vw;
-  overflow-y: auto;
-}
-
-.menu-label {
-  color: rgba(255, 255, 255, 0.72)
-}
-
-.menu img {
-  display: block;
-  margin: 20px auto;
-  width: 55%;
-  height: 55%;
-}
-
-.sidebar a {
-  color: white;
-}
-
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.2rem;
@@ -250,12 +184,80 @@ html {
   background-color: #35495e;
 }
 
-.centerTextBox {
-  display: flex;
-  align-items: center;
+
+#app {
+  margin: 0px;
 }
 
-@media only screen and (max-width: 600px) {
+.navbar-menu {
+  display: none;
+}
+
+/* .centerTextBox {
+  display: flex;
+  align-items: center;
+} */
+
+#nav {
+  background-color: #565656;
+  height: 100vh;
+  display: block;
+  top: 0;
+  left: 0;
+}
+
+.menu img {
+  display: block;
+  margin: 20px auto;
+  width: 70%;
+}
+
+.menu-label {
+  color: rgba(255, 255, 255, 0.72)
+}
+
+.sidebar a {
+  color: white;
+}
+
+#logout {
+  position: fixed;
+  display: inline;
+  bottom: 30px;
+  width: 15%;
+  text-align: center;
+  font-size: 18px;
+  color: white;
+}
+
+#myPageTitle {
+  max-width: 100%;
+  font-size: 1.6rem;
+  padding: 1vh 2.5vw;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.myContent {
+  padding: 0;
+  height: 100%;
+}
+
+#content {
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  background-color: white;
+  height: 80%;
+  margin: 2vw;
+  overflow-y: auto;
+}
+
+
+.vue-back-to-top {
+  bottom: 4%;
+  right: 3%;
+}
+
+
+@media only screen and (max-width: 767px) {
   html {
     font-size: 1rem;
     overflow: scroll;
@@ -264,19 +266,12 @@ html {
     color: black;
     padding: 0 2.5vw;
   }
-  #myNavTitle {
+  #myPageTitle {
     font-size: 1.2rem;
     padding: 0;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.16);
-  }
-  .centerTextBox {
-    /* margin-left: 28%; */
   }
   .container {
     display: block;
-  }
-  #app {
-    margin: 0;
   }
   .myContainer {
     float: none;
@@ -285,11 +280,41 @@ html {
   }
   #content {
     margin: 0;
-    padding: 1.5vh 1.5vw;
     height: 100%;
   }
   .myContent {
-    position: inherit;
+    width: 100% !important;
+  }
+  hr {
+    margin: 0.2rem;
+  }
+  #mobileNavbarMenu {
+    padding: 0.5rem 0.7rem;
+  }
+}
+
+@media screen and (min-width:320px) and (max-width:840px) and (orientation:landscape) {
+  .myContent {
+    width: 100% !important;
+  }
+  #content {
+    margin: 0;
+    height: 85%;
+  }
+  #myPageTitle {
+    font-size: 1.2rem;
+  }
+  #mobileNavbarMenu {
+    height: 50vh;
+    overflow-y: scroll;
+    box-shadow: none;
+  }
+  .menu-label {
+    color: black;
+    padding: 0 2.5vw;
+  }
+  hr {
+    margin: 0.2rem;
   }
 }
 </style>

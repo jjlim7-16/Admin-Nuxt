@@ -1,17 +1,20 @@
 <template>
-<section id="content">
-	<router-link to="/Admin/Stations/add" tag="button" class="button is-primary" style="margin-bottom: 3vh;">
-		<b-icon icon="plus-circle"></b-icon>
-		<span>Add Station</span>
-	</router-link>
+	<section id="content" class="box">
 
-  <b-field grouped group-multiline>
-    <b-input placeholder="Search By Station Name" v-model="filter"></b-input>
-  </b-field>
+		<!-- Add Station button -->
+		<router-link to="/Admin/Stations/add" tag="button" id="addStationBtn" class="button is-primary">
+			<b-icon icon="plus-circle"></b-icon>
+			<span>Add Station</span>
+		</router-link>
 
-  <b-table :data="filteredData" :paginated="paginated" :per-page="perPage" :mobile-cards="hasMobileCards"
-	:current-page.sync="currentPage" default-sort-direction="asc"
-	default-sort="station_id" detailed detail-key="station_id">
+		<!-- Search by Station -->
+		<b-field grouped group-multiline>
+			<b-input placeholder="Search By Station" v-model="filter" type="search" icon="magnify" rounded></b-input>
+		</b-field>
+
+		<b-table :data="filteredData" :paginated="paginated" :per-page="perPage" :mobile-cards="hasMobileCards"
+		:current-page.sync="currentPage" default-sort-direction="asc"
+		default-sort="station_id" detailed detail-key="station_id">
 
 		<template slot-scope="props">
 			<b-table-column field="station_name" label="Station Name"  sortable>
@@ -51,7 +54,7 @@
 			</b-table-column>
 		</template>
 
-    <template slot="detail" slot-scope="props">
+		<template slot="detail" slot-scope="props">
 			<article class="media">
 				<figure class="media-left">
 					<p class="image is-64x64" style="margin-top: 10px;">
@@ -68,7 +71,7 @@
 				</div>
 			</article>
 		</template>
-  </b-table>
+	</b-table>
 
 </section>
 </template>
@@ -144,6 +147,11 @@ export default {
 
 <style scoped>
 hr {
-  margin: 0.2rem 0;
+	margin: 0.2rem 0;
 }
+
+#addStationBtn {
+	float: right;
+}
+
 </style>

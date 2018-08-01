@@ -5,24 +5,25 @@
 				placeholder="Click to select..."
 				icon="calendar-today"
 				:min-date="minDate"
-				v-model="date">
+				v-model="date"
+				rounded>
 			</b-datepicker>
     </b-field>
 
 		<b-field label='Select Station*' :type="errors.has('station') ? 'is-danger': ''"
 			:message="errors.has('station') ? errors.first('station') : ''">
 			<b-select expanded placeholder='Select Station' v-model="stationId"
-				name="station" v-validate="'required'" data-vv-as="'Station'">
+				name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
 				<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
 					{{station.station_name}}
 				</option>
 			</b-select>
 		</b-field>
-		
-		<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''" 
+
+		<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''"
 			:message="errors.has('role') ? errors.first('role') : ''">
 			<b-select expanded placeholder='Select Role' v-model="roleId"
-				name="role" v-validate="'required'" data-vv-as="'Role'">
+				name="role" v-validate="'required'" data-vv-as="'Role'" rounded>
 				<option v-for="role in filterRoles" :value="role.role_id" :key="role.role_name">
 					{{ role.role_name }}
 				</option>
@@ -31,7 +32,7 @@
 
 		<b-field grouped>
 			<b-field label='Set Limit'>
-				<b-select v-model='limit' placeholder='Select Limit' required>
+				<b-select v-model='limit' placeholder='Select Limit' required rounded>
 					<option v-for="i in 10" :key="i">{{ i }}</option>
 				</b-select>
 			</b-field>
@@ -63,7 +64,7 @@ export default {
 	},
 	async beforeMount() {
 		this.$store.commit('setPageTitle', 'Set New Limit')
-		
+
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.roleList = res.data[0]
 		this.stationList = res.data[1]
@@ -72,7 +73,7 @@ export default {
 		submit() {
 			let date = moment(this.date).format('YYYY-MM-DD')
 			let roleName = this.roleList.find(i => i.role_id === this.roleId).role_name
-			let webFormData = new DataModel.Limit(this.stationId, this.roleId, 
+			let webFormData = new DataModel.Limit(this.stationId, this.roleId,
 				date, this.limit)
 
 			this.$axios.post(`http://${config.serverURL}/limit/`, webFormData)

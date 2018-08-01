@@ -1,5 +1,13 @@
 <template>
 	<section id="content" class="box">
+
+		<!-- Set Limit button -->
+		<router-link to="/Admin/Limit/setLimit" tag="button" id="setLimitBtn" class="button is-primary">
+			<b-icon icon="plus-circle"></b-icon>
+			<span>Set Limit</span>
+		</router-link>
+
+		<!-- Filter by Date -->
 		<b-field grouped group-multiline>
 			<b-field label="Filter By Date:" style="margin-top: 0.9vh;"></b-field>&nbsp;
 			<b-select placeholder="Filter By Date" v-model="filter">
@@ -66,11 +74,7 @@
 				</section>
 			</template>
 		</b-table>
-		<router-link to="/Admin/Limit/setLimit" 
-		style="bottom: 0; position: absolute; margin-bottom: 10vh;" tag="button" class="button is-primary">
-			<b-icon icon="plus-circle"></b-icon>
-			<span>Set New Limit</span>
-		</router-link>
+
 	</section>
 </template>
 
@@ -147,3 +151,9 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+#setLimitBtn {
+	float: right;
+}
+</style>

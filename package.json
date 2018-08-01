@@ -7,10 +7,14 @@
 	"config": {
 		"nuxt": {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			"host": "localhost",
 =======
 			"host": "172.22.61.5",
 >>>>>>> 2d19697805d24e13e0c0b65a02f5b1d5fdd3f028
+=======
+			"host": "localhost",
+>>>>>>> 635de05eeb1bac05e097fa144c05d10333701e70
 			"port": "3000"
 		}
 	},
