@@ -1,22 +1,22 @@
 <template>
-	<section id="content" class="box">
+<section id="content" class="box">
 
-		<!-- Add Station button -->
-		<router-link to="/Admin/Stations/add" tag="button" id="addStationBtn" class="button is-primary">
-			<b-icon icon="plus-circle"></b-icon>
-			<span>Add Station</span>
-		</router-link>
+  <!-- Add Station button -->
+  <router-link to="/Admin/Stations/add" tag="button" id="addStationBtn" class="button is-primary">
+    <b-icon icon="plus-circle"></b-icon>
+    <span>Add Station</span>
+  </router-link>
 
-		<!-- Search by Station -->
-		<b-field grouped group-multiline>
-			<b-input placeholder="Search By Station" v-model="filter" type="search" icon="magnify" rounded></b-input>
-		</b-field>
+  <!-- Search by Station -->
+  <b-field grouped group-multiline>
+    <b-autocomplete :data="filteredDataArray" placeholder="Search By Station" v-model="filter" type="search" icon="magnify" @select="option => selected = option" rounded>
+			<template slot="empty">No results found</template>
+		</b-autocomplete>
+  </b-field>
 
-		<b-table :data="filteredData" :paginated="paginated" :per-page="perPage" :mobile-cards="hasMobileCards"
-		:current-page.sync="currentPage" default-sort-direction="asc"
-		default-sort="station_id" detailed detail-key="station_id">
+  <b-table :data="filteredData" :paginated="paginated" :per-page="perPage" :mobile-cards="hasMobileCards" :current-page.sync="currentPage" default-sort-direction="asc" default-sort="station_id" detailed detail-key="station_id">
 
-		<template slot-scope="props">
+    <template slot-scope="props">
 			<b-table-column field="station_name" label="Station Name"  sortable>
 				{{ props.row.station_name }}
 			</b-table-column>
@@ -54,7 +54,7 @@
 			</b-table-column>
 		</template>
 
-		<template slot="detail" slot-scope="props">
+    <template slot="detail" slot-scope="props">
 			<article class="media">
 				<figure class="media-left">
 					<p class="image is-64x64" style="margin-top: 10px;">
@@ -71,7 +71,7 @@
 				</div>
 			</article>
 		</template>
-	</b-table>
+  </b-table>
 
 </section>
 </template>
@@ -81,77 +81,88 @@ import axios from 'axios'
 import config from '~/config.js'
 
 export default {
-	data () {
-		return {
-			currentPage: 1,
-			paginated: true,
-			perPage: 5,
-			hasMobileCards: true,
-			data: [],
-			filter: '',
-			serverURL: config.serverURL
-		}
-	},
-	async beforeMount() {
-		let res = await this.$axios.get(`http://${config.serverURL}/stations/`)
-		this.data = res.data
+  data() {
+    return {
+      currentPage: 1,
+      paginated: true,
+      perPage: 5,
+      hasMobileCards: true,
+      data: [],
+      autocompleteData: [],
+      filter: '',
+      serverURL: config.serverURL
+    }
+  },
+  async beforeMount() {
+    let res = await this.$axios.get(`http://${config.serverURL}/stations/`)
+    this.data = res.data
+    for (let station of this.data) {
+      this.autocompleteData.push(station.station_name)
+    }
 
-		this.$store.commit('setPageTitle', 'Manage Stations')
-	},
-	methods: {
-		updateStationStatus(station_id, newActiveStatus) {
-			let formData = {
-				'newActiveStatus': newActiveStatus
-			}
-			let action = (newActiveStatus === 1) ? 'Activate' : 'Deactivate'
-			this.$dialog.confirm({
-				title: `${action} Station`,
-				message: `Are you sure you want to ${action.toLowerCase()} this station?`,
-				confirmText: `${action} Station`,
-				type: 'is-danger',
-				hasIcon: true,
-				onConfirm: () => this.$axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
-				.then(res => {
-					if (res.status === 200) {
-						this.$dialog.alert({
-							title: `${action} Station`,
-							message: `Station Has Been Successfully ${action + 'd'}`,
-							type: 'is-success',
-							hasIcon: true,
-							icon: 'check-circle',
-							iconPack: 'mdi'
-						})
-						this.$axios.get(`http://${config.serverURL}/stations/`)
-						.then((res) => {
-							this.data = res.data
-						})
-					}
-				})
-				.catch(err => {
-					console.log(err)
-				})
-			})
+    this.$store.commit('setPageTitle', 'Manage Stations')
+  },
+  methods: {
+    updateStationStatus(station_id, newActiveStatus) {
+      let formData = {
+        'newActiveStatus': newActiveStatus
+      }
+      let action = (newActiveStatus === 1) ? 'Activate' : 'Deactivate'
+      this.$dialog.confirm({
+        title: `${action} Station`,
+        message: `Are you sure you want to ${action.toLowerCase()} this station?`,
+        confirmText: `${action} Station`,
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.$axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
+          .then(res => {
+            if (res.status === 200) {
+              this.$dialog.alert({
+                title: `${action} Station`,
+                message: `Station Has Been Successfully ${action + 'd'}`,
+                type: 'is-success',
+                hasIcon: true,
+                icon: 'check-circle',
+                iconPack: 'mdi'
+              })
+              this.$axios.get(`http://${config.serverURL}/stations/`)
+                .then((res) => {
+                  this.data = res.data
+                })
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
 
-		}
-	},
-	computed: {
-		filteredData() {
-			if (this.filter !== '') {
-				return this.data.filter(i => i.station_name.toLowerCase().includes(this.filter.toLowerCase()))
-			}
-			return this.data
-		}
-	}
+    }
+  },
+  computed: {
+    filteredData() {
+      if (this.filter !== '') {
+        return this.data.filter(i => i.station_name.toLowerCase().includes(this.filter.toLowerCase()))
+      }
+      return this.data
+    },
+    filteredDataArray() {
+      return this.autocompleteData.filter((option) => {
+        return option
+          .toString()
+          .toLowerCase()
+          .indexOf(this.filter.toLowerCase()) >= 0
+      })
+    }
+  }
 }
 </script>
 
 <style scoped>
 hr {
-	margin: 0.2rem 0;
+  margin: 0.2rem 0;
 }
 
 #addStationBtn {
-	float: right;
+  float: right;
 }
-
 </style>
