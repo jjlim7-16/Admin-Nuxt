@@ -25,6 +25,10 @@
 				{{ props.row.station_start.slice(0,5) + ' - ' + props.row.station_end.slice(0,5) }}
 			</b-table-column>
 
+			<b-table-column field="durationInMins" label="Activity Duration" sortable centered>
+				{{ props.row.durationInMins + ' mins' }}
+			</b-table-column>
+
 			<b-table-column field="is_active" label="Status" sortable centered>
 				<span v-if="props.row.is_active===1" class="tag is-success">Active</span>
 				<span v-else class="tag is-danger">Inactive</span>

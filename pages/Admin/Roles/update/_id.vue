@@ -22,15 +22,6 @@
 				</b-input>
 			</b-field>
 
-			<b-field label='Duration'>
-				<b-select placeholder='Select Activity Duration' v-model="duration" required>
-					<option value="15">15 mins</option>
-					<option value="20">20 mins</option>
-					<option value="25">25 mins</option>
-					<option value="30">30 mins</option>
-				</b-select>
-			</b-field>
-
 			<b-field label='Capacity'>
 				<b-select v-model='capacity' placeholder='Select Max. Capacity' required>
 					<option v-for="i in 30" :key="i">{{ i }}</option>
@@ -71,7 +62,6 @@ export default {
 		return {
 			roleName: '',
 			capacity: 4,
-			duration: 20,
 			files: [],
 			stationList: [],
 			stationId: null,
@@ -85,7 +75,6 @@ export default {
 			this.stationList = res.data[1]
 			this.currRole = res.data[0][0]
 			this.roleName = this.currRole.role_name
-			this.duration = this.currRole.durationInMins
 			this.capacity = this.currRole.capacity
 			this.stationId = this.currRole.station_id
 
@@ -105,8 +94,7 @@ export default {
 		isDisabled() {
 			if (this.currRole) {
 				return (this.currRole.role_name === this.roleName && this.currRole.capacity === this.capacity
-				&& this.imageChanged === false && this.duration === this.currRole.durationInMins) 
-				|| !this.roleName || !this.capacity || !this.files[0]
+				&& this.imageChanged === false) || !this.roleName || !this.capacity || !this.files[0]
 			}
 		},
 		readImageFile() {
@@ -127,8 +115,7 @@ export default {
 			}
 			else {
 				let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 
-				this.files[0], this.stationId)
+				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.files[0], this.stationId)
 
 				let formData = new FormData()
 				if (this.imageChanged) {

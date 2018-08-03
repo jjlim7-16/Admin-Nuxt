@@ -66,7 +66,7 @@
     </b-field>
 		
 		<br/>
-		<button class="button is-success" :disabled="isDisabled" @click="submit()">Make Reservation</button>
+		<button class="button is-success" :disabled="isDisabled" @click="submit()">Change Reservation</button>
 		</div>
 	</section>
 </template>

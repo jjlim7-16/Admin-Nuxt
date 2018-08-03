@@ -110,7 +110,7 @@ export default {
 				type: 'is-danger',
 				hasIcon: true,
 				onConfirm: () =>
-				this.$axios.delete(`http://${config.serverURL}/reservation/` + reservation_id)
+				this.$axios.delete(`http://${config.serverURL}/reservations/` + reservation_id)
 				.then(res => {
 					if (res.status === 200) {
 						this.$dialog.confirm({

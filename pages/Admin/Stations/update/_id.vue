@@ -4,7 +4,7 @@
 			<b-field label='Station Name*' :type="errors.has('name') ? 'is-danger': ''" 
 				:message="errors.has('name') ? errors.first('name') : ''">
 				<b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'"
-				v-validate.immediate="'required|alpha_spaces'"></b-input>
+				v-validate="'required|alpha_spaces'"></b-input>
 			</b-field>
 
 			<div class="columns">
@@ -29,8 +29,19 @@
 				</div>
 			</div>
 
-			<b-field label="Description">
-				<b-input rows='5' maxlength="500" type="textarea" v-model="description" required></b-input>
+			<b-field label='Duration'>
+				<b-select expanded placeholder='Select Activity Duration' v-model="duration" rounded>
+					<option value="15">15 mins</option>
+					<option value="20">20 mins</option>
+					<option value="25">25 mins</option>
+					<option value="30">30 mins</option>
+				</b-select>
+			</b-field>
+
+			<b-field label="Description" :type="errors.has('description') ? 'is-danger': ''" 
+				:message="errors.has('description') ? errors.first('description') : ''">
+				<b-input maxlength="500" rows="5" type="textarea" name="description" v-validate="'required'"
+				data-vv-as="'Description'" v-model="description"></b-input>
 			</b-field>
 
 			<br/>
@@ -38,7 +49,7 @@
 			&nbsp;&nbsp;
 			<button class="button is-danger" @click='remove()'>Remove Station</button>
 		</div>
-
+		
 		<div class="column is-4">
 			<b-field label="Image">
 				<b-upload v-model="files" @input="imageChanged = true" drag-drop>
@@ -80,6 +91,7 @@ export default {
 			maxTime: max,
 			startTime: min,
 			endTime: max,
+			duration: 15,
 			files: [],
 			imageChanged: false,
 			origData: null
@@ -93,6 +105,7 @@ export default {
 			this.origData = res.data[0]
 			this.name = this.origData.station_name
 			this.description = this.origData.description
+			this.duration = this.origData.durationInMins
 			let start = new Date()
 			start.setHours(this.origData.station_start.slice(0,2))
 			start.setMinutes(this.origData.station_start.slice(3,5))
@@ -126,9 +139,9 @@ export default {
 				})
 			}
 			else {
-				let webFormData = new DataModel.Station(this.name.trim(), this.description.trim(), 
-				moment(this.startTime, 'HH:mm').format('HH:mm'), 
-				moment(this.endTime, 'HH:mm').format('HH:mm'))
+				let webFormData = new DataModel.Station(this.name.trim(), this.description.trim(),
+          moment(this.startTime, 'HH:mm').format('HH:mm'), moment(this.endTime, 'HH:mm').format('HH:mm'),
+          this.duration)
 				
 				let formData = new FormData()
 				if (this.imageChanged === true) {
@@ -188,11 +201,11 @@ export default {
 	computed: {
 		isDisabled() {
       if (this.origData) {
-				return (this.origData.station_name === this.name && 
-				this.origData.description === this.description && 
+				return (this.origData.station_name === this.name &&  this.origData.description === this.description && 
 				moment(this.origData.station_start, 'HH:mm').format('HH:mm') === moment(this.startTime, 'HH:mm').format('HH:mm') && 
 				moment(this.origData.station_end, 'HH:mm').format('HH:mm') === moment(this.endTime, 'HH:mm').format('HH:mm') &&
-				this.imageChanged === false) || !this.name || !this.description || !this.files[0]
+				this.imageChanged === false && this.duration === this.origData.durationInMins)
+				|| !this.name || !this.description || !this.files[0]
 			}
 		},
 		readImageFile() {
