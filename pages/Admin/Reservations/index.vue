@@ -4,7 +4,7 @@
 		<!-- Set Limit button -->
 		<router-link to="/Admin/Reservations/add" tag="button" id="addBtn" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
-			<span>Make New Reservation</span>
+			<span>Make Reservation</span>
 		</router-link>
 
 		<!-- Filter by Date -->
@@ -38,8 +38,8 @@
 					{{ props.row.role_name }}
 				</b-table-column>
 
-				<b-table-column field="booking_limit" label="Booking Limit" centered sortable>
-					{{ props.row.booking_limit }}
+				<b-table-column field="reservedFrom" label="Reserved Session" sortable centered>
+					{{ props.row.reservedFrom.slice(0,5) + ' - ' + props.row.reservedTo.slice(0,5) }}
 				</b-table-column>
 
 				<b-table-column label='Actions' centered>
@@ -49,12 +49,12 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link>
-							<router-link :to="{ path: `/Admin/Limit/Update/${props.row.reservation_id}`}">
-								Update Limit
+							<router-link :to="{path: `/Admin/Reservations/Update/${props.row.reservation_id}`}">
+								Change Reservation
 							</router-link>
 						</b-dropdown-item>
 						<b-dropdown-item style="text-align: left" has-link>
-							<a @click="deleteLimit(props.row.reservation_id)">Delete Limit</a>
+							<a @click="cancelReservation(props.row.reservation_id)">Cancel Reservation</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
@@ -69,7 +69,7 @@
 								size="is-large">
 							</b-icon>
 						</p>
-						<p>No Reservations Are Made</p>
+						<p>No Reservations Have Been Made</p>
 					</div>
 				</section>
 			</template>
@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import moment from 'moment'
 import config from '~/config.js'
 
@@ -103,7 +102,7 @@ export default {
 		this.dateList = res.data[1]
 	},
 	methods: {
-		deleteLimit(reservation_id) {
+		cancelReservation(reservation_id) {
 			this.$dialog.confirm({
 				title: 'Cancellation',
 				message: 'Are you sure you want to cancel this reservation?',

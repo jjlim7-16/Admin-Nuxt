@@ -58,7 +58,7 @@
 			<article class="media">
 				<figure class="media-left">
 					<p class="image is-64x64" style="margin-top: 10px;">
-						<img :src="`http://${serverURL}/stations/getImage/${props.row.station_id}`">
+						<img :src="`${imageurl}`">
 					</p>
 				</figure>
 				<div class="media-content">
@@ -89,13 +89,14 @@ export default {
 			hasMobileCards: true,
 			data: [],
 			filter: '',
+			imageurl: '',
 			serverURL: config.serverURL
 		}
 	},
 	async beforeMount() {
 		let res = await this.$axios.get(`http://${config.serverURL}/stations/`)
 		this.data = res.data
-
+		
 		this.$store.commit('setPageTitle', 'Manage Stations')
 	},
 	methods: {
@@ -131,7 +132,6 @@ export default {
 					console.log(err)
 				})
 			})
-
 		}
 	},
 	computed: {

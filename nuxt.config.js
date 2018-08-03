@@ -1,7 +1,7 @@
 module.exports = {
 	modules: ['nuxt-buefy', '@nuxtjs/axios', ['@nuxtjs/pwa', { icon: false }]],
 	plugins: [
-		{ src: '~plugins/vee-validate.js', ssr: true },
+		'~plugins/vee-validate.js',
 		{ src: '~plugins/vue-chartjs.js', ssr: false },
 		{ src: '~plugins/socket-io.js', ssr: false },
 		{ src: '~plugins/axios.js', ssr: false }

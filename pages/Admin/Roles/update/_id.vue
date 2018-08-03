@@ -104,7 +104,8 @@ export default {
 		isDisabled() {
 			if (this.currRole) {
 				return (this.currRole.role_name === this.roleName && this.currRole.capacity === this.capacity
-				&& this.imageChanged === false) || !this.roleName || !this.capacity || !this.files[0]
+				&& this.imageChanged === false && this.duration === this.currRole.durationInMins) 
+				|| !this.roleName || !this.capacity || !this.files[0]
 			}
 		},
 		readImageFile() {
@@ -125,7 +126,7 @@ export default {
 			}
 			else {
 				let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
+				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 
 				this.files[0], this.stationId)
 
 				let formData = new FormData()

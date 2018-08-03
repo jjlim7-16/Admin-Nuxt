@@ -2,7 +2,8 @@
 <section id='content' class="box columns is-multiline">
   <div class="column is-6">
     <b-field label='Station Name *' :type="errors.has('name') ? 'is-danger': ''" :message="errors.has('name') ? errors.first('name') : ''">
-      <b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'" rounded></b-input>
+      <b-input placeholder='Enter Station Name' v-model="name" name="name" 
+      data-vv-as="'Station Name'" v-validate.continues="'required|alpha_spaces'" rounded></b-input>
     </b-field>
 
     <div class="columns">
@@ -21,7 +22,7 @@
 
     <b-field label="Description" :type="errors.has('description') ? 'is-danger': ''" 
       :message="errors.has('description') ? errors.first('description') : ''">
-      <b-input maxlength="500" type="textarea" name="description" v-validate.immediate="'required'"
+      <b-input maxlength="500" type="textarea" name="description" v-validate="'required'"
       data-vv-as="'Description'" v-model="description"></b-input>
     </b-field>
   </div>
@@ -150,7 +151,7 @@ const ModalForm = {
 				}
 			}
 			if (!roleExist) {
-        let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2, this.files[0])
+        let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, this.files[0])
 				roleList.push(role)
 				this.$parent.close()
 			}
@@ -214,7 +215,6 @@ export default {
       startTime: min,
       endTime: max,
       files: [],
-
     }
   },
   beforeMount() {

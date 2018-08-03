@@ -1,6 +1,14 @@
 <template>
   <nuxt/>
 </template>
+
+<script>
+export default {
+  middleware: 'preventLogout'
+}
+</script>
+
+
 <!--
 <style>
 

@@ -7148,6 +7148,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-auth-image@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/vue-auth-image/-/vue-auth-image-0.0.2.tgz#d0e76435822a71c24e36ec118e44066b57048a53"
+
 vue-chartjs@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-3.3.2.tgz#1bdbf859d0f5df6cac75d8510e51aee5865638ab"

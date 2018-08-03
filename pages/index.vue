@@ -3,16 +3,12 @@
     <img src="img-whitelogo.png" alt="logo" />
     <div id="form" class="columns is-centered section" @keyup.enter="login()">
       <div class="box column is-5">
-        <b-field :type="errors.has('username') ? 'is-danger': ''"
-        :message="errors.has('username') ? errors.first('username') : ''">
-          <b-input placeholder='Username' v-model='username' name='username' data-vv-as="'Username'"
-          v-validate="'required|alpha_dash'"></b-input>
+        <b-field>
+          <b-input placeholder='Username' v-model='username' required></b-input>
         </b-field>
 
-        <b-field :type="errors.has('password') ? 'is-danger': ''"
-        :message="errors.has('password') ? errors.first('password') : ''">
-          <b-input type='password' placeholder='Password' v-model='password' name='password' data-vv-as="'Password'"
-          v-validate="'required'"></b-input>
+        <b-field>
+          <b-input type='password' placeholder='Password' v-model='password' required></b-input>
         </b-field>
 
         <button class="button" @click="login()">Login</button>

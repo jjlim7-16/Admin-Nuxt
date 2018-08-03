@@ -22,7 +22,7 @@
             </option>
           </b-select>
         </b-field>
-        <my-line :width="850" :data='filterTimeData'></my-line>
+        <my-line :data='filterTimeData'></my-line>
       </div>
 
       <!-- <realtime :data="byTimeData"></realtime> -->

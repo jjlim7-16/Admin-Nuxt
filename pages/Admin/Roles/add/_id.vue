@@ -126,7 +126,7 @@ export default {
 			}
 			else {
 				let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
+				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration,
 				this.files[0], this.stationId)
 
 				let formData = new FormData()
