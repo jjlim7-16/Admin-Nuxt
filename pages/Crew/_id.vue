@@ -1,13 +1,12 @@
 <template>
-<div>
-  <section id="content"  class="box"  v-if="showBooking">
+  <section id="content"  class="box">
     <h1>{{ stationName }}</h1>
     <b-field grouped>
       <b-field expanded>
       
       <button class="button is-white" onclick="false">
-        <b-icon icon="clock" size="is-medium"></b-icon>
-        <span> {{ sessionStartTime }} to {{ sessionEndTime }} </span>
+        <b-icon icon="clock" size="is-medium"></b-icon> &nbsp;
+        <span v-if="haveSession"> <b>{{ sessionStartTime }} to {{ sessionEndTime }} </b> </span>    
       </button>
       </b-field>
 
@@ -24,8 +23,8 @@
 
 
     <b-table
-      :data = "filteredData"
-      :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success'">
+      :data="isEmpty ? [] : filteredData"
+      :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'">
 
       <template slot-scope="props">
         <b-table-column field="queue_no" label="Queue No." filterable width="150" sortable>
@@ -44,23 +43,31 @@
           {{ props.row.booking_status }}
         </b-table-column>
       </template>
+
+      	<template slot="empty">
+				<section class="section">
+					<div class="content has-text-grey has-text-centered">
+						<p>
+							<b-icon
+								icon="emoticon-sad"
+								size="is-large">
+							</b-icon>
+						</p>
+						<p>No Bookings For the Session Has Been Found</p>
+					</div>
+				</section>
+			</template>
     </b-table>
     
-
 
     <!--<button class="button is-medium is-danger" @click="danger">-->
     <!--Launch toast (custom)-->
     <!--</button>-->
 
     <b-field id="attendance">
-      <b>Total checked</b>: {{ numberOfConfirm }}/{{ numberOfBooking }}
+      <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
     </b-field>
-
   </section>
-   <section id="errMessage"  class="box"  v-if="!showBooking">
-     <p>{{errMessage}}</p>
-   </section>
-   </div>
 </template>
 
 <script>
@@ -70,53 +77,68 @@ import config from "~/config";
 import io from "~/plugins/socket-io.js";
 let socket;
 
-function WebFormData(booking_status) {
-  this.booking_status = booking_status;
-}
+let scannedArray = [];
+let scannedID = "";
 
 export default {
   layout: "crewMenu",
   methods: {
     setRefresh() {
-      var day = new Date();
-      var currentTime = moment(day, "HH:mm:ss");
-      this.sessionStartTime = "14:20:00";
-      var refreshTime = moment(this.sessionStartTime, "HH:mm:ss").add(
-        5,
-        "minutes"
-      );
-      console.log(currentTime);
-      //console.log(currentTime.add(11, 'minutes').format('hh:mm A'));
-      //console.log("currenttime",currentTime.duration.get('minutes'));
+      if (this.sessionStartTime != null) {
+        var day = new Date();
+        var currentTime = moment(day, "HH:mm:ss");
+        // this.sessionStartTime = "15:19:00";
 
-      console.log(
-        new moment(this.sessionStartTime, "HH:mm")
-          .add(11, "minutes")
-          .format("hh:mm A")
-      );
-      //  setTimeout(function(){ alert("You"); }, 3000);
-      console.log(
-        currentTime.isAfter(
-          new moment(this.sessionStartTime, "HH:mm:ss")
-            .add(5, "minutes")
+        var refreshTime = moment(this.sessionStartTime, "HH:mm:ss").add(
+          5,
+          "minutes"
+        );
+        console.log(currentTime);
+        console.log(
+          new moment(this.sessionStartTime, "HH:mm")
+            .add(11, "minutes")
             .format("hh:mm A")
-        )
-      );
-      if (currentTime.isAfter(refreshTime)) {
-        console.log("current time is after nearest session start + 5mins");
-        //   console.log(currentTime.diff(currentTime));
+        );
+        // if (currentTime.isAfter(refreshTime)) {
+        //   console.log("current time is after nearest session start + 5mins");
+        //   //   console.log(currentTime.diff(currentTime));
 
-        this.$router.go();
-      } else {
+        //   this.$router.go();
+        // } else {
         console.log("current time is before nearest session start + 5mins");
         var duration = moment.duration(refreshTime.diff(currentTime));
 
         var miliseconds = duration.as("milliseconds");
         console.log(miliseconds);
-
+        this.updateNotAdmittedBookings();
         setTimeout(() => {
           this.$router.go();
         }, miliseconds);
+        //}
+      }
+    },
+    redirectToEndOfDay() {
+      //redirect to another page at the end of day
+    },
+    updateNotAdmittedBookings() {
+      for (var i in this.bookingList) {
+        if (this.bookingList[i].booking_status == "Confirmed") {
+          this.$axios
+            .put(
+              `http://${config.serverURL}/bookings/updateStatus/${
+                this.bookingList[i].booking_id
+              }`,
+              {
+                booking_status: "Not Admitted"
+              }
+            )
+            .then(res => {
+              // console.log(res.data)
+            })
+            .catch(() => {
+              console.log("FAILURE");
+            });
+        }
       }
     }
   },
@@ -127,15 +149,16 @@ export default {
       sessionEndTime: "",
       stationName: "",
       stationID: 0,
-      showBooking: true,
       numberOfBooking: 0,
       errMessage: "",
       filter: "",
+      haveSession: true,
       userBookingRoleName: "",
       userBookingStationName: "",
       userBookingIsBooked: false,
       userBookingSessionStartTime: "",
-      userBookingSessionEndTime: ""
+      userBookingSessionEndTime: "",
+      stationCloseTime: ""
     };
   },
   created() {
@@ -165,32 +188,40 @@ export default {
               .then(res => {
                 if (res.status === 200) {
                   if (res.data.length > 0) {
-                    this.showBooking = false;
-
-                    this.sessionStartTime = res.data.session_start;
-                    this.sessionEndTime = res.data.session_end;
-                    this.errMessage =
-                      "There are no bookings for next session: " +
-                      this.sessionStartTime +
-                      " to " +
-                      this.sessionEndTime +
-                      ", .";
+                    this.haveSession = true;
+                    this.sessionStartTime = res.data[0].session_start.substr(
+                      res.data[0].session_end,
+                      55
+                    );
+                    console.log(res.data);
+                    this.sessionEndTime = res.data[0].session_end.substr(
+                      res.data[0].session_end,
+                      5
+                    );
                   } else {
-                    this.showBooking = false;
-                    this.errMessage = "There are no more sessions today!";
+                    //no more next session -  end of day
+                    this.redirectToEndOfDay();
+                    this.haveSession = false;
                   }
                 }
               })
               .catch(err => {
                 console.log("FAIL");
+                this.haveSession = false;
               });
           } else {
-            this.showBooking = true;
             theData = res.data;
             this.bookingList = theData;
 
-            this.sessionStartTime = theData[0].session_start;
-            this.sessionEndTime = theData[0].session_end;
+            this.sessionStartTime = theData[0].session_start.substr(
+              theData[0].session_start,
+              5
+            );
+
+            this.sessionEndTime = theData[0].session_end.substr(
+              theData[0].session_end,
+              5
+            );
             this.stationName = theData[0].station_name;
             this.numberOfBooking = theData.length;
             this.setRefresh();
@@ -201,41 +232,35 @@ export default {
       })
       .catch(err => {
         console.log("FAIL");
+        this.haveSession = false;
       });
   },
   mounted() {
     let self = this;
     var isExist = false;
-    let scannedID = "";
-    let scannedArray = [];
 
     window.onkeypress = function(e) {
       if (e.key == "Enter") {
         scannedID = scannedArray.join("");
+        scannedArray = [];
         console.log(scannedID);
-        for (var i in this.bookingList) {
+        for (var i in self.bookingList) {
           console.log("inside for loop");
-          if ((this.bookingList[i].rfid = scannedID)) {
+          if (self.bookingList[i].rfid == scannedID) {
             isExist = true;
-            var booking_id = his.bookingList[i].booking_id;
-            this.bookingList[i].booking_status = "Admitted";
-            this.socket.emit("admitted", booking_id); //socket
+            var booking_id = self.bookingList[i].booking_id;
+            self.bookingList[i].booking_status = "Admitted";
+            // socket.emit("admitted", booking_id); //socket
             var day = new Date();
-            this.bookingList[i].time_in = moment(day).format("HH:mm");
-            let webFormData = new WebFormData(
-              this.bookingList[i].booking_status
-            );
-
-            let formData = new FormData();
-            //console.log(formData)
-            formData.append(webFormData.name);
-            formData.append("webFormData", JSON.stringify(webFormData));
-            console.log(webFormData);
-            this.$axios
+            self.bookingList[i].time_in = moment(day).format("HH:mm");
+            self.$axios
               .put(
-                `http://${config.serverURL}/bookings/updateStatus/` +
-                  booking_id,
-                formData
+                `http://${
+                  config.serverURL
+                }/bookings/updateStatus/${booking_id}`,
+                {
+                  booking_status: "Admitted"
+                }
               )
               .then(res => {
                 // console.log(res.data)
@@ -245,52 +270,40 @@ export default {
               });
           }
         }
-      }
-      if (isExist == false) {
-        let booking;
-        this.$axios
-          .get(`http://${config.serverURL}/bookings/` + scannedID)
-          .then(res => {
-            if (res.status === 200) {
-              console.log(res.data);
-              if (res.data != null) {
-                booking = res.data[0];
-                this.userBookingRoleName = booking.role_name;
-                this.userBookingStationName = booking.station_name;
-                this.userBookingSessionStartTime = booking.session_start;
-                this.userBookingSsessionEndTime = booking.session_end;
-                this.$dialog.alert({
-                  title: "Wrong Booking",
-                  message:
-                    "You have a booking as " +
-                    this.userBookingRoleName +
-                    " at " +
-                    this.userBookingStationName +
-                    " from " +
-                    this.userBookingRSessionStartTime +
-                    " to " +
-                    this.userBookingSessionEndTime,
-                  type: "is-danger",
-                  hasIcon: true,
-                  icon: "times-circle",
-                  iconPack: "fa"
-                });
-              } else {
-                this.$toast.open({
+        if (isExist == false) {
+          //check whether the user have another booking which is not cancelled and after current time
+          self.$axios
+            .get(`http://${config.serverURL}/bookings/rfid/${scannedID}`)
+            .then(res => {
+              let data = res.data[0];
+              if (res.data.length == 0) {
+                //if no booking then display error message
+                console.log("toast");
+                self.$toast.open({
                   duration: 5000,
-                  message: "User does not have any bookings!",
+                  message: `User does not have any bookings!`,
                   position: "is-bottom",
                   type: "is-danger"
                 });
+              } else {
+                console.log("displayOtherbooking");
+                self.$dialog.alert({
+                  title: "WRONG BOOKING",
+                  message:
+                    "User does not have booking here, actual booking is act as " +
+                    data.role_name +
+                    " at " +
+                    data.station_name +
+                    " at " +
+                    data.session_start,
+                  confirmText: "OK"
+                });
               }
-            } else {
-              console.dir(res.status);
-            }
-          })
-          .catch(err => {
-            console.log("Fail");
-            booking = null;
-          });
+            })
+            .catch(() => {
+              console.log("FAILURE");
+            });
+        }
       } else {
         scannedArray.push(e.key);
       }
@@ -315,7 +328,7 @@ export default {
       return this.bookingList;
     },
 
-    numberOfConfirm() {
+    numberOfAdmit() {
       var count = 0;
       for (var i in this.bookingList) {
         if (this.bookingList[i].booking_status === "Admitted") {
@@ -324,6 +337,10 @@ export default {
         }
       }
       return count;
+    },
+    isEmpty() {
+      if (this.bookingList.length === 0) return true;
+      else return false;
     }
   },
   destroyed() {
@@ -338,18 +355,15 @@ export default {
 };
 </script>
 
-<style scoped>
-#content {
-  margin: 25px;
-}
-
+<style>
 #attendance {
   margin-top: 20px;
-  margin-left: 720px;
+  margin-left: 85%;
 }
 
-tr.is-success {
+tr.is-success-table {
   background: #c0ffcf;
   color: #000;
 }
 </style>
+
