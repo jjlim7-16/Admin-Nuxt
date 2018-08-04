@@ -9,7 +9,7 @@
     </div>
     <div class="column is-half has-text-centered">
       <div class="box fullWidth">
-        <p class="heading">Avg. Daily Bookings Made</p>
+        <p class="heading">Avg. No. Of Bookings Made Today</p>
         <p class="title">{{ avgBookings }}</p>
       </div>
     </div>
@@ -67,7 +67,6 @@ export default {
       this.noOfBookings = data
     })
     socket.on("getAvgBookings", data => {
-      console.log(data)
       this.avgBookings = data
     })
     socket.on("getBookingByDay", data => {

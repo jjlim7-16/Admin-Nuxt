@@ -30,8 +30,8 @@ The ```nuxt.config.js``` file contains the Nuxt.js custom configuration
 https://github.com/jjlim7-16/Kidzania-FYP-Server.git
 
 ## Pre-Configuration
-- Set Server URL in the config.js file 
-- Set Admin Portal URL in the package.json file
+- Set **Server URL** in the ```config.js``` file 
+- Set **Admin Portal URL** in the ```package.json``` file
 
 ## Build Setup
 
@@ -39,14 +39,19 @@ https://github.com/jjlim7-16/Kidzania-FYP-Server.git
 # Clone project from Github Repository
 $ git clone 'https://github.com/jjlim7-16/Admin-Nuxt.git'
 
-# install dependencies
+# Install dependencies
 $ yarn install
 
-# build for production and launch server
+# Build for production
 $ yarn run build
+
+# Run server in production mode
 $ yarn start
 ```
 
 If any issues are encountered, you may contact us at:  
-[Jing Jie](https://github.com/jjlim7-16)  
-[Syong Yue](https://github.com/Syoongy).
+[Syong Yue](https://github.com/Syoongy) |
+[Jing Jie](https://github.com/jjlim7-16) |
+[Chermaine](https://github.com/chermaineee) |
+[Beining](https://github.com/dearvae) |
+[Jiayu](https://github.com/JiayuMeng)

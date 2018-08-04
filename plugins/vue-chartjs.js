@@ -30,7 +30,7 @@ Vue.component('my-line', {
 				{
 					title: {
 						display: true,
-						text: 'Capacity Pct. By Session Time',
+						text: 'Capacity Percentage By Session Time',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
@@ -53,7 +53,10 @@ Vue.component('my-line', {
 								beginAtZero: true,
 								min: 0,
 								max: 100,
-								stepSize: 10
+								stepSize: 10,
+								callback: function (value, index, values) {
+									return value + '%'
+								}
 							}
 						}],
 						xAxes: [{
@@ -78,11 +81,10 @@ Vue.component('my-line', {
 			return this.data
 		},
 		timeData: function () {
-			let time = moment('10:00', 'HH:mm')
 			let arr = []
-			while (time <= moment('18:00', 'HH:mm')) {
-				arr.push(time.format('HH:mm a'))
-				time = time.add(30, 'minutes')
+			let data = this.data.results
+			for (let i in data) {
+				arr.push(moment(data[i].x, 'HH:mm').format('HH:mm a'))
 			}
 			return arr
 		}
@@ -92,7 +94,6 @@ Vue.component('my-line', {
 			if (this._chart) {
 				this._chart.destroy()
 			}
-			// this.renderChart(this.data, this.options)
 			this.renderLineChart()
 		}
 	}
@@ -100,7 +101,6 @@ Vue.component('my-line', {
 
 Vue.component('line-chart', {
 	extends: Line,
-	// mixins: [reactiveProp],
 	props: ['data', 'options'],
 	mounted () {
 		this.renderLineChart()
@@ -178,7 +178,6 @@ Vue.component('line-chart', {
 			if (this._chart) {
 				this._chart.destroy()
 			}
-			// this.renderChart(this.data, this.options)
 			this.renderLineChart()
 		}
 	}
@@ -209,7 +208,7 @@ Vue.component('grouped-bar', {
 					},
 					title: {
 						display: true,
-						text: 'Avg. No. Of Bookings By Days',
+						text: 'Avg. No. Of Bookings By Day',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
@@ -268,7 +267,7 @@ Vue.component('bar', {
 					},
 					title: {
 						display: true,
-						text: 'Avg. No. Of Bookings By Days',
+						text: 'Daily Avg. No. Of Bookings',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
@@ -325,7 +324,7 @@ Vue.component('doughnut', {
 				{
 					title: {
 						display: true,
-						text: 'Booking Pct. By Stations',
+						text: 'Overall Booking Percentage By Stations',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
