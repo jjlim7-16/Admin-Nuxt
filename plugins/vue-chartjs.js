@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { Line, Bar, Doughnut } from 'vue-chartjs'
 import moment from 'moment'
+import 'chart.piecelabel.js'
 
 Vue.component('my-line', {
 	extends: Line,
@@ -305,14 +306,12 @@ Vue.component('doughnut', {
 	extends: Doughnut,
 	props: ['data', 'options'],
 	mounted () {
-		// this.renderChart(this.data, this.options)
 		this.renderDoughnutChart()
 	},
 	methods: {
 		renderDoughnutChart: function () {
 			this.renderChart(
 				{
-					// labels: this.chartData.stations,
 					datasets: [
 						{
 							backgroundColor: ['#5879a4', '#3cba9f', '#e8c3b9', '#c45850', '#ea344f', '#f4ac32'],
@@ -328,6 +327,11 @@ Vue.component('doughnut', {
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
+					},
+					pieceLabel: {
+						render: 'percentage',
+						fontColor: 'white',
+						precision: 1
 					},
 					responsive: true,
 					maintainAspectRatio: false
