@@ -2,7 +2,7 @@
 <section id='content' class="box columns is-multiline">
   <div class="column is-6">
     <b-field label='Station Name *' :type="errors.has('name') ? 'is-danger': ''" :message="errors.has('name') ? errors.first('name') : ''">
-      <b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'" rounded></b-input>
+      <b-input placeholder='e.g. Aviation Academy' v-model="name" name="name" data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'" rounded></b-input>
     </b-field>
 
     <div class="columns">
@@ -19,13 +19,13 @@
       </div>
     </div>
 
-    <b-field label="Description" :type="errors.has('description') ? 'is-danger': ''" 
+    <b-field label="Description" :type="errors.has('description') ? 'is-danger': ''"
       :message="errors.has('description') ? errors.first('description') : ''">
       <b-input maxlength="500" type="textarea" name="description" v-validate.immediate="'required'"
       data-vv-as="'Description'" v-model="description"></b-input>
     </b-field>
   </div>
-  
+
   <div class="column is-4" style="margin-left: 5vw;">
     <b-field label="Image">
       <b-upload v-model="files" drag-drop>
@@ -70,7 +70,7 @@
     <!-- Add Station button -->
     <button id="addStnBtn" class="button is-success" :disabled="isDisabled" @submit.prevent="validateBeforeSubmit">Add Station</button>
 
-  </div>
+  </div> <!-- end of column is-11 -->
 
 </section>
 </template>
@@ -143,7 +143,7 @@ const ModalForm = {
 		addRole() {
 			let roleExist = false
 			if (roleList.length > 0) {
-				let roleName = roleList.find(i => i.roleName.toLowerCase() === 
+				let roleName = roleList.find(i => i.roleName.toLowerCase() ===
         this.roleName.trim().toLowerCase()).roleName
 				if (roleName) {
 					this.alertRoleExists()
