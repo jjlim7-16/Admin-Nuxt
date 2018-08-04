@@ -43,8 +43,19 @@
 				</b-table-column>
 
 				<b-table-column label="Actions" centered>
-					<router-link v-if="$route.params['id']" :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Edit</router-link>
-					<router-link v-else :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Edit</router-link>
+					<b-dropdown position="is-bottom-left" >
+						<button class="button is-primary is-small is-inverted" slot="trigger">
+							<b-icon icon="dots-vertical"></b-icon>
+						</button>
+
+						<b-dropdown-item style="text-align: left" has-link paddingless>
+							<router-link :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}">Edit Role</router-link>
+						</b-dropdown-item>
+						
+						<b-dropdown-item style="text-align: left" has-link paddingless>
+							<a @click="remove(props.row.role_id)">Remove Role</a>
+						</b-dropdown-item>
+					</b-dropdown>
 				</b-table-column>
 			</template>
 		</b-table>
@@ -84,6 +95,33 @@ export default {
 				return this.data
 			}
 			return this.data.filter(i => i.station_name === this.filter)
+		}
+	},
+	methods: {
+		remove(role_id) {
+			this.$dialog.confirm({
+				title: 'Remove Role',
+				message: 'Are you sure you want to remove this role?',
+				confirmText: 'Remove Role',
+				type: 'is-danger',
+				hasIcon: true,
+				onConfirm: () => this.confirmDelete(role_id)
+			})
+		},
+		confirmDelete(role_id) {
+			this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
+			.then(res => {
+				if (res.status === 200) {
+					this.$dialog.confirm({
+						title: 'Remove Role',
+						message: 'The Role: ' + this.name + ' has been removed successfully',
+						type: 'is-success',
+						hasIcon: true,
+						icon: 'check-circle',
+						onConfirm: () => this.$router.push('/Admin/Roles')
+					})
+				}
+			})
 		}
 	}
 }

@@ -142,12 +142,22 @@ export default {
 			}
 		},
 		remove() {
+			this.$dialog.confirm({
+				title: 'Remove Role',
+				message: 'Are you sure you want to remove this role?',
+				confirmText: 'Remove Role',
+				type: 'is-danger',
+				hasIcon: true,
+				onConfirm: () => this.confirmDelete()
+			})
+		},
+		confirmDelete() {
 			this.$axios.delete(`http://${config.serverURL}/roles/` + this.$route.params['id'])
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.confirm({
-						title: 'Remove Station',
-						message: 'The Station: ' + this.name + ' has been removed successfully',
+						title: 'Remove Role',
+						message: 'The Role: ' + this.name + ' has been removed successfully',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',

@@ -49,6 +49,9 @@
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<router-link :to="{ path: `/Admin/Roles/add/${props.row.station_id}`}">Add Role</router-link>
 					</b-dropdown-item>
+          <b-dropdown-item style="text-align: left" has-link paddingless>
+						<a @click="remove(props.row.station_id)">Remove Station</a>
+					</b-dropdown-item>
 					<hr />
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<a v-if="props.row.is_active === 1" @click="updateStationStatus(props.row.station_id, 0)">Deactivate</a>
@@ -139,8 +142,35 @@ export default {
             console.log(err)
           })
       })
-
-    }
+    },
+    remove(station_id) {
+			this.$dialog.confirm({
+				title: 'Remove Station',
+				message: 'Are you sure you want to remove this station?',
+				confirmText: 'Remove Station',
+				type: 'is-danger',
+				hasIcon: true,
+				onConfirm: () => this.confirmDelete(station_id)
+			})
+		},
+		confirmDelete(station_id) {
+			this.$axios.delete(`http://${config.serverURL}/stations/${station_id}`)
+			.then(res => {
+				if (res.status === 200) {
+					this.$dialog.confirm({
+						title: 'Remove Station',
+						message: 'The Station: ' + this.name + ' has been removed successfully',
+						type: 'is-success',
+						hasIcon: true,
+						icon: 'check-circle',
+						onConfirm: () => this.$router.push('/Admin/Stations')
+					})
+				}
+			})
+			.catch(() => {
+				console.log('FAIL')
+			})
+		}
   },
   computed: {
     filteredData() {
