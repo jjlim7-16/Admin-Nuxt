@@ -9,7 +9,7 @@
     </div>
     <div class="column is-half has-text-centered">
       <div class="box fullWidth">
-        <p class="heading">Avg. Bookings Per Visitor</p>
+        <p class="heading">Avg. Daily Bookings Made</p>
         <p class="title">{{ avgBookings }}</p>
       </div>
     </div>
@@ -24,8 +24,6 @@
         </b-field>
         <my-line :data='filterTimeData'></my-line>
       </div>
-
-      <!-- <realtime :data="byTimeData"></realtime> -->
     </div>
     <div class="column is-half has-text-centered">
       <bar class="box fullWidth" :data='bardata'></bar>
@@ -34,15 +32,6 @@
       <doughnut class="box fullWidth" :data='byStationData'></doughnut>
     </div>
   </div>
-
-  <!-- <div class="is-pulled-right" style="margin-left: 30px;">
-      <div class="box">
-        <doughnut :data='byStationData'></doughnut>
-      </div>
-      <div class="box">
-        <realtime :data="byTimeData"></realtime>
-      </div>
-    </div> -->
 </section>
 </template>
 
@@ -51,7 +40,6 @@ import axios from 'axios'
 import moment from 'moment'
 import io from '~/plugins/socket-io.js'
 import config from '~/config.js'
-// import { mapGetters } from 'vuex'
 
 let socket
 

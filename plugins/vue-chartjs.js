@@ -30,7 +30,7 @@ Vue.component('my-line', {
 				{
 					title: {
 						display: true,
-						text: 'No. Of Bookings By Date',
+						text: 'Capacity Pct. By Session Time',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
@@ -209,7 +209,7 @@ Vue.component('grouped-bar', {
 					},
 					title: {
 						display: true,
-						text: 'No. of Bookings By Day',
+						text: 'Avg. No. Of Bookings By Days',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
@@ -268,7 +268,7 @@ Vue.component('bar', {
 					},
 					title: {
 						display: true,
-						text: 'No. of Bookings By Day',
+						text: 'Avg. No. Of Bookings By Days',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2

@@ -34,9 +34,9 @@
 					{{ props.row.role_name }}
 				</b-table-column>
 
-				<b-table-column field="durationInMins" label="Duration" sortable centered>
+				<!-- <b-table-column field="durationInMins" label="Duration" sortable centered>
 					{{ props.row.durationInMins + ' mins' }}
-				</b-table-column>
+				</b-table-column> -->
 
 				<b-table-column field="capacity" label="Capacity" sortable centered>
 					{{ props.row.capacity }}
