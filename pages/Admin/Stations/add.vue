@@ -2,7 +2,7 @@
 <section id='content' class="box columns is-multiline">
   <div class="column is-6">
     <b-field label='Station Name *' :type="errors.has('name') ? 'is-danger': ''" :message="errors.has('name') ? errors.first('name') : ''">
-      <b-input placeholder='Enter Station Name' v-model="name" name="name" 
+      <b-input placeholder='Enter Station Name' v-model="name" name="name"
       data-vv-as="'Station Name'" v-validate.continues="'required|alpha_spaces'" rounded></b-input>
     </b-field>
 
@@ -29,15 +29,15 @@
       </b-select>
     </b-field>
 
-    <b-field label="Description" :type="errors.has('description') ? 'is-danger': ''" 
+    <b-field label="Description" :type="errors.has('description') ? 'is-danger': ''"
       :message="errors.has('description') ? errors.first('description') : ''">
       <b-input maxlength="500" rows="5" type="textarea" name="description" v-validate="'required'"
       data-vv-as="'Description'" v-model="description"></b-input>
     </b-field>
   </div>
-  
+
   <div class="column is-4" style="margin-left: 5vw;">
-    <b-field label="Image">
+    <b-field label="Station Image">
       <b-upload v-model="files" drag-drop>
         <section class="section" v-if="!files || files.length <= 0">
           <div class="content has-text-centered" id="preview">
@@ -78,10 +78,10 @@
     <br/>
 
     <!-- Add Station button -->
-    <button class="button is-success is-pulled-right" :disabled="isDisabled" 
+    <button class="button is-success is-pulled-right" :disabled="isDisabled"
     @click.prevent="validateBeforeSubmit">Submit</button>
-    
-    <router-link to="/Admin/Stations/" id="cancelBtn" 
+
+    <router-link to="/Admin/Stations/" id="cancelBtn"
     class="button is-light is-pulled-right">Cancel</router-link>
   </div>
 </section>
@@ -146,7 +146,7 @@ const ModalForm = {
 		addRole() {
 			let roleExist = false
 			if (roleList.length > 0) {
-				let roleName = roleList.find(i => i.roleName.toLowerCase() === 
+				let roleName = roleList.find(i => i.roleName.toLowerCase() ===
         this.roleName.trim().toLowerCase()).roleName
 				if (roleName) {
 					this.alertRoleExists()
