@@ -1425,12 +1425,18 @@ chardet@^0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
 
-chart.js@^2.7.2:
+chart.js@^2.1.5, chart.js@^2.7.2:
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.2.tgz#3c9fde4dc5b95608211bdefeda7e5d33dffa5714"
   dependencies:
     chartjs-color "^2.1.0"
     moment "^2.10.2"
+
+chart.piecelabel.js@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/chart.piecelabel.js/-/chart.piecelabel.js-0.12.0.tgz#091242ae3b1728960bd08c8530b6bbf84b718895"
+  dependencies:
+    chart.js "^2.1.5"
 
 chartjs-color-string@^0.5.0:
   version "0.5.0"
@@ -7147,6 +7153,10 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
+
+vue-auth-image@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/vue-auth-image/-/vue-auth-image-0.0.2.tgz#d0e76435822a71c24e36ec118e44066b57048a53"
 
 vue-chartjs@^3.3.2:
   version "3.3.2"

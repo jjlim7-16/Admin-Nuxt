@@ -1,10 +1,10 @@
 <template>
-	<div id="content" class="box">
-		<div class="is-pulled-left" style="width: 33vw;">
+	<div id="content" class="box columns is-multiline">
+		<div class="column is-6">
 			<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
 				<b-select placeholder='Select Station' v-model="stationId" name="stationId" v-validate="'required'"
-				data-vv-as="'Station'" expanded>
+				data-vv-as="'Station'" expanded rounded>
 					<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
 						{{station.station_name}}
 					</option>
@@ -18,32 +18,20 @@
 					name="roleName"
 					v-model="roleName"
 					data-vv-as="'Role Name'"
-					v-validate="'required|alpha_spaces'">
+					v-validate="'required|alpha_spaces'"
+					rounded>
 				</b-input>
 			</b-field>
 
-			<b-field label='Duration'>
-				<b-select placeholder='Select Activity Duration' v-model="duration" required>
-					<option value="15">15 mins</option>
-					<option value="20">20 mins</option>
-					<option value="25">25 mins</option>
-					<option value="30">30 mins</option>
-				</b-select>
-			</b-field>
-
 			<b-field label='Capacity'>
-				<b-select v-model='capacity' placeholder='Select Max. Capacity' required>
+				<b-select v-model='capacity' placeholder='Select Max. Capacity' rounded required>
 					<option v-for="i in 30" :key="i">{{ i }}</option>
 				</b-select>
 			</b-field>
-
-			<br>
-			<button class="button is-success" :disabled="isDisabled" @click="update()">Update Role</button>
-			&nbsp;&nbsp;
-			<button class="button is-danger" @click="remove()">Delete Role</button>
 		</div>
-		<div class="is-pulled-left" style="margin-left: 5vw;">
-			<b-field label="Image">
+
+		<div class="column is-4" style="margin-left: 2vw;">
+			<b-field label="Role Image">
 				<b-upload v-model="files" @input="imageChanged=true" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
@@ -59,6 +47,15 @@
 				</b-upload>
 			</b-field>
 		</div>
+
+		<div class="column is-9">
+			<br>
+			<!-- Add Role button -->
+			<button class="button is-success is-pulled-right"
+			:disabled="isDisabled" @click="submit()">Save Changes</button>
+			<router-link to="/Admin/Roles/"
+			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
+		</div>
 	</div>
 </template>
 
@@ -71,7 +68,6 @@ export default {
 		return {
 			roleName: '',
 			capacity: 4,
-			duration: 20,
 			files: [],
 			stationList: [],
 			stationId: null,
@@ -85,11 +81,10 @@ export default {
 			this.stationList = res.data[1]
 			this.currRole = res.data[0][0]
 			this.roleName = this.currRole.role_name
-			this.duration = this.currRole.durationInMins
 			this.capacity = this.currRole.capacity
 			this.stationId = this.currRole.station_id
 
-			
+
 			res = await this.$axios.get(`http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`, {
 				responseType: 'blob'
 			})
@@ -113,7 +108,7 @@ export default {
 		}
 	},
 	methods: {
-		async update() {
+		async submit() {
 			let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 			if (res.data[0].find(i => i.role_name === this.roleName.trim()
 			&& i.role_id !== this.currRole.role_id)) {
@@ -126,8 +121,7 @@ export default {
 			}
 			else {
 				let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
-				this.files[0], this.stationId)
+				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.files[0], this.stationId)
 
 				let formData = new FormData()
 				if (this.imageChanged) {
@@ -152,29 +146,18 @@ export default {
 					console.log(err)
 				})
 			}
-		},
-		remove() {
-			this.$axios.delete(`http://${config.serverURL}/roles/` + this.$route.params['id'])
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.confirm({
-						title: 'Remove Station',
-						message: 'The Station: ' + this.name + ' has been removed successfully',
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						onConfirm: () => this.$router.push('/Admin/Roles')
-					})
-				}
-			})
 		}
 	}
 }
 </script>
 
 <style scoped>
+.right-spaced {
+  margin-right: 1.5vw;
+}
+
 #preview {
-	width: 15vw;
+	width: 12vw;
 	height: 60%;
 }
 

@@ -43,7 +43,6 @@ export default {
      * @return {void}
      */
     catchScroll() {
-      console.log(window.pageYOffset)
       this.visible = (window.pageYOffset > parseInt(this.visibleoffset))
     },
     /**

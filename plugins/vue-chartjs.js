@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { Line, Bar, Doughnut } from 'vue-chartjs'
 import moment from 'moment'
+import 'chart.piecelabel.js'
 
 Vue.component('my-line', {
 	extends: Line,
@@ -13,12 +14,10 @@ Vue.component('my-line', {
 		renderLineChart: function () {
 			this.renderChart(
 				{
-					// labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
 					labels: this.timeData,
 					datasets: [
 						{
 							label: this.chartData.station,
-							// backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#ea344f', '#f4ac32'],
 							borderColor: 'rgba(255,99,132,1)',
 							borderWidth: 2,
 							radius: 2,
@@ -30,7 +29,7 @@ Vue.component('my-line', {
 				{
 					title: {
 						display: true,
-						text: 'No. Of Bookings By Date',
+						text: 'Capacity Percentage By Session Time',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
@@ -47,13 +46,19 @@ Vue.component('my-line', {
 							}
 						}
 					},
+					legend: {
+						onClick: function (event, legendItem) {}
+					},
 					scales: {
 						yAxes: [{
 							ticks: {
 								beginAtZero: true,
 								min: 0,
 								max: 100,
-								stepSize: 10
+								stepSize: 10,
+								callback: function (value, index, values) {
+									return value + '%'
+								}
 							}
 						}],
 						xAxes: [{
@@ -78,11 +83,10 @@ Vue.component('my-line', {
 			return this.data
 		},
 		timeData: function () {
-			let time = moment('10:00', 'HH:mm')
 			let arr = []
-			while (time <= moment('18:00', 'HH:mm')) {
-				arr.push(time.format('HH:mm a'))
-				time = time.add(30, 'minutes')
+			let data = this.data.results
+			for (let i in data) {
+				arr.push(moment(data[i].x, 'HH:mm').format('HH:mm a'))
 			}
 			return arr
 		}
@@ -92,7 +96,6 @@ Vue.component('my-line', {
 			if (this._chart) {
 				this._chart.destroy()
 			}
-			// this.renderChart(this.data, this.options)
 			this.renderLineChart()
 		}
 	}
@@ -100,7 +103,6 @@ Vue.component('my-line', {
 
 Vue.component('line-chart', {
 	extends: Line,
-	// mixins: [reactiveProp],
 	props: ['data', 'options'],
 	mounted () {
 		this.renderLineChart()
@@ -178,7 +180,6 @@ Vue.component('line-chart', {
 			if (this._chart) {
 				this._chart.destroy()
 			}
-			// this.renderChart(this.data, this.options)
 			this.renderLineChart()
 		}
 	}
@@ -209,7 +210,7 @@ Vue.component('grouped-bar', {
 					},
 					title: {
 						display: true,
-						text: 'No. of Bookings By Day',
+						text: 'Avg. No. Of Bookings By Day',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
@@ -268,7 +269,7 @@ Vue.component('bar', {
 					},
 					title: {
 						display: true,
-						text: 'No. of Bookings By Day',
+						text: 'Daily Avg. No. Of Bookings',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
@@ -306,14 +307,12 @@ Vue.component('doughnut', {
 	extends: Doughnut,
 	props: ['data', 'options'],
 	mounted () {
-		// this.renderChart(this.data, this.options)
 		this.renderDoughnutChart()
 	},
 	methods: {
 		renderDoughnutChart: function () {
 			this.renderChart(
 				{
-					// labels: this.chartData.stations,
 					datasets: [
 						{
 							backgroundColor: ['#5879a4', '#3cba9f', '#e8c3b9', '#c45850', '#ea344f', '#f4ac32'],
@@ -325,10 +324,15 @@ Vue.component('doughnut', {
 				{
 					title: {
 						display: true,
-						text: 'Booking Pct. By Stations',
+						text: 'Overall Booking Percentage By Stations',
 						fontSize: 14,
 						padding: 5,
 						lineHeight: 2
+					},
+					pieceLabel: {
+						render: 'percentage',
+						fontColor: 'white',
+						precision: 1
 					},
 					responsive: true,
 					maintainAspectRatio: false

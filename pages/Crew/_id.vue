@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import axios from "axios";
+
 import moment from "moment";
 import config from "~/config";
 import io from "~/plugins/socket-io.js";

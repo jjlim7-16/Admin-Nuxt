@@ -1,6 +1,6 @@
 <template>
 	<section id="content" class="box columns is-multiline">
-		<div class="column is-8">
+		<div class="column is-9">
 			<b-field label="Select Date*">
 				<b-datepicker
 					placeholder="Click to select..."
@@ -61,12 +61,12 @@
 
 			<b-field label="Remarks" :type="errors.has('remarks') ? 'is-danger': ''" 
 				:message="errors.has('remarks') ? errors.first('remarks') : ''">
-				<b-input maxlength="500" type="textarea" name="remarks" v-validate.immediate="'required'"
+				<b-input maxlength="100" type="textarea" name="remarks" v-validate.immediate="'required'"
 				data-vv-as="'Remarks'" v-model="remarks"></b-input>
 			</b-field>
 			
 			<br/>
-			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="submit()">Save Changes</button>
+			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="submit()">Submit</button>
 			<router-link to="/Admin/Reservations/" 
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
@@ -91,23 +91,15 @@ export default {
 			end: null,
 			remarks: '',
 			minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
-			date: null
+			date: new Date()
 		}
 	},
 	async beforeMount() {
-		this.$store.commit('setPageTitle', 'Change Reservation')
+		this.$store.commit('setPageTitle', 'Make Reservation')
+
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.roleList = res.data[0]
 		this.stationList = res.data[1]
-
-		res = await this.$axios.get(`http://${config.serverURL}/reservations/${this.$route.params.id}`)
-		this.stationId = res.data[0].station_id
-		this.roleId = res.data[0].role_id
-		
-		this.date = new Date(res.data[0].session_date)
-		this.start = res.data[0].reservedFrom
-		this.end = res.data[0].reservedTo
-		this.remarks = res.data[0].remarks
 	},
 	methods: {
 		submit() {
@@ -118,17 +110,18 @@ export default {
 			let webFormData = new DataModel.Reservation(date, this.stationId, this.roleId,
 				reservedFrom, reservedTo, this.remarks)
 
-			this.$axios.put(`http://${config.serverURL}/reservations/${this.$route.params.id}`, webFormData)
+			this.$axios.post(`http://${config.serverURL}/reservations/`, webFormData)
 			.then(res => {
 				if (res.status === 200) {
-					this.$dialog.alert({
-						title: 'Change Reservation',
-						message: `Reservation has been successfully changed for the role \'${roleName}\'
+					this.$dialog.confirm({
+						title: 'Reservation',
+						message: `A new reservation on \'${date}\' has been made for the role \'${roleName}\'
 						from ${reservedFrom} to ${reservedTo}.`,
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						iconPack: 'mdi'
+						iconPack: 'mdi',
+						onConfirm: () => this.$router.push('/Admin/Reservations')
 					})
 				}
 			})
@@ -136,7 +129,7 @@ export default {
 				if (err.response.data.message) {
 					this.$dialog.alert({
 						title: 'Error',
-						message: `${err.response.data.message}`,
+						message: `Error! ${err.response.data.message}`,
 						type: 'is-danger',
 						hasIcon: true
 					})
@@ -144,10 +137,8 @@ export default {
 			})
 		},
 		async getSessionList() {
-			if (!this.sessionList) {
-				let res = await this.$axios.get(`http://${config.serverURL}/reservations/getSessionList/${this.roleId}`)
-				this.sessionList = res.data
-			}
+			let res = await this.$axios.get(`http://${config.serverURL}/reservations/getSessionList/${this.roleId}`)
+			this.sessionList = res.data
 		}
 	},
 	computed: {
@@ -166,7 +157,7 @@ export default {
 			return this.sessionList
 		},
 		filterEnd() {
-			if (this.start && this.sessionList) {
+			if (this.start) {
 				return this.sessionList.filter(i => moment(i.session_end, 'HH:mm').isAfter(moment(this.start, 'HH:mm')))
 			}
 			return this.sessionList

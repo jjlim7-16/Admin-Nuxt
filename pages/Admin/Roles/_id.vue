@@ -9,9 +9,8 @@
 
 		<!-- Filter by Station -->
 		<b-field grouped group-multiline>
-			<b-field label="Filter By Station:" style="margin-top: 5px;"></b-field>&nbsp;
-			<b-select v-model="filter">
-				<option>All</option>
+			<b-select v-model="filter" rounded>
+				<option value="All">All Stations</option>
 				<option v-for="station in stationList" :key="station.station_name">
 					{{station.station_name}}
 				</option>
@@ -34,17 +33,24 @@
 					{{ props.row.role_name }}
 				</b-table-column>
 
-				<b-table-column field="durationInMins" label="Duration" sortable centered>
-					{{ props.row.durationInMins + ' mins' }}
-				</b-table-column>
-
 				<b-table-column field="capacity" label="Capacity" sortable centered>
 					{{ props.row.capacity }}
 				</b-table-column>
 
 				<b-table-column label="Actions" centered>
-					<router-link v-if="$route.params['id']" :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Edit</router-link>
-					<router-link v-else :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}" tag="button" class="button is-primary is-small">Edit</router-link>
+					<b-dropdown position="is-bottom-left">
+						<button class="button is-primary is-small is-inverted" slot="trigger">
+							<b-icon icon="dots-vertical"></b-icon>
+						</button>
+
+						<b-dropdown-item style="text-align: left" has-link paddingless>
+							<router-link :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}">Edit</router-link>
+						</b-dropdown-item>
+
+						<b-dropdown-item style="text-align: left" has-link paddingless>
+							<a @click="remove(props.row.role_id)">Delete</a>
+						</b-dropdown-item>
+					</b-dropdown>
 				</b-table-column>
 			</template>
 		</b-table>
@@ -53,7 +59,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import config from '~/config.js'
 
 export default {
@@ -84,6 +89,33 @@ export default {
 				return this.data
 			}
 			return this.data.filter(i => i.station_name === this.filter)
+		}
+	},
+	methods: {
+		remove(role_id) {
+			this.$dialog.confirm({
+				title: 'Delete Role',
+				message: 'Are you sure you want to permanently delete this role?',
+				confirmText: 'Delete Role',
+				type: 'is-danger',
+				hasIcon: true,
+				onConfirm: () => this.confirmDelete(role_id)
+			})
+		},
+		confirmDelete(role_id) {
+			this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
+			.then(res => {
+				if (res.status === 200) {
+					this.$dialog.confirm({
+						title: 'Delete Role',
+						message: 'The Role: ' + this.name + ' has been successfully deleted',
+						type: 'is-success',
+						hasIcon: true,
+						icon: 'check-circle',
+						onConfirm: () => this.$router.push('/Admin/Roles')
+					})
+				}
+			})
 		}
 	}
 }

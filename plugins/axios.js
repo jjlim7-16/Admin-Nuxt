@@ -6,10 +6,5 @@ export default function ({$axios, redirect, store}) {
 
 	if (store.state.auth) {
 		$axios.setToken(store.state.auth.token, 'Bearer')
-		// if (store.state.auth.user.account_type === 'Admin') {
-		// 	return redirect('/Admin/Dashboard')
-		// } else {
-		// 	return redirect(`/Crew/${store.state.auth.user.station_id}`)
-		// }
 	}
 }

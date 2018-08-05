@@ -23,13 +23,13 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {
-        Cookie.set("auth", null);
-        this.$axios.setToken(false);
-        this.$router.push("/");
-      });
+        Cookie.set("auth", null)
+        this.$axios.setToken(false)
+        this.$router.push("/")
+      })
     }
   }
-};
+}
 </script>
 
 

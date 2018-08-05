@@ -9,7 +9,7 @@
     </div>
     <div class="column is-half has-text-centered">
       <div class="box fullWidth">
-        <p class="heading">Avg. Bookings Per Visitor</p>
+        <p class="heading">Avg. No. Of Bookings Made Today</p>
         <p class="title">{{ avgBookings }}</p>
       </div>
     </div>
@@ -22,10 +22,8 @@
             </option>
           </b-select>
         </b-field>
-        <my-line :width="850" :data='filterTimeData'></my-line>
+        <my-line :data='filterTimeData'></my-line>
       </div>
-
-      <!-- <realtime :data="byTimeData"></realtime> -->
     </div>
     <div class="column is-half has-text-centered">
       <bar class="box fullWidth" :data='bardata'></bar>
@@ -34,24 +32,14 @@
       <doughnut class="box fullWidth" :data='byStationData'></doughnut>
     </div>
   </div>
-
-  <!-- <div class="is-pulled-right" style="margin-left: 30px;">
-      <div class="box">
-        <doughnut :data='byStationData'></doughnut>
-      </div>
-      <div class="box">
-        <realtime :data="byTimeData"></realtime>
-      </div>
-    </div> -->
 </section>
 </template>
 
 <script>
-import axios from 'axios'
+
 import moment from 'moment'
 import io from '~/plugins/socket-io.js'
 import config from '~/config.js'
-// import { mapGetters } from 'vuex'
 
 let socket
 
@@ -79,7 +67,6 @@ export default {
       this.noOfBookings = data
     })
     socket.on("getAvgBookings", data => {
-      console.log(data)
       this.avgBookings = data
     })
     socket.on("getBookingByDay", data => {
@@ -112,7 +99,9 @@ export default {
     }
   },
   destroyed() {
-    socket.close()
+    if (socket) {
+      socket.close()
+    }
   }
 };
 </script>

@@ -17,6 +17,10 @@
         <li>
           <nuxt-link to="/Admin/Roles">Manage Roles</nuxt-link>
         </li>
+      </ul>
+
+      <p class="menu-label">Settings</p>
+      <ul class="menu-list">
         <li>
           <nuxt-link to="/Admin/Limit">Manage Limits</nuxt-link>
         </li>
@@ -67,6 +71,10 @@
                 <li class="navbar-item">
                   <nuxt-link to="/Admin/Roles">Manage Roles</nuxt-link>
                 </li>
+              </ul>
+
+              <p class="menu-label">Settings</p>
+              <ul class="menu-list">
                 <li class="navbar-item">
                   <nuxt-link to="/Admin/Limit">Manage Limits</nuxt-link>
                 </li>
@@ -106,7 +114,7 @@ import Cookie from 'js-cookie'
 import BackToTop from '~/components/BackToTop'
 
 export default {
-  middleware: 'authenticated',
+  middleware: 'adminAuth',
   components: {
     BackToTop
   },

@@ -2,7 +2,8 @@
 <section id='content' class="box columns is-multiline">
   <div class="column is-6">
     <b-field label='Station Name *' :type="errors.has('name') ? 'is-danger': ''" :message="errors.has('name') ? errors.first('name') : ''">
-      <b-input placeholder='Enter Station Name' v-model="name" name="name" data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'" rounded></b-input>
+      <b-input placeholder='Enter Station Name' v-model="name" name="name"
+      data-vv-as="'Station Name'" v-validate.continues="'required|alpha_spaces'" rounded></b-input>
     </b-field>
 
     <div class="columns">
@@ -19,15 +20,24 @@
       </div>
     </div>
 
-    <b-field label="Description" :type="errors.has('description') ? 'is-danger': ''" 
+    <b-field label='Duration'>
+      <b-select expanded placeholder='Select Activity Duration' v-model="duration" rounded>
+        <option value="15">15 mins</option>
+        <option value="20">20 mins</option>
+        <option value="25">25 mins</option>
+        <option value="30">30 mins</option>
+      </b-select>
+    </b-field>
+
+    <b-field label="Description" :type="errors.has('description') ? 'is-danger': ''"
       :message="errors.has('description') ? errors.first('description') : ''">
-      <b-input maxlength="500" type="textarea" name="description" v-validate.immediate="'required'"
+      <b-input maxlength="500" rows="5" type="textarea" name="description" v-validate="'required'"
       data-vv-as="'Description'" v-model="description"></b-input>
     </b-field>
   </div>
-  
+
   <div class="column is-4" style="margin-left: 5vw;">
-    <b-field label="Image">
+    <b-field label="Station Image">
       <b-upload v-model="files" drag-drop>
         <section class="section" v-if="!files || files.length <= 0">
           <div class="content has-text-centered" id="preview">
@@ -68,10 +78,12 @@
     <br/>
 
     <!-- Add Station button -->
-    <button id="addStnBtn" class="button is-success" :disabled="isDisabled" @submit.prevent="validateBeforeSubmit">Add Station</button>
+    <button class="button is-success is-pulled-right" :disabled="isDisabled"
+    @click.prevent="validateBeforeSubmit">Submit</button>
 
+    <router-link to="/Admin/Stations/" id="cancelBtn"
+    class="button is-light is-pulled-right">Cancel</router-link>
   </div>
-
 </section>
 </template>
 
@@ -100,15 +112,6 @@ const ModalForm = {
 			</b-input>
 		</b-field>
 		<b-field class='columns' grouped>
-			<div class='column is-half'>
-				<b-field label='Duration'>
-					<b-select expanded placeholder='Select Activity Duration' v-model="duration">
-						<option value="20">20 mins</option>
-						<option value="30">30 mins</option>
-						<option value="40">40 mins</option>
-					</b-select>
-				</b-field>
-			</div>
 			<div class='column is-half'>
 				<b-field label='Capacity'>
 					<b-select expanded v-model='capacity' placeholder='Select Max. Capacity' required>
@@ -143,14 +146,14 @@ const ModalForm = {
 		addRole() {
 			let roleExist = false
 			if (roleList.length > 0) {
-				let roleName = roleList.find(i => i.roleName.toLowerCase() === 
+				let roleName = roleList.find(i => i.roleName.toLowerCase() ===
         this.roleName.trim().toLowerCase()).roleName
 				if (roleName) {
 					this.alertRoleExists()
 				}
 			}
 			if (!roleExist) {
-        let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2, this.files[0])
+        let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.files[0])
 				roleList.push(role)
 				this.$parent.close()
 			}
@@ -168,12 +171,12 @@ const ModalForm = {
 				if (res) {
 					this.addRole()
 				} else {
-					this.$dialog.alert({
-						title: "Error",
-						message: `Error! Please correct errors before submitting again.`,
-						type: "is-danger",
-						hasIcon: true
-					})
+					// this.$dialog.alert({
+					// 	title: "Error",
+					// 	message: `Error! Please correct errors before submitting again.`,
+					// 	type: "is-danger",
+					// 	hasIcon: true
+					// })
 				}
 			})
 		}
@@ -182,7 +185,6 @@ const ModalForm = {
 		return {
 			roleName: '',
 			capacity: 4,
-			duration: 20,
 			files: []
 		};
 	},
@@ -209,12 +211,12 @@ export default {
       name: '',
       description: '',
       roles: [],
+      duration: 15,
       minTime: min,
       maxTime: max,
       startTime: min,
       endTime: max,
       files: [],
-
     }
   },
   beforeMount() {
@@ -235,7 +237,7 @@ export default {
       } else {
         let station = new DataModel.Station(this.name.trim(), this.description.trim(),
           moment(this.startTime, 'HH:mm').format('HH:mm'), moment(this.endTime, 'HH:mm').format('HH:mm'),
-          this.roles)
+          this.duration, this.roles)
 
         let formData = new FormData()
         formData.append('webFormData', JSON.stringify(station))
@@ -266,15 +268,20 @@ export default {
           })
       }
     },
-    validateBeforeSubmit(e) {
-      this.$validator.validateAll().then(() => {
-          console.log('TRUE')
-        })
-        .catch(() => {
-          console.log('FALSE')
-          return false
-        })
-    },
+    validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.submit()
+				} else {
+					// this.$dialog.alert({
+					// 	title: "Error",
+					// 	message: `Error! Please correct errors before submitting again.`,
+					// 	type: "is-danger",
+					// 	hasIcon: true
+					// })
+				}
+			})
+		},
     removeRole(role) {
       this.roles.splice(this.roles.findIndex(i => i.roleName === role.roleName), 1)
       roleList = this.roles;
@@ -300,9 +307,10 @@ export default {
 </script>
 
 <style scoped>
-/* #addStnBtn {
-  float: right;
-} */
+#cancelBtn {
+  margin-right: 1.5vw;
+}
+
 #preview {
   width: 20vw;
   height: 80%;

@@ -25,6 +25,10 @@
 				{{ props.row.station_start.slice(0,5) + ' - ' + props.row.station_end.slice(0,5) }}
 			</b-table-column>
 
+			<b-table-column field="durationInMins" label="Activity Duration" sortable centered>
+				{{ props.row.durationInMins + ' mins' }}
+			</b-table-column>
+
 			<b-table-column field="is_active" label="Status" sortable centered>
 				<span v-if="props.row.is_active===1" class="tag is-success">Active</span>
 				<span v-else class="tag is-danger">Inactive</span>
@@ -37,15 +41,23 @@
 					</button>
 
 					<b-dropdown-item style="text-align: left" has-link paddingless>
-						<router-link :to="{ path: `/Admin/Stations/Update/${props.row.station_id}`}">Edit Station</router-link>
+						<router-link :to="{ path: `/Admin/Stations/Update/${props.row.station_id}`}">Edit</router-link>
 					</b-dropdown-item>
+
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<router-link :to="{ path: `/Admin/Roles/${props.row.station_id}`}">Manage Role(s)</router-link>
 					</b-dropdown-item>
+
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<router-link :to="{ path: `/Admin/Roles/add/${props.row.station_id}`}">Add Role</router-link>
 					</b-dropdown-item>
+
+          <b-dropdown-item style="text-align: left" has-link paddingless>
+						<a @click="remove(props.row.station_id)">Delete</a>
+					</b-dropdown-item>
+
 					<hr />
+
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<a v-if="props.row.is_active === 1" @click="updateStationStatus(props.row.station_id, 0)">Deactivate</a>
 						<a v-else-if="props.row.is_active === 0" @click="updateStationStatus(props.row.station_id, 1)">Activate</a>
@@ -58,7 +70,7 @@
 			<article class="media">
 				<figure class="media-left">
 					<p class="image is-64x64" style="margin-top: 10px;">
-						<img :src="`http://${serverURL}/stations/getImage/${props.row.station_id}`">
+						<img :src="`http://${serverURL}/image/getStationImage/${props.row.station_id}`">
 					</p>
 				</figure>
 				<div class="media-content">
@@ -77,7 +89,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import config from '~/config.js'
 
 export default {
@@ -99,7 +110,6 @@ export default {
     for (let station of this.data) {
       this.autocompleteData.push(station.station_name)
     }
-
     this.$store.commit('setPageTitle', 'Manage Stations')
   },
   methods: {
@@ -135,8 +145,40 @@ export default {
             console.log(err)
           })
       })
-
-    }
+    },
+    remove(station_id) {
+			this.$dialog.confirm({
+				title: 'Delete Station',
+<<<<<<< HEAD
+				message: 'Are you sure you want to delete this station?',
+				confirmText: 'Remove Station',
+=======
+				message: 'Are you sure you want to permanently delete this station?',
+				confirmText: 'Delete Station',
+>>>>>>> 0e3d1a80f6299cf31632fda4d6f980bddee889cb
+				type: 'is-danger',
+				hasIcon: true,
+				onConfirm: () => this.confirmDelete(station_id)
+			})
+		},
+		confirmDelete(station_id) {
+			this.$axios.delete(`http://${config.serverURL}/stations/${station_id}`)
+			.then(res => {
+				if (res.status === 200) {
+					this.$dialog.confirm({
+						title: 'Delete Station',
+						message: 'The Station: ' + this.name + ' has been successfully deleted',
+						type: 'is-success',
+						hasIcon: true,
+						icon: 'check-circle',
+						onConfirm: () => this.$router.push('/Admin/Stations')
+					})
+				}
+			})
+			.catch(() => {
+				console.log('FAIL')
+			})
+		}
   },
   computed: {
     filteredData() {

@@ -1,37 +1,42 @@
 <template>
-	<section id="content" class="box" style="width: 46%">
-		<b-field label="Select Date*">
-			<b-datepicker
-				placeholder="Click to select..."
-				icon="calendar-today"
-				:min-date="minDate"
-				v-model="date">
-			</b-datepicker>
-    </b-field>
-
-		<b-field label='Select Station*'>
-			<b-input disabled v-model="stationName"></b-input>
-		</b-field>
-		
-		<b-field label='Select Role*'>
-			<b-input disabled v-model="roleName"></b-input>
-		</b-field>
-
-		<b-field grouped>
-			<b-field label='Set Limit'>
-				<b-select v-model='limit' placeholder='Select Limit' required>
-					<option v-for="i in 10" :key="i">{{ i }}</option>
-				</b-select>
+	<section id="content" class="box columns is-multiline">
+		<div class="column is-7">
+			<b-field label="Select Date*">
+				<b-datepicker
+					placeholder="Click to select..."
+					icon="calendar-today"
+					:min-date="minDate"
+					v-model="date"
+					rounded>
+				</b-datepicker>
 			</b-field>
-		</b-field>
 
-		<br/>
-		<button class="button is-success" :disabled="isDisabled" @click="submit()">Set Limit</button>
+			<b-field label='Select Station*'>
+				<b-input disabled v-model="stationName" rounded></b-input>
+			</b-field>
+			
+			<b-field label='Select Role*'>
+				<b-input disabled v-model="roleName" rounded></b-input>
+			</b-field>
+
+			<b-field grouped>
+				<b-field label='Set Limit'>
+					<b-select v-model='limit' placeholder='Select Limit' rounded required>
+						<option v-for="i in 10" :key="i">{{ i }}</option>
+					</b-select>
+				</b-field>
+			</b-field>
+
+			<br/>
+			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="submit()">Save Changes</button>
+			<router-link to="/Admin/Limit/" 
+			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
+		</div>
 	</section>
 </template>
 
 <script>
-import axios from 'axios'
+
 import DataModel from '~/models/dataModel.js'
 import moment from 'moment'
 import config from '~/config.js'
@@ -52,7 +57,7 @@ export default {
 		}
 	},
 	async beforeMount() {
-		this.$store.commit('setPageTitle', 'Set New Limit')
+		this.$store.commit('setPageTitle', 'Edit Limit')
 		
 		let res = await this.$axios.get(`http://${config.serverURL}/limit/${this.$route.params['id']}`)
 		this.roleId = res.data[0].role_id
@@ -98,3 +103,9 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+.right-spaced {
+  margin-right: 1.5vw;
+}
+</style>

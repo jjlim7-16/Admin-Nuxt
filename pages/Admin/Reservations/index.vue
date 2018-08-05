@@ -4,13 +4,12 @@
 		<!-- Set Limit button -->
 		<router-link to="/Admin/Reservations/add" tag="button" id="addBtn" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
-			<span>Make New Reservation</span>
+			<span>Make Reservation</span>
 		</router-link>
 
 		<!-- Filter by Date -->
 		<b-field grouped group-multiline>
-			<b-field label="Filter By Date:" style="margin-top: 0.9vh;"></b-field>&nbsp;
-			<b-select placeholder="Filter By Date" v-model="filter">
+			<b-select placeholder="Filter By Date" v-model="filter" rounded>
 				<option v-for="(date, index) in dateList" :key="index">
 					{{ date.session_date }}
 				</option>
@@ -38,23 +37,21 @@
 					{{ props.row.role_name }}
 				</b-table-column>
 
-				<b-table-column field="booking_limit" label="Booking Limit" centered sortable>
-					{{ props.row.booking_limit }}
+				<b-table-column field="reservedFrom" label="Reserved Session" sortable centered>
+					{{ props.row.reservedFrom.slice(0,5) + ' - ' + props.row.reservedTo.slice(0,5) }}
 				</b-table-column>
 
 				<b-table-column label='Actions' centered>
-					<b-dropdown>
+					<b-dropdown position="is-bottom-left">
 						<button class="button is-primary is-small is-inverted" slot="trigger">
 							<b-icon icon="dots-vertical"></b-icon>
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link>
-							<router-link :to="{ path: `/Admin/Limit/Update/${props.row.reservation_id}`}">
-								Update Limit
-							</router-link>
+							<router-link :to="{path: `/Admin/Reservations/Update/${props.row.reservation_id}`}">Edit</router-link>
 						</b-dropdown-item>
 						<b-dropdown-item style="text-align: left" has-link>
-							<a @click="deleteLimit(props.row.reservation_id)">Delete Limit</a>
+							<a @click="cancelReservation(props.row.reservation_id)">Delete</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
@@ -69,7 +66,7 @@
 								size="is-large">
 							</b-icon>
 						</p>
-						<p>No Reservations Are Made</p>
+						<p>No Reservations Have Been Made</p>
 					</div>
 				</section>
 			</template>
@@ -79,7 +76,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import moment from 'moment'
 import config from '~/config.js'
 
@@ -103,19 +99,19 @@ export default {
 		this.dateList = res.data[1]
 	},
 	methods: {
-		deleteLimit(reservation_id) {
+		cancelReservation(reservation_id) {
 			this.$dialog.confirm({
-				title: 'Cancellation',
+				title: 'Cancel Reservation',
 				message: 'Are you sure you want to cancel this reservation?',
 				confirmText: 'Cancel Reservation',
 				type: 'is-danger',
 				hasIcon: true,
 				onConfirm: () =>
-				this.$axios.delete(`http://${config.serverURL}/reservation/` + reservation_id)
+				this.$axios.delete(`http://${config.serverURL}/reservations/` + reservation_id)
 				.then(res => {
 					if (res.status === 200) {
 						this.$dialog.confirm({
-							title: 'Cancellation',
+							title: 'Cancel Reservation',
 							message: `The reservation has been successfully cancelled`,
 							type: 'is-success',
 							hasIcon: true,

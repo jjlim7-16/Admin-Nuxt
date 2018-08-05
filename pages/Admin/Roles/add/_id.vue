@@ -1,6 +1,5 @@
 <template>
-	<section id="content" class="box columns">
-
+	<section id="content" class="box columns is-multiline">
 		<div class="column is-6">
 			<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
@@ -24,30 +23,16 @@
 				</b-input>
 			</b-field>
 
-			<b-field label='Duration'>
-				<b-select expanded placeholder='Select Activity Duration' :value="getDuration" disabled rounded>
-					<option value="15">15 mins</option>
-					<option value="20">20 mins</option>
-					<option value="25">25 mins</option>
-					<option value="30">30 mins</option>
-				</b-select>
-			</b-field>
-
 			<b-field label='Capacity'>
-				<b-select expanded size="5" v-model='capacity' placeholder='Select Max. Capacity' required rounded>
+				<b-select v-model='capacity' placeholder='Select Max. Capacity' required rounded>
 					<option v-for="i in 30" :key="i" :value="i">{{ i }}</option>
 				</b-select>
 			</b-field>
-
-			<br>
-			<!-- Add Role button -->
-			<button id="addRoleBtn" class="button is-success" :disabled="isDisabled" @click="submit()">Add Role</button>
-
 		</div> <!-- end of column is-6 -->
 
 		<!-- Upload Image field -->
 		<div class="column is-4" style="margin-left: 2vw;">
-			<b-field label="Station Image">
+			<b-field label="Role Image">
 				<b-upload v-model="files" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
@@ -64,12 +49,18 @@
 			</b-field>
 		</div>
 
-
+		<div class="column is-9">
+			<br>
+			<!-- Add Role button -->
+			<button id="addRoleBtn" class="button is-success is-pulled-right"
+			:disabled="isDisabled" @click="submit()">Submit</button>
+			<router-link to="/Admin/Roles/"
+			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
+		</div>
 	</section>
 </template>
 
 <script>
-import axios from 'axios'
 import DataModel from '~/models/dataModel.js'
 import config from '~/config.js'
 
@@ -78,7 +69,6 @@ export default {
 		return {
 			roleName: '',
 			capacity: 4,
-			duration: 20,
 			files: [],
 			stationList: [],
 			stationId: null,
@@ -101,11 +91,6 @@ export default {
     isDisabled() {
       return !this.roleName || !this.capacity || !this.files[0]
 		},
-		getDuration() {
-			if (this.stationId && this.roleList) {
-				return this.roleList.find(i => i.station_id === this.stationId).durationInMins
-			}
-		},
 		readImageFile() {
 			if (this.files) {
 				return URL.createObjectURL(this.files[0])
@@ -126,7 +111,7 @@ export default {
 			}
 			else {
 				let stationName = this.stationList.find(i => i.station_id === this.stationId).station_name
-				let role = new DataModel.Role(this.roleName.trim(),this.capacity, this.duration, 2,
+				let role = new DataModel.Role(this.roleName.trim(),this.capacity,
 				this.files[0], this.stationId)
 
 				let formData = new FormData()
@@ -154,13 +139,17 @@ export default {
 </script>
 
 <style scoped>
+.right-spaced {
+  margin-right: 1.5vw;
+}
+
 #preview {
-	width: 20vw;
-	height: 80%;
+	width: 12vw;
+	height: 60%;
 }
 
 .section {
-	height: 33vh;
+	height: 30vh;
 }
 
 .image-section {
