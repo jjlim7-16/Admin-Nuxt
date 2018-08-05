@@ -24,6 +24,7 @@
 
     <b-table
       :data="isEmpty ? [] : filteredData"
+
       :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'">
 
       <template slot-scope="props">
@@ -152,6 +153,9 @@ export default {
       numberOfBooking: 0,
       errMessage: "",
       filter: "",
+      currentPage: 1,
+      paginated: true,
+      perPage: 5,
       haveSession: true,
       userBookingRoleName: "",
       userBookingStationName: "",
@@ -191,7 +195,7 @@ export default {
                     this.haveSession = true;
                     this.sessionStartTime = res.data[0].session_start.substr(
                       res.data[0].session_end,
-                      55
+                      5
                     );
                     console.log(res.data);
                     this.sessionEndTime = res.data[0].session_end.substr(
@@ -347,6 +351,8 @@ export default {
     socket.close();
   },
   beforeMount() {
+    //set page title
+    //this.$store.commit("setPageTitle", "{{StationName}}");
     socket = io.socketio.connect(`http://${config.serverURL}/crew`);
     socket.on("newAdmission", booking_id => {
       this.noOfBookings = data;
