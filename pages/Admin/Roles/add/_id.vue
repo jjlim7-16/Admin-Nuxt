@@ -53,7 +53,7 @@
 			<br>
 			<!-- Add Role button -->
 			<button id="addRoleBtn" class="button is-success is-pulled-right" 
-			:disabled="isDisabled" @click="submit()">Add Role</button>
+			:disabled="isDisabled" @click="submit()">Submit</button>
 			<router-link to="/Admin/Roles/" 
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>

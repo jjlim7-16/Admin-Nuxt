@@ -9,9 +9,8 @@
 
 		<!-- Filter by Station -->
 		<b-field grouped group-multiline>
-			<b-field label="Filter By Station:" style="margin-top: 5px;"></b-field>&nbsp;
-			<b-select v-model="filter">
-				<option>All</option>
+			<b-select v-model="filter" rounded>
+				<option value="All">All Stations</option>
 				<option v-for="station in stationList" :key="station.station_name">
 					{{station.station_name}}
 				</option>
@@ -34,16 +33,12 @@
 					{{ props.row.role_name }}
 				</b-table-column>
 
-				<!-- <b-table-column field="durationInMins" label="Duration" sortable centered>
-					{{ props.row.durationInMins + ' mins' }}
-				</b-table-column> -->
-
 				<b-table-column field="capacity" label="Capacity" sortable centered>
 					{{ props.row.capacity }}
 				</b-table-column>
 
 				<b-table-column label="Actions" centered>
-					<b-dropdown position="is-bottom-left" >
+					<b-dropdown position="is-bottom-left">
 						<button class="button is-primary is-small is-inverted" slot="trigger">
 							<b-icon icon="dots-vertical"></b-icon>
 						</button>

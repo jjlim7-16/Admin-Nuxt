@@ -66,7 +66,7 @@
 			</b-field>
 			
 			<br/>
-			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="submit()">Make Reservation</button>
+			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="submit()">Submit</button>
 			<router-link to="/Admin/Reservations/" 
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
