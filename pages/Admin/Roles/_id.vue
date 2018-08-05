@@ -99,22 +99,20 @@ export default {
 				confirmText: 'Delete Role',
 				type: 'is-danger',
 				hasIcon: true,
-				onConfirm: () => this.confirmDelete(role_id)
-			})
-		},
-		confirmDelete(role_id, role_name) {
-			this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.confirm({
-						title: 'Delete Role',
-						message: 'The Role: ' + role_name + ' has been successfully deleted',
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						onConfirm: () => this.$router.go({path: '/Admin/Roles', force: true})
-					})
-				}
+				onConfirm: () => 
+				this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
+				.then(res => {
+					if (res.status === 200) {
+						this.$dialog.confirm({
+							title: 'Delete Role',
+							message: 'The Role: ' + role_name + ' has been successfully deleted',
+							type: 'is-success',
+							hasIcon: true,
+							icon: 'check-circle',
+							onConfirm: () => this.$router.go({path: '/Admin/Roles', force: true})
+						})
+					}
+				})
 			})
 		}
 	}

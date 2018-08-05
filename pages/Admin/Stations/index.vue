@@ -153,25 +153,20 @@ export default {
 				confirmText: 'Delete Station',
 				type: 'is-danger',
 				hasIcon: true,
-				onConfirm: () => this.confirmDelete(station_id, station_name)
-			})
-		},
-		confirmDelete(station_id, station_name) {
-			this.$axios.delete(`http://${config.serverURL}/stations/${station_id}`)
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.confirm({
-						title: 'Delete Station',
-						message: 'The Station: ' + station_name + ' has been successfully deleted',
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						onConfirm: () => this.$router.go({path: '/Admin/Stations', force: true})
-					})
-				}
-			})
-			.catch(() => {
-				console.log('FAIL')
+        onConfirm: () => 
+        this.$axios.delete(`http://${config.serverURL}/stations/${station_id}`)
+        .then(res => {
+          if (res.status === 200) {
+            this.$dialog.confirm({
+              title: 'Delete Station',
+              message: 'The Station: ' + station_name + ' has been successfully deleted',
+              type: 'is-success',
+              hasIcon: true,
+              icon: 'check-circle',
+              onConfirm: () => this.$router.go({path: '/Admin/Stations', force: true})
+            })
+          }
+        })
 			})
 		}
   },
