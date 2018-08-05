@@ -68,7 +68,7 @@
 			<article class="media">
 				<figure class="media-left">
 					<p class="image is-64x64" style="margin-top: 10px;">
-						<img :src="`${imageurl}`">
+						<img :src="`http://${serverURL}/image/getStationImage/${props.row.station_id}`">
 					</p>
 				</figure>
 				<div class="media-content">
@@ -87,7 +87,6 @@
 </template>
 
 <script>
-
 import config from '~/config.js'
 
 export default {
@@ -109,7 +108,6 @@ export default {
     for (let station of this.data) {
       this.autocompleteData.push(station.station_name)
     }
-
     this.$store.commit('setPageTitle', 'Manage Stations')
   },
   methods: {

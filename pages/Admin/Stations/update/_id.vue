@@ -119,7 +119,7 @@ export default {
 			end.setMinutes(this.origData.station_end.slice(3,5))
 			this.endTime = end
 			
-			res = await this.$axios.get(`http://${config.serverURL}/stations/getImage/${this.$route.params.id}`, {
+			res = await this.$axios.get(`http://${config.serverURL}/image/getStationImage/${this.$route.params.id}`, {
 				responseType: 'blob'
 			})
 			let file = new File([res.data], 'image', { type: 'image/*' })
