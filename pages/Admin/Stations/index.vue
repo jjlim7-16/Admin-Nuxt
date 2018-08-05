@@ -10,8 +10,8 @@
   <!-- Search by Station -->
   <b-field grouped group-multiline>
     <b-autocomplete :data="filteredDataArray" placeholder="Search By Station" v-model="filter" type="search" icon="magnify" @select="option => selected = option" rounded>
-			<template slot="empty">No results found</template>
-		</b-autocomplete>
+      <template slot="empty">No results found</template>
+    </b-autocomplete>
   </b-field>
 
   <b-table :data="filteredData" :paginated="paginated" :per-page="perPage" :mobile-cards="hasMobileCards" :current-page.sync="currentPage" default-sort-direction="asc" default-sort="station_id" detailed detail-key="station_id">
@@ -147,38 +147,33 @@ export default {
       })
     },
     remove(station_id) {
-			this.$dialog.confirm({
-				title: 'Delete Station',
-<<<<<<< HEAD
-				message: 'Are you sure you want to delete this station?',
-				confirmText: 'Remove Station',
-=======
-				message: 'Are you sure you want to permanently delete this station?',
-				confirmText: 'Delete Station',
->>>>>>> 0e3d1a80f6299cf31632fda4d6f980bddee889cb
-				type: 'is-danger',
-				hasIcon: true,
-				onConfirm: () => this.confirmDelete(station_id)
-			})
-		},
-		confirmDelete(station_id) {
-			this.$axios.delete(`http://${config.serverURL}/stations/${station_id}`)
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.confirm({
-						title: 'Delete Station',
-						message: 'The Station: ' + this.name + ' has been successfully deleted',
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						onConfirm: () => this.$router.push('/Admin/Stations')
-					})
-				}
-			})
-			.catch(() => {
-				console.log('FAIL')
-			})
-		}
+      this.$dialog.confirm({
+        title: 'Delete Station',
+        message: 'Are you sure you want to permanently delete this station?',
+        confirmText: 'Delete Station',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.confirmDelete(station_id)
+      })
+    },
+    confirmDelete(station_id) {
+      this.$axios.delete(`http://${config.serverURL}/stations/${station_id}`)
+        .then(res => {
+          if (res.status === 200) {
+            this.$dialog.confirm({
+              title: 'Delete Station',
+              message: 'The Station: ' + this.name + ' has been successfully deleted',
+              type: 'is-success',
+              hasIcon: true,
+              icon: 'check-circle',
+              onConfirm: () => this.$router.push('/Admin/Stations')
+            })
+          }
+        })
+        .catch(() => {
+          console.log('FAIL')
+        })
+    }
   },
   computed: {
     filteredData() {

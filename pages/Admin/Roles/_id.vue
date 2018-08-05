@@ -1,30 +1,25 @@
 <template>
-	<section id="content" class="box">
+<section id="content" class="box">
 
-		<!-- Add Role button -->
-		<router-link to="/Admin/Roles/add" tag="button" id="addRoleBtn" class="button is-primary">
-			<b-icon icon="plus-circle"></b-icon>
-			<span>Add Role</span>
-		</router-link>
+  <!-- Add Role button -->
+  <router-link to="/Admin/Roles/add" tag="button" id="addRoleBtn" class="button is-primary">
+    <b-icon icon="plus-circle"></b-icon>
+    <span>Add Role</span>
+  </router-link>
 
-		<!-- Filter by Station -->
-		<b-field grouped group-multiline>
-			<b-select v-model="filter" rounded>
-				<option value="All">All Stations</option>
-				<option v-for="station in stationList" :key="station.station_name">
-					{{station.station_name}}
-				</option>
-			</b-select>
-		</b-field>
+  <!-- Filter by Station -->
+  <b-field grouped group-multiline>
+    <b-select v-model="filter" rounded>
+      <option value="All">All Stations</option>
+      <option v-for="station in stationList" :key="station.station_name">
+        {{station.station_name}}
+      </option>
+    </b-select>
+  </b-field>
 
-		<b-table
-			:data="filteredData"
-			:paginated="paginated"
-			:per-page="perPage"
-			:current-page.sync="currentPage"
-			:default-sort="['station_name', 'asc']">
+  <b-table :data="filteredData" :paginated="paginated" :per-page="perPage" :current-page.sync="currentPage" :default-sort="['station_name', 'asc']">
 
-			<template slot-scope="props">
+    <template slot-scope="props">
 				<b-table-column field="station_name" label="Station Name" sortable>
 					{{ props.row.station_name }}
 				</b-table-column>
@@ -53,76 +48,78 @@
 					</b-dropdown>
 				</b-table-column>
 			</template>
-		</b-table>
+  </b-table>
 
-	</section>
+</section>
 </template>
 
 <script>
 import config from '~/config.js'
 
 export default {
-	data () {
-		return {
-			currentPage: 1,
-			perPage: 5,
-			paginated: true,
-			data: [],
-			filter: 'All',
-			stationList: []
-		}
-	},
-	async beforeMount() {
-		this.$store.commit('setPageTitle', 'Manage Roles')
+  data() {
+    return {
+      currentPage: 1,
+      perPage: 5,
+      paginated: true,
+      data: [],
+      filter: 'All',
+      stationList: []
+    }
+  },
+  async beforeMount() {
+    this.$store.commit('setPageTitle', 'Manage Roles')
 
-		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
-		this.data = res.data[0]
-		this.stationList = res.data[1]
-		if (this.$route.params['id']) {
-			this.data.filter(i => i.station_id === parseInt(this.$route.params['id']))
-			this.filter = this.data[0].station_name
-		}
-	},
-	computed: {
-		filteredData: function() {
-			if (this.filter === 'All') {
-				return this.data
-			}
-			return this.data.filter(i => i.station_name === this.filter)
-		}
-	},
-	methods: {
-		remove(role_id) {
-			this.$dialog.confirm({
-				title: 'Delete Role',
-				message: 'Are you sure you want to permanently delete this role?',
-				confirmText: 'Delete Role',
-				type: 'is-danger',
-				hasIcon: true,
-				onConfirm: () => this.confirmDelete(role_id)
-			})
-		},
-		confirmDelete(role_id) {
-			this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.confirm({
-						title: 'Delete Role',
-						message: 'The Role: ' + this.name + ' has been successfully deleted',
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						onConfirm: () => this.$router.push('/Admin/Roles')
-					})
-				}
-			})
-		}
-	}
+    let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
+    this.data = res.data[0]
+    this.stationList = res.data[1]
+    if (this.$route.params['id']) {
+      this.data.filter(i => i.station_id === parseInt(this.$route.params['id']))
+      this.filter = this.data[0].station_name
+    }
+  },
+  computed: {
+    filteredData: function() {
+      if (this.filter === 'All') {
+        return this.data
+      }
+      return this.data.filter(i => i.station_name === this.filter)
+    }
+  },
+  methods: {
+    remove(role_id) {
+      console.log(role_id)
+      this.$dialog.confirm({
+        title: 'Delete Role',
+        message: 'Are you sure you want to permanently delete this role?',
+        confirmText: 'Delete Role',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.confirmDelete(role_id)
+      })
+    },
+    confirmDelete(role_id) {
+      console.log('hi');
+      this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
+        .then(res => {
+          if (res.status === 200) {
+            this.$dialog.confirm({
+              title: 'Delete Role',
+              message: 'The Role: ' + this.name + ' has been successfully deleted',
+              type: 'is-success',
+              hasIcon: true,
+              icon: 'check-circle',
+              onConfirm: () => this.$router.push('/Admin/Roles')
+            })
+          }
+        })
+    }
+  }
 }
 </script>
 
 <style scoped>
 #addRoleBtn {
-	float: right;
+  float: right;
 }
 </style>
