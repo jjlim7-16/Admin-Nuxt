@@ -114,7 +114,7 @@ import Cookie from 'js-cookie'
 import BackToTop from '~/components/BackToTop'
 
 export default {
-  middleware: 'authenticated',
+  middleware: 'adminAuth',
   components: {
     BackToTop
   },

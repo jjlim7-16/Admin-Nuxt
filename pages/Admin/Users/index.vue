@@ -85,7 +85,6 @@ export default {
 				this.data[i].station_name = "-"
 			}
 		}
-
 		this.$store.commit('setPageTitle', 'Manage Users')
 	},
 

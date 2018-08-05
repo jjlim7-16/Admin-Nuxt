@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  middleware: 'preventLogout'
+  middleware: 'isLoggedIn'
 }
 </script>
 

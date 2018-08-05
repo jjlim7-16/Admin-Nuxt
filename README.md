@@ -37,7 +37,7 @@ https://github.com/jjlim7-16/Kidzania-FYP-Server.git
 
 ``` bash
 # Clone project from Github Repository
-$ git clone 'https://github.com/jjlim7-16/Admin-Nuxt.git'
+$ git clone https://github.com/jjlim7-16/Admin-Nuxt.git
 
 # Install dependencies
 $ yarn install

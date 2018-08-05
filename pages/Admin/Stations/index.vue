@@ -146,8 +146,8 @@ export default {
     },
     remove(station_id) {
 			this.$dialog.confirm({
-				title: 'Remove Station',
-				message: 'Are you sure you want to remove this station?',
+				title: 'Delete Station',
+				message: 'Are you sure you want to delete this station?',
 				confirmText: 'Remove Station',
 				type: 'is-danger',
 				hasIcon: true,
