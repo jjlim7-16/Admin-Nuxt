@@ -48,10 +48,10 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link paddingless>
-							<router-link :to="{ path: `/Admin/Limit/Update/${props.row.limit_id}`}">Update Limit</router-link>
+							<router-link :to="{ path: `/Admin/Limit/Update/${props.row.limit_id}`}">Edit</router-link>
 						</b-dropdown-item>
 						<b-dropdown-item style="text-align: left" has-link paddingless>
-							<a @click="deleteLimit(props.row.limit_id)">Delete Limit</a>
+							<a @click="deleteLimit(props.row.limit_id)">Delete</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>

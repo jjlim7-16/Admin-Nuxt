@@ -31,7 +31,7 @@
 		</div>
 
 		<div class="column is-4" style="margin-left: 2vw;">
-			<b-field label="Image">
+			<b-field label="Role Image">
 				<b-upload v-model="files" @input="imageChanged=true" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
@@ -51,9 +51,9 @@
 		<div class="column is-9">
 			<br>
 			<!-- Add Role button -->
-			<button class="button is-success is-pulled-right" 
+			<button class="button is-success is-pulled-right"
 			:disabled="isDisabled" @click="submit()">Save Changes</button>
-			<router-link to="/Admin/Roles/" 
+			<router-link to="/Admin/Roles/"
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
 	</div>
@@ -84,7 +84,7 @@ export default {
 			this.capacity = this.currRole.capacity
 			this.stationId = this.currRole.station_id
 
-			
+
 			res = await this.$axios.get(`http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`, {
 				responseType: 'blob'
 			})
