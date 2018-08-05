@@ -99,7 +99,9 @@ export default {
     }
   },
   destroyed() {
-    socket.close()
+    if (socket) {
+      socket.close()
+    }
   }
 };
 </script>

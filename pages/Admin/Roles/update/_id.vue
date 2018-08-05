@@ -53,7 +53,6 @@
 			<!-- Add Role button -->
 			<button class="button is-success is-pulled-right" 
 			:disabled="isDisabled" @click="submit()">Save Changes</button>
-			<button class="button is-danger is-pulled-right right-spaced" @click="remove()">Delete</button>
 			<router-link to="/Admin/Roles/" 
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
@@ -147,31 +146,6 @@ export default {
 					console.log(err)
 				})
 			}
-		},
-		remove() {
-			this.$dialog.confirm({
-				title: 'Remove Role',
-				message: 'Are you sure you want to remove this role?',
-				confirmText: 'Remove Role',
-				type: 'is-danger',
-				hasIcon: true,
-				onConfirm: () => this.confirmDelete()
-			})
-		},
-		confirmDelete() {
-			this.$axios.delete(`http://${config.serverURL}/roles/` + this.$route.params['id'])
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.confirm({
-						title: 'Remove Role',
-						message: 'The Role: ' + this.name + ' has been removed successfully',
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						onConfirm: () => this.$router.push('/Admin/Roles')
-					})
-				}
-			})
 		}
 	}
 }

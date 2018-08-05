@@ -48,7 +48,7 @@
 						</b-dropdown-item>
 						
 						<b-dropdown-item style="text-align: left" has-link paddingless>
-							<a @click="remove(props.row.role_id)">Remove Role</a>
+							<a @click="remove(props.row.role_id)">Delete Role</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>

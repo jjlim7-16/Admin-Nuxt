@@ -43,14 +43,17 @@
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<router-link :to="{ path: `/Admin/Stations/Update/${props.row.station_id}`}">Edit Station</router-link>
 					</b-dropdown-item>
+          
+          <b-dropdown-item style="text-align: left" has-link paddingless>
+						<a @click="remove(props.row.station_id)">Delete Station</a>
+					</b-dropdown-item>
+
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<router-link :to="{ path: `/Admin/Roles/${props.row.station_id}`}">Manage Role(s)</router-link>
 					</b-dropdown-item>
+
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<router-link :to="{ path: `/Admin/Roles/add/${props.row.station_id}`}">Add Role</router-link>
-					</b-dropdown-item>
-          <b-dropdown-item style="text-align: left" has-link paddingless>
-						<a @click="remove(props.row.station_id)">Remove Station</a>
 					</b-dropdown-item>
 					<hr />
 					<b-dropdown-item style="text-align: left" has-link paddingless>

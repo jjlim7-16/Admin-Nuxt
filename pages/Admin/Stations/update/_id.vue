@@ -67,8 +67,6 @@
 			<br/>
 			<button class="button is-success is-pulled-right" :disabled="isDisabled" 
 			@click="submit()">Save Changes</button>
-			<button class="button is-danger is-pulled-right right-spaced" 
-			@click='remove()'>Delete</button>
 			<router-link to="/Admin/Stations/" 
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
@@ -173,34 +171,6 @@ export default {
 					console.log('FAIL')
 				})
 			}
-		},
-		remove() {
-			this.$dialog.confirm({
-				title: 'Remove Station',
-				message: 'Are you sure you want to remove this station?',
-				confirmText: 'Remove Station',
-				type: 'is-danger',
-				hasIcon: true,
-				onConfirm: () => this.confirmDelete()
-			})
-		},
-		confirmDelete() {
-			this.$axios.delete(`http://${config.serverURL}/stations/` + this.$route.params['id'])
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.confirm({
-						title: 'Remove Station',
-						message: 'The Station: ' + this.name + ' has been removed successfully',
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						onConfirm: () => this.$router.push('/Admin/Stations')
-					})
-				}
-			})
-			.catch(() => {
-				console.log('FAIL')
-			})
 		}
 	},
 	computed: {
