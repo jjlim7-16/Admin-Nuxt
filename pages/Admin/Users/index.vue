@@ -6,7 +6,7 @@
 		</router-link>
 
 		<b-field grouped group-multiline>
-			<b-input placeholder="Search By Username" v-model="filter"></b-input>
+			<b-input placeholder="Search By Username" v-model="filter" rounded></b-input>
 		</b-field>
 
 		<b-table
@@ -36,15 +36,15 @@
 						<button class="button is-primary is-small is-inverted" slot="trigger">
 							<b-icon icon="dots-vertical"></b-icon>
 						</button>
-						
+
 						<b-dropdown-item style="text-align: left" has-link>
 							<router-link :to="{ path: `/Admin/Users/edit/${props.row.user_id}`}">
 								<span>Edit</span>
 							</router-link>
 						</b-dropdown-item>
-						
+
 						<b-dropdown-item style="text-align: left" has-link paddingless>
-							<a @click="deleteAccount(props.row.user_id)">Delete Account</a>
+							<a @click="deleteAccount(props.row.user_id)">Delete</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>

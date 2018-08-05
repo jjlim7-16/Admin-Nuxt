@@ -48,10 +48,10 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link>
-							<router-link :to="{path: `/Admin/Reservations/Update/${props.row.reservation_id}`}">Change Reservation</router-link>
+							<router-link :to="{path: `/Admin/Reservations/Update/${props.row.reservation_id}`}">Edit</router-link>
 						</b-dropdown-item>
 						<b-dropdown-item style="text-align: left" has-link>
-							<a @click="cancelReservation(props.row.reservation_id)">Cancel Reservation</a>
+							<a @click="cancelReservation(props.row.reservation_id)">Delete</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
@@ -101,7 +101,7 @@ export default {
 	methods: {
 		cancelReservation(reservation_id) {
 			this.$dialog.confirm({
-				title: 'Cancellation',
+				title: 'Cancel Reservation',
 				message: 'Are you sure you want to cancel this reservation?',
 				confirmText: 'Cancel Reservation',
 				type: 'is-danger',
@@ -111,7 +111,7 @@ export default {
 				.then(res => {
 					if (res.status === 200) {
 						this.$dialog.confirm({
-							title: 'Cancellation',
+							title: 'Cancel Reservation',
 							message: `The reservation has been successfully cancelled`,
 							type: 'is-success',
 							hasIcon: true,

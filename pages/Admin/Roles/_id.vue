@@ -44,11 +44,11 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link paddingless>
-							<router-link :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}">Edit Role</router-link>
+							<router-link :to="{ path: `/Admin/Roles/Update/${props.row.role_id}`}">Edit</router-link>
 						</b-dropdown-item>
-						
+
 						<b-dropdown-item style="text-align: left" has-link paddingless>
-							<a @click="remove(props.row.role_id)">Delete Role</a>
+							<a @click="remove(props.row.role_id)">Delete</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
@@ -94,9 +94,9 @@ export default {
 	methods: {
 		remove(role_id) {
 			this.$dialog.confirm({
-				title: 'Remove Role',
-				message: 'Are you sure you want to remove this role?',
-				confirmText: 'Remove Role',
+				title: 'Delete Role',
+				message: 'Are you sure you want to permanently delete this role?',
+				confirmText: 'Delete Role',
 				type: 'is-danger',
 				hasIcon: true,
 				onConfirm: () => this.confirmDelete(role_id)
@@ -107,8 +107,8 @@ export default {
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.confirm({
-						title: 'Remove Role',
-						message: 'The Role: ' + this.name + ' has been removed successfully',
+						title: 'Delete Role',
+						message: 'The Role: ' + this.name + ' has been successfully deleted',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
