@@ -14,12 +14,10 @@ Vue.component('my-line', {
 		renderLineChart: function () {
 			this.renderChart(
 				{
-					// labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
 					labels: this.timeData,
 					datasets: [
 						{
 							label: this.chartData.station,
-							// backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850', '#ea344f', '#f4ac32'],
 							borderColor: 'rgba(255,99,132,1)',
 							borderWidth: 2,
 							radius: 2,
@@ -47,6 +45,9 @@ Vue.component('my-line', {
 								return label
 							}
 						}
+					},
+					legend: {
+						onClick: function (event, legendItem) {}
 					},
 					scales: {
 						yAxes: [{

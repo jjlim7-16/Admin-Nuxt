@@ -1,5 +1,5 @@
 <template>
-	<section id="content" class="box columns">
+	<section id="content" class="box columns is-multiline">
 		<div class="column is-6">
 			<b-field label='Station Name*' :type="errors.has('name') ? 'is-danger': ''" 
 				:message="errors.has('name') ? errors.first('name') : ''">
@@ -43,14 +43,9 @@
 				<b-input maxlength="500" rows="5" type="textarea" name="description" v-validate="'required'"
 				data-vv-as="'Description'" v-model="description"></b-input>
 			</b-field>
-
-			<br/>
-			<button class="button is-success" :disabled="isDisabled" @click="submit()">Update Station</button>
-			&nbsp;&nbsp;
-			<button class="button is-danger" @click='remove()'>Remove Station</button>
 		</div>
 		
-		<div class="column is-4">
+		<div class="column is-4" style="margin-left: 5vw;">
 			<b-field label="Image">
 				<b-upload v-model="files" @input="imageChanged = true" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
@@ -67,11 +62,21 @@
 				</b-upload>
 			</b-field>
 		</div>
+		
+		<div class="column is-11">
+			<br/>
+			<button class="button is-success is-pulled-right" :disabled="isDisabled" 
+			@click="submit()">Save Changes</button>
+			<button class="button is-danger is-pulled-right right-spaced" 
+			@click='remove()'>Delete</button>
+			<router-link to="/Admin/Stations/" 
+			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
+		</div>
 	</section>
 </template>
 
 <script>
-import axios from 'axios'
+
 import moment from 'moment'
 import DataModel from '~/models/dataModel.js'
 import config from '~/config'
@@ -218,6 +223,10 @@ export default {
 </script>
 
 <style scoped>
+.right-spaced {
+  margin-right: 1.5vw;
+}
+
 #preview {
 	width: 20vw;
 	height: 80%;

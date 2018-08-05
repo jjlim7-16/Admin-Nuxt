@@ -78,10 +78,12 @@
     <br/>
 
     <!-- Add Station button -->
-    <button id="addStnBtn" class="button is-success" :disabled="isDisabled" @click.prevent="validateBeforeSubmit">Add Station</button>
-
+    <button class="button is-success is-pulled-right" :disabled="isDisabled" 
+    @click.prevent="validateBeforeSubmit">Submit</button>
+    
+    <router-link to="/Admin/Stations/" id="cancelBtn" 
+    class="button is-light is-pulled-right">Cancel</router-link>
   </div>
-
 </section>
 </template>
 
@@ -305,9 +307,10 @@ export default {
 </script>
 
 <style scoped>
-/* #addStnBtn {
-  float: right;
-} */
+#cancelBtn {
+  margin-right: 1.5vw;
+}
+
 #preview {
   width: 20vw;
   height: 80%;

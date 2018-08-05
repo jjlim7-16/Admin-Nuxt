@@ -1,87 +1,136 @@
 <template>
-  <section id="content" class="box">
+	<section id="content" class="box">
+		<router-link to="/Admin/Users/add" tag="button" class="button is-primary is-pulled-right" id="btnAddUser">
+			<b-icon icon="plus-circle"></b-icon>
+			<span>Add User</span>
+		</router-link>
 
-    <!-- Add User button -->
-    <router-link to="/Admin/Users/add" tag="button" id="addUserBtn" class="button is-primary">
-      <b-icon icon="plus-circle"></b-icon>
-      <span>Add User</span>
-    </router-link>
+		<b-field grouped group-multiline>
+			<b-input placeholder="Search By Username" v-model="filter"></b-input>
+		</b-field>
 
-    <b-table :data = "tableDataSimple" striped hoverable>
-      <template slot-scope="props">
-        <b-table-column class="row" field="username" label="Username"  sortable>
-          {{ props.row.username }}
-        </b-table-column>
+		<b-table
+			:data = "userData"
+			:paginated="paginated"
+			:per-page="perPage"
+			:current-page.sync="currentPage"
+			default-sort-direction="asc"
+			default-sort="['role', 'desc']"
+			hoverable>
 
-        <b-table-column field="station_name" label="Station Name" centered sortable>
-          {{ props.row.station_name }}
-        </b-table-column>
+			<template slot-scope="props">
+				<b-table-column field="username" label="Username"  sortable>
+					{{ props.row.username }}
+				</b-table-column>
 
-        <b-table-column field="role" label="Role"  centered sortable>
-          {{ props.row.role }}
-        </b-table-column>
+				<b-table-column field="role" label="Role"  sortable>
+					{{ props.row.account_type }}
+				</b-table-column>
 
-        <b-table-column field="password" label="Password"  centered sortable>
-          {{ props.row.password }}
-        </b-table-column>
+				<b-table-column field="station" label="Station" sortable>
+					{{ props.row.station_name}}
+				</b-table-column>
 
-        <b-table-column field="last_logged_in" label="Last Logged In" centered  sortable>
-          <span >{{ new Date(props.row.last_logged_in).toLocaleDateString()}} </span>
-        </b-table-column>
+				<b-table-column field="action" label="Action" centered>
+					<b-dropdown position="is-bottom-left" >
+						<button class="button is-primary is-small is-inverted" slot="trigger">
+							<b-icon icon="dots-vertical"></b-icon>
+						</button>
+						
+						<b-dropdown-item style="text-align: left" has-link>
+							<router-link :to="{ path: `/Admin/Users/edit/${props.row.user_id}`}">
+								<span>Edit</span>
+							</router-link>
+						</b-dropdown-item>
+						
+						<b-dropdown-item style="text-align: left" has-link paddingless>
+							<a @click="deleteAccount(props.row.user_id)">Delete Account</a>
+						</b-dropdown-item>
+					</b-dropdown>
+				</b-table-column>
+			</template>
+		</b-table>
 
-        <b-table-column field="action" label="Action"  centered>
-            <router-link to="/Admin/Users/edit" tag="button" class="button is-primary">
-              <span> {{ props.row.action }}Edit</span>
-            </router-link>
-            &nbsp;
-          <button class="button is-danger" @click="confirmCustomDelete">
-            <span> {{ props.row.action }}Delete</span>
-          </button>
-        </b-table-column>
-      </template>
-    </b-table>
-
-  </section>
+	</section>
 </template>
 
 
 <script>
 import config from '~/config.js'
 
-	export default{
-		layout: 'default',
-		data() {
-			const tableDataSimple = [
-				{ 'username': 'op-kenneth', 'station_name': 'ALL', 'role': 'Admin', 'password': '*****','last_logged_in':'05/19/2018  12:00' },
-				{ 'username': 'op-kenneth', 'station_name': 'ALL', 'role': 'Admin', 'password': '*****','last_logged_in':'05/19/2018  12:00' },
-			]
-			return {
-				tableDataSimple,
-			}
-		},
-		beforeCreate() {
-			this.$store.commit('setPageTitle', 'Manage Users')
-		},
-		methods:{
-			confirmCustomDelete() {
-				this.$dialog.confirm({
-					title: 'Deleting account',
-					message: 'Are you sure you want to <b>delete</b> your account? This action cannot be undone.',
-					confirmText: 'Delete Account',
-					type: 'is-danger',
-					hasIcon: true,
-					onConfirm: () => this.$toast.open('Account deleted!')
-				})
+export default {
+	data() {
+		return {
+			currentPage: 1,
+			paginated: true,
+			perPage: 5,
+			data: [],
+			filter: '',
+			stationList: null
+		}
+	},
+	async beforeMount() {
+		let res = await this.$axios.get(`http://${config.serverURL}/user/`)
+		this.data = res.data
+		this.stationList = res.data[1]
+		console.log(this.stationList)
+		for (var i in this.data) {
+			if (this.data[i].station_id != null) {
+				for (var a in this.stationList) {
+					if (this.stationList[a].station_id == this.data[i]) {
+						this.data[i].station_name = this.stationList[a].station_name
+					}
+				}
+			} else {
+				this.data[i].station_name = "-"
 			}
 		}
+
+		this.$store.commit('setPageTitle', 'Manage Users')
+	},
+
+	methods:{
+		deleteAccount(user_id) {
+			this.$dialog.confirm({
+				title: 'Delete User',
+				message: 'Are you sure you want to delete this User?',
+				confirmText: 'Delete User',
+				type: 'is-danger',
+				hasIcon: true,
+				onConfirm: () =>
+					this.$axios.delete(`http://${config.serverURL}/user/` + user_id)
+					.then(res => {
+						if (res.status === 200) {
+							this.$dialog.alert({
+								title: 'Delete Account',
+								message: `The user account has been successfully deleted`,
+								type: 'is-success',
+								hasIcon: true,
+								icon: 'check-circle',
+								iconPack: 'mdi'
+							})
+							this.$router.go({path: '/Admin/Users', force: true})
+						}
+					})
+					.catch(err => {
+						throw err
+					})
+			})
+		}
+	},
+	computed: {
+		userData() {
+			if (this.filter !== '') {
+				let data = []
+				for (var i in this.data) {
+					if (this.data[i].username.toLowerCase().includes(this.filter.toLowerCase())) {
+						data.push(this.data[i])
+					}
+				}
+				return data
+			}
+			return this.data
+		}
 	}
-</script>
-
-<style scoped>
-
-#addUserBtn{
-  float: right;
-  margin: 0 0.18vw;
 }
-
-</style>
+</script>

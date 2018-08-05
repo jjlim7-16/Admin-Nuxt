@@ -1,72 +1,74 @@
 <template>
 	<section id="content" class="box columns is-multiline">
-		<div class="column is-9">
-		<b-field label="Select Date*">
-			<b-datepicker
-				placeholder="Click to select..."
-				icon="calendar-today"
-				:min-date="minDate"
-				v-model="date"
-				rounded>
-			</b-datepicker>
-    </b-field>
+		<div class="column is-8">
+			<b-field label="Select Date*">
+				<b-datepicker
+					placeholder="Click to select..."
+					icon="calendar-today"
+					:min-date="minDate"
+					v-model="date"
+					rounded>
+				</b-datepicker>
+			</b-field>
 
-		<div class="columns">
-      <div class="column is-half">
-				<b-field label='Select Station*' :type="errors.has('station') ? 'is-danger': ''"
-					:message="errors.has('station') ? errors.first('station') : ''">
-					<b-select expanded placeholder='Select Station' v-model="stationId"
-						name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
-						<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
-							{{station.station_name}}
-						</option>
-					</b-select>
-				</b-field>
-      </div>
+			<div class="columns">
+				<div class="column is-half">
+					<b-field label='Select Station*' :type="errors.has('station') ? 'is-danger': ''"
+						:message="errors.has('station') ? errors.first('station') : ''">
+						<b-select expanded placeholder='Select Station' v-model="stationId"
+							name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
+							<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
+								{{station.station_name}}
+							</option>
+						</b-select>
+					</b-field>
+				</div>
 
-			<div class="column is-half">
-				<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''"
-					:message="errors.has('role') ? errors.first('role') : ''">
-					<b-select expanded placeholder='Select Role' v-model="roleId"
-						name="role" v-validate="'required'" data-vv-as="'Role'" @input="getSessionList" rounded>
-						<option v-for="role in filterRoles" :value="role.role_id" :key="role.role_name">
-							{{ role.role_name }}
-						</option>
-					</b-select>
-				</b-field>
+				<div class="column is-half">
+					<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''"
+						:message="errors.has('role') ? errors.first('role') : ''">
+						<b-select expanded placeholder='Select Role' v-model="roleId"
+							name="role" v-validate="'required'" data-vv-as="'Role'" @input="getSessionList" rounded>
+							<option v-for="role in filterRoles" :value="role.role_id" :key="role.role_name">
+								{{ role.role_name }}
+							</option>
+						</b-select>
+					</b-field>
+				</div>
 			</div>
-		</div>
 
-		<div class="columns">
-      <div class="column is-half">
-        <b-field label='Reserve From'>
-					<b-select expanded placeholder="Reserve From" v-model="start" rounded>
-						<option v-for="start in sessionList" :value="start.session_start" :key="start.session_start">
-							{{ start.session_start.slice(0, 5) }}
-						</option>
-					</b-select>
-				</b-field>
-      </div>
+			<div class="columns">
+				<div class="column is-half">
+					<b-field label='Reserve From'>
+						<b-select expanded placeholder="Reserve From" v-model="start" rounded>
+							<option v-for="start in sessionList" :value="start.session_start" :key="start.session_start">
+								{{ start.session_start.slice(0, 5) }}
+							</option>
+						</b-select>
+					</b-field>
+				</div>
 
-      <div class="column is-half">
-        <b-field label='Reserve To'>
-					<b-select expanded placeholder="Reserve To" v-model="end" rounded>
-						<option v-for="end in filterEnd" :value="end.session_end" :key="end.session_end">
-							{{ end.session_end.slice(0, 5) }}
-						</option>
-					</b-select>
-				</b-field>
-      </div>
-    </div>
+				<div class="column is-half">
+					<b-field label='Reserve To'>
+						<b-select expanded placeholder="Reserve To" v-model="end" rounded>
+							<option v-for="end in filterEnd" :value="end.session_end" :key="end.session_end">
+								{{ end.session_end.slice(0, 5) }}
+							</option>
+						</b-select>
+					</b-field>
+				</div>
+			</div>
 
-		<b-field label="Remarks" :type="errors.has('remarks') ? 'is-danger': ''" 
-      :message="errors.has('remarks') ? errors.first('remarks') : ''">
-      <b-input maxlength="500" type="textarea" name="remarks" v-validate.immediate="'required'"
-      data-vv-as="'Remarks'" v-model="remarks"></b-input>
-    </b-field>
-		
-		<br/>
-		<button class="button is-success" :disabled="isDisabled" @click="submit()">Change Reservation</button>
+			<b-field label="Remarks" :type="errors.has('remarks') ? 'is-danger': ''" 
+				:message="errors.has('remarks') ? errors.first('remarks') : ''">
+				<b-input maxlength="500" type="textarea" name="remarks" v-validate.immediate="'required'"
+				data-vv-as="'Remarks'" v-model="remarks"></b-input>
+			</b-field>
+			
+			<br/>
+			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="submit()">Save Changes</button>
+			<router-link to="/Admin/Reservations/" 
+			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
 	</section>
 </template>
@@ -172,3 +174,9 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+.right-spaced {
+  margin-right: 1.5vw;
+}
+</style>

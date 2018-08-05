@@ -43,17 +43,15 @@
 				</b-table-column>
 
 				<b-table-column label='Actions' centered>
-					<b-dropdown>
+					<b-dropdown position="is-bottom-left">
 						<button class="button is-primary is-small is-inverted" slot="trigger">
 							<b-icon icon="dots-vertical"></b-icon>
 						</button>
 
-						<b-dropdown-item style="text-align: left" has-link>
-							<router-link :to="{ path: `/Admin/Limit/Update/${props.row.limit_id}`}">
-								Update Limit
-							</router-link>
+						<b-dropdown-item style="text-align: left" has-link paddingless>
+							<router-link :to="{ path: `/Admin/Limit/Update/${props.row.limit_id}`}">Update Limit</router-link>
 						</b-dropdown-item>
-						<b-dropdown-item style="text-align: left" has-link>
+						<b-dropdown-item style="text-align: left" has-link paddingless>
 							<a @click="deleteLimit(props.row.limit_id)">Delete Limit</a>
 						</b-dropdown-item>
 					</b-dropdown>
@@ -79,7 +77,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+
 import moment from 'moment'
 import config from '~/config.js'
 

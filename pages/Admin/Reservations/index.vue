@@ -43,15 +43,13 @@
 				</b-table-column>
 
 				<b-table-column label='Actions' centered>
-					<b-dropdown>
+					<b-dropdown position="is-bottom-left">
 						<button class="button is-primary is-small is-inverted" slot="trigger">
 							<b-icon icon="dots-vertical"></b-icon>
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link>
-							<router-link :to="{path: `/Admin/Reservations/Update/${props.row.reservation_id}`}">
-								Change Reservation
-							</router-link>
+							<router-link :to="{path: `/Admin/Reservations/Update/${props.row.reservation_id}`}">Change Reservation</router-link>
 						</b-dropdown-item>
 						<b-dropdown-item style="text-align: left" has-link>
 							<a @click="cancelReservation(props.row.reservation_id)">Cancel Reservation</a>

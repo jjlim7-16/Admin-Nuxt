@@ -1,6 +1,5 @@
 <template>
-	<section id="content" class="box columns">
-
+	<section id="content" class="box columns is-multiline">
 		<div class="column is-6">
 			<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
@@ -25,15 +24,10 @@
 			</b-field>
 
 			<b-field label='Capacity'>
-				<b-select expanded size="5" v-model='capacity' placeholder='Select Max. Capacity' required rounded>
+				<b-select v-model='capacity' placeholder='Select Max. Capacity' required rounded>
 					<option v-for="i in 30" :key="i" :value="i">{{ i }}</option>
 				</b-select>
 			</b-field>
-
-			<br>
-			<!-- Add Role button -->
-			<button id="addRoleBtn" class="button is-success" :disabled="isDisabled" @click="submit()">Add Role</button>
-
 		</div> <!-- end of column is-6 -->
 
 		<!-- Upload Image field -->
@@ -53,6 +47,15 @@
 					</section>
 				</b-upload>
 			</b-field>
+		</div>
+
+		<div class="column is-9">
+			<br>
+			<!-- Add Role button -->
+			<button id="addRoleBtn" class="button is-success is-pulled-right" 
+			:disabled="isDisabled" @click="submit()">Add Role</button>
+			<router-link to="/Admin/Roles/" 
+			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
 	</section>
 </template>
@@ -136,13 +139,17 @@ export default {
 </script>
 
 <style scoped>
+.right-spaced {
+  margin-right: 1.5vw;
+}
+
 #preview {
-	width: 20vw;
-	height: 80%;
+	width: 12vw;
+	height: 60%;
 }
 
 .section {
-	height: 33vh;
+	height: 30vh;
 }
 
 .image-section {
