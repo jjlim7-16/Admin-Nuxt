@@ -48,7 +48,7 @@
 						</b-dropdown-item>
 
 						<b-dropdown-item style="text-align: left" has-link paddingless>
-							<a @click="remove(props.row.role_id)">Delete</a>
+							<a @click="remove(props.row.role_id, props.row.role_name)">Delete</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
@@ -92,7 +92,7 @@ export default {
 		}
 	},
 	methods: {
-		remove(role_id) {
+		remove(role_id, role_name) {
 			this.$dialog.confirm({
 				title: 'Delete Role',
 				message: 'Are you sure you want to permanently delete this role?',
@@ -102,17 +102,17 @@ export default {
 				onConfirm: () => this.confirmDelete(role_id)
 			})
 		},
-		confirmDelete(role_id) {
+		confirmDelete(role_id, role_name) {
 			this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.confirm({
 						title: 'Delete Role',
-						message: 'The Role: ' + this.name + ' has been successfully deleted',
+						message: 'The Role: ' + role_name + ' has been successfully deleted',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						onConfirm: () => this.$router.push('/Admin/Roles')
+						onConfirm: () => this.$router.go({path: '/Admin/Roles', force: true})
 					})
 				}
 			})

@@ -46,7 +46,6 @@
 import config from '~/config.js'
 import DataModel from '~/models/dataModel.js'
 
-
 export default {
 
   data(){

@@ -56,7 +56,7 @@
     </b-field>
   </div>
 
-  <div class="column is-11">
+  <div class="column is-10">
 		<b-field label="Roles" style="margin-top: -2vh;">
       <b-field grouped group-multiline>
         <div class="control" v-if="roles.length>0" v-for="role in roles" :key="role.roleName">
@@ -81,8 +81,7 @@
     <button class="button is-success is-pulled-right" :disabled="isDisabled"
     @click.prevent="validateBeforeSubmit">Submit</button>
 
-    <router-link to="/Admin/Stations/" id="cancelBtn"
-    class="button is-light is-pulled-right">Cancel</router-link>
+    <router-link to="/Admin/Stations/" class="button is-light right-spaced is-pulled-right">Cancel</router-link>
   </div>
 </section>
 </template>
@@ -170,13 +169,6 @@ const ModalForm = {
 			this.$validator.validateAll().then(res => {
 				if (res) {
 					this.addRole()
-				} else {
-					// this.$dialog.alert({
-					// 	title: "Error",
-					// 	message: `Error! Please correct errors before submitting again.`,
-					// 	type: "is-danger",
-					// 	hasIcon: true
-					// })
 				}
 			})
 		}
@@ -307,7 +299,7 @@ export default {
 </script>
 
 <style scoped>
-#cancelBtn {
+.right-spaced {
   margin-right: 1.5vw;
 }
 

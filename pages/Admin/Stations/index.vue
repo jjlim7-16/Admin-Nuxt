@@ -53,7 +53,7 @@
 					</b-dropdown-item>
 
           <b-dropdown-item style="text-align: left" has-link paddingless>
-						<a @click="remove(props.row.station_id)">Delete</a>
+						<a @click="remove(props.row.station_id, props.row.station_name)">Delete</a>
 					</b-dropdown-item>
 
 					<hr />
@@ -146,32 +146,27 @@ export default {
           })
       })
     },
-    remove(station_id) {
+    remove(station_id, station_name) {
 			this.$dialog.confirm({
 				title: 'Delete Station',
-<<<<<<< HEAD
-				message: 'Are you sure you want to delete this station?',
-				confirmText: 'Remove Station',
-=======
 				message: 'Are you sure you want to permanently delete this station?',
 				confirmText: 'Delete Station',
->>>>>>> 0e3d1a80f6299cf31632fda4d6f980bddee889cb
 				type: 'is-danger',
 				hasIcon: true,
-				onConfirm: () => this.confirmDelete(station_id)
+				onConfirm: () => this.confirmDelete(station_id, station_name)
 			})
 		},
-		confirmDelete(station_id) {
+		confirmDelete(station_id, station_name) {
 			this.$axios.delete(`http://${config.serverURL}/stations/${station_id}`)
 			.then(res => {
 				if (res.status === 200) {
 					this.$dialog.confirm({
 						title: 'Delete Station',
-						message: 'The Station: ' + this.name + ' has been successfully deleted',
+						message: 'The Station: ' + station_name + ' has been successfully deleted',
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						onConfirm: () => this.$router.push('/Admin/Stations')
+						onConfirm: () => this.$router.go({path: '/Admin/Stations', force: true})
 					})
 				}
 			})

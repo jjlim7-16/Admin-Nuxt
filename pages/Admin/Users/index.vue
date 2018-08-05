@@ -38,13 +38,11 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link>
-							<router-link :to="{ path: `/Admin/Users/edit/${props.row.user_id}`}">
-								<span>Edit</span>
-							</router-link>
+							<a @click="redirect(props.row.user_id, props.row.account_type)">Edit</a>
 						</b-dropdown-item>
 
 						<b-dropdown-item style="text-align: left" has-link paddingless>
-							<a @click="deleteAccount(props.row.user_id)">Delete</a>
+							<a @click="deleteAccount(props.row.user_id, props.row.account_type)">Delete</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
@@ -89,32 +87,59 @@ export default {
 	},
 
 	methods:{
-		deleteAccount(user_id) {
-			this.$dialog.confirm({
-				title: 'Delete User',
-				message: 'Are you sure you want to delete this User?',
-				confirmText: 'Delete User',
-				type: 'is-danger',
-				hasIcon: true,
-				onConfirm: () =>
-					this.$axios.delete(`http://${config.serverURL}/user/` + user_id)
-					.then(res => {
-						if (res.status === 200) {
-							this.$dialog.alert({
-								title: 'Delete Account',
-								message: `The user account has been successfully deleted`,
-								type: 'is-success',
-								hasIcon: true,
-								icon: 'check-circle',
-								iconPack: 'mdi'
-							})
-							this.$router.go({path: '/Admin/Users', force: true})
-						}
-					})
-					.catch(err => {
-						throw err
-					})
-			})
+		deleteAccount(user_id, account_type) {
+			let curruser = this.$store.state.auth.user
+			let authorised = false
+			if (curruser.account_type === 'Admin' && account_type === 'Crew') {
+				authorised = true
+			}
+			else if (curruser.user_id === user_id) {
+				authorised = true
+			}
+			if (!authorised) {
+				this.$dialog.alert({
+					title: 'Unauthorised',
+					message: 'You Are Unauthorised To Delete This Account',
+					type: 'is-danger',
+					hasIcon: true
+				})
+			}
+			else {
+				this.$dialog.confirm({
+					title: 'Delete Account',
+					message: 'Are you sure you want to delete this account?',
+					confirmText: 'Delete Account',
+					type: 'is-danger',
+					hasIcon: true,
+					onConfirm: () =>
+						this.$axios.delete(`http://${config.serverURL}/user/` + user_id)
+						.then(res => {
+							if (res.status === 200) {
+								this.$dialog.alert({
+									title: 'Delete Account',
+									message: `The user account has been successfully deleted`,
+									type: 'is-success',
+									hasIcon: true,
+									icon: 'check-circle',
+									iconPack: 'mdi'
+								})
+								this.$router.go({path: '/Admin/Users', force: true})
+							}
+						})
+						.catch(err => {
+							throw err
+						})
+				})
+			}
+		},
+		redirect(user_id, account_type) {
+			let curruser = this.$store.state.auth.user
+			if (user_id === curruser.user_id) {
+				this.$router.push(`/Admin/Users/edit/${user_id}`)
+			}
+			else if (curruser.account_type === 'Admin' && account_type === 'Crew') {
+				this.$router.push(`/Admin/Users/edit/${user_id}`)
+			}
 		}
 	},
 	computed: {
