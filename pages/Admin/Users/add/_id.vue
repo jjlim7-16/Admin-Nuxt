@@ -1,7 +1,7 @@
 <template>
   <section id="content" class="box" style="margin-left: 5px;">
 
-    <b-field label='Roles*' width="410px">
+    <b-field label='User Role *' width="410px">
       <div class="block">
         <b-radio v-model="account_type"
                  native-value="Admin">
@@ -29,16 +29,20 @@
     <b-field label='Username*' width="410px" :type="errors.has('username') ? 'is-danger': ''"
              :message="errors.has('username') ? errors.first('username') : ''">
       <b-input placeholder='Enter Username' v-model="username" name="username" data-vv-as="'username'"
-               v-validate="'required|alpha_spaces'"></b-input>
+               v-validate="'required|alpha_spaces'" rounded></b-input>
     </b-field>
 
     <b-field label='Password*' width="410px"  :type="errors.has('password') ? 'is-danger': ''"
              :message="errors.has('password') ? errors.first('password') : ''">
       <b-input placeholder='Enter Password' v-model="password" name="password" data-vv-as="'password'"
-               password-reveal></b-input>
+               password-reveal rounded></b-input>
     </b-field>
 
-    <button class="button is-danger" @click="submit()">Submit</button>
+
+    <button class="button is-success is-pulled-right" @click="submit()">Submit</button>
+
+    <router-link to="/Admin/Users/" class="button is-light right-spaced is-pulled-right">Cancel</router-link>
+
   </section>
 </template>
 
@@ -107,3 +111,8 @@ export default {
 }
 </script>
 
+<style scoped>
+.right-spaced {
+  margin-right: 1.5vw;
+}
+</style>

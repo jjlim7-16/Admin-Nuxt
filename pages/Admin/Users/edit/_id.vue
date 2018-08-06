@@ -21,18 +21,18 @@
       <b-field label='Username*' :type="errors.has('username') ? 'is-danger': ''"
         :message="errors.has('username') ? errors.first('username') : ''">
         <b-input placeholder='Enter Username' v-model="username" name="username" data-vv-as="'username'"
-          v-validate="'required|alpha_spaces'"></b-input>
+          v-validate="'required|alpha_spaces'" rounded></b-input>
       </b-field>
 
       <b-field label='Password*' :type="errors.has('password') ? 'is-danger': ''"
         :message="errors.has('password') ? errors.first('password') : ''">
-        <b-input placeholder='Enter Password' type="password" v-model="password" name="password" 
-        v-validate="'required'" password-reveal></b-input>
+        <b-input placeholder='Enter Password' type="password" v-model="password" name="password"
+        v-validate="'required'" password-reveal rounded></b-input>
       </b-field>
 
       <!-- <b-field label='Confirm Password*' :type="errors.has('password_confirmation') ? 'is-danger': ''"
         :message="errors.has('password_confirmation') ? errors.first('password_confirmation') : ''">
-        <b-input placeholder='Enter Password' v-model="password_confirmation" name="password_confirmation" type="password" 
+        <b-input placeholder='Enter Password' v-model="password_confirmation" name="password_confirmation" type="password"
         v-validate="'required'"></b-input>
       </b-field> -->
 
@@ -124,4 +124,3 @@ export default {
   margin-right: 1.5vw;
 }
 </style>
-
