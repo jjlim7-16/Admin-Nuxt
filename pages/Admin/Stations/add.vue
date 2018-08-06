@@ -143,11 +143,15 @@ const ModalForm = {
 </div> `,
 	methods: {
 		addRole() {
-			let roleExist = false
+      let roleExist = false
 			if (roleList.length > 0) {
-				let roleName = roleList.find(i => i.roleName.toLowerCase() ===
-        this.roleName.trim().toLowerCase()).roleName
-				if (roleName) {
+				for (var i in roleList) {
+          if (roleList[i].roleName.toLowerCase() === this.roleName.trim().toLowerCase()) {
+            roleExist = true
+            break
+          }
+        }
+				if (roleExist) {
 					this.alertRoleExists()
 				}
 			}
@@ -264,13 +268,6 @@ export default {
 			this.$validator.validateAll().then(res => {
 				if (res) {
 					this.submit()
-				} else {
-					// this.$dialog.alert({
-					// 	title: "Error",
-					// 	message: `Error! Please correct errors before submitting again.`,
-					// 	type: "is-danger",
-					// 	hasIcon: true
-					// })
 				}
 			})
 		},

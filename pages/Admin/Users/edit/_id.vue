@@ -1,13 +1,6 @@
 <template>
   <section id="content" class="box columns is-multiline">
     <div class="column is-7">
-      <b-field label='Roles*'>
-        <div class="block">
-          <b-radio v-model="account_type" native-value="Admin" disabled>Admin</b-radio>
-          <b-radio v-model="account_type" native-value="Crew" disabled>Crew</b-radio>
-        </div>
-      </b-field>
-
       <b-field label='Station Name*' v-show="account_type === 'Crew'">
         <b-select placeholder="Select a station"  v-model="account_type_id" disabled>
           <option v-for="crewAccountType in crewAccountTypeList"
@@ -21,20 +14,21 @@
       <b-field label='Username*' :type="errors.has('username') ? 'is-danger': ''"
         :message="errors.has('username') ? errors.first('username') : ''">
         <b-input placeholder='Enter Username' v-model="username" name="username" data-vv-as="'username'"
-          v-validate="'required|alpha_spaces'"></b-input>
+          v-validate="'required|alpha_dash'"></b-input>
       </b-field>
 
       <b-field label='Password*' :type="errors.has('password') ? 'is-danger': ''"
         :message="errors.has('password') ? errors.first('password') : ''">
-        <b-input placeholder='Enter Password' type="password" v-model="password" name="password" 
-        v-validate="'required'" password-reveal></b-input>
+        <b-input placeholder='Enter Password' v-model="password" name="password" 
+        type="password" v-validate="'required|min:8'" ref="password"></b-input>
       </b-field>
 
-      <!-- <b-field label='Confirm Password*' :type="errors.has('password_confirmation') ? 'is-danger': ''"
-        :message="errors.has('password_confirmation') ? errors.first('password_confirmation') : ''">
-        <b-input placeholder='Enter Password' v-model="password_confirmation" name="password_confirmation" type="password" 
-        v-validate="'required'"></b-input>
-      </b-field> -->
+      <b-field label='Confirm Password*' :type="errors.has('confirmPassword') ? 'is-danger': ''"
+        :message="errors.has('confirmPassword') ? errors.first('confirmPassword') : ''">
+        <b-input placeholder='Confirm Password' type="password" v-model="confirmPassword" 
+        name="confirmPassword" v-validate="'required|min:8|confirmed:password'" data-vv-as="password">
+        </b-input>
+      </b-field>
 
       <br/>
       <button class="button is-success is-pulled-right" @click="submit()">Save Changes</button>
@@ -54,7 +48,7 @@ export default {
       crewAccountTypeList: [],
       username: '',
       password:'',
-      password_confirmation: '',
+      confirmPassword: '',
       account_type:'Admin',
       stationId:'',
       account_type_id:'',
@@ -124,4 +118,3 @@ export default {
   margin-right: 1.5vw;
 }
 </style>
-
