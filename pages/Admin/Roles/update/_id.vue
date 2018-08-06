@@ -100,7 +100,7 @@ export default {
 		isDisabled() {
 			if (this.currRole) {
 				return (this.currRole.role_name === this.roleName && this.currRole.capacity === this.capacity
-				&& this.imageChanged === false) || !this.roleName || !this.capacity || !this.files[0]
+				&& this.imageChanged === false && this.stationId === this.currRole.station_id) || !this.roleName || !this.capacity || !this.files[0]
 			}
 		},
 		readImageFile() {
@@ -132,13 +132,14 @@ export default {
 				this.$axios.put(`http://${config.serverURL}/roles/` + this.$route.params['id'], formData)
 				.then(res => {
 					if (res.status === 200) {
-						this.$dialog.alert({
+						this.$dialog.confirm({
 							title: 'Update Role',
 							message: `The Role \'${this.roleName}\' has been successfully updated`,
 							type: 'is-success',
 							hasIcon: true,
 							icon: 'check-circle',
-							iconPack: 'mdi'
+							iconPack: 'mdi',
+							onConfirm: () => this.$router.push('/Admin/Roles')
 						})
 					}
 				})
