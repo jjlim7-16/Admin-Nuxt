@@ -41,7 +41,7 @@ export default {
 					this.$store.commit('update', auth)
           Cookie.set('auth', auth)
           this.$axios.setToken(auth.token, 'Bearer')
-					if (auth.user.account_type === 'Admin') {
+					if (auth.user.account_type.includes('Admin')) {
 						this.$router.push('/Admin/Dashboard')
 					}
 					if (auth.user.account_type === 'Crew') {

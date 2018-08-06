@@ -30,7 +30,7 @@ Vue.component('my-line', {
 					title: {
 						display: true,
 						text: 'Capacity Percentage By Session Time',
-						fontSize: 14,
+						fontSize: 18,
 						padding: 5,
 						lineHeight: 2
 					},
@@ -131,7 +131,7 @@ Vue.component('line-chart', {
 					title: {
 						display: true,
 						text: 'No. Of Bookings By Time',
-						fontSize: 14,
+						fontSize: 18,
 						padding: 5,
 						lineHeight: 2
 					},
@@ -211,7 +211,7 @@ Vue.component('grouped-bar', {
 					title: {
 						display: true,
 						text: 'Avg. No. Of Bookings By Day',
-						fontSize: 14,
+						fontSize: 18,
 						padding: 5,
 						lineHeight: 2
 					},
@@ -270,7 +270,7 @@ Vue.component('bar', {
 					title: {
 						display: true,
 						text: 'Daily Avg. No. Of Bookings',
-						fontSize: 14,
+						fontSize: 18,
 						padding: 5,
 						lineHeight: 2
 					},
@@ -325,7 +325,7 @@ Vue.component('doughnut', {
 					title: {
 						display: true,
 						text: 'Overall Booking Percentage By Stations',
-						fontSize: 14,
+						fontSize: 18,
 						padding: 5,
 						lineHeight: 2
 					},

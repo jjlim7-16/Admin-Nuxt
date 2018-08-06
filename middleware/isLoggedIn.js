@@ -3,7 +3,7 @@ export default function ({ store, redirect }) {
 	if (!auth) {
 		return
 	}
-	if (auth.user.account_type === 'Admin') {
+	if (auth.user.account_type.includes('Admin')) {
 		return redirect('/Admin/Dashboard')
 	} else {
 		return redirect(`/Crew/${auth.user.station_id}`)

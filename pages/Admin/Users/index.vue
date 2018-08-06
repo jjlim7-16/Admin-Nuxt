@@ -10,12 +10,11 @@
 		</b-field>
 
 		<b-table
-			:data = "userData"
+			:data="userData"
 			:paginated="paginated"
 			:per-page="perPage"
 			:current-page.sync="currentPage"
-			default-sort-direction="asc"
-			default-sort="['role', 'desc']"
+			:default-sort-direction="'asc'"
 			hoverable>
 
 			<template slot-scope="props">
@@ -23,12 +22,13 @@
 					{{ props.row.username }}
 				</b-table-column>
 
-				<b-table-column field="role" label="Role"  sortable>
+				<b-table-column field="role" label="User Role" sortable>
 					{{ props.row.account_type }}
 				</b-table-column>
 
 				<b-table-column field="station" label="Station" sortable>
-					{{ props.row.station_name}}
+					<span v-if="props.row.station_name">{{ props.row.station_name }}</span>
+					<span v-else>{{ '-' }}</span>
 				</b-table-column>
 
 				<b-table-column field="action" label="Action" centered>
@@ -38,7 +38,7 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link>
-							<a @click="redirect(props.row.user_id, props.row.account_type)">Edit</a>
+							<router-link :to="`/Admin/Users/edit/${props.row.user_id}`">Edit</router-link>
 						</b-dropdown-item>
 
 						<b-dropdown-item style="text-align: left" has-link paddingless>
@@ -70,19 +70,6 @@ export default {
 	async beforeMount() {
 		let res = await this.$axios.get(`http://${config.serverURL}/user/`)
 		this.data = res.data
-		this.stationList = res.data[1]
-		console.log(this.stationList)
-		for (var i in this.data) {
-			if (this.data[i].station_id != null) {
-				for (var a in this.stationList) {
-					if (this.stationList[a].station_id == this.data[i]) {
-						this.data[i].station_name = this.stationList[a].station_name
-					}
-				}
-			} else {
-				this.data[i].station_name = "-"
-			}
-		}
 		this.$store.commit('setPageTitle', 'Manage Users')
 	},
 
@@ -130,15 +117,6 @@ export default {
 							throw err
 						})
 				})
-			}
-		},
-		redirect(user_id, account_type) {
-			let curruser = this.$store.state.auth.user
-			if (user_id === curruser.user_id) {
-				this.$router.push(`/Admin/Users/edit/${user_id}`)
-			}
-			else if (curruser.account_type === 'Admin' && account_type === 'Crew') {
-				this.$router.push(`/Admin/Users/edit/${user_id}`)
 			}
 		}
 	},

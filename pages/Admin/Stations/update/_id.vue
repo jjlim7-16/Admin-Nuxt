@@ -66,7 +66,7 @@
 		<div class="column is-11">
 			<br/>
 			<button class="button is-success is-pulled-right" :disabled="isDisabled"
-			@click="submit()">Save Changes</button>
+			@click="validateBeforeSubmit()">Save Changes</button>
 			<router-link to="/Admin/Stations/"
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
@@ -132,11 +132,19 @@ export default {
 	methods: {
 		async submit() {
 			let res = await this.$axios.get(`http://${config.serverURL}/stations/`)
-			if (res.data.find(i => i.station_name.toLowerCase() === this.name.trim().toLowerCase()
-			&& i.station_id != this.$route.params.id)) {
+			let stationList = res.data
+			let stationExists = false
+			for (let i in stationList) {
+				if (stationList[i].station_name.toLowerCase() === this.name.trim().toLowerCase() && 
+				stationList[i].station_id != this.$route.params.id) {
+					stationExists = true
+					break
+				}
+			}
+			if (stationExists) {
 				this.$dialog.alert({
 					title: "Station Exists",
-					message: `Error! The Station \'${this.name}\' Already Exists`,
+					message: `Error! The Station: \'${this.name}\' Already Exists`,
 					type: "is-danger",
 					hasIcon: true
 				})
@@ -171,6 +179,13 @@ export default {
 					console.log('FAIL')
 				})
 			}
+		},
+		validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.submit()
+				}
+			})
 		}
 	},
 	computed: {

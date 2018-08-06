@@ -53,7 +53,7 @@
 			<br>
 			<!-- Add Role button -->
 			<button id="addRoleBtn" class="button is-success is-pulled-right"
-			:disabled="isDisabled" @click="submit()">Submit</button>
+			:disabled="isDisabled" @click="validateBeforeSubmit()">Submit</button>
 			<router-link to="/Admin/Roles/"
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
@@ -133,6 +133,13 @@ export default {
 					}
 				})
 			}
+		},
+		validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.submit()
+				}
+			})
 		}
 	}
 }

@@ -61,12 +61,13 @@
 
 			<b-field label="Remarks" :type="errors.has('remarks') ? 'is-danger': ''" 
 				:message="errors.has('remarks') ? errors.first('remarks') : ''">
-				<b-input maxlength="500" type="textarea" name="remarks" v-validate.immediate="'required'"
+				<b-input maxlength="500" type="textarea" name="remarks" v-validate="'required'"
 				data-vv-as="'Remarks'" v-model="remarks"></b-input>
 			</b-field>
 			
 			<br/>
-			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="submit()">Save Changes</button>
+			<button class="button is-success is-pulled-right" :disabled="isDisabled" 
+			@click="validateBeforeSubmit()">Save Changes</button>
 			<router-link to="/Admin/Reservations/" 
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
@@ -148,6 +149,13 @@ export default {
 				let res = await this.$axios.get(`http://${config.serverURL}/reservations/getSessionList/${this.roleId}`)
 				this.sessionList = res.data
 			}
+		},
+		validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.submit()
+				}
+			})
 		}
 	},
 	computed: {

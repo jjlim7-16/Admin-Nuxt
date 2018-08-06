@@ -124,21 +124,26 @@ export default {
         confirmText: `${action} Station`,
         type: 'is-danger',
         hasIcon: true,
-        onConfirm: () => this.$axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
+        onConfirm: () => 
+        this.$axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
           .then(res => {
             if (res.status === 200) {
-              this.$dialog.alert({
+              this.$dialog.confirm({
                 title: `${action} Station`,
                 message: `Station Has Been Successfully ${action + 'd'}`,
                 type: 'is-success',
                 hasIcon: true,
                 icon: 'check-circle',
-                iconPack: 'mdi'
+                iconPack: 'mdi',
+                onConfirm: () => {
+                  for (let i in this.data) {
+                    if (parseInt(this.data[i].station_id) === parseInt(station_id)) {
+                      this.data.splice(i, 1)
+                      break
+                    }
+                  }
+                }
               })
-              this.$axios.get(`http://${config.serverURL}/stations/`)
-                .then((res) => {
-                  this.data = res.data
-                })
             }
           })
           .catch(err => {

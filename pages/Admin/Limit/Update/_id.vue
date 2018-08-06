@@ -28,7 +28,7 @@
 			</b-field>
 
 			<br/>
-			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="submit()">Save Changes</button>
+			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="validateBeforeSubmit()">Save Changes</button>
 			<router-link to="/Admin/Limit/" 
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
@@ -93,6 +93,13 @@ export default {
 					type: 'is-danger',
 					hasIcon: true
 				})
+			})
+		},
+		validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.submit()
+				}
 			})
 		}
 	},

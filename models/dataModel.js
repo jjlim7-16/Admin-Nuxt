@@ -26,5 +26,10 @@ module.exports = {
 		this.reservedFrom = reservedFrom
 		this.reservedTo = reservedTo
 		this.remarks = remarks
+	},
+	Account: function (account_type_id, username, password) {
+		this.account_type_id = account_type_id
+		this.username = username
+		this.password = password
 	}
 }

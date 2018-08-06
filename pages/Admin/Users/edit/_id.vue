@@ -31,7 +31,8 @@
       </b-field>
 
       <br/>
-      <button class="button is-success is-pulled-right" @click="submit()">Save Changes</button>
+      <button class="button is-success is-pulled-right" :disabled="isDisabled" 
+      @click="submit()">Save Changes</button>
       <router-link to="/Admin/Users/" class="button is-light right-spaced is-pulled-right">Cancel</router-link>
     </div>
   </section>
@@ -52,7 +53,7 @@ export default {
       account_type:'Admin',
       stationId:'',
       account_type_id:'',
-      userList: null
+      curruser: null
     }
   },
   async beforeMount() {
@@ -60,11 +61,11 @@ export default {
     try {
       let res = await this.$axios.get(`http://${config.serverURL}/user/${this.$route.params['id']}`)
       this.crewAccountTypeList.station_name = res.data[1]
-      this.userList = res.data[0]
-      this.username = this.userList.username
-      this.account_type_id = this.userList.account_type_id
-      this.account_type = this.userList.account_type
-      this.stationId = this.userList.station_id
+      this.curruser = res.data[0]
+      this.username = this.curruser.username
+      this.account_type_id = this.curruser.account_type_id
+      this.account_type = this.curruser.account_type
+      this.stationId = this.curruser.station_id
 
       res = await this.$axios.get(`http://${config.serverURL}/user/getAccountTypeCrewList/`)
       this.crewAccountTypeList= res.data
@@ -76,7 +77,7 @@ export default {
             }
           }
         } else {
-          this.data[i].station_name = "NULL"
+          this.data[i].station_name = null
         }
       }
     } catch(err) {
@@ -84,30 +85,52 @@ export default {
     }
   },
   methods:{
-    submit(){
-      if(this.account_type == 'Admin'){
-        this.account_type_id = 1
+    async submit(){
+      let res = await this.$axios.get(`http://${config.serverURL}/user`)
+      let userList = res.data
+      let userExist = false
+      for (let i in userList) {
+        if (userList[i].username.toLowerCase() === this.username.toLowerCase() && 
+        userList[i].user_id != this.$route.params.id) {
+          userExist = true
+          break
+        }
       }
-      let webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
-      console.log(this.account_type_id+this.username+this.password);
-      axios.put(`http://localhost:8000/user/`+ this.$route.params['id'], webFormData)
+      if (userExist) {
+        this.$dialog.alert({
+          title: 'User Exists',
+          message: `Username already exists`,
+          type: 'is-success',
+          hasIcon: true,
+          icon: 'check-circle',
+          iconPack: 'mdi'
+        })
+      }
+      else {
+        let webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+        this.$axios.put(`http://${config.serverURL}/user/`+ this.$route.params['id'], webFormData)
         .then(res => {
           if (res.status === 200) {
-            this.$dialog.alert({
+            this.$dialog.confirm({
               title: 'Edit User',
               message: `User \'${this.username}\' has been successfully edited.`,
               type: 'is-success',
               hasIcon: true,
               icon: 'check-circle',
-              iconPack: 'mdi'
+              iconPack: 'mdi',
+              onConfirm: () => this.$router.go({path: '/Admin/Users', force: true})
             })
-            this.$router.go({path: '/Admin/Users', force: true})
           }
         })
-
         .catch(err => {
           console.log(err)
         })
+      }
+    }
+  },
+  computed: {
+    isDisabled() {
+      return !this.password || !this.confirmPassword || (this.curruser.username === this.username)
     }
   }
 }

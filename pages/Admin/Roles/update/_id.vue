@@ -52,7 +52,7 @@
 			<br>
 			<!-- Add Role button -->
 			<button class="button is-success is-pulled-right"
-			:disabled="isDisabled" @click="submit()">Save Changes</button>
+			:disabled="isDisabled" @click="validateBeforeSubmit()">Save Changes</button>
 			<router-link to="/Admin/Roles/"
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
@@ -85,7 +85,7 @@ export default {
 			this.stationId = this.currRole.station_id
 
 
-			res = await this.$axios.get(`http://${config.serverURL}/roles/getImage/${this.$route.params['id']}`, {
+			res = await this.$axios.get(`http://${config.serverURL}/image/getRoleImage/${this.$route.params['id']}`, {
 				responseType: 'blob'
 			})
 			let file = new File([res.data], 'image.png', { type: 'image/png' })
@@ -147,6 +147,13 @@ export default {
 					console.log(err)
 				})
 			}
+		},
+		validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.submit()
+				}
+			})
 		}
 	}
 }
