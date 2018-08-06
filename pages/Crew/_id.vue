@@ -1,5 +1,5 @@
 <template>
-  <section id="content"  class="box">
+  <section id="content" class="box">
     <h1>{{ stationName }}</h1>
     <b-field grouped>
       <b-field expanded>
@@ -258,15 +258,10 @@ export default {
             var day = new Date();
             self.bookingList[i].time_in = moment(day).format("HH:mm");
             self.$axios
-              .put(
-                `http://${
-                  config.serverURL
-                }/bookings/updateStatus/${booking_id}`,
-                {
-                  booking_status: "Admitted"
-                }
-              )
-              .then(res => {
+              .put(`http://${config.serverURL}/bookings/updateStatus/${booking_id}`, {
+                booking_status: "Admitted"
+              })
+              .then(() => {
                 // console.log(res.data)
               })
               .catch(() => {
@@ -309,6 +304,7 @@ export default {
             });
         }
       } else {
+        console.log(e.key)
         scannedArray.push(e.key);
       }
     };
