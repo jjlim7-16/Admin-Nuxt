@@ -19,7 +19,7 @@
 
 			<template slot-scope="props">
 				<b-table-column field="username" label="Username"  sortable>
-					<span v-if="$store.state.auth.user.user_id === props.row.user_id">{{ props.row.username + ' (you)' }}</span>
+					<span v-if="$store.state.auth.user.user_id === props.row.user_id">{{ props.row.username + ' (me)' }}</span>
 					<span v-else>{{ props.row.username }}</span>
 				</b-table-column>
 

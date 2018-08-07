@@ -64,11 +64,11 @@
 				<b-input maxlength="500" type="textarea" name="remarks" v-validate="'required'"
 				data-vv-as="'Remarks'" v-model="remarks"></b-input>
 			</b-field>
-			
+
 			<div class="grouped-button is-clearfix">
-				<button class="button is-success is-pulled-right" :disabled="isDisabled" 
-				@click="validateBeforeSubmit()">Submit</button>
-				<router-link to="/Admin/Reservations/" 
+				<button class="button is-success is-pulled-right" :disabled="isDisabled"
+				@click="validateBeforeSubmit()">Save Changes</button>
+				<router-link to="/Admin/Reservations/"
 				class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 			</div>
 		</div>
@@ -97,7 +97,7 @@ export default {
 		}
 	},
 	async mounted() {
-		this.$store.commit('setPageTitle', 'Change Reservation')
+		this.$store.commit('setPageTitle', 'Edit Reservation')
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.roleList = res.data[0]
 		this.stationList = res.data[1]
