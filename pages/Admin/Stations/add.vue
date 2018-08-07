@@ -152,7 +152,7 @@ const ModalForm = {
 					}
 				}
 			}
-			let res = this.$axios.get(`http:${config.serverURL}/roles`)
+			let res = await this.$axios.get(`http://${config.serverURL}/roles`)
 			let fullRoleList = res.data[0]
 			for (var i in fullRoleList) {
 				if (fullRoleList[i].role_name.toLowerCase() === this.roleName.trim().toLowerCase()) {
@@ -223,7 +223,7 @@ export default {
 			files: [],
 		}
 	},
-	beforeMount() {
+	mounted() {
 		this.$store.commit('setPageTitle', 'Add Station')
 	},
 	methods: {

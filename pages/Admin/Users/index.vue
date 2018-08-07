@@ -67,8 +67,8 @@ export default {
 			stationList: null
 		}
 	},
-	async beforeMount() {
-		let res = await this.$axios.get(`http://${config.serverURL}/user/`)
+	async mounted() {
+		let res = await this.$axios.get(`http://${config.serverURL}/user/getFilteredUsers`)
 		this.data = res.data
 		this.$store.commit('setPageTitle', 'Manage Users')
 	},

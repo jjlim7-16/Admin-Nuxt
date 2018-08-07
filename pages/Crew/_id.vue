@@ -346,7 +346,7 @@ export default {
   destroyed() {
     socket.close();
   },
-  beforeMount() {
+  mounted() {
     //set page title
     //this.$store.commit("setPageTitle", "{{StationName}}");
     socket = io.socketio.connect(`http://${config.serverURL}/crew`);

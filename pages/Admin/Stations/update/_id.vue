@@ -100,7 +100,7 @@ export default {
 			origData: null
 		}
 	},
-	async beforeMount() {
+	async mounted() {
 		this.$store.commit('setPageTitle', 'Update Station')
 
 		try {

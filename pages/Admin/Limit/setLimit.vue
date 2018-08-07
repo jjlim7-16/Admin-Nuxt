@@ -67,7 +67,7 @@ export default {
 			date: new Date()
 		}
 	},
-	async beforeMount() {
+	async mounted() {
 		this.$store.commit('setPageTitle', 'Set New Limit')
 
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)

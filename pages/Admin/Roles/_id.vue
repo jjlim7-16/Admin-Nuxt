@@ -72,7 +72,7 @@ export default {
 			stationList: []
 		}
 	},
-	async beforeMount() {
+	async mounted() {
 		this.$store.commit('setPageTitle', 'Manage Roles')
 
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)

@@ -91,7 +91,7 @@ export default {
 			date: new Date()
 		}
 	},
-	async beforeMount() {
+	async mounted() {
 		this.$store.commit('setPageTitle', 'Manage Reservations')
 
 		let res = await this.$axios.get(`http://${config.serverURL}/reservations/`)

@@ -56,7 +56,7 @@ export default {
       stationId: null
     };
   },
-  async beforeMount() {
+  async mounted() {
     this.$store.commit("setPageTitle", "Dashboard");
     let res = await this.$axios.get(`http://${config.serverURL}/roles/`);
     this.stationList = res.data[1];

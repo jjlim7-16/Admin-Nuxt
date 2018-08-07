@@ -65,11 +65,12 @@
 				data-vv-as="'Remarks'" v-model="remarks"></b-input>
 			</b-field>
 			
-			<br/>
-			<button class="button is-success is-pulled-right" :disabled="isDisabled" 
-			@click="validateBeforeSubmit()">Submit</button>
-			<router-link to="/Admin/Reservations/" 
-			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
+			<div class="grouped-button is-clearfix">
+				<button class="button is-success is-pulled-right" :disabled="isDisabled" 
+				@click="validateBeforeSubmit()">Submit</button>
+				<router-link to="/Admin/Reservations/" 
+				class="button is-light is-pulled-right right-spaced">Cancel</router-link>
+			</div>
 		</div>
 	</section>
 </template>
@@ -95,7 +96,7 @@ export default {
 			date: new Date()
 		}
 	},
-	async beforeMount() {
+	async mounted() {
 		this.$store.commit('setPageTitle', 'Make Reservation')
 
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
@@ -177,5 +178,9 @@ export default {
 <style scoped>
 .right-spaced {
   margin-right: 1.5vw;
+}
+
+.grouped-button {
+	margin-bottom: 3vh;
 }
 </style>

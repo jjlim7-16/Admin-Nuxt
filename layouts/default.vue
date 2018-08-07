@@ -137,7 +137,7 @@ export default {
       this.menuIsActive = !this.menuIsActive;
     }
   },
-  beforeMount() {
+  mounted() {
     this.heightOfBrowser = window.innerHeight/7
   }
 }
@@ -259,7 +259,7 @@ html {
 #content {
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
   background-color: white;
-  height: 80%;
+  height: 80vh;
   margin: 2vw;
   overflow-y: auto;
 }

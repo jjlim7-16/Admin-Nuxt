@@ -63,7 +63,7 @@ export default {
 			}
     }
   },
-  beforeMount() {
+  mounted() {
     if (this.$store.state.loggedIn === true) {
       console.log('Is Logged In')
       const user = this.$store.state.user

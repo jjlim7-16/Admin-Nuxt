@@ -56,7 +56,7 @@ export default {
 			date: new Date()
 		}
 	},
-	async beforeMount() {
+	async mounted() {
 		this.$store.commit('setPageTitle', 'Edit Limit')
 		
 		let res = await this.$axios.get(`http://${config.serverURL}/limit/${this.$route.params['id']}`)

@@ -95,7 +95,7 @@ export default {
 			date: null
 		}
 	},
-	async beforeMount() {
+	async mounted() {
 		this.$store.commit('setPageTitle', 'Change Reservation')
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.roleList = res.data[0]

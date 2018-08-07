@@ -75,7 +75,7 @@ export default {
 			serverURL: config.serverURL
 		}
 	},
-	async beforeMount() {
+	async mounted() {
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.stationList = res.data[1]
 		this.roleList = res.data[0]
@@ -100,11 +100,17 @@ export default {
 	methods: {
 		async submit() {
 			let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
-			this.roleList = res.data[0]
-			if (this.roleList.find(i => i.role_name === this.roleName.trim())) {
+			let roleList = res.data[0]
+			let roleExists = false
+			for (let i in roleList) {
+				if (roleList[i].role_name.toLowerCase() === this.roleName.trim().toLowerCase()) {
+					roleExists = true
+				}
+			}
+			if (roleExists) {
 				this.$dialog.alert({
 					title: "Role Exists",
-					message: `Error! The Role \'${this.roleName}\' Already Exists`,
+					message: `Error! The Role: \'${this.roleName}\' Already Exists`,
 					type: "is-danger",
 					hasIcon: true
 				})
