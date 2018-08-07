@@ -104,7 +104,7 @@ export default {
 		}
 	},
 	async mounted() {
-		this.$store.commit('setPageTitle', 'Update Station')
+		this.$store.commit('setPageTitle', 'Edit Station')
 
 		try {
 			let res = await this.$axios.get(`http://${config.serverURL}/stations/` + this.$route.params['id'])
