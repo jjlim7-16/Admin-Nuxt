@@ -104,39 +104,48 @@ export default {
 		this.stationList = res.data[1]
 	},
 	methods: {
-		submit() {
-			let reservedFrom = moment(this.start, 'HH:mm').format('HH:mm')
-			let reservedTo = moment(this.end, 'HH:mm').format('HH:mm')
-			let date = moment(this.date).format('YYYY-MM-DD')
-			let roleName = this.roleList.find(i => i.role_id === this.roleId).role_name
-			let webFormData = new DataModel.Reservation(date, this.stationId, this.roleId,
-				reservedFrom, reservedTo, this.remarks)
-
-			this.$axios.post(`http://${config.serverURL}/reservations/`, webFormData)
-			.then(res => {
-				if (res.status === 200) {
-					this.$dialog.alert({
-						title: 'Reservation',
-						message: `A new reservation on \'${date}\' has been made for the role \'${roleName}\'
-						from ${reservedFrom} to ${reservedTo}.`,
-						type: 'is-success',
-						hasIcon: true,
-						icon: 'check-circle',
-						iconPack: 'mdi',
-						onConfirm: () => this.$router.push('/Admin/Reservations')
-					})
-				}
-			})
-			.catch(err => {
-				if (err.response.data.message) {
-					this.$dialog.alert({
-						title: 'Error',
-						message: `Error! ${err.response.data.message}`,
-						type: 'is-danger',
-						hasIcon: true
-					})
-				}
-			})
+		submit(reservedFrom) {
+			if (moment(reservedFrom, 'HH:mm').isAfter(moment(new Date(), 'HH:mm'))) {
+				this.$dialog.alert({
+					title: 'Error',
+					message: `The selected time period is past. Please select a valid time period.`,
+					type: 'is-danger',
+					hasIcon: true
+				})
+			}
+			else {
+				let reservedFrom = moment(this.start, 'HH:mm').format('HH:mm')
+				let reservedTo = moment(this.end, 'HH:mm').format('HH:mm')
+				let date = moment(this.date).format('YYYY-MM-DD')
+				let roleName = this.roleList.find(i => i.role_id === this.roleId).role_name
+				let webFormData = new DataModel.Reservation(date, this.stationId, this.roleId,
+					reservedFrom, reservedTo, this.remarks)
+				this.$axios.post(`http://${config.serverURL}/reservations/`, webFormData)
+				.then(res => {
+					if (res.status === 200) {
+						this.$dialog.alert({
+							title: 'Reservation',
+							message: `A new reservation on \'${date}\' has been made for the role \'${roleName}\'
+							from ${reservedFrom} to ${reservedTo}.`,
+							type: 'is-success',
+							hasIcon: true,
+							icon: 'check-circle',
+							iconPack: 'mdi',
+							onConfirm: () => this.$router.push('/Admin/Reservations')
+						})
+					}
+				})
+				.catch(err => {
+					if (err.response.data.message) {
+						this.$dialog.alert({
+							title: 'Error',
+							message: `Error! ${err.response.data.message}`,
+							type: 'is-danger',
+							hasIcon: true
+						})
+					}
+				})
+			}
 		},
 		async getSessionList() {
 			let res = await this.$axios.get(`http://${config.serverURL}/reservations/getSessionList/${this.roleId}`)

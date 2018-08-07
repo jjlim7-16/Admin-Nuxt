@@ -9,7 +9,7 @@
 
 		<!-- Filter by Station -->
 		<b-field grouped group-multiline>
-			<b-select v-model="filter" rounded>
+			<b-select v-model="filter" placeholder="Filter By Stations" rounded>
 				<option value="All">All Stations</option>
 				<option v-for="station in stationList" :key="station.station_name">
 					{{station.station_name}}
@@ -68,7 +68,7 @@ export default {
 			perPage: 5,
 			paginated: true,
 			data: [],
-			filter: 'All',
+			filter: null,
 			stationList: []
 		}
 	},
@@ -85,7 +85,7 @@ export default {
 	},
 	computed: {
 		filteredData: function() {
-			if (this.filter === 'All') {
+			if (this.filter === 'All' || !this.filter) {
 				return this.data
 			}
 			return this.data.filter(i => i.station_name === this.filter)
