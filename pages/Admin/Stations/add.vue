@@ -267,7 +267,8 @@ export default {
 						if (res.status === 200) {
 							this.$dialog.alert({
 								title: 'Add Station',
-								message: `A new station \'${this.name}\' has been successfully added.`,
+								message: `New station \'${this.name}\' has been successfully added. 
+													Please make sure to add a crew account associated to this station.`,
 								type: 'is-success',
 								hasIcon: true,
 								icon: 'check-circle',
