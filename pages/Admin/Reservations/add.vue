@@ -105,7 +105,8 @@ export default {
 	},
 	methods: {
 		submit(reservedFrom) {
-			if (moment(reservedFrom, 'HH:mm').isAfter(moment(new Date(), 'HH:mm'))) {
+			if (moment(reservedFrom, 'HH:mm').isAfter(moment(new Date(), 'HH:mm')) && 
+			moment(this.date, 'YYYY-MM-DD').diff(moment(new Date(), 'YYYY-MM-DD'), 'days') === 0) {
 				this.$dialog.alert({
 					title: 'Error',
 					message: `The selected time period is past. Please select a valid time period.`,
