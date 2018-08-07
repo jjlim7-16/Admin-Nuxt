@@ -23,7 +23,7 @@
 			:per-page="perPage"
 			:current-page.sync="currentPage"
 			:default-sort-direction="'asc'"
-			:default-sort="['session_date', 'asc']">
+			:default-sort="['session_date', 'desc']">
 
 			<template slot-scope="props">
 				<b-table-column field="session_date" label="Date" sortable>
