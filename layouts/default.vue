@@ -1,6 +1,5 @@
 <template>
 <div id="app" class="columns">
-
   <!-- side navigation bar -->
   <div class="column is-2 is-hidden-touch" id="nav">
     <aside class="sidebar menu">

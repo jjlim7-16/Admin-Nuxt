@@ -13,7 +13,8 @@
 						<b-timepicker v-model="startTime"
 							:min-time='minTime'
 							:max-time='maxTime'
-							:increment-minutes=10>
+							:increment-minutes=10
+							@input="changeTime = true">
 						</b-timepicker>
 					</b-field>
 				</div>
@@ -23,7 +24,8 @@
 						<b-timepicker v-model="endTime"
 							:min-time='minTime'
 							:max-time='maxTime'
-							:increment-minutes=10>
+							:increment-minutes=10
+							@input="changeTime = true">
 						</b-timepicker>
 					</b-field>
 				</div>
@@ -94,6 +96,7 @@ export default {
 			maxTime: max,
 			startTime: min,
 			endTime: max,
+			changeTime: false,
 			duration: 15,
 			files: [],
 			imageChanged: false,
@@ -183,7 +186,17 @@ export default {
 		validateBeforeSubmit() {
 			this.$validator.validateAll().then(res => {
 				if (res) {
-					this.submit()
+					if (this.changeTime && moment(new Date()).isBetween(moment(this.startTime, 'HH:mm'), moment(this.endTime, 'HH:mm'))) {
+						this.$dialog.alert({
+							title: `Alert`,
+							message: `Change of operating hours is not allowed during operation`,
+							type: 'is-danger',
+							hasIcon: true
+						})
+					}
+					else {
+						this.submit()
+					}
 				}
 			})
 		}

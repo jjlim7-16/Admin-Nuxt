@@ -122,7 +122,7 @@ export default {
 			let action = (newActiveStatus === 1) ? 'Activate' : 'Deactivate'
 			if (moment(new Date(), 'HH:mm').isBetween(moment(station_start, 'HH:mm'), moment(station_end, 'HH:mm'))) {
 				this.$dialog.alert({
-          title: `Warning`,
+          title: `Alert`,
 					message: `Activating/Deactivating of station is not allowed during operating hours of the station`,
           type: 'is-danger',
 					hasIcon: true

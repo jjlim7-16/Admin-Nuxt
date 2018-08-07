@@ -19,7 +19,8 @@
 
 			<template slot-scope="props">
 				<b-table-column field="username" label="Username"  sortable>
-					{{ props.row.username }}
+					<span v-if="$store.state.auth.user.user_id === props.row.user_id">{{ props.row.username + ' (you)' }}</span>
+					<span v-else>{{ props.row.username }}</span>
 				</b-table-column>
 
 				<b-table-column field="role" label="User Role" sortable>
@@ -41,7 +42,7 @@
 							<router-link :to="`/Admin/Users/edit/${props.row.user_id}`">Edit</router-link>
 						</b-dropdown-item>
 
-						<b-dropdown-item style="text-align: left" has-link paddingless>
+						<b-dropdown-item style="text-align: left" has-link>
 							<a @click="deleteAccount(props.row.user_id, props.row.account_type)">Delete</a>
 						</b-dropdown-item>
 					</b-dropdown>

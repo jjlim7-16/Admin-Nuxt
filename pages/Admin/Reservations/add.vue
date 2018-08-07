@@ -152,7 +152,7 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-			return !this.start || !this.end || !this.date || !this.roleId || !this.stationId
+			return !this.start || !this.end || !this.date || !this.roleId || !this.stationId || !this.remarks
 		},
 		filterRoles() {
 			if (this.stationId) {

@@ -65,11 +65,12 @@
 				data-vv-as="'Remarks'" v-model="remarks"></b-input>
 			</b-field>
 			
-			<br/>
-			<button class="button is-success is-pulled-right" :disabled="isDisabled" 
-			@click="validateBeforeSubmit()">Save Changes</button>
-			<router-link to="/Admin/Reservations/" 
-			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
+			<div class="grouped-button is-clearfix">
+				<button class="button is-success is-pulled-right" :disabled="isDisabled" 
+				@click="validateBeforeSubmit()">Submit</button>
+				<router-link to="/Admin/Reservations/" 
+				class="button is-light is-pulled-right right-spaced">Cancel</router-link>
+			</div>
 		</div>
 	</section>
 </template>
@@ -122,14 +123,15 @@ export default {
 			this.$axios.put(`http://${config.serverURL}/reservations/${this.$route.params.id}`, webFormData)
 			.then(res => {
 				if (res.status === 200) {
-					this.$dialog.alert({
+					this.$dialog.confirm({
 						title: 'Change Reservation',
 						message: `Reservation has been successfully changed for the role \'${roleName}\'
 						from ${reservedFrom} to ${reservedTo}.`,
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
-						iconPack: 'mdi'
+						iconPack: 'mdi',
+						onConfirm: () => this.$router.push('/Admin/Reservations')
 					})
 				}
 			})
@@ -186,5 +188,8 @@ export default {
 <style scoped>
 .right-spaced {
   margin-right: 1.5vw;
+}
+.grouped-button {
+	margin-bottom: 3vh;
 }
 </style>
