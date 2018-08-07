@@ -93,7 +93,8 @@ export default {
 			end: null,
 			remarks: '',
 			minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
-			date: null
+			date: null,
+			origData: null
 		}
 	},
 	async mounted() {
@@ -103,13 +104,14 @@ export default {
 		this.stationList = res.data[1]
 
 		res = await this.$axios.get(`http://${config.serverURL}/reservations/${this.$route.params.id}`)
-		this.stationId = res.data[0].station_id
-		this.roleId = res.data[0].role_id
+		this.origData = res.data[0]
+		this.stationId = this.origData.station_id
+		this.roleId = this.origData.role_id
 
-		this.date = new Date(res.data[0].session_date)
-		this.start = res.data[0].reservedFrom
-		this.end = res.data[0].reservedTo
-		this.remarks = res.data[0].remarks
+		this.date = new Date(this.origData.session_date)
+		this.start = this.origData.reservedFrom
+		this.end = this.origData.reservedTo
+		this.remarks = this.origData.remarks
 	},
 	methods: {
 		submit() {
@@ -162,7 +164,12 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-			return !this.start || !this.end || !this.date || !this.roleId || !this.stationId
+			if (this.origData) {
+				return (this.origData.reservedFrom === this.start && this.origData.reservedTo === this.end
+				&& moment(new Date(this.origData.session_date), 'YYYY-MM-DD').diff(moment(this.date, 'YYYY-MM-DD'), 'days') === 0
+				&& this.origData.role_id === this.roleId && this.origData.station_id === this.stationId) ||
+				!this.start || !this.end || !this.date || !this.roleId || !this.stationId
+			}
 		},
 		filterRoles() {
 			if (this.stationId) {

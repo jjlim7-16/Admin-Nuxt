@@ -53,19 +53,21 @@ export default {
 			stationId: null,
 			stationList: null,
 			minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
-			date: new Date()
+			date: new Date(),
+			origData: null
 		}
 	},
 	async mounted() {
 		this.$store.commit('setPageTitle', 'Edit Limit')
 
 		let res = await this.$axios.get(`http://${config.serverURL}/limit/${this.$route.params['id']}`)
-		this.roleId = res.data[0].role_id
-		this.roleName = res.data[0].role_name
-		this.stationName = res.data[0].station_name
-		this.stationId = res.data[0].station_id
-		this.date = new Date(res.data[0].session_date)
-		this.limit = res.data[0].booking_limit
+		this.origData = res.data[0]
+		this.roleId = this.origData.role_id
+		this.roleName = this.origData.role_name
+		this.stationName = this.origData.station_name
+		this.stationId = this.origData.station_id
+		this.date = new Date(this.origData.session_date)
+		this.limit = this.origData.booking_limit
 	},
 	methods: {
 		submit() {
@@ -105,7 +107,11 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-			return !this.limit || !this.date || !this.roleId || !this.stationId
+			if (this.origData) {
+				return (moment(new Date(this.origData.session_date), 'YYYY-MM-DD').diff(moment(this.date, 'YYYY-MM-DD'), 'days') === 0
+				&& this.origData.booking_limit === this.limit) ||
+				!this.limit || !this.date || !this.roleId || !this.stationId
+			}
 		}
 	}
 }
