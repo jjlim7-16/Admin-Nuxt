@@ -6,28 +6,36 @@
 			data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'" rounded></b-input>
 		</b-field>
 
-		<div class="columns">
-			<div class="column is-half">
-				<b-field label="Select Start Time">
-					<b-timepicker v-model="startTime" :min-time='minTime' :max-time='maxTime' :increment-minutes='10' rounded></b-timepicker>
-				</b-field>
-			</div>
-
-			<div class="column is-half">
-				<b-field label="Select End Time">
-					<b-timepicker v-model="endTime" :min-time='minTime' :max-time='maxTime' :increment-minutes='10' rounded></b-timepicker>
-				</b-field>
-			</div>
-		</div>
-
 		<b-field label='Duration'>
-			<b-select expanded placeholder='Select Activity Duration' v-model="duration" rounded>
+			<b-select expanded placeholder='Select Activity Duration' @input="getTimeList" v-model="duration" rounded>
 				<option value="15">15 mins</option>
 				<option value="20">20 mins</option>
 				<option value="25">25 mins</option>
 				<option value="30">30 mins</option>
 			</b-select>
 		</b-field>
+
+		<div class="columns">
+				<div class="column is-half">
+					<b-field label='Select Start Time'>
+						<b-select expanded placeholder="Select Start Time" v-model="startTime" rounded>
+							<option v-for="start in filterStartTime" :value="start" :key="start.session_start">
+								{{ start }}
+							</option>
+						</b-select>
+					</b-field>
+				</div>
+
+				<div class="column is-half">
+					<b-field label='Select End Time'>
+						<b-select expanded placeholder="Select End Time" v-model="endTime" rounded>
+							<option v-for="end in filterEndTime" :value="end" :key="end">
+								{{ end }}
+							</option>
+						</b-select>
+					</b-field>
+				</div>
+			</div>
 
 		<b-field label="Description" :type="errors.has('description') ? 'is-danger': ''"
 			:message="errors.has('description') ? errors.first('description') : ''">
@@ -219,13 +227,15 @@ export default {
 			duration: 15,
 			minTime: min,
 			maxTime: max,
-			startTime: min,
-			endTime: max,
+			startTime: null,
+			endTime: null,
+			timeList: [],
 			files: [],
 		}
 	},
 	mounted() {
 		this.$store.commit('setPageTitle', 'Add Station')
+		this.getTimeList()
 	},
 	methods: {
 		async submit() {
@@ -292,6 +302,14 @@ export default {
 		removeRole(role) {
 			this.roles.splice(this.roles.findIndex(i => i.roleName === role.roleName), 1)
 			roleList = this.roles;
+		},
+		getTimeList() {
+			this.timeList = []
+			let currTime = moment(this.minTime, 'HH:mm')
+			while (currTime <= moment(this.maxTime, 'HH:mm')) {
+				this.timeList.push(currTime.format('HH:mm'))
+				currTime.add(this.duration, 'minutes')
+			}
 		}
 	},
 	computed: {
@@ -305,6 +323,18 @@ export default {
 			if (this.files) {
 				return URL.createObjectURL(this.files[0])
 			}
+		},
+		filterStartTime() {
+			if (this.endTime) {
+				return this.timeList.filter(i => moment(i, 'HH:mm').isBefore(moment(this.endTime, 'HH:mm')))
+			}
+			return this.timeList.slice(0, -1)
+		},
+		filterEndTime() {
+			if (this.startTime) {
+				return this.timeList.filter(i => moment(i, 'HH:mm').isAfter(moment(this.startTime, 'HH:mm')))
+			}
+			return this.timeList.slice(0)
 		}
 	},
 	beforeUpdate() {
