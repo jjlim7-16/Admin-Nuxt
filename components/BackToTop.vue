@@ -32,7 +32,7 @@ export default {
         window.scrollTo(0, Math.floor(currentScroll - (currentScroll / 5)))
       }
     }
-    window.addEventListener('scroll', this.catchScroll)
+    window.addEventListener('scroll', this.catchScroll, true)
   },
   destroyed() {
     window.removeEventListener('scroll', this.catchScroll)
@@ -43,6 +43,8 @@ export default {
      * @return {void}
      */
     catchScroll() {
+      console.log(window.pageYOffset)
+      console.log(window.innerHeight)
       this.visible = (window.pageYOffset > parseInt(this.visibleoffset))
     },
     /**
@@ -70,6 +72,8 @@ export default {
   position: fixed;
   z-index: 1000;
   cursor: pointer;
+  bottom: 4%;
+  right: 3%;
 }
 
 .vue-back-to-top .default {

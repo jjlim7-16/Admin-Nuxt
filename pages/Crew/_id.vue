@@ -10,7 +10,7 @@
       </b-field>
 
 
-      <b-field expanded class="column is-10" >
+      <b-field expanded class="column is-10"  >
       <b-input placeholder="Search for a queue number"
                type="search"
                icon="magnify"
@@ -40,7 +40,8 @@
         </b-table-column>
 
         <b-table-column field="time_in" label="Time in" centered  sortable>
-          {{ props.row.time_in }}
+          <span v-if="props.row.time_in">{{ props.row.time_in.substr(props.row.time_in,5) }}</span>
+          <span v-else>-</span>
         </b-table-column>
 
         <b-table-column field="booking_status" label="Status" centered  sortable>
@@ -85,7 +86,8 @@ export default {
     setRefresh() {
       if (this.sessionStartTime != null) {
         var day = new Date();
-        var currentTime = new moment("14:54", "HH:mm");
+        var currentTime = new moment(day, "HH:mm");
+        //var currentTime = new moment("14:54", "HH:mm");
         console.log(this.sessionEndTime);
         var refreshTime = new moment(this.sessionEndTime, "HH:mm").subtract(
           5,
@@ -128,6 +130,7 @@ export default {
   },
   data() {
     return {
+      isExist: false,
       isFocus: false,
       bookingList: [],
       sessionStartTime: "",
@@ -224,7 +227,6 @@ export default {
   },
   mounted() {
     let self = this;
-    var isExist = false;
 
     window.onkeypress = function(e) {
       console.log(self.isFocus);
@@ -235,13 +237,19 @@ export default {
           console.log(scannedID);
           for (var i in self.bookingList) {
             console.log("inside for loop");
+            console.log(self.bookingList[i].rfid);
             if (self.bookingList[i].rfid == scannedID) {
-              isExist = true;
+              self.isExist = true;
               var booking_id = self.bookingList[i].booking_id;
               self.bookingList[i].booking_status = "Admitted";
-              // socket.emit("admitted", booking_id); //socket
+
               var day = new Date();
-              self.bookingList[i].time_in = moment(day).format("HH:mm");
+              var time_in = moment(day).format("HH:mm");
+              self.bookingList[i].time_in = time_in;
+              socket.emit("admitted", {
+                bookingid: booking_id,
+                timein: time_in
+              }); //socket
               self.$axios
                 .put(
                   `http://${
@@ -260,12 +268,15 @@ export default {
                 });
             }
           }
-          if (isExist == false) {
+          console.log(self.isExist);
+          if (self.isExist == false) {
+            console.log("customer not exist");
             //check whether the user have another booking which is not cancelled and after current time
             self.$axios
               .get(`http://${config.serverURL}/bookings/rfid/${scannedID}`)
               .then(res => {
                 let data = res.data[0];
+                console.log(data);
                 if (res.data.length == 0) {
                   //if no booking then display error message
                   console.log("toast");
@@ -338,11 +349,16 @@ export default {
     socket.close();
   },
   beforeMount() {
-    //set page title
-    //this.$store.commit("setPageTitle", "{{StationName}}");
     socket = io.socketio.connect(`http://${config.serverURL}/crew`);
-    socket.on("newAdmission", booking_id => {
-      this.noOfBookings = data;
+    socket.on("newAdmission", data => {
+      for (var i in this.bookingList) {
+        if (this.bookingList[i].booking_id == data.booking_id) {
+          this.bookingList[i].booking_status = "Admitted";
+          this.bookingList[i].time_in = data.time_in;
+          console.log(moment(day).format("HH:mm"));
+          console.log(this.bookingList[i]);
+        }
+      }
     });
   }
 };

@@ -101,7 +101,7 @@
       </header>
 
     <nuxt/>
-    <BackToTop :visibleoffset="heightOfBrowser" style=""></BackToTop>
+    <BackToTop :visibleoffset="heightOfBrowser"></BackToTop>
 
   </aside>
 
@@ -260,15 +260,8 @@ html {
   background-color: white;
   height: 80vh;
   margin: 2vw;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
-
-
-.vue-back-to-top {
-  bottom: 4%;
-  right: 3%;
-}
-
 
 @media only screen and (min-width:320px) and (max-width:840px) and (orientation:portrait) {
   html {
@@ -294,11 +287,11 @@ html {
   #content {
     margin: 0;
     width: 100vw;
-    min-height: 93%;
+    min-height: 100vh;
+    height: auto;
   }
   .myContent {
     width: 100% !important;
-    height: 100vh;
   }
   hr {
     margin: 0.2rem;
