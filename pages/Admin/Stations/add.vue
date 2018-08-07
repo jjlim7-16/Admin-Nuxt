@@ -16,26 +16,26 @@
 		</b-field>
 
 		<div class="columns">
-				<div class="column is-half">
-					<b-field label='Select Start Time'>
-						<b-select expanded placeholder="Select Start Time" v-model="startTime" rounded>
-							<option v-for="start in filterStartTime" :value="start" :key="start.session_start">
-								{{ start }}
-							</option>
-						</b-select>
-					</b-field>
-				</div>
-
-				<div class="column is-half">
-					<b-field label='Select End Time'>
-						<b-select expanded placeholder="Select End Time" v-model="endTime" rounded>
-							<option v-for="end in filterEndTime" :value="end" :key="end">
-								{{ end }}
-							</option>
-						</b-select>
-					</b-field>
-				</div>
+			<div class="column is-half">
+				<b-field label='Select Start Time'>
+					<b-select expanded placeholder="Select Start Time" v-model="startTime" rounded>
+						<option v-for="start in filterStartTime" :value="start" :key="start">
+							{{ start }}
+						</option>
+					</b-select>
+				</b-field>
 			</div>
+
+			<div class="column is-half">
+				<b-field label='Select End Time'>
+					<b-select expanded placeholder="Select End Time" v-model="endTime" rounded>
+						<option v-for="end in filterEndTime" :value="end" :key="end">
+							{{ end }}
+						</option>
+					</b-select>
+				</b-field>
+			</div>
+		</div>
 
 		<b-field label="Description" :type="errors.has('description') ? 'is-danger': ''"
 			:message="errors.has('description') ? errors.first('description') : ''">
