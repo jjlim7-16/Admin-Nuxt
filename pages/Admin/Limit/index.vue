@@ -2,7 +2,7 @@
 	<section id="content" class="box">
 
 		<!-- Set Limit button -->
-		<router-link to="/Admin/Limit/setLimit" tag="button" id="setLimitBtn" class="button is-primary">
+		<router-link to="/Admin/Limit/Add" tag="button" id="setLimitBtn" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
 			<span>Set Limit</span>
 		</router-link>

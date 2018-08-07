@@ -1,7 +1,7 @@
 <template>
 <section id="content" class="box">
 	<!-- Add Station button -->
-	<router-link to="/Admin/Stations/add" tag="button" id="addStationBtn" class="button is-primary">
+	<router-link to="/Admin/Stations/Add" tag="button" id="addStationBtn" class="button is-primary">
 		<b-icon icon="plus-circle"></b-icon>
 		<span>Add Station</span>
 	</router-link>
@@ -58,10 +58,10 @@
 					<hr />
 
 					<b-dropdown-item style="text-align: left" has-link paddingless>
-						<a v-if="props.row.is_active === 1" @click="updateStationStatus(props.row.station_id, 0, 
+						<a v-if="props.row.is_active === 1" @click="updateStationStatus(props.row.station_id, 0,
 						props.row.station_start, props.row.station_end)">Deactivate</a>
-						
-						<a v-else-if="props.row.is_active === 0" @click="updateStationStatus(props.row.station_id, 1, 
+
+						<a v-else-if="props.row.is_active === 0" @click="updateStationStatus(props.row.station_id, 1,
 						props.row.station_start, props.row.station_end)">Activate</a>
 					</b-dropdown-item>
 				</b-dropdown>
@@ -135,7 +135,7 @@ export default {
 					confirmText: `${action} Station`,
 					type: 'is-danger',
 					hasIcon: true,
-					onConfirm: () => 
+					onConfirm: () =>
 					this.$axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
 						.then(res => {
 							if (res.status === 200) {
@@ -163,7 +163,7 @@ export default {
 				confirmText: 'Delete Station',
 				type: 'is-danger',
 				hasIcon: true,
-				onConfirm: () => 
+				onConfirm: () =>
 				this.$axios.delete(`http://${config.serverURL}/stations/${station_id}`)
 				.then(res => {
 					if (res.status === 200) {

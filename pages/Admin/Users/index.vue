@@ -1,6 +1,6 @@
 <template>
 	<section id="content" class="box">
-		<router-link to="/Admin/Users/add" tag="button" class="button is-primary is-pulled-right" id="btnAddUser">
+		<router-link to="/Admin/Users/Add" tag="button" class="button is-primary is-pulled-right" id="btnAddUser">
 			<b-icon icon="plus-circle"></b-icon>
 			<span>Add User</span>
 		</router-link>
@@ -39,7 +39,7 @@
 						</button>
 
 						<b-dropdown-item style="text-align: left" has-link>
-							<router-link :to="`/Admin/Users/edit/${props.row.user_id}`">Edit</router-link>
+							<router-link :to="`/Admin/Users/Update/${props.row.user_id}`">Edit</router-link>
 						</b-dropdown-item>
 
 						<b-dropdown-item style="text-align: left" has-link>

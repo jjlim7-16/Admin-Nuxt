@@ -1,7 +1,7 @@
 <template>
 	<section id="content" class="box columns is-multiline">
 		<div class="column is-7">
-			<b-field label="Select Date*">
+			<b-field label="Select Date">
 				<b-datepicker
 					placeholder="Click to select..."
 					icon="calendar-today"
@@ -11,11 +11,11 @@
 				</b-datepicker>
 			</b-field>
 
-			<b-field label='Select Station*'>
+			<b-field label='Select Station'>
 				<b-input disabled v-model="stationName" rounded></b-input>
 			</b-field>
-			
-			<b-field label='Select Role*'>
+
+			<b-field label='Select Role'>
 				<b-input disabled v-model="roleName" rounded></b-input>
 			</b-field>
 
@@ -29,7 +29,7 @@
 
 			<br/>
 			<button class="button is-success is-pulled-right" :disabled="isDisabled" @click="validateBeforeSubmit()">Save Changes</button>
-			<router-link to="/Admin/Limit/" 
+			<router-link to="/Admin/Limit/"
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
 	</section>
@@ -58,7 +58,7 @@ export default {
 	},
 	async mounted() {
 		this.$store.commit('setPageTitle', 'Edit Limit')
-		
+
 		let res = await this.$axios.get(`http://${config.serverURL}/limit/${this.$route.params['id']}`)
 		this.roleId = res.data[0].role_id
 		this.roleName = res.data[0].role_name
@@ -70,7 +70,7 @@ export default {
 	methods: {
 		submit() {
 			let date = moment(this.date).format('YYYY-MM-DD')
-			let webFormData = new DataModel.Limit(this.stationId, this.roleId, 
+			let webFormData = new DataModel.Limit(this.stationId, this.roleId,
 				date, this.limit)
 
 			this.$axios.put(`http://${config.serverURL}/limit/${this.$route.params['id']}`, webFormData)

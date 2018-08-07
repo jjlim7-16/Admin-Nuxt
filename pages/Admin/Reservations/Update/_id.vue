@@ -1,7 +1,7 @@
 <template>
 	<section id="content" class="box columns is-multiline">
 		<div class="column is-8">
-			<b-field label="Select Date*">
+			<b-field label="Select Date">
 				<b-datepicker
 					placeholder="Click to select..."
 					icon="calendar-today"
@@ -13,7 +13,7 @@
 
 			<div class="columns">
 				<div class="column is-half">
-					<b-field label='Select Station*' :type="errors.has('station') ? 'is-danger': ''"
+					<b-field label='Select Station' :type="errors.has('station') ? 'is-danger': ''"
 						:message="errors.has('station') ? errors.first('station') : ''">
 						<b-select expanded placeholder='Select Station' v-model="stationId"
 							name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
@@ -25,7 +25,7 @@
 				</div>
 
 				<div class="column is-half">
-					<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''"
+					<b-field label='Select Role' :type="errors.has('role') ? 'is-danger': ''"
 						:message="errors.has('role') ? errors.first('role') : ''">
 						<b-select expanded placeholder='Select Role' v-model="roleId"
 							name="role" v-validate="'required'" data-vv-as="'Role'" @input="getSessionList" rounded>
@@ -59,7 +59,7 @@
 				</div>
 			</div>
 
-			<b-field label="Remarks" :type="errors.has('remarks') ? 'is-danger': ''" 
+			<b-field label="Remarks" :type="errors.has('remarks') ? 'is-danger': ''"
 				:message="errors.has('remarks') ? errors.first('remarks') : ''">
 				<b-input maxlength="500" type="textarea" name="remarks" v-validate="'required'"
 				data-vv-as="'Remarks'" v-model="remarks"></b-input>
@@ -105,7 +105,7 @@ export default {
 		res = await this.$axios.get(`http://${config.serverURL}/reservations/${this.$route.params.id}`)
 		this.stationId = res.data[0].station_id
 		this.roleId = res.data[0].role_id
-		
+
 		this.date = new Date(res.data[0].session_date)
 		this.start = res.data[0].reservedFrom
 		this.end = res.data[0].reservedTo
