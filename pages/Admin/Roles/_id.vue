@@ -2,7 +2,7 @@
 	<section id="content" class="box">
 
 		<!-- Add Role button -->
-		<router-link to="/Admin/Roles/add" tag="button" id="addRoleBtn" class="button is-primary">
+		<router-link to="/Admin/Roles/Add" tag="button" id="addRoleBtn" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
 			<span>Add Role</span>
 		</router-link>
@@ -99,7 +99,7 @@ export default {
 				confirmText: 'Delete Role',
 				type: 'is-danger',
 				hasIcon: true,
-				onConfirm: () => 
+				onConfirm: () =>
 				this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
 				.then(res => {
 					if (res.status === 200) {

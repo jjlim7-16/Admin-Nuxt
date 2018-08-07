@@ -1,7 +1,7 @@
 <template>
 	<section id="content" class="box columns is-multiline">
 		<div class="column is-7">
-			<b-field label="Select Date*">
+			<b-field label="Select Date">
 				<b-datepicker
 					placeholder="Click to select..."
 					icon="calendar-today"
@@ -11,7 +11,7 @@
 				</b-datepicker>
 			</b-field>
 
-			<b-field label='Select Station*' :type="errors.has('station') ? 'is-danger': ''"
+			<b-field label='Select Station' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
 				<b-select expanded placeholder='Select Station' v-model="stationId"
 					name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
@@ -21,7 +21,7 @@
 				</b-select>
 			</b-field>
 
-			<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''"
+			<b-field label='Select Role' :type="errors.has('role') ? 'is-danger': ''"
 				:message="errors.has('role') ? errors.first('role') : ''">
 				<b-select expanded placeholder='Select Role' v-model="roleId"
 					name="role" v-validate="'required'" data-vv-as="'Role'" rounded>
@@ -40,9 +40,9 @@
 			</b-field>
 
 			<br/>
-			<button class="button is-success is-pulled-right" :disabled="isDisabled" 
+			<button class="button is-success is-pulled-right" :disabled="isDisabled"
 			@click="validateBeforeSubmit()">Submit</button>
-			<router-link to="/Admin/Limit/" 
+			<router-link to="/Admin/Limit/"
 			class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 		</div>
 	</section>

@@ -1,7 +1,7 @@
 <template>
 	<section id="content" class="box columns is-multiline">
 		<div class="column is-6">
-			<b-field label='Station Name *' :type="errors.has('station') ? 'is-danger': ''"
+			<b-field label='Station Name' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
 				<b-select expanded placeholder='Select Station' v-model="stationId"
 					name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
@@ -11,7 +11,7 @@
 				</b-select>
 			</b-field>
 
-			<b-field label='Role Name *' :type="errors.has('roleName') ? 'is-danger': ''"
+			<b-field label='Role Name' :type="errors.has('roleName') ? 'is-danger': ''"
 				:message="errors.has('roleName') ? errors.first('roleName') : ''" >
 				<b-input
 					placeholder='Enter Role Name'

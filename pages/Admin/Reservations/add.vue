@@ -1,7 +1,7 @@
 <template>
 	<section id="content" class="box columns is-multiline">
 		<div class="column is-9">
-			<b-field label="Select Date*">
+			<b-field label="Select Date">
 				<b-datepicker
 					placeholder="Click to select..."
 					icon="calendar-today"
@@ -13,7 +13,7 @@
 
 			<div class="columns">
 				<div class="column is-half">
-					<b-field label='Select Station*' :type="errors.has('station') ? 'is-danger': ''"
+					<b-field label='Select Station' :type="errors.has('station') ? 'is-danger': ''"
 						:message="errors.has('station') ? errors.first('station') : ''">
 						<b-select expanded placeholder='Select Station' v-model="stationId"
 							name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
@@ -25,7 +25,7 @@
 				</div>
 
 				<div class="column is-half">
-					<b-field label='Select Role*' :type="errors.has('role') ? 'is-danger': ''"
+					<b-field label='Select Role' :type="errors.has('role') ? 'is-danger': ''"
 						:message="errors.has('role') ? errors.first('role') : ''">
 						<b-select expanded placeholder='Select Role' v-model="roleId"
 							name="role" v-validate="'required'" data-vv-as="'Role'" @input="getSessionList" rounded>
@@ -59,16 +59,16 @@
 				</div>
 			</div>
 
-			<b-field label="Remarks" :type="errors.has('remarks') ? 'is-danger': ''" 
+			<b-field label="Remarks" :type="errors.has('remarks') ? 'is-danger': ''"
 				:message="errors.has('remarks') ? errors.first('remarks') : ''">
 				<b-input maxlength="100" type="textarea" name="remarks" v-validate="'required'"
 				data-vv-as="'Remarks'" v-model="remarks"></b-input>
 			</b-field>
-			
+
 			<div class="grouped-button is-clearfix">
-				<button class="button is-success is-pulled-right" :disabled="isDisabled" 
+				<button class="button is-success is-pulled-right" :disabled="isDisabled"
 				@click="validateBeforeSubmit()">Submit</button>
-				<router-link to="/Admin/Reservations/" 
+				<router-link to="/Admin/Reservations/"
 				class="button is-light is-pulled-right right-spaced">Cancel</router-link>
 			</div>
 		</div>

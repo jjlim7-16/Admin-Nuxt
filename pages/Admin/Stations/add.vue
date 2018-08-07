@@ -1,7 +1,7 @@
 <template>
 <section id='content' class="box columns is-multiline">
 	<div class="column is-6">
-		<b-field label='Station Name *' :type="errors.has('name') ? 'is-danger': ''" :message="errors.has('name') ? errors.first('name') : ''">
+		<b-field label='Station Name' :type="errors.has('name') ? 'is-danger': ''" :message="errors.has('name') ? errors.first('name') : ''">
 			<b-input placeholder='Enter Station Name' v-model="name" name="name"
 			data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'" rounded></b-input>
 		</b-field>
@@ -232,7 +232,7 @@ export default {
 			let stationList = res.data
 			let stationExists = false
 			for (let i in stationList) {
-				if (stationList[i].station_name.toLowerCase() === this.name.trim().toLowerCase() && 
+				if (stationList[i].station_name.toLowerCase() === this.name.trim().toLowerCase() &&
 				stationList[i].station_id != this.$route.params.id) {
 					stationExists = true
 					break

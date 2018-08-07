@@ -2,7 +2,7 @@
 	<section id="content" class="box">
 
 		<!-- Set Limit button -->
-		<router-link to="/Admin/Reservations/add" tag="button" id="addBtn" class="button is-primary">
+		<router-link to="/Admin/Reservations/Add" tag="button" id="addBtn" class="button is-primary">
 			<b-icon icon="plus-circle"></b-icon>
 			<span>Make Reservation</span>
 		</router-link>

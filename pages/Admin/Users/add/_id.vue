@@ -3,9 +3,9 @@
 		<div class="column is-7">
 			<div class="columns">
 				<div class="column is-half">
-					<b-field label='User Role*'>
+					<b-field label='User Role'>
 						<b-select placeholder="Select User Role" @input="getAccountTypeId" :disabled="isDisabled"
-						v-model="account_type" expanded>
+						v-model="account_type" expanded rounded>
 							<option>Admin</option>
 							<option>Crew</option>
 						</b-select>
@@ -13,8 +13,8 @@
 				</div>
 
 				<div class="column is-half">
-					<b-field label='Station Name*' v-show="account_type === 'Crew'">
-						<b-select placeholder="Select a station" v-model="account_type_id" expanded>
+					<b-field label='Station Name' v-show="account_type === 'Crew'">
+						<b-select placeholder="Select a station" v-model="account_type_id" expanded rounded>
 							<option v-for="crewAccountType in crewAccountTypeList"
 											:value="crewAccountType.account_type_id"
 											:key="crewAccountType.account_type_id">
@@ -25,23 +25,22 @@
 				</div>
 			</div>
 
-			<b-field label='Username*' :type="errors.has('username') ? 'is-danger': ''"
+			<b-field label='Username' :type="errors.has('username') ? 'is-danger': ''"
 				:message="errors.has('username') ? errors.first('username') : ''">
 				<b-input placeholder='Enter Username' v-model="username" name="username" data-vv-as="'username'"
-					v-validate="'required|regex:^[a-z0-9_-].*?$'"></b-input>
+					v-validate="'required|regex:^[a-z0-9_-].*?$'" rounded></b-input>
 			</b-field>
 
-			<b-field label='Password*' :type="errors.has('password') ? 'is-danger': ''"
+			<b-field label='Password' :type="errors.has('password') ? 'is-danger': ''"
 				:message="errors.has('password') ? errors.first('password') : ''">
-				<b-input placeholder='Enter Password' v-model="password" name="password" 
-				type="password" v-validate="'required|min:8'" ref="password"></b-input>
+				<b-input placeholder='Enter Password' v-model="password" name="password"
+				type="password" v-validate="'required|min:8'" ref="password" rounded></b-input>
 			</b-field>
 
-			<b-field label='Confirm Password*' :type="errors.has('confirmPassword') ? 'is-danger': ''"
+			<b-field label='Confirm Password' :type="errors.has('confirmPassword') ? 'is-danger': ''"
 				:message="errors.has('confirmPassword') ? errors.first('confirmPassword') : ''">
-				<b-input placeholder='Confirm Password' type="password" v-model="confirmPassword" 
-				name="confirmPassword" v-validate="'required|min:8|confirmed:password'" data-vv-as="password">
-				</b-input>
+				<b-input placeholder='Confirm Password' type="password" v-model="confirmPassword"
+				name="confirmPassword" v-validate="'required|min:8|confirmed:password'" data-vv-as="password" rounded></b-input>
 			</b-field>
 
 			<br/>

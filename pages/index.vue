@@ -119,16 +119,29 @@ img {
   margin: 15px 0;
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
   img {
     width: 60%;
     padding-top: 20%;
   }
 }
 
-@media screen and (min-width:320px) and (max-width:840px) and (orientation:landscape) {
+@media screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
   img {
-    width: 18%;
+    width: 24%;
+    padding-top: 3%;
+  }
+
+  #form {
+    top: 40vh;
+    width: 60%;
+    position: relative;
+  }
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+  img {
+    width: 47%;
     padding-top: 3%;
   }
 
