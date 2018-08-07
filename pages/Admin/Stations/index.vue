@@ -129,7 +129,7 @@ export default {
 				})
 			}
 			else {
-				this.$dialog.alert({
+				this.$dialog.confirm({
 					title: `${action} Station`,
 					message: `Are you sure you want to ${action.toLowerCase()} this station?`,
 					confirmText: `${action} Station`,

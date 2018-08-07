@@ -86,7 +86,7 @@ let scannedID = "";
 export default {
   layout: "crewMenu",
   methods: {
-setRefresh() {
+  setRefresh() {
       if (this.sessionStartTime != null) {
         var day = new Date();
         var currentTime = moment(day, "HH:mm:ss");
@@ -160,13 +160,12 @@ setRefresh() {
       userBookingSessionStartTime: "",
       userBookingSessionEndTime: "",
       stationCloseTime: ""
-    };
+    }
   },
   created() {
     if (this.$route.params["id"]) {
       this.stationID = parseInt(this.$route.params["id"]);
     }
-    console.log(this.stationID);
 
     let theData;
     let startTime;
