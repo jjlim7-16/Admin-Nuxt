@@ -86,14 +86,19 @@
 			</article>
 		</template>
 	</b-table>
+	<BackToTop :visibleoffset="heightOfBrowser"></BackToTop>
 </section>
 </template>
 
 <script>
 import config from '~/config.js'
 import moment from 'moment'
+import BackToTop from '~/components/BackToTop'
 
 export default {
+	components: {
+    BackToTop
+  },
 	data() {
 		return {
 			currentPage: 1,
@@ -103,7 +108,8 @@ export default {
 			data: [],
 			autocompleteData: [],
 			filter: '',
-			serverURL: config.serverURL
+			serverURL: config.serverURL,
+			heightOfBrowser: 0
 		}
 	},
 	async mounted() {
@@ -113,6 +119,7 @@ export default {
 			this.autocompleteData.push(station.station_name)
 		}
 		this.$store.commit('setPageTitle', 'Manage Stations')
+		this.heightOfBrowser = window.innerHeight/7
 	},
 	methods: {
 		updateStationStatus(station_id, newActiveStatus, station_start, station_end) {
