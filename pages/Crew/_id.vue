@@ -86,22 +86,17 @@ let scannedID = "";
 export default {
   layout: "crewMenu",
   methods: {
-    setRefresh() {
+setRefresh() {
       if (this.sessionStartTime != null) {
         var day = new Date();
         var currentTime = moment(day, "HH:mm:ss");
         // this.sessionStartTime = "15:19:00";
 
-        var refreshTime = moment(this.sessionStartTime, "HH:mm:ss").add(
+        var refreshTime = moment(this.sessionEndTime, "HH:mm:ss").subtract(
           5,
           "minutes"
         );
-        console.log(currentTime);
-        console.log(
-          new moment(this.sessionStartTime, "HH:mm")
-            .add(11, "minutes")
-            .format("hh:mm A")
-        );
+        console.log(refreshTime);
         // if (currentTime.isAfter(refreshTime)) {
         //   console.log("current time is after nearest session start + 5mins");
         //   //   console.log(currentTime.diff(currentTime));
