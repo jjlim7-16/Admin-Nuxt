@@ -86,7 +86,8 @@ export default {
     setRefresh() {
       if (this.sessionStartTime != null) {
         var day = new Date();
-        var currentTime = new moment("14:54", "HH:mm");
+        var currentTime = new moment(day, "HH:mm");
+        //var currentTime = new moment("14:54", "HH:mm");
         console.log(this.sessionEndTime);
         var refreshTime = new moment(this.sessionEndTime, "HH:mm").subtract(
           5,
@@ -348,8 +349,6 @@ export default {
     socket.close();
   },
   beforeMount() {
-    //set page title
-    //this.$store.commit("setPageTitle", "{{StationName}}");
     socket = io.socketio.connect(`http://${config.serverURL}/crew`);
     socket.on("newAdmission", data => {
       for (var i in this.bookingList) {
