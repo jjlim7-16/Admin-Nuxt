@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="columns">
-    <div class="column is-2" id="nav">
+    <div class="column is-2 is-hidden-touch" id="nav">
       <aside class="sidebar menu is-hidden-touch">
         <img src="~/static/img-whitelogo.png" alt="logo">
 
@@ -9,9 +9,21 @@
         </ul>
       </aside>
     </div>
-    <div class="container">
-      <nuxt/>
-    </div>
+  <aside class="column is-10 myContent">
+      <header >
+        <div class="container" id="myPageTitle">
+          <div class="navbar-brand">
+            <div class="centerTextBox navbar-item">
+              <p class="has-text-weight-semibold">
+                {{ this.$store.state.pageName }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+        <nuxt/>
+  </aside>
+
   </div>
 </template>
 
@@ -23,24 +35,25 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {
-        Cookie.set("auth", null)
-        this.$axios.setToken(false)
-        this.$router.push("/")
-      })
+        Cookie.set("auth", null);
+        this.$axios.setToken(false);
+        this.$router.push("/");
+      });
     }
   }
-}
+};
 </script>
 
 
 <style>
 #app {
-  margin: 5px;
+  margin: 0px;
 }
+
 #nav {
   background-color: #565656;
-  height: 100%;
-  position: fixed;
+  height: 100vh;
+  display: block;
   top: 0;
   left: 0;
 }
@@ -55,13 +68,24 @@ export default {
   color: white;
 }
 
+#myPageTitle {
+  max-width: 100%;
+  height: 100%;
+  font-size: 1.6rem;
+  padding: 1vh 2.5vw;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.myContent {
+  padding: 0;
+}
+
 #content {
-  padding: 20px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
   background-color: white;
-  width: 100%;
-  height: 100%;
-  margin: 120px 60px 25px 100px;
+  height: 80vh;
+  margin: 2vw;
+  overflow-y: auto;
 }
 
 .menu img {
