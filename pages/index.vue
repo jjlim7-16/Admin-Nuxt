@@ -136,4 +136,14 @@ img {
     top: 60%;
   }
 }
+
+@media screen and (min-width:841px) and (max-width:1024px) and (orientation:landscape) {
+  img {
+    width: 28%;
+    padding-top: 16%;
+  }
+  #form {
+    top: 54%;
+  }
+}
 </style>
