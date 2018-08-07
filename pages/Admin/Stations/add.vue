@@ -107,13 +107,14 @@ const ModalForm = {
 				placeholder='Enter Role Name'
 				name="roleName"
 				data-vv-as="'Role Name'"
-				v-validate="'required|alpha_spaces'">
+				v-validate="'required|alpha_spaces'"
+				rounded>
 			</b-input>
 		</b-field>
 		<b-field class='columns' grouped>
 			<div class='column is-half'>
 				<b-field label='Capacity'>
-					<b-select expanded v-model='capacity' placeholder='Select Max. Capacity' required>
+					<b-select expanded v-model='capacity' placeholder='Select Max. Capacity' required rounded>
 						<option v-for="i in 12" :key="i">{{ i }}</option>
 					</b-select>
 				</b-field>
