@@ -260,6 +260,7 @@ html {
   background-color: white;
   height: 80vh;
   margin: 2vw;
+  overflow-y: scroll;
 }
 
 @media only screen and (min-width:320px) and (max-width:840px) and (orientation:portrait) {
