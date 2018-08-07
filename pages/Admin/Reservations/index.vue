@@ -110,7 +110,7 @@ export default {
 				this.$axios.delete(`http://${config.serverURL}/reservations/` + reservation_id)
 				.then(res => {
 					if (res.status === 200) {
-						this.$dialog.confirm({
+						this.$dialog.alert({
 							title: 'Cancel Reservation',
 							message: `The reservation has been successfully cancelled`,
 							type: 'is-success',

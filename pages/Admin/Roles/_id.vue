@@ -103,7 +103,7 @@ export default {
 				this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
 				.then(res => {
 					if (res.status === 200) {
-						this.$dialog.confirm({
+						this.$dialog.alert({
 							title: 'Delete Role',
 							message: 'The Role: ' + role_name + ' has been successfully deleted',
 							type: 'is-success',

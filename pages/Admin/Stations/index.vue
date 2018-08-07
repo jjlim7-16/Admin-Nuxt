@@ -129,7 +129,7 @@ export default {
 				})
 			}
 			else {
-				this.$dialog.confirm({
+				this.$dialog.alert({
 					title: `${action} Station`,
 					message: `Are you sure you want to ${action.toLowerCase()} this station?`,
 					confirmText: `${action} Station`,
@@ -139,7 +139,7 @@ export default {
 					this.$axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
 						.then(res => {
 							if (res.status === 200) {
-								this.$dialog.confirm({
+								this.$dialog.alert({
 									title: `${action} Station`,
 									message: `Station Has Been Successfully ${action + 'd'}`,
 									type: 'is-success',
@@ -167,7 +167,7 @@ export default {
 				this.$axios.delete(`http://${config.serverURL}/stations/${station_id}`)
 				.then(res => {
 					if (res.status === 200) {
-						this.$dialog.confirm({
+						this.$dialog.alert({
 							title: 'Delete Station',
 							message: 'The Station: ' + station_name + ' has been successfully deleted',
 							type: 'is-success',

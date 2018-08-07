@@ -139,7 +139,7 @@ export default {
 				this.$axios.put(`http://${config.serverURL}/roles/` + this.$route.params['id'], formData)
 				.then(res => {
 					if (res.status === 200) {
-						this.$dialog.confirm({
+						this.$dialog.alert({
 							title: 'Update Role',
 							message: `The Role \'${this.roleName}\' has been successfully updated`,
 							type: 'is-success',

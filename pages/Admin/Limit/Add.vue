@@ -84,7 +84,7 @@ export default {
 			this.$axios.post(`http://${config.serverURL}/limit/`, webFormData)
 			.then(res => {
 				if (res.status === 200) {
-					this.$dialog.confirm({
+					this.$dialog.alert({
 						title: 'Set Limit',
 						message: `A new limit has been set for the role \'${roleName}\' on \'${date}\'.`,
 						type: 'is-success',

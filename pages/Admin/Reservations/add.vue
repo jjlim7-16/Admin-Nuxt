@@ -115,7 +115,7 @@ export default {
 			this.$axios.post(`http://${config.serverURL}/reservations/`, webFormData)
 			.then(res => {
 				if (res.status === 200) {
-					this.$dialog.confirm({
+					this.$dialog.alert({
 						title: 'Reservation',
 						message: `A new reservation on \'${date}\' has been made for the role \'${roleName}\'
 						from ${reservedFrom} to ${reservedTo}.`,

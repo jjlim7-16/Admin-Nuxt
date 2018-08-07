@@ -78,10 +78,6 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@mdi/font@^2.4.85":
-  version "2.5.94"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-2.5.94.tgz#c05415b294243962046c398c8ba0b3a2311cf690"
-
 "@nuxtjs/axios@^5.3.1":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.3.1.tgz#9f9e6c817dae44c16955af659f6d5ac2a8085148"

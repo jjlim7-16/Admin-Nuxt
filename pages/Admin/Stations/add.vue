@@ -264,7 +264,7 @@ export default {
 						roleList = []
 						this.roles = roleList
 						if (res.status === 200) {
-							this.$dialog.confirm({
+							this.$dialog.alert({
 								title: 'Add Station',
 								message: `A new station \'${this.name}\' has been successfully added.`,
 								type: 'is-success',

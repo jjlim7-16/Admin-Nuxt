@@ -123,7 +123,7 @@ export default {
 			this.$axios.put(`http://${config.serverURL}/reservations/${this.$route.params.id}`, webFormData)
 			.then(res => {
 				if (res.status === 200) {
-					this.$dialog.confirm({
+					this.$dialog.alert({
 						title: 'Change Reservation',
 						message: `Reservation has been successfully changed for the role \'${roleName}\'
 						from ${reservedFrom} to ${reservedTo}.`,

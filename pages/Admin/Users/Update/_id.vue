@@ -112,7 +112,7 @@ export default {
 				this.$axios.put(`http://${config.serverURL}/user/`+ this.$route.params['id'], webFormData)
 				.then(res => {
 					if (res.status === 200) {
-						this.$dialog.confirm({
+						this.$dialog.alert({
 							title: 'Edit User',
 							message: `User \'${this.username}\' has been successfully edited.`,
 							type: 'is-success',

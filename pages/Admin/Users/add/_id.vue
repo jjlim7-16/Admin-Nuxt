@@ -112,7 +112,7 @@ export default {
 				this.$axios.post(`http://${config.serverURL}/user/`, webFormData)
 					.then(res => {
 						if (res.status === 200) {
-							this.$dialog.confirm({
+							this.$dialog.alert({
 								title: 'Add User',
 								message: `A new user \'${this.username}\' has been successfully added.`,
 								type: 'is-success',

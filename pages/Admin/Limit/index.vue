@@ -98,7 +98,6 @@ export default {
 		let res = await this.$axios.get(`http://${config.serverURL}/limit/`)
 		this.data = res.data[0]
 		this.dateList = res.data[1]
-		console.log(res.data)
 	},
 	methods: {
 		deleteLimit(limit_id) {
@@ -112,7 +111,7 @@ export default {
 				this.$axios.delete(`http://${config.serverURL}/limit/` + limit_id)
 				.then(res => {
 					if (res.status === 200) {
-						this.$dialog.confirm({
+						this.$dialog.alert({
 							title: 'Delete Limit',
 							message: `The limit has been successfully deleted`,
 							type: 'is-success',

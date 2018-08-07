@@ -167,7 +167,7 @@ export default {
 					formData
 				).then(res => {
 					if (res.status === 200) {
-						this.$dialog.confirm({
+						this.$dialog.alert({
 							title: 'Update Station',
 							message: 'The Station: ' + this.name + ' has been updated successfully',
 							type: 'is-success',

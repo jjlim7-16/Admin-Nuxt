@@ -80,12 +80,11 @@ export default {
 		this.stationList = res.data[1]
 		this.roleList = res.data[0]
 
-		this.$store.commit('setPageTitle', 'Add Role')
-	},
-	mounted() {
 		if (this.$route.params['id']) {
 			this.stationId = this.$route.params['id']
 		}
+
+		this.$store.commit('setPageTitle', 'Add Role')
 	},
 	computed: {
     isDisabled() {
@@ -127,7 +126,7 @@ export default {
 				this.$axios.post(`http://${config.serverURL}/roles/`, formData)
 				.then(res => {
 					if (res.status === 200) {
-						this.$dialog.confirm({
+						this.$dialog.alert({
 							title: 'Add Role',
 							message: `A new role has been successfully added to \'${stationName}\'.`,
 							type: 'is-success',

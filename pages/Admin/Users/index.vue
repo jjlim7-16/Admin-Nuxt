@@ -109,9 +109,9 @@ export default {
 									type: 'is-success',
 									hasIcon: true,
 									icon: 'check-circle',
-									iconPack: 'mdi'
+									iconPack: 'mdi',
+									onConfirm: () => this.$router.go({path: '/Admin/Users', force: true})
 								})
-								this.$router.go({path: '/Admin/Users', force: true})
 							}
 						})
 						.catch(err => {
