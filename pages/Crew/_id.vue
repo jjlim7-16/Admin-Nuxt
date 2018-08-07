@@ -1,5 +1,5 @@
 <template>
-  <section id="content" class="box">
+  <section id="content"  class="box">
     <h1>{{ stationName }}</h1>
     <b-field grouped>
       <b-field expanded>
@@ -24,7 +24,9 @@
 
     <b-table
       :data="isEmpty ? [] : filteredData"
-
+    	:paginated="paginated"
+			:per-page="perPage"
+			:current-page.sync="currentPage"
       :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'">
 
       <template slot-scope="props">
@@ -72,7 +74,7 @@
 </template>
 
 <script>
-
+import axios from "axios";
 import moment from "moment";
 import config from "~/config";
 import io from "~/plugins/socket-io.js";
@@ -258,10 +260,15 @@ export default {
             var day = new Date();
             self.bookingList[i].time_in = moment(day).format("HH:mm");
             self.$axios
-              .put(`http://${config.serverURL}/bookings/updateStatus/${booking_id}`, {
-                booking_status: "Admitted"
-              })
-              .then(() => {
+              .put(
+                `http://${
+                  config.serverURL
+                }/bookings/updateStatus/${booking_id}`,
+                {
+                  booking_status: "Admitted"
+                }
+              )
+              .then(res => {
                 // console.log(res.data)
               })
               .catch(() => {
@@ -304,7 +311,6 @@ export default {
             });
         }
       } else {
-        console.log(e.key)
         scannedArray.push(e.key);
       }
     };
@@ -346,7 +352,7 @@ export default {
   destroyed() {
     socket.close();
   },
-  mounted() {
+  beforeMount() {
     //set page title
     //this.$store.commit("setPageTitle", "{{StationName}}");
     socket = io.socketio.connect(`http://${config.serverURL}/crew`);
@@ -368,4 +374,3 @@ tr.is-success-table {
   color: #000;
 }
 </style>
-
