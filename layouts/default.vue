@@ -294,6 +294,7 @@ html {
   }
   #content {
     margin: 0;
+    width: 100vw;
     min-height: 93%;
   }
   .myContent {

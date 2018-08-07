@@ -36,7 +36,7 @@
 		</b-field>
 	</div>
 
-	<div class="column is-4" style="margin-left: 5vw;">
+	<div class="column is-4">
 		<b-field label="Station Image">
 			<b-upload v-model="files" drag-drop>
 				<section class="section" v-if="!files || files.length <= 0">
@@ -57,7 +57,7 @@
 	</div>
 
 	<div class="column is-10">
-		<b-field label="Roles" style="margin-top: -2vh;">
+		<b-field label="Roles">
 			<b-field grouped group-multiline>
 				<div class="control" v-if="roles.length>0" v-for="role in roles" :key="role.roleName">
 					<b-tag v-if="(role.roleName)" type="is-primary" size="is-medium" attached closable @close="removeRole(role)">

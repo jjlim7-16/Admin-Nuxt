@@ -107,9 +107,10 @@ export default {
 </script>
 
 <style scoped>
-/* #content {
-  margin: 100px 35px 30px;
-} */
+.heading {
+  font-size: 0.8em;
+}
+
 .fullWidth {
   width: 100%;
   max-width: 100%;
