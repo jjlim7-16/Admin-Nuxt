@@ -39,8 +39,8 @@
 
 			<b-field label='Confirm Password' :type="errors.has('confirmPassword') ? 'is-danger': ''"
 				:message="errors.has('confirmPassword') ? errors.first('confirmPassword') : ''">
-				<b-input placeholder='Confirm Password' type="password" v-model="confirmPassword" 
-				name="confirmPassword" v-validate="'confirmed:password'" data-vv-as="password">
+				<b-input placeholder='Confirm Password' type="password" v-model="confirmPassword"
+				name="confirmPassword" v-validate="'confirmed:password'" data-vv-as="password" rounded>
 				</b-input>
 			</b-field>
 

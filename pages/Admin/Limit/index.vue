@@ -10,6 +10,7 @@
 		<!-- Filter by Date -->
 		<b-field grouped group-multiline>
 			<b-select placeholder="Filter By Date" v-model="filter" rounded>
+				<option value="All">All Dates</option>
 				<option v-for="(date, index) in dateList" :key="index">
 					{{ date.session_date }}
 				</option>
@@ -129,11 +130,11 @@ export default {
 		}
 	},
 	computed: {
-		filteredData() {
-			if (this.filter !== null) {
-				return this.data.filter(i => i.session_date === this.filter)
+		filteredData: function() {
+			if (this.filter === 'All' || !this.filter) {
+				return this.data
 			}
-			return this.data
+			return this.data.filter(i => i.session_date === this.filter)
 		},
 		isEmpty() {
 			if (this.data.length === 0) return true

@@ -13,7 +13,7 @@
         <p class="title">{{ avgBookings }}</p>
       </div>
     </div>
-    <div class="column fullWidth">
+    <div class="column is-12 fullWidth">
       <div class="box container fullWidth">
         <b-field>
           <b-select v-model="stationId">

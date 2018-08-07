@@ -6,14 +6,11 @@ module.exports = {
 		{ src: '~plugins/socket-io.js', ssr: false },
 		{ src: '~plugins/axios.js', ssr: false }
 	],
-	router: {
-		// middleware: ['authenticated']
-	},
 	/*
 	** Headers of the page
 	*/
 	head: {
-		title: 'KidZania',
+		title: 'Q-zee',
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
