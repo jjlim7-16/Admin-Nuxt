@@ -6,7 +6,7 @@
 			data-vv-as="'Station Name'" v-validate="'required|alpha_spaces'" rounded></b-input>
 		</b-field>
 
-		<b-field label='Duration'>
+		<b-field label='Activity Duration'>
 			<b-select expanded placeholder='Select Activity Duration' @input="getTimeList" v-model="duration" rounded>
 				<option value="15">15 mins</option>
 				<option value="20">20 mins</option>
@@ -19,6 +19,7 @@
 			<div class="column is-half">
 				<b-field label='Select Start Time'>
 					<b-select expanded placeholder="Select Start Time" v-model="startTime" rounded>
+						<option disabled>Please select activity duration first</option>
 						<option v-for="start in filterStartTime" :value="start" :key="start">
 							{{ start }}
 						</option>
@@ -29,6 +30,7 @@
 			<div class="column is-half">
 				<b-field label='Select End Time'>
 					<b-select expanded placeholder="Select End Time" v-model="endTime" rounded>
+						<option disabled>Please select activity duration first</option>
 						<option v-for="end in filterEndTime" :value="end" :key="end">
 							{{ end }}
 						</option>

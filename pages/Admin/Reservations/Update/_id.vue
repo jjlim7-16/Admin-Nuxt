@@ -29,6 +29,7 @@
 						:message="errors.has('role') ? errors.first('role') : ''">
 						<b-select expanded placeholder='Select Role' v-model="roleId"
 							name="role" v-validate="'required'" data-vv-as="'Role'" @input="getSessionList" rounded>
+							<option disabled>Please select a station first</option>
 							<option v-for="role in filterRoles" :value="role.role_id" :key="role.role_name">
 								{{ role.role_name }}
 							</option>
@@ -41,6 +42,7 @@
 				<div class="column is-half">
 					<b-field label='Reserve From'>
 						<b-select expanded placeholder="Reserve From" v-model="start" rounded>
+							<option disabled selected>Please select a role first</option>
 							<option v-for="start in sessionList" :value="start.session_start" :key="start.session_start">
 								{{ start.session_start.slice(0, 5) }}
 							</option>
@@ -51,6 +53,7 @@
 				<div class="column is-half">
 					<b-field label='Reserve To'>
 						<b-select expanded placeholder="Reserve To" v-model="end" rounded>
+							<option disabled selected>Please select a role first</option>
 							<option v-for="end in filterEnd" :value="end.session_end" :key="end.session_end">
 								{{ end.session_end.slice(0, 5) }}
 							</option>

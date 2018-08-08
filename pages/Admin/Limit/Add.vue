@@ -13,7 +13,7 @@
 
 			<b-field label='Select Station' :type="errors.has('station') ? 'is-danger': ''"
 				:message="errors.has('station') ? errors.first('station') : ''">
-				<b-select expanded placeholder='Select Station' v-model="stationId"
+				<b-select expanded placeholder='Select Station' v-model="stationId" @input="displayRole=true"
 					name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
 					<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
 						{{station.station_name}}
@@ -25,6 +25,7 @@
 				:message="errors.has('role') ? errors.first('role') : ''">
 				<b-select expanded placeholder='Select Role' v-model="roleId"
 					name="role" v-validate="'required'" data-vv-as="'Role'" rounded>
+					<option disabled>Please select a station first</option>
 					<option v-for="role in filterRoles" :value="role.role_id" :key="role.role_name">
 						{{ role.role_name }}
 					</option>
