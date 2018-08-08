@@ -48,7 +48,7 @@
 						</b-dropdown-item>
 
 						<b-dropdown-item style="text-align: left" has-link paddingless>
-							<a @click="remove(props.row.role_id, props.row.role_name)">Delete</a>
+							<a @click="remove(props.row.station_id, props.row.role_id, props.row.role_name)">Delete</a>
 						</b-dropdown-item>
 					</b-dropdown>
 				</b-table-column>
@@ -92,28 +92,45 @@ export default {
 		}
 	},
 	methods: {
-		remove(role_id, role_name) {
-			this.$dialog.confirm({
-				title: 'Delete Role',
-				message: 'Are you sure you want to permanently delete this role?',
-				confirmText: 'Delete Role',
-				type: 'is-danger',
-				hasIcon: true,
-				onConfirm: () =>
-				this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
-				.then(res => {
-					if (res.status === 200) {
-						this.$dialog.alert({
-							title: 'Delete Role',
-							message: 'The Role: ' + role_name + ' has been successfully deleted',
-							type: 'is-success',
-							hasIcon: true,
-							icon: 'check-circle',
-							onConfirm: () => this.$router.go({path: '/Admin/Roles', force: true})
-						})
-					}
+		remove(station_id, role_id, role_name) {
+			let oneRole = false
+			let arr = []
+			for (let i in this.data) {
+				if (this.data[i].station_id === station_id) {
+					arr.push(this.data[i].role_id)
+				}
+			}
+			if (arr.length === 1) {
+				this.$dialog.alert({
+					title: 'Error',
+					message: 'Each station requires at least one role.',
+					type: 'is-danger',
+					hasIcon: true
 				})
-			})
+			}
+			else {
+				this.$dialog.confirm({
+					title: 'Delete Role',
+					message: 'Are you sure you want to permanently delete this role?',
+					confirmText: 'Delete Role',
+					type: 'is-danger',
+					hasIcon: true,
+					onConfirm: () =>
+					this.$axios.delete(`http://${config.serverURL}/roles/${role_id}`)
+					.then(res => {
+						if (res.status === 200) {
+							this.$dialog.alert({
+								title: 'Delete Role',
+								message: 'The Role: ' + role_name + ' has been successfully deleted',
+								type: 'is-success',
+								hasIcon: true,
+								icon: 'check-circle',
+								onConfirm: () => this.$router.go({path: '/Admin/Roles', force: true})
+							})
+						}
+					})
+				})
+			}
 		}
 	}
 }
