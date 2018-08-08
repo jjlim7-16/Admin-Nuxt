@@ -269,8 +269,9 @@ html {
     overflow-y: scroll;
     background-color: white;
   }
+  /* search bar for stations and users */
   #searchBar {
-    width: 51vw;
+    width: 46vw;
   }
   .menu-label {
     color: black;
@@ -291,7 +292,6 @@ html {
   #content {
     margin: 0;
     width: 100vw;
-    /* min-height: 100vh; */
     height: auto;
     background-color: transparent;
     box-shadow: none;
