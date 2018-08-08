@@ -58,11 +58,11 @@
 					<hr />
 
 					<b-dropdown-item style="text-align: left" has-link paddingless>
-						<a v-if="props.row.is_active === 1" @click="updateStationStatus(props.row.station_id, 0,
-						props.row.station_start, props.row.station_end)">Deactivate</a>
+						<a v-if="props.row.is_active === 1" 
+						@click="updateStationStatus(props.row.station_id, 0)">Deactivate</a>
 
-						<a v-else-if="props.row.is_active === 0" @click="updateStationStatus(props.row.station_id, 1,
-						props.row.station_start, props.row.station_end)">Activate</a>
+						<a v-else-if="props.row.is_active === 0" 
+						@click="updateStationStatus(props.row.station_id, 1)">Activate</a>
 					</b-dropdown-item>
 				</b-dropdown>
 			</b-table-column>
@@ -122,46 +122,36 @@ export default {
 		this.heightOfBrowser = window.innerHeight/7
 	},
 	methods: {
-		updateStationStatus(station_id, newActiveStatus, station_start, station_end) {
+		updateStationStatus(station_id, newActiveStatus) {
 			let formData = {
 				'newActiveStatus': newActiveStatus
 			}
 			let action = (newActiveStatus === 1) ? 'Activate' : 'Deactivate'
-			if (moment(new Date(), 'HH:mm').isBetween(moment(station_start, 'HH:mm'), moment(station_end, 'HH:mm'))) {
-				this.$dialog.alert({
-          title: `Alert`,
-					message: `Activating/Deactivating of station is not allowed during operating hours of the station`,
-          type: 'is-danger',
-					hasIcon: true
-				})
-			}
-			else {
-				this.$dialog.confirm({
-					title: `${action} Station`,
-					message: `Are you sure you want to ${action.toLowerCase()} this station?`,
-					confirmText: `${action} Station`,
-					type: 'is-danger',
-					hasIcon: true,
-					onConfirm: () =>
-					this.$axios.put(`http://${config.serverURL}/stations/activate/` + station_id, formData)
-						.then(res => {
-							if (res.status === 200) {
-								this.$dialog.alert({
-									title: `${action} Station`,
-									message: `Station Has Been Successfully ${action + 'd'}`,
-									type: 'is-success',
-									hasIcon: true,
-									icon: 'check-circle',
-									iconPack: 'mdi',
-									onConfirm: () => this.$router.go({path: '/Admin/Stations', force: true})
-								})
-							}
-						})
-						.catch(err => {
-							console.log(err)
-						})
-				})
-			}
+			this.$dialog.confirm({
+				title: `${action} Station`,
+				message: `Are you sure you want to ${action.toLowerCase()} this station?`,
+				confirmText: `${action} Station`,
+				type: 'is-danger',
+				hasIcon: true,
+				onConfirm: () =>
+				this.$axios.put(`http://${config.serverURL}/stations/activate/${station_id}`, formData)
+					.then(res => {
+						if (res.status === 200) {
+							this.$dialog.alert({
+								title: `${action} Station`,
+								message: `Station Has Been Successfully ${action + 'd'}`,
+								type: 'is-success',
+								hasIcon: true,
+								icon: 'check-circle',
+								iconPack: 'mdi',
+								onConfirm: () => this.$router.go({path: '/Admin/Stations', force: true})
+							})
+						}
+					})
+					.catch(err => {
+						console.log(err)
+					})
+			})
 		},
 		remove(station_id, station_name) {
 			this.$dialog.confirm({
