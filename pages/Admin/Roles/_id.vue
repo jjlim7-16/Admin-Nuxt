@@ -9,7 +9,7 @@
 
 		<!-- Filter by Station -->
 		<b-field grouped group-multiline>
-			<b-select v-model="filter" placeholder="Filter By Stations" rounded>
+			<b-select v-model="filter" placeholder="Filter by Station" rounded>
 				<option value="All">All Stations</option>
 				<option v-for="station in stationList" :key="station.station_name">
 					{{station.station_name}}

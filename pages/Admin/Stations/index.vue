@@ -8,7 +8,7 @@
 
 	<!-- Search by Station -->
 	<b-field grouped group-multiline>
-		<b-autocomplete id="searchBar" :data="filteredDataArray" placeholder="Search By Station" v-model="filter" type="search" icon="magnify" @select="option => selected = option" rounded>
+		<b-autocomplete id="searchBar" :data="filteredDataArray" placeholder="Search by Station" v-model="filter" type="search" icon="magnify" @select="option => selected = option" rounded>
 			<template slot="empty">No results found</template>
 		</b-autocomplete>
 	</b-field>
