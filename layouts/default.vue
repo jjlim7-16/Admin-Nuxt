@@ -260,14 +260,18 @@ html {
   background-color: white;
   height: 80vh;
   margin: 2vw;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 @media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
   html {
     font-size: 1rem;
-    overflow: scroll;
+    overflow-y: scroll;
     background-color: white;
+  }
+  /* search bar for stations and users */
+  #searchBar {
+    width: 46vw;
   }
   .menu-label {
     color: black;
@@ -288,7 +292,6 @@ html {
   #content {
     margin: 0;
     width: 100vw;
-    /* min-height: 100vh; */
     height: auto;
     background-color: transparent;
     box-shadow: none;
@@ -310,6 +313,7 @@ html {
 @media screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
   html {
     background-color: white;
+    overflow-y: scroll;
   }
   .myContent {
     width: 100% !important;
@@ -338,6 +342,13 @@ html {
 }
 
 @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+  html {
+    background-color: white;
+    overflow-y: scroll;
+  }
+  .menu-label {
+    color: black;
+  }
   .column.is-10 {
     flex: auto;
     width: -webkit-fill-available;
@@ -345,6 +356,9 @@ html {
   #content {
     width: 100%;
     margin: 0;
+    height: auto;
+    background-color: transparent;
+    box-shadow: none;
   }
 }
 

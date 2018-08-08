@@ -6,7 +6,8 @@
 		</router-link>
 
 		<b-field grouped group-multiline>
-			<b-input placeholder="Search By Username" v-model="filter" rounded></b-input>
+			<!-- Search by Username -->
+			<b-input id="searchBar" placeholder="Search by Username" v-model="filter" rounded></b-input>
 		</b-field>
 
 		<b-table

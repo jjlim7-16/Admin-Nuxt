@@ -9,7 +9,7 @@
 
 		<!-- Filter by Date -->
 		<b-field grouped group-multiline>
-			<b-select placeholder="Filter By Date" v-model="filter" rounded>
+			<b-select placeholder="Filter by Date" v-model="filter" rounded>
 				<option value="All">All Dates</option>
 				<option v-for="(date, index) in dateList" :key="index">
 					{{ date.session_date }}
