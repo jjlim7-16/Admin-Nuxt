@@ -263,10 +263,11 @@ html {
   overflow-y: scroll;
 }
 
-@media only screen and (min-width:320px) and (max-width:840px) and (orientation:portrait) {
+@media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
   html {
     font-size: 1rem;
     overflow: scroll;
+    background-color: white;
   }
   .menu-label {
     color: black;
@@ -287,8 +288,10 @@ html {
   #content {
     margin: 0;
     width: 100vw;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     height: auto;
+    background-color: transparent;
+    box-shadow: none;
   }
   .myContent {
     width: 100% !important;
@@ -304,13 +307,18 @@ html {
   }
 }
 
-@media screen and (min-width:320px) and (max-width:840px) and (orientation:landscape) {
+@media screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
+  html {
+    background-color: white;
+  }
   .myContent {
     width: 100% !important;
   }
   #content {
     margin: 0;
-    height: 85%;
+    height: auto;
+    background-color: transparent;
+    box-shadow: none;
   }
   #myPageTitle {
     font-size: 1.2rem;
@@ -326,6 +334,24 @@ html {
   }
   hr {
     margin: 0.2rem;
+  }
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+  .column.is-10 {
+    flex: auto;
+    width: -webkit-fill-available;
+  }
+  #content {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
+  .column.is-10 {
+    flex: auto;
+    width: -webkit-fill-available;
   }
 }
 </style>

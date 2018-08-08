@@ -150,7 +150,7 @@ img {
   }
 }
 
-@media screen and (min-width:841px) and (max-width:1024px) and (orientation:landscape) {
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
   img {
     width: 28%;
     padding-top: 16%;

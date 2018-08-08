@@ -131,9 +131,16 @@ export default {
   margin: auto;
 }
 
-@media only screen and (max-width: 767px) {
+@media only screenand (min-width:320px) and (max-width:767px) and (orientation:portrait) {
   #content {
     position: relative;
+  }
+}
+
+@media screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
+  #content {
+    position: relative;
+    overflow-y: scroll;
   }
 }
 
