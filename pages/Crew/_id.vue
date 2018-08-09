@@ -178,6 +178,9 @@ export default {
               .then(res => {
                 if (res.status === 200) {
                   if (res.data.length > 0) {
+                    console.log(res.data);
+                    this.stationName = res.data[0].station_name;
+                    this.$store.commit("setPageTitle", this.stationName);
                     this.haveSession = true;
                     this.sessionStartTime = res.data[0].session_start.substr(
                       res.data[0].session_end,
@@ -188,6 +191,7 @@ export default {
                       res.data[0].session_end,
                       5
                     );
+                    this.setRefresh();
                   } else {
                     this.haveSession = false;
                   }
@@ -236,6 +240,7 @@ export default {
           scannedArray = [];
           console.log(scannedID);
           for (var i in self.bookingList) {
+            self.isExist = false;
             console.log("inside for loop");
             console.log(self.bookingList[i].rfid);
             if (self.bookingList[i].rfid == scannedID) {
@@ -246,10 +251,7 @@ export default {
               var day = new Date();
               var time_in = moment(day).format("HH:mm");
               self.bookingList[i].time_in = time_in;
-              socket.emit("admitted", {
-                bookingid: booking_id,
-                timein: time_in
-              }); //socket
+              socket.emit("admitted", self.bookingList); //socket
               self.$axios
                 .put(
                   `http://${
@@ -277,7 +279,22 @@ export default {
               .then(res => {
                 let data = res.data[0];
                 console.log(data);
-                if (res.data.length == 0) {
+                if (res.data.length > 0) {
+                  console.log("displayOtherbooking");
+                  self.$dialog.alert({
+                    title: "Wrong Booking",
+                    message:
+                      "User does not have booking here!" +
+                      "Actual booking: " +
+                      data.station_name +
+                      " , " +
+                      data.role_name +
+                      " @ " +
+                      data.session_start +
+                      ".",
+                    confirmText: "OK"
+                  });
+                } else {
                   //if no booking then display error message
                   console.log("toast");
                   self.$toast.open({
@@ -285,19 +302,6 @@ export default {
                     message: `User does not have any bookings!`,
                     position: "is-bottom",
                     type: "is-danger"
-                  });
-                } else {
-                  console.log("displayOtherbooking");
-                  self.$dialog.alert({
-                    title: "WRONG BOOKING",
-                    message:
-                      "User does not have booking here, actual booking is act as " +
-                      data.role_name +
-                      " at " +
-                      data.station_name +
-                      " at " +
-                      data.session_start,
-                    confirmText: "OK"
                   });
                 }
               })
@@ -350,15 +354,16 @@ export default {
   },
   beforeMount() {
     socket = io.socketio.connect(`http://${config.serverURL}/crew`);
-    socket.on("newAdmission", data => {
-      for (var i in this.bookingList) {
-        if (this.bookingList[i].booking_id == data.booking_id) {
-          this.bookingList[i].booking_status = "Admitted";
-          this.bookingList[i].time_in = data.time_in;
-          console.log(moment(day).format("HH:mm"));
-          console.log(this.bookingList[i]);
-        }
-      }
+    socket.on("newAdmission", bookingList => {
+      this.bookingList = bookingList;
+      // for (var i in this.bookingList) {
+      //   if (this.bookingList[i].booking_id == booking_id) {
+      //     this.bookingList[i].booking_status = "Admitted";
+      //     //this.bookingList[i].time_in = data.time_in;
+
+      //     console.log(this.bookingList[i]);
+      //   }
+      // }
     });
   }
 };
