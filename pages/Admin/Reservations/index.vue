@@ -1,32 +1,32 @@
 <template>
-	<section id="content" class="box">
+<section id="content" class="box">
 
-		<!-- Set Limit button -->
-		<router-link to="/Admin/Reservations/Add" tag="button" id="addBtn" class="button is-primary">
-			<b-icon icon="plus-circle"></b-icon>
-			<span>Make Reservation</span>
-		</router-link>
+  <!-- Make Reservation button -->
+  <router-link to="/Admin/Reservations/Add" tag="button" id="addBtn" class="button is-primary">
+    <b-icon icon="plus-circle"></b-icon>
+    <span>Make Reservation</span>
+  </router-link>
 
-		<!-- Filter by Date -->
-		<b-field grouped group-multiline>
-			<b-select placeholder="Filter by Date" v-model="filter" rounded>
-				<option value="All">All Dates</option>
-				<option v-for="(date, index) in dateList" :key="index">
-					{{ date.session_date }}
-				</option>
-			</b-select>
-		</b-field>
+  <!-- Filter by Date -->
+  <b-field grouped group-multiline>
+    <b-select placeholder="Filter by Date" v-model="filter" rounded>
+      <option value="All">All Dates</option>
+      <option v-for="(date, index) in dateList" :key="index">
+        {{ date.session_date }}
+      </option>
+    </b-select>
+  </b-field>
 
-		<b-table
-			:data="isEmpty ? [] : filteredData"
-			:paginated="paginated"
-			:per-page="perPage"
-			:current-page.sync="currentPage"
-			:default-sort-direction="'asc'"
-			:default-sort="['session_date', 'desc']"
-			hoverable>
+  <b-table
+		:data="isEmpty ? [] : filteredData"
+		:paginated="paginated"
+		:per-page="perPage"
+		:current-page.sync="currentPage"
+		:default-sort-direction="'asc'"
+		:default-sort="['session_date', 'desc']"
+		hoverable>
 
-			<template slot-scope="props">
+    <template slot-scope="props">
 				<b-table-column field="session_date" label="Date" sortable>
 					{{ props.row.session_date }}
 				</b-table-column>
@@ -59,7 +59,7 @@
 				</b-table-column>
 			</template>
 
-			<template slot="empty">
+    <template slot="empty">
 				<section class="section">
 					<div class="content has-text-grey has-text-centered">
 						<p>
@@ -72,9 +72,9 @@
 					</div>
 				</section>
 			</template>
-		</b-table>
+  </b-table>
 
-	</section>
+</section>
 </template>
 
 <script>
@@ -82,70 +82,73 @@ import moment from 'moment'
 import config from '~/config.js'
 
 export default {
-	data() {
-		return {
-			data: [],
-			dateList: [],
-			filter: null,
-			currentPage: 1,
-			paginated: true,
-			perPage: 5,
-			date: new Date()
-		}
-	},
-	async mounted() {
-		this.$store.commit('setPageTitle', 'Manage Reservations')
+  data() {
+    return {
+      data: [],
+      dateList: [],
+      filter: null,
+      currentPage: 1,
+      paginated: true,
+      perPage: 5,
+      date: new Date()
+    }
+  },
+  async mounted() {
+    this.$store.commit('setPageTitle', 'Manage Reservations')
 
-		let res = await this.$axios.get(`http://${config.serverURL}/reservations/`)
-		this.data = res.data[0]
-		this.dateList = res.data[1]
-	},
-	methods: {
-		cancelReservation(reservation_id) {
-			this.$dialog.confirm({
-				title: 'Cancel Reservation',
-				message: 'Are you sure you want to cancel this reservation?',
-				confirmText: 'Cancel Reservation',
-				type: 'is-danger',
-				hasIcon: true,
-				onConfirm: () =>
-				this.$axios.delete(`http://${config.serverURL}/reservations/` + reservation_id)
-				.then(res => {
-					if (res.status === 200) {
-						this.$dialog.alert({
-							title: 'Cancel Reservation',
-							message: `The reservation has been successfully cancelled`,
-							type: 'is-success',
-							hasIcon: true,
-							icon: 'check-circle',
-							iconPack: 'mdi',
-							onConfirm: () => this.$router.go({path: '/Admin/Reservations', force: true})
-						})
-					}
-				})
-				.catch(err => {
-					throw err
-				})
-			})
-		}
-	},
-	computed: {
-		filteredData: function() {
-			if (this.filter === 'All' || !this.filter) {
-				return this.data
-			}
-			return this.data.filter(i => i.session_date === this.filter)
-		},
-		isEmpty() {
-			if (this.data.length === 0) return true
-			else return false
-		}
-	}
+    let res = await this.$axios.get(`http://${config.serverURL}/reservations/`)
+    this.data = res.data[0]
+    this.dateList = res.data[1]
+  },
+  methods: {
+    cancelReservation(reservation_id) {
+      this.$dialog.confirm({
+        title: 'Cancel Reservation',
+        message: 'Are you sure you want to cancel this reservation?',
+        confirmText: 'Cancel Reservation',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () =>
+          this.$axios.delete(`http://${config.serverURL}/reservations/` + reservation_id)
+          .then(res => {
+            if (res.status === 200) {
+              this.$dialog.alert({
+                title: 'Cancel Reservation',
+                message: `The reservation has been successfully cancelled`,
+                type: 'is-success',
+                hasIcon: true,
+                icon: 'check-circle',
+                iconPack: 'mdi',
+                onConfirm: () => this.$router.go({
+                  path: '/Admin/Reservations',
+                  force: true
+                })
+              })
+            }
+          })
+          .catch(err => {
+            throw err
+          })
+      })
+    }
+  },
+  computed: {
+    filteredData: function() {
+      if (this.filter === 'All' || !this.filter) {
+        return this.data
+      }
+      return this.data.filter(i => i.session_date === this.filter)
+    },
+    isEmpty() {
+      if (this.data.length === 0) return true
+      else return false
+    }
+  }
 }
 </script>
 
 <style scoped>
 #addBtn {
-	float: right;
+  float: right;
 }
 </style>

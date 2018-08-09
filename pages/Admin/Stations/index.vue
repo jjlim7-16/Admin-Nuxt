@@ -1,5 +1,6 @@
 <template>
 <section id="content" class="box">
+
 	<!-- Add Station button -->
 	<router-link to="/Admin/Stations/Add" tag="button" id="addStationBtn" class="button is-primary">
 		<b-icon icon="plus-circle"></b-icon>
