@@ -69,7 +69,7 @@ export default {
 		}
 	},
 	async mounted() {
-		this.$store.commit('setPageTitle', 'Set New Limit')
+		this.$store.commit('setPageTitle', 'Set Limit')
 
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.roleList = res.data[0]

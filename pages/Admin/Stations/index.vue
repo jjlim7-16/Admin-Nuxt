@@ -1,5 +1,6 @@
 <template>
 <section id="content" class="box">
+
 	<!-- Add Station button -->
 	<router-link to="/Admin/Stations/Add" tag="button" id="addStationBtn" class="button is-primary">
 		<b-icon icon="plus-circle"></b-icon>
@@ -13,7 +14,16 @@
 		</b-autocomplete>
 	</b-field>
 
-	<b-table :data="filteredData" :paginated="paginated" :per-page="perPage" :mobile-cards="hasMobileCards" :current-page.sync="currentPage" default-sort-direction="asc" default-sort="station_id" detailed detail-key="station_id">
+	<b-table
+		:data="filteredData"
+		:paginated="paginated"
+		:per-page="perPage"
+		:mobile-cards="hasMobileCards"
+		:current-page.sync="currentPage"
+		default-sort-direction="asc"
+		default-sort="station_id"
+		detailed detail-key="station_id"
+		hoverable>
 
 		<template slot-scope="props">
 			<b-table-column field="station_name" label="Station Name"  sortable>
@@ -90,19 +100,14 @@
 			</article>
 		</template>
 	</b-table>
-	<BackToTop :visibleoffset="heightOfBrowser"></BackToTop>
 </section>
 </template>
 
 <script>
 import config from '~/config.js'
 import moment from 'moment'
-import BackToTop from '~/components/BackToTop'
 
 export default {
-	components: {
-    BackToTop
-  },
 	data() {
 		return {
 			currentPage: 1,
@@ -113,7 +118,6 @@ export default {
 			autocompleteData: [],
 			filter: '',
 			serverURL: config.serverURL,
-			heightOfBrowser: 0
 		}
 	},
 	async mounted() {
@@ -123,7 +127,6 @@ export default {
 			this.autocompleteData.push(station.station_name)
 		}
 		this.$store.commit('setPageTitle', 'Manage Stations')
-		this.heightOfBrowser = window.innerHeight/7
 	},
 	methods: {
 		updateStationStatus(station_id, newActiveStatus) {
