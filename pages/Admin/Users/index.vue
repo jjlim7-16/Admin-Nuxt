@@ -9,7 +9,7 @@
 			<!-- Search by Username -->
 			<b-input id="searchBar" placeholder="Search by Username" v-model="filter" rounded></b-input>
 			<!-- Filter by User Role -->
-			<b-select v-model="userFilter" placeholder="Filter by User" rounded>
+			<b-select v-model="userFilter" placeholder="Filter by User Role" rounded>
 				<option value="All">All User Roles</option>
 				<option v-for="userRole in userRoleList" :key="userRole">
 					{{userRole}}
