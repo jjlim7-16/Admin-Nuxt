@@ -9,7 +9,7 @@
     </div>
     <div class="column is-half has-text-centered">
       <div class="box fullWidth">
-        <p class="heading">Avg. No. Of Bookings Made Today</p>
+        <p class="heading">Avg. Bookings Per User Today</p>
         <p class="title">{{ avgBookings }}</p>
       </div>
     </div>

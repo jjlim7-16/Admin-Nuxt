@@ -8,6 +8,13 @@
 		<b-field grouped group-multiline>
 			<!-- Search by Username -->
 			<b-input id="searchBar" placeholder="Search by Username" v-model="filter" rounded></b-input>
+			<!-- Filter by User Role -->
+			<b-select v-model="userFilter" placeholder="Filter by User" rounded>
+				<option value="All">All User Roles</option>
+				<option v-for="userRole in userRoleList" :key="userRole">
+					{{userRole}}
+				</option>
+			</b-select>
 		</b-field>
 
 		<b-table
@@ -66,12 +73,14 @@ export default {
 			perPage: 5,
 			data: [],
 			filter: '',
-			stationList: null
+			userRoleList: null,
+			userFilter: null
 		}
 	},
 	async mounted() {
 		let res = await this.$axios.get(`http://${config.serverURL}/user/getFilteredUsers`)
 		this.data = res.data
+		this.userRoleList = [...new Set(res.data.map(item => item.account_type))]
 		this.$store.commit('setPageTitle', 'Manage Users')
 	},
 
@@ -126,9 +135,18 @@ export default {
 		userData() {
 			if (this.filter !== '') {
 				let data = []
-				for (var i in this.data) {
-					if (this.data[i].username.toLowerCase().includes(this.filter.toLowerCase())) {
-						data.push(this.data[i])
+				for (let i of this.data) {
+					if (i.username.toLowerCase().includes(this.filter.toLowerCase())) {
+						data.push(i)
+					}
+				}
+				return data
+			}
+			else if (this.userFilter !== '' && this.userFilter !== 'All' && this.userFilter){
+				let data = []
+				for (let i of this.data) {
+					if (i.account_type.toLowerCase().includes(this.userFilter.toLowerCase())) {
+						data.push(i)
 					}
 				}
 				return data
