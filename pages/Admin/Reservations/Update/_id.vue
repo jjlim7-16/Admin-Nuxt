@@ -122,6 +122,8 @@ export default {
 	methods: {
 		submit() {
 			let session = this.sessionList.find(i => i.session_id === this.session_id)
+			let start = moment(session.session_start, 'HH:mm').format('HH:mm')
+			let end = moment(session.session_end, 'HH:mm').format('HH:mm')
 			let date = moment(this.date).format('YYYY-MM-DD')
 			let roleName = this.roleList.find(i => i.role_id === this.roleId).role_name
 			let webFormData = new DataModel.Reservation(date, this.roleId, this.session_id, this.noOfRSlots, this.remarks)
@@ -131,8 +133,8 @@ export default {
 				if (res.status === 200) {
 					this.$dialog.alert({
 						title: 'Change Reservation',
-						message: `Reservation has been successfully changed for <b>${roleName}</b>
-											from ${session.session_start} to ${session.session_end}.`,
+						message: `Reservation has been successfully changed for the role \'${roleName}\'
+						from ${start} to ${end}.`,
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',

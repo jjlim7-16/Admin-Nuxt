@@ -45,7 +45,8 @@
 			</b-field>
 
 			<br/>
-			<button class="button is-success is-pulled-right" :disabled="disableBtn" @click="submit()">Submit</button>
+			<button class="button is-success is-pulled-right" :disabled="disableBtn" 
+			@click="validateBeforeSubmit()">Submit</button>
 			<router-link to="/Admin/Users/" class="button is-light right-spaced is-pulled-right">Cancel</router-link>
 		</div>
 	</section>
@@ -98,12 +99,10 @@ export default {
 			}
 			if (userExist) {
 				this.$dialog.alert({
-					title: 'Error',
-					message: `<b>${this.username}</b> already exists`,
-					type: 'is-success',
-					hasIcon: true,
-					icon: 'check-circle',
-					iconPack: 'mdi'
+					title: 'User Exists',
+					message: `Username already exists`,
+					type: 'is-danger',
+					hasIcon: true
 				})
 			}
 			else {
@@ -114,7 +113,7 @@ export default {
 						if (res.status === 200) {
 							this.$dialog.alert({
 								title: 'Add User',
-								message: `<b>${this.username}</b> has been successfully added.`,
+								message: `A new user \'${this.username}\' has been successfully added.`,
 								type: 'is-success',
 								hasIcon: true,
 								icon: 'check-circle',
@@ -127,6 +126,21 @@ export default {
 						console.log(err)
 					})
 			}
+		},
+		validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.submit()
+				}
+				// else {
+				// 	this.$dialog.alert({
+				// 		title: 'Error',
+				// 		message: 'Please correct errors before submitting again.',
+				// 		type: 'is-danger',
+				// 		hasIcon: true,
+				// 	})
+				// }
+			})
 		},
 		getAccountTypeId() {
 			if (this.account_type === 'Admin') {
@@ -143,7 +157,12 @@ export default {
 			return (this.$store.state.auth.user.account_type !== 'Master Admin')
 		},
 		disableBtn() {
-			return (!this.account_type_id || !this.username || !this.password || !this.confirmPassword)
+			if (this.account_type === 'Crew') {
+				return !this.username || !this.password || !this.confirmPassword || !this.account_type_id
+			}
+			else if (this.account_type === 'Admin') {
+				return !this.username || !this.password || !this.confirmPassword
+			}
 		}
 	}
 }

@@ -113,6 +113,8 @@ export default {
 		submit() {
 			let date = moment(this.date).format('YYYY-MM-DD')
 			let session = this.sessionList.find(i => i.session_id === this.session_id)
+			let start = moment(session.session_start, 'HH:mm').format('HH:mm')
+			let end = moment(session.session_end, 'HH:mm').format('HH:mm')
 			let roleName = this.roleList.find(i => i.role_id === this.roleId).role_name
 			console.log(this.roleId)
 			let webFormData = new DataModel.Reservation(date, this.roleId, this.session_id, this.noOfRSlots, this.remarks)
@@ -121,8 +123,8 @@ export default {
 				if (res.status === 200) {
 					this.$dialog.alert({
 						title: 'Reservation',
-						message: `A new reservation on <b>${date}</b> has been made for <b>${roleName}</b>
-											from ${session.session_start} to ${session.session_end}.`,
+						message: `A new reservation on \'${date}\' has been made for the role \'${roleName}\'
+						from ${start} to ${end}.`,
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
@@ -168,7 +170,7 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-			return !this.session_id || !this.end || !this.date || !this.roleId ||
+			return !this.session_id || !this.end || !this.date || !this.roleId || 
 			!this.stationId || !this.remarks || !this.noOfRSlots
 		},
 		filterRoles() {
