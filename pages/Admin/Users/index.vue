@@ -7,7 +7,11 @@
 
 		<b-field grouped group-multiline>
 			<!-- Search by Username -->
-			<b-input id="searchBar" placeholder="Search by Username" v-model="filter" rounded></b-input>
+			<!-- <b-input id="searchBar" placeholder="Search by Username" v-model="filter" rounded></b-input> -->
+			<b-autocomplete id="searchBar" :data="filteredDataArray" placeholder="Search by Username"
+					v-model="filter" type="search" icon="magnify" @select="option => selected = option" rounded>
+				<template slot="empty">No results found</template>
+			</b-autocomplete>
 			<!-- Filter by User Role -->
 			<b-select v-model="userFilter" placeholder="Filter by User Role" rounded>
 				<option value="All">All User Roles</option>
@@ -72,6 +76,7 @@ export default {
 			paginated: true,
 			perPage: 5,
 			data: [],
+			autocompleteData: [],
 			filter: '',
 			userRoleList: null,
 			userFilter: null
@@ -80,6 +85,9 @@ export default {
 	async mounted() {
 		let res = await this.$axios.get(`http://${config.serverURL}/user/getFilteredUsers`)
 		this.data = res.data
+		for (let user of this.data) {
+			this.autocompleteData.push(user.username)
+		}
 		this.userRoleList = [...new Set(res.data.map(item => item.account_type))]
 		this.$store.commit('setPageTitle', 'Manage Users')
 	},
@@ -152,6 +160,14 @@ export default {
 				return data
 			}
 			return this.data
+		},
+		filteredDataArray() {
+			return this.autocompleteData.filter((option) => {
+				return option
+					.toString()
+					.toLowerCase()
+					.indexOf(this.filter.toLowerCase()) >= 0
+			})
 		}
 	}
 }
