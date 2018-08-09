@@ -113,6 +113,8 @@ export default {
 		submit() {
 			let date = moment(this.date).format('YYYY-MM-DD')
 			let session = this.sessionList.find(i => i.session_id === this.session_id)
+			let start = moment(session.session_start, 'HH:mm').format('HH:mm')
+			let end = moment(session.session_end, 'HH:mm').format('HH:mm')
 			let roleName = this.roleList.find(i => i.role_id === this.roleId).role_name
 			console.log(this.roleId)
 			let webFormData = new DataModel.Reservation(date, this.roleId, this.session_id, this.noOfRSlots, this.remarks)
@@ -122,7 +124,7 @@ export default {
 					this.$dialog.alert({
 						title: 'Reservation',
 						message: `A new reservation on \'${date}\' has been made for the role \'${roleName}\'
-						from ${session.session_start} to ${session.session_end}.`,
+						from ${start} to ${end}.`,
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',

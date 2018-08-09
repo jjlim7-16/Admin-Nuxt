@@ -31,7 +31,7 @@
 
 			<br/>
 			<button class="button is-success is-pulled-right" :disabled="isDisabled"
-			@click="submit()">Save Changes</button>
+			@click="validateBeforeSubmit()">Save Changes</button>
 			<router-link to="/Admin/Users/" class="button is-light right-spaced is-pulled-right">Cancel</router-link>
 		</div>
 	</section>
@@ -127,12 +127,24 @@ export default {
 					console.log(err)
 				})
 			}
+		},
+		validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.submit()
+				}
+			})
 		}
 	},
 	computed: {
 		isDisabled() {
 			if (this.curruser) {
-				return (!this.password || !this.confirmPassword) && (this.curruser.username === this.username)
+				if (this.account_type === 'Crew') {
+					return !this.username || !this.password || !this.confirmPassword || !this.account_type_id
+				}
+				else if (this.account_type === 'Admin') {
+					return !this.username || !this.password || !this.confirmPassword
+				}
 			}
 		}
 	}
