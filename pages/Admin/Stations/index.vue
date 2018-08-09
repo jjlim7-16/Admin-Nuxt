@@ -28,6 +28,10 @@
 				{{ props.row.durationInMins + ' mins' }}
 			</b-table-column>
 
+			<b-table-column field="noOfRoles" label="No. of Roles" sortable centered>
+				{{ props.row.noOfRoles }}
+			</b-table-column>
+
 			<b-table-column field="is_active" label="Status" sortable centered>
 				<span v-if="props.row.is_active===1" class="tag is-success">Active</span>
 				<span v-else class="tag is-danger">Inactive</span>

@@ -42,6 +42,10 @@
 					{{ props.row.reservedFrom.slice(0,5) + ' - ' + props.row.reservedTo.slice(0,5) }}
 				</b-table-column>
 
+				<b-table-column field="remarks" label="Remarks" sortable centered>
+					{{ props.row.remarks }}
+				</b-table-column>
+
 				<b-table-column label='Actions' centered>
 					<b-dropdown position="is-bottom-left">
 						<button class="button is-primary is-small is-inverted" slot="trigger">
