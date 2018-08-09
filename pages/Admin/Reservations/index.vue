@@ -66,9 +66,11 @@
 
 			<template slot="detail" slot-scope="props">
 				<article class="media">
+					<div class="media-left">&nbsp;&nbsp;&nbsp;</div>
 					<div class="media-content">
 						<div class="content">
-							<p>{{ props.row.remarks }}</p>
+							<strong>Remarks</strong>
+							<br /><p>{{ props.row.remarks }}</p>
 						</div>
 					</div>
 				</article>
@@ -165,5 +167,23 @@ export default {
 <style scoped>
 #addBtn {
   float: right;
+}
+
+@media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
+	.media-left {
+		display: none;
+	}
+}
+
+@media only screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
+	.media-left {
+		display: none;
+	}
+}
+
+@media screen and (min-width:768px) and (max-width:1023px) and (orientation:portrait) {
+	.media-left {
+		display: none;
+	}
 }
 </style>
