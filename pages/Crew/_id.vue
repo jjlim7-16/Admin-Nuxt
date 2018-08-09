@@ -1,16 +1,16 @@
 <template>
-  <section id="content"  class="box columns is-multiline">
+  <section id="content"  class="box">
     <b-field grouped>
       <b-field expanded class="column is-5" >
-      
+
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon> &nbsp;
-        <span v-if="haveSession"> <b>{{ sessionStartTime }} to {{ sessionEndTime }} </b> </span>    
+        <span v-if="haveSession"> <b>{{ sessionStartTime }} to {{ sessionEndTime }} </b> </span>
       </button>
       </b-field>
 
 
-      <b-field expanded class="column is-10"  >
+      <b-field expanded class="column is-10" >
       <b-input placeholder="Search for a queue number"
                type="search"
                icon="magnify"
@@ -28,7 +28,8 @@
     	:paginated="paginated"
 			:per-page="perPage"
 			:current-page.sync="currentPage"
-      :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'" class="column is-10">
+      :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'"
+      class="column is-10">
 
       <template slot-scope="props">
         <b-table-column field="queue_no" label="Queue No." filterable width="150" sortable>
@@ -49,7 +50,7 @@
         </b-table-column>
       </template>
 
-      	<template slot="empty">
+      	<template slot="empty1">
 				<section class="section">
 					<div class="content has-text-grey has-text-centered">
 						<p>
@@ -62,11 +63,27 @@
 					</div>
 				</section>
 			</template>
+
+      <template slot="empty2">
+        <section class="section">
+          <div class="content has-text-grey has-text-centered">
+            <p>
+              <b-icon
+                icon="emoticon-happy"
+                size="is-large">
+              </b-icon>
+            </p>
+            <p>Today's session is ended!</p>
+          </div>
+        </section>
+      </template>
+
     </b-table>
 
     <b-field id="attendance">
       <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
     </b-field>
+
   </section>
 </template>
 
@@ -82,7 +99,7 @@ let scannedID = "";
 
 export default {
   layout: "crewMenu",
-  methods: {
+methods: {
     setRefresh() {
       if (this.sessionStartTime != null) {
         var day = new Date();
@@ -142,7 +159,7 @@ export default {
       filter: "",
       currentPage: 1,
       paginated: true,
-      perPage: 5,
+      perPage: 8,
       haveSession: true,
       userBookingRoleName: "",
       userBookingStationName: "",
@@ -345,9 +362,14 @@ export default {
       return count;
     },
     isEmpty() {
-      if (this.bookingList.length === 0) return true;
+
+
+      if (this.bookingList.length === 0) {
+
+          return true;
+      }
       else return false;
-    }
+    },
   },
   destroyed() {
     socket.close();
@@ -370,6 +392,7 @@ export default {
 </script>
 
 <style>
+
 #attendance {
   margin-top: 20px;
   margin-left: 85%;

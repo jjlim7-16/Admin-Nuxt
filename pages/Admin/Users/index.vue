@@ -7,7 +7,7 @@
     <span>Add User</span>
   </router-link>
 
-  <b-field grouped group-multiline>
+  <b-field grouped>
     <!-- Search by Username -->
     <b-autocomplete id="searchBar" :data="filteredDataArray" placeholder="Search by Username" v-model="filter" type="search" icon="magnify" @select="option => selected = option" rounded>
       <template slot="empty">No results found</template>

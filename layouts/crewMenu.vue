@@ -10,7 +10,7 @@
       </aside>
     </div>
   <aside class="column is-10 myContent">
-      <header >
+      <header class="navbar header has-shadow mobileNav">
         <div class="container" id="myPageTitle">
           <div class="navbar-brand">
             <div class="centerTextBox navbar-item">
@@ -19,19 +19,44 @@
               </p>
             </div>
           </div>
+          <span class="navbar-burger burger" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+        </div>
+        <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
+          <div class="navbar-end">
+
+            <li class="navbar-item">
+              <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>&nbsp;Logout</a></ul>
+            </li>
+
+          </div>
         </div>
       </header>
-        <nuxt/>
+    <nuxt/>
+    <BackToTop :visibleoffset="heightOfBrowser"></BackToTop>
   </aside>
 
   </div>
 </template>
 
 <script>
-import Cookie from "js-cookie";
+import Cookie from "js-cookie"
+import BackToTop from '~/components/BackToTop'
 
 export default {
   middleware: "crewAuth",
+  components: {
+    BackToTop
+  },
+  data() {
+    return {
+      menuIsActive: false,
+      heightOfBrowser: 0
+    }
+  },
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {
@@ -39,7 +64,13 @@ export default {
         this.$axios.setToken(false);
         this.$router.push("/");
       });
+    },
+    toggleMenu() {
+      this.menuIsActive = !this.menuIsActive;
     }
+  },
+  mounted() {
+    this.heightOfBrowser = window.innerHeight/7
   }
 };
 </script>
@@ -49,6 +80,11 @@ export default {
 #app {
   margin: 0px;
 }
+
+.navbar-menu {
+    display: none;
+  }
+
 
 #nav {
   background-color: #565656;
@@ -106,22 +142,27 @@ export default {
   width: 1920px;
 }
 html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.2rem;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  background-color: #f8f8f8;
+  background-color: #F8F8F8;
+  overflow: hidden;
 }
 *,
 *:before,
 *:after {
   box-sizing: border-box;
   margin: 0;
+}
+
+.menu-list a.nuxt-link-active {
+  background-color: #ff4c65;
+  color: #fff;
 }
 
 #content {
@@ -131,4 +172,73 @@ html {
   margin: 2vw;
   overflow-y: auto;
 }
+
+
+@media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
+  html {
+    font-size: 1rem;
+    overflow-y: scroll;
+    background-color: white;
+  }
+  #myPageTitle {
+    font-size: 1.2rem;
+    padding: 0;
+  }
+  .container {
+    display: block;
+  }
+
+  .myContent {
+    width: 100% !important;
+  }
+  hr {
+    margin: 0.2rem;
+  }
+  #mobileNavbarMenu {
+    padding: 0.5rem 0.7rem;
+  }
+  .mobileNav {
+    height: 7%;
+  }
+}
+
+@media screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
+  html {
+    background-color: white;
+    overflow-y: scroll;
+  }
+  .myContent {
+    width: 100% !important;
+  }
+  #myPageTitle {
+    font-size: 1.2rem;
+  }
+  #mobileNavbarMenu {
+    height: 50vh;
+    overflow-y: scroll;
+    box-shadow: none;
+  }
+  hr {
+    margin: 0.2rem;
+  }
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+  html {
+    background-color: white;
+    overflow-y: scroll;
+  }
+  .column.is-10 {
+    flex: auto;
+    width: -webkit-fill-available;
+  }
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
+  .column.is-10 {
+    flex: auto;
+    width: -webkit-fill-available;
+  }
+}
+
 </style>
