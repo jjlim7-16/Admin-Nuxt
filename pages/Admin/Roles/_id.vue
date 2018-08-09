@@ -22,7 +22,8 @@
 			:paginated="paginated"
 			:per-page="perPage"
 			:current-page.sync="currentPage"
-			:default-sort="['station_name', 'asc']">
+			:default-sort="['station_name', 'asc']"
+			hoverable>
 
 			<template slot-scope="props">
 				<b-table-column field="station_name" label="Station Name" sortable>

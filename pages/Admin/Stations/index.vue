@@ -13,7 +13,16 @@
 		</b-autocomplete>
 	</b-field>
 
-	<b-table :data="filteredData" :paginated="paginated" :per-page="perPage" :mobile-cards="hasMobileCards" :current-page.sync="currentPage" default-sort-direction="asc" default-sort="station_id" detailed detail-key="station_id">
+	<b-table
+		:data="filteredData"
+		:paginated="paginated"
+		:per-page="perPage"
+		:mobile-cards="hasMobileCards"
+		:current-page.sync="currentPage"
+		default-sort-direction="asc"
+		default-sort="station_id"
+		detailed detail-key="station_id"
+		hoverable>
 
 		<template slot-scope="props">
 			<b-table-column field="station_name" label="Station Name"  sortable>
