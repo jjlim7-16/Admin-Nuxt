@@ -121,8 +121,8 @@ export default {
 				if (res.status === 200) {
 					this.$dialog.alert({
 						title: 'Reservation',
-						message: `A new reservation on \'${date}\' has been made for the role \'${roleName}\'
-						from ${session.session_start} to ${session.session_end}.`,
+						message: `A new reservation on <b>${date}</b> has been made for <b>${roleName}</b>
+											from ${session.session_start} to ${session.session_end}.`,
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
@@ -168,7 +168,7 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-			return !this.session_id || !this.end || !this.date || !this.roleId || 
+			return !this.session_id || !this.end || !this.date || !this.roleId ||
 			!this.stationId || !this.remarks || !this.noOfRSlots
 		},
 		filterRoles() {

@@ -87,7 +87,7 @@ export default {
 				if (res.status === 200) {
 					this.$dialog.alert({
 						title: 'Set Limit',
-						message: `A new limit has been set for the role \'${roleName}\' on \'${date}\'.`,
+						message: `A new limit has been set for <b>${roleName}</b> on <b>${date}</b>`,
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
@@ -99,7 +99,7 @@ export default {
 			.catch(err => {
 				this.$dialog.alert({
 					title: 'Error',
-					message: `Error! A limit has already been set for the role \'${roleName}\' on \'${date}\'.`,
+					message: `A limit has already been set for <b>${roleName}</b> on <b>${date}</b>`,
 					type: 'is-danger',
 					hasIcon: true
 				})

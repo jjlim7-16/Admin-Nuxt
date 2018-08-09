@@ -131,8 +131,8 @@ export default {
 				if (res.status === 200) {
 					this.$dialog.alert({
 						title: 'Change Reservation',
-						message: `Reservation has been successfully changed for the role \'${roleName}\'
-						from ${session.session_start} to ${session.session_end}.`,
+						message: `Reservation has been successfully changed for <b>${roleName}</b>
+											from ${session.session_start} to ${session.session_end}.`,
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',

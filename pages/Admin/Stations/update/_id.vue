@@ -142,8 +142,8 @@ export default {
 			}
 			if (stationExists) {
 				this.$dialog.alert({
-					title: "Station Exists",
-					message: `Error! The Station: \'${this.name}\' Already Exists`,
+					title: "Error",
+					message: `<b>${this.name}</b> already exists`,
 					type: "is-danger",
 					hasIcon: true
 				})
@@ -165,7 +165,7 @@ export default {
 					if (res.status === 200) {
 						this.$dialog.alert({
 							title: 'Update Station',
-							message: 'The Station: ' + this.name + ' has been updated successfully',
+							message: '<b>' + this.name + '</b> has been successfully updated',
 							type: 'is-success',
 							hasIcon: true,
 							icon: 'check-circle',

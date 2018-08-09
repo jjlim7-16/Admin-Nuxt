@@ -131,7 +131,7 @@ export default {
             if (res.status === 200) {
               this.$dialog.alert({
                 title: 'Cancel Reservation',
-                message: `The reservation has been successfully cancelled`,
+                message: `Reservation has been successfully cancelled`,
                 type: 'is-success',
                 hasIcon: true,
                 icon: 'check-circle',

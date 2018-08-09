@@ -72,10 +72,10 @@
 					<hr />
 
 					<b-dropdown-item style="text-align: left" has-link paddingless>
-						<a v-if="props.row.is_active === 1" 
+						<a v-if="props.row.is_active === 1"
 						@click="updateStationStatus(props.row.station_id, 0)">Deactivate</a>
 
-						<a v-else-if="props.row.is_active === 0" 
+						<a v-else-if="props.row.is_active === 0"
 						@click="updateStationStatus(props.row.station_id, 1)">Activate</a>
 					</b-dropdown-item>
 				</b-dropdown>
@@ -146,7 +146,7 @@ export default {
 						if (res.status === 200) {
 							this.$dialog.alert({
 								title: `${action} Station`,
-								message: `Station Has Been Successfully ${action + 'd'}`,
+								message: `Station has been successfully ${action + 'd'}`,
 								type: 'is-success',
 								hasIcon: true,
 								icon: 'check-circle',
@@ -163,7 +163,7 @@ export default {
 		remove(station_id, station_name) {
 			this.$dialog.confirm({
 				title: 'Delete Station',
-				message: 'Are you sure you want to permanently delete this station?',
+				message: 'Are you sure you want to permanently delete <b>' + station_name + '</b>?',
 				confirmText: 'Delete Station',
 				type: 'is-danger',
 				hasIcon: true,
@@ -173,7 +173,7 @@ export default {
 					if (res.status === 200) {
 						this.$dialog.alert({
 							title: 'Delete Station',
-							message: 'The Station: ' + station_name + ' has been successfully deleted',
+							message: '<b>' + station_name + '</b> has been successfully deleted',
 							type: 'is-success',
 							hasIcon: true,
 							icon: 'check-circle',
