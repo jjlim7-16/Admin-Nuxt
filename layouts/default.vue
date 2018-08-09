@@ -303,7 +303,11 @@ html {
     margin: 0.2rem;
   }
   #mobileNavbarMenu {
+    height: 45vh;
     padding: 0.5rem 0.7rem;
+    overflow-y: scroll;
+    box-shadow: none;
+    font-size: 1rem;
   }
   .mobileNav {
     height: 7%;
@@ -328,9 +332,11 @@ html {
     font-size: 1.2rem;
   }
   #mobileNavbarMenu {
-    height: 50vh;
+    height: 45vh;
+    padding: 0.5rem 0.7rem;
     overflow-y: scroll;
     box-shadow: none;
+    font-size: 1rem;
   }
   .menu-label {
     color: black;
@@ -341,10 +347,43 @@ html {
   }
 }
 
-@media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+@media screen and (min-width:768px) and (max-width:1023px) and (orientation:portrait) {
   html {
-    background-color: white;
     overflow-y: scroll;
+  }
+  #myPageTitle {
+    font-size: 1.4rem;
+  }
+  #mobileNavbarMenu {
+    height: 40vh;
+    padding: 0.5rem 1.5rem;
+    overflow-y: scroll;
+    box-shadow: none;
+    font-size: 1.2rem;
+  }
+  .menu-label {
+    color: black;
+  }
+  hr {
+    margin: 0.2rem;
+  }
+  #content {
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+}
+
+@media screen and (min-width:768px) and (max-width:1023px) and (orientation:landscape) {
+  #myPageTitle {
+    font-size: 1.4rem;
+  }
+  #mobileNavbarMenu {
+    height: 35vh;
+    padding: 0.5rem 1.5rem;
+    overflow-y: scroll;
+    box-shadow: none;
+    font-size: 1.2rem;
   }
   .menu-label {
     color: black;
@@ -353,19 +392,34 @@ html {
     flex: auto;
     width: -webkit-fill-available;
   }
+  hr {
+    margin: 0.2rem;
+  }
   #content {
-    width: 100%;
-    margin: 0;
-    height: auto;
-    background-color: transparent;
-    box-shadow: none;
+    height: 84vh;
   }
 }
 
-@media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
+@media screen and (min-width:1024px) and (max-width:1366px) and (orientation:portrait) {
   .column.is-10 {
     flex: auto;
     width: -webkit-fill-available;
   }
+  #mobileNavbarMenu {
+    height: 45vh;
+    padding: 0.5rem 1.5rem;
+    overflow-y: scroll;
+    box-shadow: none;
+  }
+  .menu-label {
+    color: black;
+  }
+  hr {
+    margin: 0.2rem;
+  }
+  #content {
+    height: 90vh;
+  }
 }
+
 </style>
