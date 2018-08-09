@@ -13,10 +13,8 @@
 
 			<div class="columns">
 				<div class="column is-half">
-					<b-field label='Select Station' :type="errors.has('station') ? 'is-danger': ''"
-						:message="errors.has('station') ? errors.first('station') : ''">
-						<b-select expanded placeholder='Select Station' v-model="stationId"
-							name="station" v-validate="'required'" data-vv-as="'Station'" rounded>
+					<b-field label='Select Station'>
+						<b-select expanded placeholder='Select Station' v-model="stationId" @forminput="reset" rounded>
 							<option v-for="station in stationList" :value="station.station_id" :key="station.station_name">
 								{{station.station_name}}
 							</option>
@@ -25,10 +23,8 @@
 				</div>
 
 				<div class="column is-half">
-					<b-field label='Select Role' :type="errors.has('role') ? 'is-danger': ''"
-						:message="errors.has('role') ? errors.first('role') : ''">
-						<b-select expanded placeholder='Select Role' v-model="roleId"
-							name="role" v-validate="'required'" data-vv-as="'Role'" @input="getSessionList" rounded>
+					<b-field label='Select Role'>
+						<b-select expanded placeholder='Select Role' v-model="roleId" @input="getSessionList" rounded>
 							<option disabled>Please select a station first</option>
 							<option v-for="role in filterRoles" :value="role.role_id" :key="role.role_name">
 								{{ role.role_name }}
@@ -41,9 +37,9 @@
 			<div class="columns">
 				<div class="column is-half">
 					<b-field label='Reserve From'>
-						<b-select expanded placeholder="Reserve From" v-model="start" rounded>
+						<b-select expanded placeholder="Reserve From" v-model="session_id" rounded>
 							<option disabled selected>Please select a role first</option>
-							<option v-for="start in sessionList" :value="start.session_start" :key="start.session_start">
+							<option v-for="start in sessionList" :value="start.session_id" :key="start.session_start">
 								{{ start.session_start.slice(0, 5) }}
 							</option>
 						</b-select>
@@ -52,15 +48,20 @@
 
 				<div class="column is-half">
 					<b-field label='Reserve To'>
-						<b-select expanded placeholder="Reserve To" v-model="end" rounded>
+						<b-select expanded placeholder="Reserve To" v-model="end" disabled rounded>
 							<option disabled selected>Please select a role first</option>
-							<option v-for="end in filterEnd" :value="end.session_end" :key="end.session_end">
-								{{ end.session_end.slice(0, 5) }}
-							</option>
+							<option v-if="session_id && filterEnd !== undefined">{{ filterEnd.session_end.slice(0,5) }}</option>
 						</b-select>
 					</b-field>
 				</div>
 			</div>
+
+			<b-field label='No. Of Reserved Slots'>
+				<b-select expanded placeholder="No. Of Slots To Reserve" v-model="noOfRSlots" rounded>
+					<option disabled selected>Please select role and session first</option>
+					<option v-for="i in maxCap" :key="i" :value="i">{{ i }}</option>
+				</b-select>
+			</b-field>
 
 			<b-field label="Remarks" :type="errors.has('remarks') ? 'is-danger': ''"
 				:message="errors.has('remarks') ? errors.first('remarks') : ''">
@@ -92,9 +93,11 @@ export default {
 			stationId: null,
 			stationList: null,
 			sessionList: null,
-			start: null,
+			session_id: null,
 			end: null,
+			noOfRSlots: null,
 			remarks: '',
+			maxCap: 0,
 			minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
 			date: null,
 			origData: null
@@ -112,18 +115,16 @@ export default {
 		this.roleId = this.origData.role_id
 
 		this.date = new Date(this.origData.session_date)
-		this.start = this.origData.reservedFrom
-		this.end = this.origData.reservedTo
+		this.session_id = this.origData.session_id
 		this.remarks = this.origData.remarks
+		this.noOfRSlots = this.origData.noOfReservedSlots
 	},
 	methods: {
 		submit() {
-			let reservedFrom = moment(this.start, 'HH:mm').format('HH:mm')
-			let reservedTo = moment(this.end, 'HH:mm').format('HH:mm')
+			let session = this.sessionList.find(i => i.session_id === this.session_id)
 			let date = moment(this.date).format('YYYY-MM-DD')
 			let roleName = this.roleList.find(i => i.role_id === this.roleId).role_name
-			let webFormData = new DataModel.Reservation(date, this.stationId, this.roleId,
-				reservedFrom, reservedTo, this.remarks)
+			let webFormData = new DataModel.Reservation(date, this.roleId, this.session_id, this.noOfRSlots, this.remarks)
 
 			this.$axios.put(`http://${config.serverURL}/reservations/${this.$route.params.id}`, webFormData)
 			.then(res => {
@@ -131,7 +132,7 @@ export default {
 					this.$dialog.alert({
 						title: 'Change Reservation',
 						message: `Reservation has been successfully changed for the role \'${roleName}\'
-						from ${reservedFrom} to ${reservedTo}.`,
+						from ${session.session_start} to ${session.session_end}.`,
 						type: 'is-success',
 						hasIcon: true,
 						icon: 'check-circle',
@@ -152,10 +153,11 @@ export default {
 			})
 		},
 		async getSessionList() {
-			if (!this.sessionList) {
-				let res = await this.$axios.get(`http://${config.serverURL}/reservations/getSessionList/${this.roleId}`)
-				this.sessionList = res.data
-			}
+			let res = await this.$axios.get(`http://${config.serverURL}/reservations/getSessionList/${this.roleId}`)
+			this.sessionList = res.data
+			this.maxCap = this.sessionList[0].capacity
+			// this.session_id = null
+			// this.noOfRSlots = null
 		},
 		validateBeforeSubmit() {
 			this.$validator.validateAll().then(res => {
@@ -163,15 +165,23 @@ export default {
 					this.submit()
 				}
 			})
+		},
+		reset() {
+			if (this.roleId) {
+				this.roleId = null
+				this.session_id = null
+				this.noOfRSlots = null
+			}
 		}
 	},
 	computed: {
 		isDisabled() {
 			if (this.origData) {
-				return (this.origData.reservedFrom === this.start && this.origData.reservedTo === this.end
+				return (this.origData.session_id === this.session_id
 				&& moment(new Date(this.origData.session_date), 'YYYY-MM-DD').diff(moment(this.date, 'YYYY-MM-DD'), 'days') === 0
-				&& this.origData.role_id === this.roleId && this.origData.station_id === this.stationId) ||
-				!this.start || !this.end || !this.date || !this.roleId || !this.stationId
+				&& this.origData.role_id === this.roleId && this.origData.station_id === this.stationId
+				&& this.noOfRSlots === this.origData.noOfReservedSlots && this.origData.remarks === this.remarks) ||
+				!this.session_id || !this.date || !this.roleId || !this.stationId || !this.noOfRSlots || !this.remarks
 			}
 		},
 		filterRoles() {
@@ -179,17 +189,19 @@ export default {
 				return this.roleList.filter(i => i.station_id === this.stationId)
 			}
 		},
-		filterStart() {
-			if (this.end) {
-				return this.sessionList.filter(i => moment(i.session_start, 'HH:mm').isBefore(moment(this.end, 'HH:mm')))
-			}
-			return this.sessionList
-		},
 		filterEnd() {
-			if (this.start && this.sessionList) {
-				return this.sessionList.filter(i => moment(i.session_end, 'HH:mm').isAfter(moment(this.start, 'HH:mm')))
+			if (this.session_id) {
+				for (let i in this.sessionList) {
+					if (this.session_id === this.sessionList[i].session_id) {
+						this.end = this.sessionList[i].session_end.slice(0, 5)
+						return this.sessionList[i]
+					}
+				}
 			}
-			return this.sessionList
+			else {
+				this.end = null
+				return undefined
+			}
 		}
 	}
 }
