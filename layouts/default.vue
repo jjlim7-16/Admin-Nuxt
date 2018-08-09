@@ -422,4 +422,11 @@ html {
   }
 }
 
+@media screen and (min-width:1024px) and (max-width:1366px) and (orientation:landscape) {
+  .column.is-10 {
+    flex: auto;
+    width: -webkit-fill-available;
+  }
+}
+
 </style>
