@@ -301,6 +301,7 @@ export default {
       if (self.isFocus == false) {
         if (e.key == "Enter") {
           scannedID = scannedArray.join("");
+          scannedID = scannedID.toUpperCase();
           scannedArray = [];
           console.log(scannedID);
           for (var i in self.bookingList) {
@@ -346,25 +347,26 @@ export default {
             self.$axios
               .get(`http://${config.serverURL}/bookings/rfid/${scannedID}`)
               .then(res => {
-                let data = res.data[0];
+                let data = res.data;
                 console.log(data);
                 let haveConfirmBooking = false;
                 if (res.data.length > 0) {
-                  for (var i in data) {
-                    if (data[i].booking_status === "Confirm") {
+                  for (var i of data) {
+                    console.log(i.booking_status);
+                    if (i.booking_status === "Confirmed") {
                       haveConfirmBooking = true;
                       console.log("displayOtherbooking");
                       self.$dialog.alert({
                         title: "Wrong Booking",
                         message:
-                          "User does not have booking here!" +
-                          "Actual booking: " +
-                          data.station_name +
-                          " , " +
-                          data.role_name +
-                          " @ " +
-                          data.session_start +
-                          ".",
+                          "User does not have a booking here.<br/><br/>" +
+                          "<b>Actual booking:</b><br/>" +
+                          i.station_name +
+                          "<br/>" +
+                          i.role_name +
+                          "<br/>" +
+                          i.session_start +
+                          "",
                         confirmText: "OK"
                       });
                     }
