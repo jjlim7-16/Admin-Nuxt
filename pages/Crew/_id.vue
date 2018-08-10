@@ -15,7 +15,7 @@
     </b-field>
   </b-field>
 
-  <b-table :data="isEmpty ? [] : filteredData" :paginated="paginated" :per-page="perPage" :current-page.sync="currentPage" :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'">
+  <b-table :data="isEmpty ? [] : filteredData" :paginated="paginated" :per-page="perPage" :current-page.sync="currentPage" :row-class="(row, index) => getRowClass(row)">
 
     <template slot-scope="props">
         <b-table-column field="queue_no" label="Queue No." filterable width="150" sortable>
@@ -53,7 +53,7 @@
   <b-field class="level columns">
     <b-field id="reservation" class="level-left column makeFlex is-half" >
       <div class="level-item">
-        <b>Number Of Reservation</b>: {{ noOfReservedSlots }}
+        <b>No. Of Reservation</b>: {{ noOfReservedSlots }}
       </div>
     </b-field>
 
@@ -73,13 +73,15 @@ import moment from "moment";
 import config from "~/config";
 import io from "~/plugins/socket-io.js";
 let socket;
-
 let scannedArray = [];
 let scannedID = "";
-
 export default {
   layout: "crewMenu",
   methods: {
+    getRowClass(row) {
+      if (row.booking_status === "Admitted") return "is-success-table";
+      else if (row.booking_status === "Reserved") return "is-reserved-table";
+    },
     setRefresh() {
       if (this.sessionStartTime != null) {
         var day = new Date();
@@ -90,15 +92,29 @@ export default {
           5,
           "minutes"
         );
-
         console.log(refreshTime);
         var duration = moment.duration(refreshTime.diff(currentTime));
-
         var miliseconds = duration.as("milliseconds");
         console.log(miliseconds);
-
         setTimeout(() => {
           this.updateNotAdmittedBookingsAndRefresh();
+        }, miliseconds);
+      }
+    },
+    refreshOnStart() {
+      console.log("inside refresh on 9:55");
+      var day = new Date();
+      var currentTime = new moment(day, "HH:mm");
+      console.log(this.sessionEndTime);
+      var refreshTime = new moment("09:55:00", "HH:mm");
+      console.log(currentTime < refreshTime);
+      if (currentTime < refreshTime) {
+        console.log(refreshTime);
+        var duration = moment.duration(refreshTime.diff(currentTime));
+        var miliseconds = duration.as("milliseconds");
+        console.log(miliseconds);
+        setTimeout(() => {
+          this.$router.go();
         }, miliseconds);
       }
     },
@@ -109,7 +125,8 @@ export default {
             .put(
               `http://${config.serverURL}/bookings/updateStatus/${
                 this.bookingList[i].booking_id
-              }`, {
+              }`,
+              {
                 booking_status: "Not Admitted"
               }
             )
@@ -140,7 +157,7 @@ export default {
       filter: "",
       currentPage: 1,
       paginated: true,
-      perPage: 5,
+      perPage: 10,
       haveSession: true,
       userBookingRoleName: "",
       userBookingStationName: "",
@@ -154,11 +171,9 @@ export default {
     if (this.$route.params["id"]) {
       this.stationID = parseInt(this.$route.params["id"]);
     }
-
     let theData;
     let startTime;
     let endTime;
-
     this.$axios
       .get(
         `http://${config.serverURL}/reservations/getCurrentReservation/${
@@ -167,39 +182,47 @@ export default {
       )
       .then(res => {
         if (res.status === 200) {
-          console.log(res.data);
+          console.log("reservationData", res.data);
           if (res.data.length > 0) {
             this.noOfReservedSlots = 0; //reset the noOfReservedSlots to 0
             theData = res.data;
             for (var i in theData) {
               let noOfReserved = parseInt(theData[i].noOfReservedSlots);
               this.noOfReservedSlots += noOfReserved;
+              console.log("Number of reserved for a role", noOfReserved);
               let roleName = theData[i].role_name;
-              for (u = 0; u < noOfReserved; u++) {
-                var aReservation = {
-                  booking_id: "0000",
-                  session_id: "0000",
-                  station_name: theData[i].station_name,
-                  session_date: theData[i].session_date,
-                  role_name: theData[i].role_name,
-                  session_start: theData[i].session_start,
-                  session_end: theData[i].session_end,
-                  booking_status: "Reserved",
-                  rfid: "0000",
-                  queue_no: "-"
-                };
+              var aReservation = {
+                booking_id: "0000",
+                session_id: "0000",
+                station_name: theData[i].station_name,
+                session_date: theData[i].session_date,
+                role_name: theData[i].role_name,
+                session_start: theData[i].session_start,
+                session_end: theData[i].session_end,
+                booking_status: "Reserved",
+                rfid: "0000",
+                queue_no: "-"
+              };
+              console.log("areservation", aReservation);
+              for (var u = 0; u < noOfReserved; u++) {
                 this.bookingListWithReserved.push(aReservation);
+                console.log("looping to push reserved", u);
               }
             }
             console.log(this.noOfReservedSlots);
-            console.log(this.bookingListWithReserved);
+            console.log(
+              "bookingListwithReserved",
+              this.bookingListWithReserved
+            );
           } else {
             this.noOfReservedSlots = 0;
           }
-        } else {}
+        } else {
+        }
       })
       .catch(err => {
         console.log("FAIL getting reservations");
+        console.log(err);
       });
     this.$axios
       .get(
@@ -207,7 +230,7 @@ export default {
       )
       .then(res => {
         if (res.status === 200) {
-          console.log(res.data);
+          console.log("bookinglist", res.data);
           if (res.data.length == 0) {
             this.$axios
               .get(
@@ -233,6 +256,7 @@ export default {
                     );
                     this.setRefresh();
                   } else {
+                    this.refreshOnStart();
                     this.haveSession = false;
                   }
                 }
@@ -244,18 +268,18 @@ export default {
           } else {
             theData = res.data;
             this.bookingList = theData;
-            this.bookingListWithReserved.push(theData);
+            for (var u in theData) {
+              this.bookingListWithReserved.push(theData[u]);
+            }
             console.log(this.bookingListWithReserved);
             this.sessionStartTime = theData[0].session_start.substr(
               theData[0].session_start,
               5
             );
-
             this.sessionEndTime = theData[0].session_end.substr(
               theData[0].session_end,
               5
             );
-
             this.numberOfBooking = theData.length;
             this.setRefresh();
             this.stationName = theData[0].station_name;
@@ -272,90 +296,6 @@ export default {
   },
   mounted() {
     let self = this;
-
-    // window.onkeypress = function(e) {
-    //   console.log(self.isFocus);
-    //   if (self.isFocus == false) {
-    //     if (e.key == "Enter") {
-    //       scannedID = scannedArray.join("");
-    //       scannedArray = [];
-    //       console.log(scannedID);
-    //       for (var i in self.bookingList) {
-    //         self.isExist = false;
-    //         console.log("inside for loop");
-    //         console.log(self.bookingList[i].rfid);
-    //         if (self.bookingList[i].rfid == scannedID) {
-    //           self.isExist = true;
-    //           var booking_id = self.bookingList[i].booking_id;
-    //           self.bookingList[i].booking_status = "Admitted";
-
-    //           var day = new Date();
-    //           var time_in = moment(day).format("HH:mm");
-    //           self.bookingList[i].time_in = time_in;
-    //           socket.emit("admitted", self.bookingList); //socket
-    //           self.$axios
-    //             .put(
-    //               `http://${
-    //                 config.serverURL
-    //               }/bookings/updateStatus/${booking_id}`,
-    //               {
-    //                 booking_status: "Admitted",
-    //                 time_in: moment(day).format("HH:mm")
-    //               }
-    //             )
-    //             .then(res => {
-    //               // console.log(res.data)
-    //             })
-    //             .catch(() => {
-    //               console.log("FAILURE");
-    //             });
-    //         }
-    //       }
-    //       console.log(self.isExist);
-    //       if (self.isExist == false) {
-    //         console.log("customer not exist");
-    //         //check whether the user have another booking which is not cancelled and after current time
-    //         self.$axios
-    //           .get(`http://${config.serverURL}/bookings/rfid/${scannedID}`)
-    //           .then(res => {
-    //             let data = res.data[0];
-    //             console.log(data);
-    //             if (res.data.length > 0) {
-    //               console.log("displayOtherbooking");
-    //               self.$dialog.alert({
-    //                 title: "Wrong Booking",
-    //                 message:
-    //                   "User does not have booking here!" +
-    //                   "Actual booking: " +
-    //                   data.station_name +
-    //                   " , " +
-    //                   data.role_name +
-    //                   " @ " +
-    //                   data.session_start +
-    //                   ".",
-    //                 confirmText: "OK"
-    //               });
-    //             } else {
-    //               //if no booking then display error message
-    //               console.log("toast");
-    //               self.$toast.open({
-    //                 duration: 5000,
-    //                 message: `User does not have any bookings!`,
-    //                 position: "is-bottom",
-    //                 type: "is-danger"
-    //               });
-    //             }
-    //           })
-    //           .catch(() => {
-    //             console.log("FAILURE");
-    //           });
-    //       }
-    //     } else {
-    //       scannedArray.push(e.key);
-    //     }
-    //   }
-    // };
-
     window.onkeypress = function(e) {
       console.log(self.isFocus);
       if (self.isFocus == false) {
@@ -371,26 +311,28 @@ export default {
               self.isExist = true;
               var booking_id = self.bookingList[i].booking_id;
               self.bookingList[i].booking_status = "Admitted";
-              for (var i in self.bookingListWithReserved) {
-                if (self.bookingListWithReserved[i].rfid == scannedID) {
-                  self.bookingListWithReserved[i].booking_status = "Admitted";
-                }
-              }
               var day = new Date();
               var time_in = moment(day).format("HH:mm");
+              for (var u in self.bookingListWithReserved) {
+                if (self.bookingListWithReserved[u].rfid == scannedID) {
+                  self.bookingListWithReserved[u].booking_status = "Admitted";
+                  self.bookingListWithReserved[u].time_in = time_in;
+                }
+              }
               self.bookingList[i].time_in = time_in;
               socket.emit("admitted", self.bookingListWithReserved); //socket
               self.$axios
                 .put(
                   `http://${
                     config.serverURL
-                  }/bookings/updateStatus/${booking_id}`, {
+                  }/bookings/updateStatus/${booking_id}`,
+                  {
                     booking_status: "Admitted",
                     time_in: moment(day).format("HH:mm")
                   }
                 )
                 .then(res => {
-                  // console.log(res.data)
+                  console.log("sucessupdatestatus", res.data);
                 })
                 .catch(() => {
                   console.log("FAILURE");
@@ -414,7 +356,8 @@ export default {
                       console.log("displayOtherbooking");
                       self.$dialog.alert({
                         title: "Wrong Booking",
-                        message: "User does not have booking here!" +
+                        message:
+                          "User does not have booking here!" +
                           "Actual booking: " +
                           data.station_name +
                           " , " +
@@ -456,32 +399,17 @@ export default {
       }
     };
   },
-
   computed: {
-    // filteredData() {
-    //   if (this.filter !== "") {
-    //     let data = [];
-    //     for (var i in this.bookingList) {
-    //       if (
-    //         this.bookingList[i].queue_no
-    //           .toLowerCase()
-    //           .includes(this.filter.toLowerCase())
-    //       ) {
-    //         data.push(this.bookingList[i]);
-    //       }
-    //     }
-    //     return data;
-    //   }
-    //   return this.bookingList;
-    // },
     filteredData() {
+      console.log("inside filtered data", this.bookingListWithReserved);
       if (this.filter !== "") {
         let data = [];
+        console.log("inside filtered data", this.bookingListWithReserved);
         for (var i in this.bookingListWithReserved) {
           if (
             this.bookingListWithReserved[i].queue_no
-            .toLowerCase()
-            .includes(this.filter.toLowerCase())
+              .toLowerCase()
+              .includes(this.filter.toLowerCase())
           ) {
             data.push(this.bookingListWithReserved[i]);
           }
@@ -490,18 +418,18 @@ export default {
       }
       return this.bookingListWithReserved;
     },
-
     numberOfAdmit() {
       var count = 0;
       for (var i in this.bookingList) {
         if (this.bookingList[i].booking_status === "Admitted") {
           count++;
-        } else {}
+        } else {
+        }
       }
       return count;
     },
     isEmpty() {
-      if (this.bookingList.length === 0) return true;
+      if (this.bookingListWithReserved.length === 0) return true;
       else return false;
     }
   },
@@ -510,16 +438,8 @@ export default {
   },
   beforeMount() {
     socket = io.socketio.connect(`http://${config.serverURL}/crew`);
-    socket.on("newAdmission", bookingList => {
-      this.bookingList = bookingList;
-      // for (var i in this.bookingList) {
-      //   if (this.bookingList[i].booking_id == booking_id) {
-      //     this.bookingList[i].booking_status = "Admitted";
-      //     //this.bookingList[i].time_in = data.time_in;
-
-      //     console.log(this.bookingList[i]);
-      //   }
-      // }
+    socket.on("newAdmission", bookingListWithReserved => {
+      this.bookingListWithReserved = bookingListWithReserved;
     });
   }
 };

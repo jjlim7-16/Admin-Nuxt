@@ -180,7 +180,6 @@ html {
     box-shadow: none;
   }
   #mobileNavbarMenu {
-      height: 45vh;
     padding: 0.5rem 0.7rem;
     overflow-y: scroll;
     box-shadow: none;
