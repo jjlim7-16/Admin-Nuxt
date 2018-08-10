@@ -73,10 +73,10 @@
 
 					<b-dropdown-item style="text-align: left" has-link paddingless>
 						<a v-if="props.row.is_active === 1"
-						@click="updateStationStatus(props.row.station_id, 0)">Deactivate</a>
+						@click="updateStationStatus(props.row.station_id, props.row.station_name, 0)">Deactivate</a>
 
 						<a v-else-if="props.row.is_active === 0"
-						@click="updateStationStatus(props.row.station_id, 1)">Activate</a>
+						@click="updateStationStatus(props.row.station_id, props.row.station_name, 1)">Activate</a>
 					</b-dropdown-item>
 				</b-dropdown>
 			</b-table-column>
@@ -129,14 +129,17 @@ export default {
 		this.$store.commit('setPageTitle', 'Manage Stations')
 	},
 	methods: {
-		updateStationStatus(station_id, newActiveStatus) {
+		updateStationStatus(station_id, station_name, newActiveStatus) {
 			let formData = {
 				'newActiveStatus': newActiveStatus
 			}
 			let action = (newActiveStatus === 1) ? 'Activate' : 'Deactivate'
+			let msg = (newActiveStatus === 0) ? `Warning! All slots will be removed for the day upon deactivation! 
+				Are you sure you want to ${action.toLowerCase()} <b>${station_name}<b>?` : 
+				`Are you sure you want to ${action.toLowerCase()} <b>${station_name}<b>?`
 			this.$dialog.confirm({
 				title: `${action} Station`,
-				message: `Are you sure you want to ${action.toLowerCase()} this station?`,
+				message: msg,
 				confirmText: `${action} Station`,
 				type: 'is-danger',
 				hasIcon: true,
