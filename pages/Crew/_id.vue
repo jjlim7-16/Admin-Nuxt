@@ -1,7 +1,7 @@
 <template>
 <section id="content" class="box">
   <b-field grouped>
-    <b-field expanded class="column is-5">
+    <b-field class="column is-5">
 
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon> &nbsp;
@@ -9,7 +9,7 @@
       </button>
     </b-field>
 
-    <b-field expanded class="column is-2">
+    <b-field class="column is-5">
       <b-input placeholder="Search for a queue number" type="search" icon="magnify" v-model="filter" rounded @focus="isFocus = true" @blur="isFocus = false">
       </b-input>
     </b-field>
