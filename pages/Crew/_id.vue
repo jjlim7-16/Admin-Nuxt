@@ -50,14 +50,14 @@
 				</section>
 			</template>
   </b-table>
-  <b-field class="level">
-    <b-field id="reservation" class="level-left">
+  <b-field class="level columns">
+    <b-field id="reservation" class="level-left column makeFlex is-half" >
       <div class="level-item">
         <b>Number Of Reservation</b>: {{ noOfReservedSlots }}
       </div>
     </b-field>
 
-    <b-field id="attendance" class="level-right">
+    <b-field id="attendance" class="level-right column makeFlex is-half">
       <div class="level-item">
         <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
       </div>
@@ -527,11 +527,15 @@ export default {
 
 <style>
 #attendance {
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 #reservation {
-  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.makeFlex {
+  display: flex;
 }
 
 tr.is-success-table {
