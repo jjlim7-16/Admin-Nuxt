@@ -29,46 +29,42 @@ Vue.component('my-line', {
 				{
 					title: {
 						display: true,
-						text: 'Capacity Percentage By Session Time',
+						text: 'No. Of Bookings Per Session',
 						fontSize: 18,
 						padding: 5,
 						lineHeight: 2
 					},
 					tooltips: {
-						callbacks: {
-							label: function (tooltipItem, data) {
-								var label = data.datasets[tooltipItem.datasetIndex].label || ''
-								if (label) {
-									label += ': '
-								}
-								label += tooltipItem.yLabel + '%'
-								return label
-							}
-						}
+						titleFontSize: 16,
+						bodyFontSize: 16
 					},
 					legend: {
-						onClick: function (event, legendItem) {}
+						onClick: function (event, legendItem) {},
+						labels: {
+							fontSize: 14
+						}
 					},
 					scales: {
 						yAxes: [{
 							ticks: {
 								beginAtZero: true,
 								min: 0,
-								max: 100,
-								stepSize: 10,
-								callback: function (value, index, values) {
-									return value + '%'
-								}
+								max: this.capacity,
+								stepSize: 1,
+								fontSize: 16
 							}
 						}],
 						xAxes: [{
 							type: 'time',
 							time: {
-								parser: 'HH:mm a',
+								parser: 'h:mm a',
 								unit: 'minute',
 								displayFormats: {
 									'minute': 'h:mm a'
 								}
+							},
+							ticks: {
+								fontSize: 14
 							}
 						}]
 					},
@@ -81,6 +77,12 @@ Vue.component('my-line', {
 	computed: {
 		chartData: function () {
 			return this.data
+		},
+		capacity: function () {
+			if (this.data.station !== '' && this.data.results !== undefined) {
+				return this.data.results[0].capacity
+			}
+			return 10
 		},
 		timeData: function () {
 			let arr = []
@@ -264,6 +266,10 @@ Vue.component('bar', {
 					]
 				},
 				{
+					tooltips: {
+						titleFontSize: 15,
+						bodyFontSize: 15
+					},
 					legend: {
 						display: false
 					},
@@ -277,7 +283,13 @@ Vue.component('bar', {
 					scales: {
 						yAxes: [{
 							ticks: {
-								beginAtZero: true
+								beginAtZero: true,
+								fontSize: 16
+							}
+						}],
+						xAxes: [{
+							ticks: {
+								fontSize: 14
 							}
 						}]
 					},
@@ -322,6 +334,25 @@ Vue.component('doughnut', {
 					labels: this.chartData.stations
 				},
 				{
+					legend: {
+						labels: {
+							fontSize: 14
+						}
+					},
+					tooltips: {
+						titleFontSize: 16,
+						bodyFontSize: 16,
+						callbacks: {
+							label: function (tooltipItem, data) {
+								var label = data.datasets[tooltipItem.datasetIndex].label || ''
+								if (label) {
+									label += ': '
+								}
+								label += tooltipItem.yLabel + ' Bookings'
+								return label
+							}
+						}
+					},
 					title: {
 						display: true,
 						text: 'Overall Booking Percentage By Stations',
@@ -332,6 +363,7 @@ Vue.component('doughnut', {
 					pieceLabel: {
 						render: 'percentage',
 						fontColor: 'white',
+						fontSize: 16,
 						precision: 1
 					},
 					responsive: true,

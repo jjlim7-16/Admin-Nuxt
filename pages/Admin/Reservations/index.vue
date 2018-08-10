@@ -1,32 +1,33 @@
 <template>
-<section id="content" class="box">
+	<section id="content" class="box">
 
-  <!-- Make Reservation button -->
-  <router-link to="/Admin/Reservations/Add" tag="button" id="addBtn" class="button is-primary">
-    <b-icon icon="plus-circle"></b-icon>
-    <span>Make Reservation</span>
-  </router-link>
+		<!-- Make Reservation button -->
+		<router-link to="/Admin/Reservations/Add" tag="button" id="addBtn" class="button is-primary">
+			<b-icon icon="plus-circle"></b-icon>
+			<span>Make Reservation</span>
+		</router-link>
 
-  <!-- Filter by Date -->
-  <b-field grouped group-multiline>
-    <b-select placeholder="Filter by Date" v-model="filter" rounded>
-      <option value="All">All Dates</option>
-      <option v-for="(date, index) in dateList" :key="index">
-        {{ date.session_date }}
-      </option>
-    </b-select>
-  </b-field>
+		<!-- Filter by Date -->
+		<b-field grouped group-multiline>
+			<b-select placeholder="Filter by Date" v-model="filter" rounded>
+				<option value="All">All Dates</option>
+				<option v-for="(date, index) in dateList" :key="index">
+					{{ date.session_date }}
+				</option>
+			</b-select>
+		</b-field>
 
-  <b-table
-		:data="isEmpty ? [] : filteredData"
-		:paginated="paginated"
-		:per-page="perPage"
-		:current-page.sync="currentPage"
-		:default-sort-direction="'asc'"
-		:default-sort="['session_date', 'desc']"
-		hoverable>
+		<b-table
+			:data="isEmpty ? [] : filteredData"
+			:paginated="paginated"
+			:per-page="perPage"
+			:current-page.sync="currentPage"
+			:default-sort-direction="'asc'"
+			:default-sort="['session_date', 'desc']"
+			detailed detail-key="reservation_id"
+			hoverable>
 
-    <template slot-scope="props">
+			<template slot-scope="props">
 				<b-table-column field="session_date" label="Date" sortable>
 					{{ props.row.session_date }}
 				</b-table-column>
@@ -41,6 +42,10 @@
 
 				<b-table-column field="reservedFrom" label="Reserved Session" sortable centered>
 					{{ props.row.reservedFrom.slice(0,5) + ' - ' + props.row.reservedTo.slice(0,5) }}
+				</b-table-column>
+
+				<b-table-column field="noOfReservedSlots" label="No. Reserved" sortable centered>
+					{{ props.row.noOfReservedSlots }}
 				</b-table-column>
 
 				<b-table-column label='Actions' centered>
@@ -59,7 +64,19 @@
 				</b-table-column>
 			</template>
 
-    <template slot="empty">
+			<template slot="detail" slot-scope="props">
+				<article class="media">
+					<div class="media-left">&nbsp;&nbsp;&nbsp;</div>
+					<div class="media-content">
+						<div class="content">
+							<strong>Remarks</strong>
+							<br /><p>{{ props.row.remarks }}</p>
+						</div>
+					</div>
+				</article>
+			</template>
+
+			<template slot="empty">
 				<section class="section">
 					<div class="content has-text-grey has-text-centered">
 						<p>
@@ -72,9 +89,9 @@
 					</div>
 				</section>
 			</template>
-  </b-table>
+		</b-table>
 
-</section>
+	</section>
 </template>
 
 <script>
@@ -114,7 +131,7 @@ export default {
             if (res.status === 200) {
               this.$dialog.alert({
                 title: 'Cancel Reservation',
-                message: `The reservation has been successfully cancelled`,
+                message: `Reservation has been successfully cancelled`,
                 type: 'is-success',
                 hasIcon: true,
                 icon: 'check-circle',
@@ -150,5 +167,23 @@ export default {
 <style scoped>
 #addBtn {
   float: right;
+}
+
+@media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
+	.media-left {
+		display: none;
+	}
+}
+
+@media only screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
+	.media-left {
+		display: none;
+	}
+}
+
+@media screen and (min-width:768px) and (max-width:1023px) and (orientation:portrait) {
+	.media-left {
+		display: none;
+	}
 }
 </style>

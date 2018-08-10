@@ -104,7 +104,7 @@ export default {
     deleteLimit(limit_id) {
       this.$dialog.confirm({
         title: 'Delete Limit',
-        message: 'Are you sure you want to delete this limit set?',
+        message: 'Are you sure you want to delete this limit?',
         confirmText: 'Delete Limit',
         type: 'is-danger',
         hasIcon: true,
@@ -114,7 +114,7 @@ export default {
             if (res.status === 200) {
               this.$dialog.alert({
                 title: 'Delete Limit',
-                message: `The limit has been successfully deleted`,
+                message: `Limit has been successfully deleted`,
                 type: 'is-success',
                 hasIcon: true,
                 icon: 'check-circle',
