@@ -304,40 +304,49 @@ export default {
           scannedID = scannedID.toUpperCase();
           scannedArray = [];
           console.log(scannedID);
+          self.isExist = false;
           for (var i in self.bookingList) {
-            self.isExist = false;
             console.log("inside for loop");
             console.log(self.bookingList[i].rfid);
             if (self.bookingList[i].rfid == scannedID) {
               self.isExist = true;
-              var booking_id = self.bookingList[i].booking_id;
-              self.bookingList[i].booking_status = "Admitted";
-              var day = new Date();
-              var time_in = moment(day).format("HH:mm");
-              for (var u in self.bookingListWithReserved) {
-                if (self.bookingListWithReserved[u].rfid == scannedID) {
-                  self.bookingListWithReserved[u].booking_status = "Admitted";
-                  self.bookingListWithReserved[u].time_in = time_in;
-                }
-              }
-              self.bookingList[i].time_in = time_in;
-              socket.emit("admitted", self.bookingListWithReserved); //socket
-              self.$axios
-                .put(
-                  `http://${
-                    config.serverURL
-                  }/bookings/updateStatus/${booking_id}`,
-                  {
-                    booking_status: "Admitted",
-                    time_in: moment(day).format("HH:mm")
-                  }
-                )
-                .then(res => {
-                  console.log("sucessupdatestatus", res.data);
-                })
-                .catch(() => {
-                  console.log("FAILURE");
+              if (self.bookingList[i].booking_status == "Admitted") {
+                self.$toast.open({
+                  duration: 5000,
+                  message: `User already admitted !`,
+                  position: "is-bottom",
+                  type: "is-success"
                 });
+              } else {
+                var booking_id = self.bookingList[i].booking_id;
+                self.bookingList[i].booking_status = "Admitted";
+                var day = new Date();
+                var time_in = moment(day).format("HH:mm");
+                for (var u in self.bookingListWithReserved) {
+                  if (self.bookingListWithReserved[u].rfid == scannedID) {
+                    self.bookingListWithReserved[u].booking_status = "Admitted";
+                    self.bookingListWithReserved[u].time_in = time_in;
+                  }
+                }
+                self.bookingList[i].time_in = time_in;
+                socket.emit("admitted", self.bookingListWithReserved); //socket
+                self.$axios
+                  .put(
+                    `http://${
+                      config.serverURL
+                    }/bookings/updateStatus/${booking_id}`,
+                    {
+                      booking_status: "Admitted",
+                      time_in: moment(day).format("HH:mm")
+                    }
+                  )
+                  .then(res => {
+                    console.log("sucessupdatestatus", res.data);
+                  })
+                  .catch(() => {
+                    console.log("FAILURE");
+                  });
+              }
             }
           }
           console.log(self.isExist);
@@ -366,6 +375,10 @@ export default {
                           i.role_name +
                           "<br/>" +
                           i.session_start +
+                          " to " +
+                          i.session_end +
+                          "<br/>" +
+                          i.queue_no +
                           "",
                         confirmText: "OK"
                       });
