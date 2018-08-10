@@ -1,43 +1,44 @@
 <template>
-  <div id="app" class="columns">
-    <div class="column is-2 is-hidden-touch" id="nav">
-      <aside class="sidebar menu">
-        <img src="~/static/img-whitelogo.png" alt="logo">
+<div id="app" class="columns">
+  <div class="column is-2 is-hidden-touch" id="nav">
+    <aside class="sidebar menu is-hidden-touch">
+      <img src="~/static/img-whitelogo.png" alt="logo">
 
-        <ul class="menu-list">
-          <li id="logout"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>Logout</a></li>
-        </ul>
-      </aside>
-    </div>
+      <ul class="menu-list">
+        <li id="logout"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>Logout</a></li>
+      </ul>
+    </aside>
+  </div>
   <aside class="column is-10 myContent">
-      <header class="navbar header has-shadow mobileNav">
-        <div class="container" id="myPageTitle">
-          <div class="navbar-brand">
-            <div class="centerTextBox navbar-item">
-              <p class="has-text-weight-semibold">
-                {{ this.$store.state.pageName }}
-              </p>
-            </div>
-          <span class="navbar-burger burger" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-            </div>
-        </div>
-        <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
-          <div class="navbar-end">
-            <li class="navbar-item">
-              <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>&nbsp;Logout</a></ul>
-            </li>
+    <header class="navbar header has-shadow mobileNav">
+      <div class="container" id="myPageTitle">
+        <div class="navbar-brand">
+          <div class="centerTextBox navbar-item">
+            <p class="has-text-weight-semibold">
+              {{ this.$store.state.pageName }}
+            </p>
           </div>
+          <span class="navbar-burger burger" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
         </div>
-      </header>
-        <nuxt/>
-        <BackToTop :visibleoffset="heightOfBrowser"></BackToTop>
+      </div>
+      <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
+        <div class="navbar-end">
+          <li class="navbar-item">
+            <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>&nbsp;Logout</a></ul>
+          </li>
+
+        </div>
+      </div>
+    </header>
+    <nuxt/>
+    <BackToTop :visibleoffset="heightOfBrowser"></BackToTop>
   </aside>
 
-  </div>
+</div>
 </template>
 
 <script>
@@ -45,8 +46,8 @@ import Cookie from "js-cookie";
 import BackToTop from '~/components/BackToTop'
 
 export default {
- middleware: "crewAuth",
-    components: {
+  middleware: "crewAuth",
+  components: {
     BackToTop
   },
   data() {
@@ -63,12 +64,12 @@ export default {
         this.$router.push("/");
       });
     },
-      toggleMenu() {
+    toggleMenu() {
       this.menuIsActive = !this.menuIsActive;
     }
   },
-    mounted() {
-    this.heightOfBrowser = window.innerHeight/7
+  mounted() {
+    this.heightOfBrowser = window.innerHeight / 7
   }
 };
 </script>
@@ -88,8 +89,8 @@ export default {
 }
 
 .navbar-menu {
-    display: none;
-  }
+  display: none;
+}
 
 #logout {
   position: fixed;
@@ -114,29 +115,24 @@ export default {
   padding: 0;
 }
 
-#content {
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-  background-color: white;
-  height: 80vh;
-  margin: 2vw;
-  overflow-y: auto;
-}
-
 .menu img {
   display: block;
   margin: 20px auto;
   width: 55%;
   height: 55%;
 }
+
 .sidebar a {
   color: white;
 }
+
 .container {
   display: block;
 }
+
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
+  Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -146,6 +142,7 @@ html {
   box-sizing: border-box;
   background-color: #f8f8f8;
 }
+
 *,
 *:before,
 *:after {
@@ -161,9 +158,8 @@ html {
   overflow-y: auto;
 }
 
-@media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
+@media only screen and (min-width:320px) and (max-width:768px) and (orientation:portrait) {
   html {
-    font-size: 1rem;
     overflow-y: scroll;
     background-color: white;
   }
@@ -174,15 +170,16 @@ html {
   .container {
     display: block;
   }
-
   .myContent {
     width: 100% !important;
   }
-  hr {
-    margin: 0.2rem;
+  #content {
+    margin: 0;
+    height: auto;
+    background-color: transparent;
+    box-shadow: none;
   }
   #mobileNavbarMenu {
-      height: 45vh;
     padding: 0.5rem 0.7rem;
     overflow-y: scroll;
     box-shadow: none;
@@ -193,7 +190,7 @@ html {
   }
 }
 
-@media screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
+@media screen and (min-width:320px) and (max-width:768px) and (orientation:landscape) {
   html {
     background-color: white;
     overflow-y: scroll;
@@ -201,11 +198,17 @@ html {
   .myContent {
     width: 100% !important;
   }
+  #content {
+    margin: 0;
+    height: auto;
+    background-color: transparent;
+    box-shadow: none;
+  }
   #myPageTitle {
     font-size: 1.2rem;
   }
   #mobileNavbarMenu {
-    height: 50vh;
+    padding: 0.5rem 0.7rem;
     overflow-y: scroll;
     box-shadow: none;
   }
@@ -213,19 +216,22 @@ html {
 
 @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
   html {
-    background-color: white;
     overflow-y: scroll;
   }
   .column.is-10 {
     flex: auto;
     width: -webkit-fill-available;
   }
+  #content {
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
 }
 
 @media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
-  .column.is-10 {
-    flex: auto;
-    width: -webkit-fill-available;
+  .myContent {
+    flex: auto !important;
   }
 }
 </style>

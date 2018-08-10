@@ -263,7 +263,7 @@ html {
   overflow-y: auto;
 }
 
-@media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
+@media only screen and (min-width:320px) and (max-width:768px) and (orientation:portrait) {
   html {
     font-size: 1rem;
     overflow-y: scroll;
@@ -314,7 +314,7 @@ html {
   }
 }
 
-@media screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
+@media screen and (min-width:320px) and (max-width:768px) and (orientation:landscape) {
   html {
     background-color: white;
     overflow-y: scroll;
@@ -347,12 +347,16 @@ html {
   }
 }
 
-@media screen and (min-width:768px) and (max-width:1023px) and (orientation:portrait) {
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
   html {
     overflow-y: scroll;
   }
   #myPageTitle {
     font-size: 1.4rem;
+  }
+  .column.is-10 {
+    flex: auto;
+    width: -webkit-fill-available;
   }
   #mobileNavbarMenu {
     height: 40vh;
@@ -374,12 +378,15 @@ html {
   }
 }
 
-@media screen and (min-width:768px) and (max-width:1023px) and (orientation:landscape) {
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
+  html {
+    overflow-y: scroll;
+  }
   #myPageTitle {
     font-size: 1.4rem;
   }
   #mobileNavbarMenu {
-    height: 35vh;
+    height: 45vh;
     padding: 0.5rem 1.5rem;
     overflow-y: scroll;
     box-shadow: none;
@@ -396,11 +403,17 @@ html {
     margin: 0.2rem;
   }
   #content {
-    height: 84vh;
+    width: 100%;
+    height: auto;
+    margin: 0;
   }
 }
 
 @media screen and (min-width:1024px) and (max-width:1366px) and (orientation:portrait) {
+  html {
+    overflow-y: scroll;
+    background-color: white;
+  }
   .column.is-10 {
     flex: auto;
     width: -webkit-fill-available;
@@ -418,7 +431,10 @@ html {
     margin: 0.2rem;
   }
   #content {
-    height: 90vh;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    box-shadow: none;
   }
 }
 

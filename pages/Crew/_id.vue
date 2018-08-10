@@ -1,7 +1,7 @@
 <template>
 <section id="content" class="box">
   <b-field grouped>
-    <b-field class="column is-5">
+    <b-field expanded class="column is-5">
 
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon> &nbsp;
@@ -9,38 +9,32 @@
       </button>
     </b-field>
 
-    <b-field class="column is-5">
+    <b-field expanded class="column is-2">
       <b-input placeholder="Search for a queue number" type="search" icon="magnify" v-model="filter" rounded @focus="isFocus = true" @blur="isFocus = false">
       </b-input>
     </b-field>
   </b-field>
 
-  <b-table
-    :data="isEmpty ? [] : filteredData"
-    :paginated="paginated"
-    :per-page="perPage"
-    :current-page.sync="currentPage"
-    :row-class="(row, index) => getRowClass(row)" class="column is-10"
-    >
+  <b-table :data="isEmpty ? [] : filteredData" :paginated="paginated" :per-page="perPage" :current-page.sync="currentPage" :row-class="(row, index) => getRowClass(row)">
 
     <template slot-scope="props">
-      <b-table-column field="queue_no" label="Queue No." filterable width="150" sortable>
-        {{ props.row.queue_no }}
-      </b-table-column>
+        <b-table-column field="queue_no" label="Queue No." filterable width="150" sortable>
+          {{ props.row.queue_no }}
+        </b-table-column>
 
-      <b-table-column field="role_name" label="Role Name" centered  sortable>
-        {{ props.row.role_name }}
-      </b-table-column>
+        <b-table-column field="role_name" label="Role Name" centered  sortable>
+          {{ props.row.role_name }}
+        </b-table-column>
 
-      <b-table-column field="time_in" label="Time in" centered  sortable>
-        <span v-if="props.row.time_in">{{ props.row.time_in.substr(props.row.time_in,5) }}</span>
-        <span v-else>-</span>
-      </b-table-column>
+        <b-table-column field="time_in" label="Time in" centered  sortable>
+          <span v-if="props.row.time_in">{{ props.row.time_in.substr(props.row.time_in,5) }}</span>
+          <span v-else>-</span>
+        </b-table-column>
 
-      <b-table-column field="booking_status" label="Status" centered  sortable>
-        {{ props.row.booking_status }}
-      </b-table-column>
-    </template>
+        <b-table-column field="booking_status" label="Status" centered  sortable>
+          {{ props.row.booking_status }}
+        </b-table-column>
+      </template>
 
     <template slot="empty">
 				<section class="section">
@@ -56,16 +50,16 @@
 				</section>
 			</template>
   </b-table>
-  <b-field grouped>
-    <b-field  id="reservation" class="column is-6">
+  <b-field class="level columns">
+    <b-field id="reservation" class="level-left column makeFlex is-half" >
       <div class="level-item">
-        <b>Number Of Reservation: </b>{{ noOfReservedSlots }}
+        <b>No. Of Reservation</b>: {{ noOfReservedSlots }}
       </div>
     </b-field>
 
-    <b-field  id="attendance" class="column is-6">
+    <b-field id="attendance" class="level-right column makeFlex is-half">
       <div class="level-item">
-        <b>Present:</b> {{ numberOfAdmit }}/{{ numberOfBooking }}
+        <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
       </div>
     </b-field>
   </b-field>
@@ -79,10 +73,8 @@ import moment from "moment";
 import config from "~/config";
 import io from "~/plugins/socket-io.js";
 let socket;
-
 let scannedArray = [];
 let scannedID = "";
-
 export default {
   layout: "crewMenu",
   methods: {
@@ -100,13 +92,10 @@ export default {
           5,
           "minutes"
         );
-
         console.log(refreshTime);
         var duration = moment.duration(refreshTime.diff(currentTime));
-
         var miliseconds = duration.as("milliseconds");
         console.log(miliseconds);
-
         setTimeout(() => {
           this.updateNotAdmittedBookingsAndRefresh();
         }, miliseconds);
@@ -122,10 +111,8 @@ export default {
       if (currentTime < refreshTime) {
         console.log(refreshTime);
         var duration = moment.duration(refreshTime.diff(currentTime));
-
         var miliseconds = duration.as("milliseconds");
         console.log(miliseconds);
-
         setTimeout(() => {
           this.$router.go();
         }, miliseconds);
@@ -184,11 +171,9 @@ export default {
     if (this.$route.params["id"]) {
       this.stationID = parseInt(this.$route.params["id"]);
     }
-
     let theData;
     let startTime;
     let endTime;
-
     this.$axios
       .get(
         `http://${config.serverURL}/reservations/getCurrentReservation/${
@@ -286,18 +271,15 @@ export default {
             for (var u in theData) {
               this.bookingListWithReserved.push(theData[u]);
             }
-
             console.log(this.bookingListWithReserved);
             this.sessionStartTime = theData[0].session_start.substr(
               theData[0].session_start,
               5
             );
-
             this.sessionEndTime = theData[0].session_end.substr(
               theData[0].session_end,
               5
             );
-
             this.numberOfBooking = theData.length;
             this.setRefresh();
             this.stationName = theData[0].station_name;
@@ -314,7 +296,6 @@ export default {
   },
   mounted() {
     let self = this;
-
     window.onkeypress = function(e) {
       console.log(self.isFocus);
       if (self.isFocus == false) {
@@ -338,9 +319,7 @@ export default {
                   self.bookingListWithReserved[u].time_in = time_in;
                 }
               }
-
               self.bookingList[i].time_in = time_in;
-
               socket.emit("admitted", self.bookingListWithReserved); //socket
               self.$axios
                 .put(
@@ -420,24 +399,7 @@ export default {
       }
     };
   },
-
   computed: {
-    // filteredData() {
-    //   if (this.filter !== "") {
-    //     let data = [];
-    //     for (var i in this.bookingList) {
-    //       if (
-    //         this.bookingList[i].queue_no
-    //           .toLowerCase()
-    //           .includes(this.filter.toLowerCase())
-    //       ) {
-    //         data.push(this.bookingList[i]);
-    //       }
-    //     }
-    //     return data;
-    //   }
-    //   return this.bookingList;
-    // },
     filteredData() {
       console.log("inside filtered data", this.bookingListWithReserved);
       if (this.filter !== "") {
@@ -456,7 +418,6 @@ export default {
       }
       return this.bookingListWithReserved;
     },
-
     numberOfAdmit() {
       var count = 0;
       for (var i in this.bookingList) {
@@ -479,37 +440,26 @@ export default {
     socket = io.socketio.connect(`http://${config.serverURL}/crew`);
     socket.on("newAdmission", bookingListWithReserved => {
       this.bookingListWithReserved = bookingListWithReserved;
-      // for (var i in this.bookingList) {
-      //   if (this.bookingList[i].booking_id == booking_id) {
-      //     this.bookingList[i].booking_status = "Admitted";
-      //     //this.bookingList[i].time_in = data.time_in;
-
-      //     console.log(this.bookingList[i]);
-      //   }
-      // }
     });
   }
 };
 </script>
 
 <style>
-#content {
-  margin-top: 90px;
-}
 #attendance {
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 #reservation {
-  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.makeFlex {
+  display: flex;
 }
 
 tr.is-success-table {
   background: #c0ffcf;
-  color: #000;
-}
-tr.is-reserved-table {
-  background: #d6f0ff;
   color: #000;
 }
 </style>
