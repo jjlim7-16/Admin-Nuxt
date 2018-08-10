@@ -70,7 +70,7 @@ export default {
 	async mounted() {
 		let res = await this.$axios.get(`http://${config.serverURL}/user/getAccountTypeCrewList`)
 		this.crewAccountTypeList = res.data
-		console.log(res.data)
+		// console.log(res.data)
 		if (this.$store.state.auth.user.account_type !== 'Master Admin') {
 			this.account_type = 'Crew'
 		}

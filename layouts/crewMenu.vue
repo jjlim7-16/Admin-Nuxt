@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="columns">
     <div class="column is-2 is-hidden-touch" id="nav">
-      <aside class="sidebar menu is-hidden-touch">
+      <aside class="sidebar menu">
         <img src="~/static/img-whitelogo.png" alt="logo">
 
         <ul class="menu-list">
@@ -10,7 +10,7 @@
       </aside>
     </div>
   <aside class="column is-10 myContent">
-      <header >
+      <header class="navbar header has-shadow mobileNav">
         <div class="container" id="myPageTitle">
           <div class="navbar-brand">
             <div class="centerTextBox navbar-item">
@@ -18,22 +18,18 @@
                 {{ this.$store.state.pageName }}
               </p>
             </div>
-          </div>
           <span class="navbar-burger burger" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
               <span></span>
               <span></span>
               <span></span>
             </span>
+            </div>
         </div>
         <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
           <div class="navbar-end">
-
-            <hr />
-
             <li class="navbar-item">
               <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>&nbsp;Logout</a></ul>
             </li>
-
           </div>
         </div>
       </header>
@@ -136,12 +132,7 @@ export default {
   color: white;
 }
 .container {
-  float: right;
-  display: flex;
-  margin-left: 250px;
-  margin-right: auto;
-  height: 100%;
-  width: 1920px;
+  display: block;
 }
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -191,7 +182,11 @@ html {
     margin: 0.2rem;
   }
   #mobileNavbarMenu {
+      height: 45vh;
     padding: 0.5rem 0.7rem;
+    overflow-y: scroll;
+    box-shadow: none;
+    font-size: 1rem;
   }
   .mobileNav {
     height: 7%;
@@ -213,9 +208,6 @@ html {
     height: 50vh;
     overflow-y: scroll;
     box-shadow: none;
-  }
-  hr {
-    margin: 0.2rem;
   }
 }
 

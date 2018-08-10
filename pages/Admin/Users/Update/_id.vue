@@ -90,8 +90,8 @@ export default {
 				let res = await this.$axios.get(`http://${config.serverURL}/user`)
 				let userList = res.data
 				for (let i in userList) {
-					if (userList[i].username.toLowerCase() === this.username.toLowerCase() &&
-					userList[i].user_id != this.$route.params.id) {
+					if ((userList[i].username.toLowerCase() === this.username.toLowerCase() &&
+					userList[i].user_id != this.$route.params.id) || userList[i].account_type === 'Master Admin') {
 						userExist = true
 						break
 					}
@@ -108,7 +108,11 @@ export default {
 				})
 			}
 			else {
-				let webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+				// let webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+				let webFormData
+				if (this.password !== '') {
+					webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+				}
 				this.$axios.put(`http://${config.serverURL}/user/`+ this.$route.params['id'], webFormData)
 				.then(res => {
 					if (res.status === 200) {
@@ -143,7 +147,7 @@ export default {
 					return !this.username || !this.password || !this.confirmPassword || !this.account_type_id
 				}
 				else if (this.account_type === 'Admin') {
-					return !this.username || !this.password || !this.confirmPassword
+					return (!this.username || this.username === this.curruser.username) && (!this.password || !this.confirmPassword)
 				}
 			}
 		}

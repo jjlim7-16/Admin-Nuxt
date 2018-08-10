@@ -1,27 +1,21 @@
 <template>
-  <section id="content"  class="box">
-    <b-field grouped>
-      <b-field expanded class="column is-5" >
-      
+<section id="content" class="box">
+  <b-field grouped>
+    <b-field class="column is-5">
+
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon> &nbsp;
-        <span v-if="haveSession"> <b>{{ sessionStartTime }} to {{ sessionEndTime }} </b> </span>    
+        <span v-if="haveSession"> <b>{{ sessionStartTime }} to {{ sessionEndTime }} </b> </span>
       </button>
-      </b-field>
-
-
-      <b-field expanded class="column is-10"  >
-      <b-input placeholder="Search for a queue number"
-               type="search"
-               icon="magnify"
-               v-model="filter"
-               rounded
-               @focus="isFocus = true"
-               @blur="isFocus = false">
-      </b-input>
-      </b-field>
     </b-field>
 
+    <b-field class="column is-5">
+      <b-input placeholder="Search for a queue number" type="search" icon="magnify" v-model="filter" rounded @focus="isFocus = true" @blur="isFocus = false">
+      </b-input>
+    </b-field>
+  </b-field>
+
+  <b-table :data="isEmpty ? [] : filteredData" :paginated="paginated" :per-page="perPage" :current-page.sync="currentPage" :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'">
 
     <b-table
       :data="isEmpty ? [] : filteredData"
@@ -50,7 +44,7 @@
         </b-table-column>
       </template>
 
-      	<template slot="empty">
+    <template slot="empty">
 				<section class="section">
 					<div class="content has-text-grey has-text-centered">
 						<p>
@@ -63,18 +57,22 @@
 					</div>
 				</section>
 			</template>
-    </b-table>
-<b-field class="columns">
-    <b-field id="reservation" class="column is-10" >
-      <b>Number Of Reservation</b>: {{ noOfReservedSlots }}
+  </b-table>
+  <b-field class="level">
+    <b-field id="reservation" class="level-left">
+      <div class="level-item">
+        <b>Number Of Reservation</b>: {{ noOfReservedSlots }}
+      </div>
     </b-field>
 
-    <b-field id="attendance" class="column is-10">
-      <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
+    <b-field id="attendance" class="level-right">
+      <div class="level-item">
+        <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
+      </div>
     </b-field>
-</b-field>
+  </b-field>
 
-  </section>
+</section>
 </template>
 
 <script>
@@ -503,9 +501,11 @@ export default {
 #attendance {
   margin-top: 20px;
 }
+
 #reservation {
   margin-top: 20px;
 }
+
 tr.is-success-table {
   background: #c0ffcf;
   color: #000;
