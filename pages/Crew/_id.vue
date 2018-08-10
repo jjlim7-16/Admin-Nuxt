@@ -462,4 +462,8 @@ tr.is-success-table {
   background: #c0ffcf;
   color: #000;
 }
+tr.is-reserved-table {
+  background: #d6f0ff;
+  color: #000;
+}
 </style>
