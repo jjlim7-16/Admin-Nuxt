@@ -182,8 +182,8 @@ const ModalForm = {
 		},
 		alertRoleExists() {
 			this.$dialog.alert({
-				title: "Role Exists",
-				message: `Error! The Role \'${this.roleName}\' Already Exists`,
+				title: "Error",
+				message: `<b>${this.roleName}</b> already exists`,
 				type: "is-danger",
 				hasIcon: true
 			})
@@ -254,7 +254,7 @@ export default {
 			if (stationExists) {
 				this.$dialog.alert({
 					title: "Station Exists",
-					message: `Error! The Station: \'${this.name}\' Already Exists`,
+					message: `Error! <b>${this.name}</b> already exists`,
 					type: "is-danger",
 					hasIcon: true
 				})
@@ -279,7 +279,7 @@ export default {
 						if (res.status === 200) {
 							this.$dialog.alert({
 								title: 'Add Station',
-								message: `New station \'${this.name}\' has been successfully added. 
+								message: `<b>${this.name}</b> has been successfully added.
 													Please make sure to add a crew account associated to this station.`,
 								type: 'is-success',
 								hasIcon: true,

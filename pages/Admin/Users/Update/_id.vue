@@ -99,8 +99,8 @@ export default {
 			}
 			if (userExist) {
 				this.$dialog.alert({
-					title: 'User Exists',
-					message: `Username already exists`,
+					title: 'Error',
+					message: `<b>${this.username}</b> already exists`,
 					type: 'is-success',
 					hasIcon: true,
 					icon: 'check-circle',
@@ -114,7 +114,7 @@ export default {
 					if (res.status === 200) {
 						this.$dialog.alert({
 							title: 'Edit User',
-							message: `User \'${this.username}\' has been successfully edited.`,
+							message: `<b>${this.username}</b> has been successfully edited`,
 							type: 'is-success',
 							hasIcon: true,
 							icon: 'check-circle',

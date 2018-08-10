@@ -49,7 +49,7 @@ export default {
 					}
 				}
 			} catch (err) {
-        let msg = 'Internal Server Error. Please Contact Administrator.'
+        let msg = 'Internal server error. Please contact Administrator.'
         if (err.response !== undefined) {
           msg = err.response.data.message
         }
