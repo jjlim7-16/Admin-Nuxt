@@ -1,36 +1,23 @@
 <template>
-  <section id="content"  class="box">
-    <b-field grouped>
-      <b-field expanded class="column is-5" >
-      
+<section id="content" class="box">
+  <b-field grouped>
+    <b-field expanded class="column is-5">
+
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon> &nbsp;
-        <span v-if="haveSession"> <b>{{ sessionStartTime }} to {{ sessionEndTime }} </b> </span>    
+        <span v-if="haveSession"> <b>{{ sessionStartTime }} to {{ sessionEndTime }} </b> </span>
       </button>
-      </b-field>
-
-
-      <b-field expanded class="column is-10"  >
-      <b-input placeholder="Search for a queue number"
-               type="search"
-               icon="magnify"
-               v-model="filter"
-               rounded
-               @focus="isFocus = true"
-               @blur="isFocus = false">
-      </b-input>
-      </b-field>
     </b-field>
 
+    <b-field expanded class="column is-2">
+      <b-input placeholder="Search for a queue number" type="search" icon="magnify" v-model="filter" rounded @focus="isFocus = true" @blur="isFocus = false">
+      </b-input>
+    </b-field>
+  </b-field>
 
-    <b-table
-      :data="isEmpty ? [] : filteredData"
-    	:paginated="paginated"
-			:per-page="perPage"
-			:current-page.sync="currentPage"
-      :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'" class="column is-10">
+  <b-table :data="isEmpty ? [] : filteredData" :paginated="paginated" :per-page="perPage" :current-page.sync="currentPage" :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'">
 
-      <template slot-scope="props">
+    <template slot-scope="props">
         <b-table-column field="queue_no" label="Queue No." filterable width="150" sortable>
           {{ props.row.queue_no }}
         </b-table-column>
@@ -49,7 +36,7 @@
         </b-table-column>
       </template>
 
-      	<template slot="empty">
+    <template slot="empty">
 				<section class="section">
 					<div class="content has-text-grey has-text-centered">
 						<p>
@@ -62,18 +49,22 @@
 					</div>
 				</section>
 			</template>
-    </b-table>
-<b-field class="columns">
-    <b-field id="reservation" class="column is-10" >
-      <b>Number Of Reservation</b>: {{ noOfReservedSlots }}
+  </b-table>
+  <b-field class="level">
+    <b-field id="reservation" class="level-left">
+      <div class="level-item">
+        <b>Number Of Reservation</b>: {{ noOfReservedSlots }}
+      </div>
     </b-field>
 
-    <b-field id="attendance" class="column is-10">
-      <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
+    <b-field id="attendance" class="level-right">
+      <div class="level-item">
+        <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
+      </div>
     </b-field>
-</b-field>
+  </b-field>
 
-  </section>
+</section>
 </template>
 
 <script>
@@ -118,8 +109,7 @@ export default {
             .put(
               `http://${config.serverURL}/bookings/updateStatus/${
                 this.bookingList[i].booking_id
-              }`,
-              {
+              }`, {
                 booking_status: "Not Admitted"
               }
             )
@@ -206,8 +196,7 @@ export default {
           } else {
             this.noOfReservedSlots = 0;
           }
-        } else {
-        }
+        } else {}
       })
       .catch(err => {
         console.log("FAIL getting reservations");
@@ -395,8 +384,7 @@ export default {
                 .put(
                   `http://${
                     config.serverURL
-                  }/bookings/updateStatus/${booking_id}`,
-                  {
+                  }/bookings/updateStatus/${booking_id}`, {
                     booking_status: "Admitted",
                     time_in: moment(day).format("HH:mm")
                   }
@@ -426,8 +414,7 @@ export default {
                       console.log("displayOtherbooking");
                       self.$dialog.alert({
                         title: "Wrong Booking",
-                        message:
-                          "User does not have booking here!" +
+                        message: "User does not have booking here!" +
                           "Actual booking: " +
                           data.station_name +
                           " , " +
@@ -493,8 +480,8 @@ export default {
         for (var i in this.bookingListWithReserved) {
           if (
             this.bookingListWithReserved[i].queue_no
-              .toLowerCase()
-              .includes(this.filter.toLowerCase())
+            .toLowerCase()
+            .includes(this.filter.toLowerCase())
           ) {
             data.push(this.bookingListWithReserved[i]);
           }
@@ -509,8 +496,7 @@ export default {
       for (var i in this.bookingList) {
         if (this.bookingList[i].booking_status === "Admitted") {
           count++;
-        } else {
-        }
+        } else {}
       }
       return count;
     },
@@ -540,15 +526,14 @@ export default {
 </script>
 
 <style>
-#content{
-  margin-top:90px;
-}
 #attendance {
   margin-top: 20px;
 }
+
 #reservation {
   margin-top: 20px;
 }
+
 tr.is-success-table {
   background: #c0ffcf;
   color: #000;

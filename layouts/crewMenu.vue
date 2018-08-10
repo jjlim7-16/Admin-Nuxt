@@ -10,7 +10,7 @@
       </aside>
     </div>
   <aside class="column is-10 myContent">
-      <header >
+      <header class="navbar header has-shadow mobileNav">
         <div class="container" id="myPageTitle">
           <div class="navbar-brand">
             <div class="centerTextBox navbar-item">
@@ -136,12 +136,7 @@ export default {
   color: white;
 }
 .container {
-  float: right;
-  display: flex;
-  margin-left: 250px;
-  margin-right: auto;
-  height: 100%;
-  width: 1920px;
+  display: block;
 }
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
