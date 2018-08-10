@@ -90,8 +90,8 @@ export default {
 				let res = await this.$axios.get(`http://${config.serverURL}/user`)
 				let userList = res.data
 				for (let i in userList) {
-					if (userList[i].username.toLowerCase() === this.username.toLowerCase() &&
-					userList[i].user_id != this.$route.params.id) {
+					if ((userList[i].username.toLowerCase() === this.username.toLowerCase() &&
+					userList[i].user_id != this.$route.params.id) || userList[i].account_type === 'Master Admin') {
 						userExist = true
 						break
 					}
