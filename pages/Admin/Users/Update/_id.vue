@@ -143,7 +143,6 @@ export default {
 	computed: {
 		isDisabled() {
 			if (this.curruser) {
-				console.log(this.account_type_id)
 				if (this.account_type === 'Crew') {
 					return !this.username || !this.password || !this.confirmPassword || !this.account_type_id
 				}
