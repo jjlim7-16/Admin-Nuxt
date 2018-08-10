@@ -1,5 +1,5 @@
 <template>
-  <section id="content"  class="box columns is-multiline">
+  <section id="content"  class="box">
     <b-field grouped>
       <b-field expanded class="column is-5" >
       
@@ -540,6 +540,9 @@ export default {
 </script>
 
 <style>
+#content{
+  margin-top:90px;
+}
 #attendance {
   margin-top: 20px;
 }
