@@ -15,34 +15,32 @@
     </b-field>
   </b-field>
 
-  <b-table :data="isEmpty ? [] : filteredData" :paginated="paginated" :per-page="perPage" :current-page.sync="currentPage" :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'">
+  <b-table
+    :data="isEmpty ? [] : filteredData"
+    :paginated="paginated"
+    :per-page="perPage"
+    :current-page.sync="currentPage"
+    :row-class="(row, index) => getRowClass(row)" class="column is-10"
+    >
 
-    <b-table
-      :data="isEmpty ? [] : filteredData"
-    	:paginated="paginated"
-			:per-page="perPage"
-			:current-page.sync="currentPage"
-      :row-class="(row, index) => getRowClass(row)" class="column is-10"
-      >
+    <template slot-scope="props">
+      <b-table-column field="queue_no" label="Queue No." filterable width="150" sortable>
+        {{ props.row.queue_no }}
+      </b-table-column>
 
-      <template slot-scope="props">
-        <b-table-column field="queue_no" label="Queue No." filterable width="150" sortable>
-          {{ props.row.queue_no }}
-        </b-table-column>
+      <b-table-column field="role_name" label="Role Name" centered  sortable>
+        {{ props.row.role_name }}
+      </b-table-column>
 
-        <b-table-column field="role_name" label="Role Name" centered  sortable>
-          {{ props.row.role_name }}
-        </b-table-column>
+      <b-table-column field="time_in" label="Time in" centered  sortable>
+        <span v-if="props.row.time_in">{{ props.row.time_in.substr(props.row.time_in,5) }}</span>
+        <span v-else>-</span>
+      </b-table-column>
 
-        <b-table-column field="time_in" label="Time in" centered  sortable>
-          <span v-if="props.row.time_in">{{ props.row.time_in.substr(props.row.time_in,5) }}</span>
-          <span v-else>-</span>
-        </b-table-column>
-
-        <b-table-column field="booking_status" label="Status" centered  sortable>
-          {{ props.row.booking_status }}
-        </b-table-column>
-      </template>
+      <b-table-column field="booking_status" label="Status" centered  sortable>
+        {{ props.row.booking_status }}
+      </b-table-column>
+    </template>
 
     <template slot="empty">
 				<section class="section">
