@@ -141,6 +141,8 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
   background-color: #f8f8f8;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 *,
