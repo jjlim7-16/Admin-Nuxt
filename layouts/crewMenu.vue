@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="columns">
     <div class="column is-2 is-hidden-touch" id="nav">
-      <aside class="sidebar menu is-hidden-touch">
+      <aside class="sidebar menu">
         <img src="~/static/img-whitelogo.png" alt="logo">
 
         <ul class="menu-list">
@@ -18,16 +18,16 @@
                 {{ this.$store.state.pageName }}
               </p>
             </div>
-          </div>
           <span class="navbar-burger burger" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
               <span></span>
               <span></span>
               <span></span>
             </span>
+          </div>
         </div>
         <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
           <div class="navbar-end">
-
+            <hr />
             <li class="navbar-item">
               <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>&nbsp;Logout</a></ul>
             </li>
@@ -97,12 +97,12 @@ export default {
   position: fixed;
   display: inline;
   bottom: 30px;
-  /* width: 18.7%; */
   width: 15%;
   text-align: center;
   font-size: 18px;
   color: white;
 }
+
 
 #myPageTitle {
   max-width: 100%;
@@ -133,14 +133,7 @@ export default {
 .sidebar a {
   color: white;
 }
-.container {
-  float: right;
-  display: flex;
-  margin-left: 250px;
-  margin-right: auto;
-  height: 100%;
-  width: 1920px;
-}
+
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.2rem;
@@ -195,7 +188,11 @@ html {
     margin: 0.2rem;
   }
   #mobileNavbarMenu {
+    height: 45vh;
     padding: 0.5rem 0.7rem;
+    overflow-y: scroll;
+    box-shadow: none;
+    font-size: 1rem;
   }
   .mobileNav {
     height: 7%;
@@ -218,9 +215,7 @@ html {
     overflow-y: scroll;
     box-shadow: none;
   }
-  hr {
-    margin: 0.2rem;
-  }
+
 }
 
 @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {

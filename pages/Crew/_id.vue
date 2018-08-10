@@ -1,7 +1,7 @@
 <template>
   <section id="content"  class="box">
     <b-field grouped>
-      <b-field expanded class="column is-5" >
+      <b-field class="column is-5" >
 
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon> &nbsp;
@@ -10,7 +10,7 @@
       </b-field>
 
 
-      <b-field expanded class="column is-10" >
+      <b-field class="column is-5" >
       <b-input placeholder="Search for a queue number"
                type="search"
                icon="magnify"
@@ -50,7 +50,7 @@
         </b-table-column>
       </template>
 
-      	<template slot="empty1">
+      	<template slot="empty">
 				<section class="section">
 					<div class="content has-text-grey has-text-centered">
 						<p>
@@ -64,19 +64,19 @@
 				</section>
 			</template>
 
-      <template slot="empty2">
-        <section class="section">
-          <div class="content has-text-grey has-text-centered">
-            <p>
-              <b-icon
-                icon="emoticon-happy"
-                size="is-large">
-              </b-icon>
-            </p>
-            <p>Today's session is ended!</p>
-          </div>
-        </section>
-      </template>
+      // <template slot="empty2">
+      //   <section class="section">
+      //     <div class="content has-text-grey has-text-centered">
+      //       <p>
+      //         <b-icon
+      //           icon="emoticon-happy"
+      //           size="is-large">
+      //         </b-icon>
+      //       </p>
+      //       <p>Today's session is ended!</p>
+      //     </div>
+      //   </section>
+      // </template>
 
     </b-table>
 
@@ -362,12 +362,8 @@ methods: {
       return count;
     },
     isEmpty() {
+      if (this.bookingList.length === 0)  return true;
 
-
-      if (this.bookingList.length === 0) {
-
-          return true;
-      }
       else return false;
     },
   },
