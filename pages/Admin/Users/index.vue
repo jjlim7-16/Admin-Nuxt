@@ -98,9 +98,11 @@ export default {
       let authorised = false
       if (curruser.account_type.includes('Admin') && account_type === 'Crew') {
         authorised = true
+      } else if (curruser.account_type === 'Master Admin' && account_type === 'Admin') {
+        authorised = true
       } else if (curruser.user_id === user_id) {
         authorised = true
-      }
+      } 
       if (!authorised) {
         this.$dialog.alert({
           title: 'Unauthorised',
