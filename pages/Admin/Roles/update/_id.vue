@@ -120,8 +120,8 @@ export default {
 			}
 			if (roleExists) {
 				this.$dialog.alert({
-					title: "Role Exists",
-					message: `Error! The Role: \'${this.roleName}\' Already Exists`,
+					title: "Error",
+					message: `<b>${this.roleName}</b> already exists`,
 					type: "is-danger",
 					hasIcon: true
 				})
@@ -141,7 +141,7 @@ export default {
 					if (res.status === 200) {
 						this.$dialog.alert({
 							title: 'Update Role',
-							message: `The Role \'${this.roleName}\' has been successfully updated`,
+							message: `<b>${this.roleName}</b> has been successfully updated`,
 							type: 'is-success',
 							hasIcon: true,
 							icon: 'check-circle',

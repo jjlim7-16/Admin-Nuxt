@@ -1,37 +1,23 @@
 <template>
-  <section id="content"  class="box">
-    <b-field grouped>
-      <b-field class="column is-5" >
+<section id="content" class="box">
+  <b-field grouped>
+    <b-field class="column is-5">
 
       <button class="button is-white" onclick="false">
         <b-icon icon="clock" size="is-medium"></b-icon> &nbsp;
         <span v-if="haveSession"> <b>{{ sessionStartTime }} to {{ sessionEndTime }} </b> </span>
       </button>
-      </b-field>
-
-
-      <b-field class="column is-5" >
-      <b-input placeholder="Search for a queue number"
-               type="search"
-               icon="magnify"
-               v-model="filter"
-               rounded
-               @focus="isFocus = true"
-               @blur="isFocus = false">
-      </b-input>
-      </b-field>
     </b-field>
 
+    <b-field class="column is-5">
+      <b-input placeholder="Search for a queue number" type="search" icon="magnify" v-model="filter" rounded @focus="isFocus = true" @blur="isFocus = false">
+      </b-input>
+    </b-field>
+  </b-field>
 
-    <b-table
-      :data="isEmpty ? [] : filteredData"
-    	:paginated="paginated"
-			:per-page="perPage"
-			:current-page.sync="currentPage"
-      :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'"
-      class="column is-10">
+  <b-table :data="isEmpty ? [] : filteredData" :paginated="paginated" :per-page="perPage" :current-page.sync="currentPage" :row-class="(row, index) => row.booking_status === 'Admitted' && 'is-success-table'">
 
-      <template slot-scope="props">
+    <template slot-scope="props">
         <b-table-column field="queue_no" label="Queue No." filterable width="150" sortable>
           {{ props.row.queue_no }}
         </b-table-column>
@@ -50,7 +36,7 @@
         </b-table-column>
       </template>
 
-      	<template slot="empty">
+    <template slot="empty">
 				<section class="section">
 					<div class="content has-text-grey has-text-centered">
 						<p>
@@ -63,28 +49,22 @@
 					</div>
 				</section>
 			</template>
-
-      // <template slot="empty2">
-      //   <section class="section">
-      //     <div class="content has-text-grey has-text-centered">
-      //       <p>
-      //         <b-icon
-      //           icon="emoticon-happy"
-      //           size="is-large">
-      //         </b-icon>
-      //       </p>
-      //       <p>Today's session is ended!</p>
-      //     </div>
-      //   </section>
-      // </template>
-
-    </b-table>
-
-    <b-field id="attendance">
-      <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
+  </b-table>
+  <b-field class="level">
+    <b-field id="reservation" class="level-left">
+      <div class="level-item">
+        <b>Number Of Reservation</b>: {{ noOfReservedSlots }}
+      </div>
     </b-field>
 
-  </section>
+    <b-field id="attendance" class="level-right">
+      <div class="level-item">
+        <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
+      </div>
+    </b-field>
+  </b-field>
+
+</section>
 </template>
 
 <script>
@@ -99,7 +79,7 @@ let scannedID = "";
 
 export default {
   layout: "crewMenu",
-methods: {
+  methods: {
     setRefresh() {
       if (this.sessionStartTime != null) {
         var day = new Date();
@@ -129,8 +109,7 @@ methods: {
             .put(
               `http://${config.serverURL}/bookings/updateStatus/${
                 this.bookingList[i].booking_id
-              }`,
-              {
+              }`, {
                 booking_status: "Not Admitted"
               }
             )
@@ -147,9 +126,11 @@ methods: {
   },
   data() {
     return {
+      noOfReservedSlots: 0,
       isExist: false,
       isFocus: false,
       bookingList: [],
+      bookingListWithReserved: [],
       sessionStartTime: "",
       sessionEndTime: "",
       stationName: "",
@@ -159,7 +140,7 @@ methods: {
       filter: "",
       currentPage: 1,
       paginated: true,
-      perPage: 8,
+      perPage: 5,
       haveSession: true,
       userBookingRoleName: "",
       userBookingStationName: "",
@@ -178,6 +159,48 @@ methods: {
     let startTime;
     let endTime;
 
+    this.$axios
+      .get(
+        `http://${config.serverURL}/reservations/getCurrentReservation/${
+          this.stationID
+        }`
+      )
+      .then(res => {
+        if (res.status === 200) {
+          console.log(res.data);
+          if (res.data.length > 0) {
+            this.noOfReservedSlots = 0; //reset the noOfReservedSlots to 0
+            theData = res.data;
+            for (var i in theData) {
+              let noOfReserved = parseInt(theData[i].noOfReservedSlots);
+              this.noOfReservedSlots += noOfReserved;
+              let roleName = theData[i].role_name;
+              for (u = 0; u < noOfReserved; u++) {
+                var aReservation = {
+                  booking_id: "0000",
+                  session_id: "0000",
+                  station_name: theData[i].station_name,
+                  session_date: theData[i].session_date,
+                  role_name: theData[i].role_name,
+                  session_start: theData[i].session_start,
+                  session_end: theData[i].session_end,
+                  booking_status: "Reserved",
+                  rfid: "0000",
+                  queue_no: "-"
+                };
+                this.bookingListWithReserved.push(aReservation);
+              }
+            }
+            console.log(this.noOfReservedSlots);
+            console.log(this.bookingListWithReserved);
+          } else {
+            this.noOfReservedSlots = 0;
+          }
+        } else {}
+      })
+      .catch(err => {
+        console.log("FAIL getting reservations");
+      });
     this.$axios
       .get(
         `http://${config.serverURL}/bookings/getbookinglist/${this.stationID}`
@@ -221,7 +244,8 @@ methods: {
           } else {
             theData = res.data;
             this.bookingList = theData;
-
+            this.bookingListWithReserved.push(theData);
+            console.log(this.bookingListWithReserved);
             this.sessionStartTime = theData[0].session_start.substr(
               theData[0].session_start,
               5
@@ -249,6 +273,89 @@ methods: {
   mounted() {
     let self = this;
 
+    // window.onkeypress = function(e) {
+    //   console.log(self.isFocus);
+    //   if (self.isFocus == false) {
+    //     if (e.key == "Enter") {
+    //       scannedID = scannedArray.join("");
+    //       scannedArray = [];
+    //       console.log(scannedID);
+    //       for (var i in self.bookingList) {
+    //         self.isExist = false;
+    //         console.log("inside for loop");
+    //         console.log(self.bookingList[i].rfid);
+    //         if (self.bookingList[i].rfid == scannedID) {
+    //           self.isExist = true;
+    //           var booking_id = self.bookingList[i].booking_id;
+    //           self.bookingList[i].booking_status = "Admitted";
+
+    //           var day = new Date();
+    //           var time_in = moment(day).format("HH:mm");
+    //           self.bookingList[i].time_in = time_in;
+    //           socket.emit("admitted", self.bookingList); //socket
+    //           self.$axios
+    //             .put(
+    //               `http://${
+    //                 config.serverURL
+    //               }/bookings/updateStatus/${booking_id}`,
+    //               {
+    //                 booking_status: "Admitted",
+    //                 time_in: moment(day).format("HH:mm")
+    //               }
+    //             )
+    //             .then(res => {
+    //               // console.log(res.data)
+    //             })
+    //             .catch(() => {
+    //               console.log("FAILURE");
+    //             });
+    //         }
+    //       }
+    //       console.log(self.isExist);
+    //       if (self.isExist == false) {
+    //         console.log("customer not exist");
+    //         //check whether the user have another booking which is not cancelled and after current time
+    //         self.$axios
+    //           .get(`http://${config.serverURL}/bookings/rfid/${scannedID}`)
+    //           .then(res => {
+    //             let data = res.data[0];
+    //             console.log(data);
+    //             if (res.data.length > 0) {
+    //               console.log("displayOtherbooking");
+    //               self.$dialog.alert({
+    //                 title: "Wrong Booking",
+    //                 message:
+    //                   "User does not have booking here!" +
+    //                   "Actual booking: " +
+    //                   data.station_name +
+    //                   " , " +
+    //                   data.role_name +
+    //                   " @ " +
+    //                   data.session_start +
+    //                   ".",
+    //                 confirmText: "OK"
+    //               });
+    //             } else {
+    //               //if no booking then display error message
+    //               console.log("toast");
+    //               self.$toast.open({
+    //                 duration: 5000,
+    //                 message: `User does not have any bookings!`,
+    //                 position: "is-bottom",
+    //                 type: "is-danger"
+    //               });
+    //             }
+    //           })
+    //           .catch(() => {
+    //             console.log("FAILURE");
+    //           });
+    //       }
+    //     } else {
+    //       scannedArray.push(e.key);
+    //     }
+    //   }
+    // };
+
     window.onkeypress = function(e) {
       console.log(self.isFocus);
       if (self.isFocus == false) {
@@ -264,17 +371,20 @@ methods: {
               self.isExist = true;
               var booking_id = self.bookingList[i].booking_id;
               self.bookingList[i].booking_status = "Admitted";
-
+              for (var i in self.bookingListWithReserved) {
+                if (self.bookingListWithReserved[i].rfid == scannedID) {
+                  self.bookingListWithReserved[i].booking_status = "Admitted";
+                }
+              }
               var day = new Date();
               var time_in = moment(day).format("HH:mm");
               self.bookingList[i].time_in = time_in;
-              socket.emit("admitted", self.bookingList); //socket
+              socket.emit("admitted", self.bookingListWithReserved); //socket
               self.$axios
                 .put(
                   `http://${
                     config.serverURL
-                  }/bookings/updateStatus/${booking_id}`,
-                  {
+                  }/bookings/updateStatus/${booking_id}`, {
                     booking_status: "Admitted",
                     time_in: moment(day).format("HH:mm")
                   }
@@ -296,21 +406,35 @@ methods: {
               .then(res => {
                 let data = res.data[0];
                 console.log(data);
+                let haveConfirmBooking = false;
                 if (res.data.length > 0) {
-                  console.log("displayOtherbooking");
-                  self.$dialog.alert({
-                    title: "Wrong Booking",
-                    message:
-                      "User does not have booking here!" +
-                      "Actual booking: " +
-                      data.station_name +
-                      " , " +
-                      data.role_name +
-                      " @ " +
-                      data.session_start +
-                      ".",
-                    confirmText: "OK"
-                  });
+                  for (var i in data) {
+                    if (data[i].booking_status === "Confirm") {
+                      haveConfirmBooking = true;
+                      console.log("displayOtherbooking");
+                      self.$dialog.alert({
+                        title: "Wrong Booking",
+                        message: "User does not have booking here!" +
+                          "Actual booking: " +
+                          data.station_name +
+                          " , " +
+                          data.role_name +
+                          " @ " +
+                          data.session_start +
+                          ".",
+                        confirmText: "OK"
+                      });
+                    }
+                  }
+                  if (haveConfirmBooking == false) {
+                    console.log("toast");
+                    self.$toast.open({
+                      duration: 5000,
+                      message: `User does not have any bookings!`,
+                      position: "is-bottom",
+                      type: "is-danger"
+                    });
+                  }
                 } else {
                   //if no booking then display error message
                   console.log("toast");
@@ -334,21 +458,37 @@ methods: {
   },
 
   computed: {
+    // filteredData() {
+    //   if (this.filter !== "") {
+    //     let data = [];
+    //     for (var i in this.bookingList) {
+    //       if (
+    //         this.bookingList[i].queue_no
+    //           .toLowerCase()
+    //           .includes(this.filter.toLowerCase())
+    //       ) {
+    //         data.push(this.bookingList[i]);
+    //       }
+    //     }
+    //     return data;
+    //   }
+    //   return this.bookingList;
+    // },
     filteredData() {
       if (this.filter !== "") {
         let data = [];
-        for (var i in this.bookingList) {
+        for (var i in this.bookingListWithReserved) {
           if (
-            this.bookingList[i].queue_no
-              .toLowerCase()
-              .includes(this.filter.toLowerCase())
+            this.bookingListWithReserved[i].queue_no
+            .toLowerCase()
+            .includes(this.filter.toLowerCase())
           ) {
-            data.push(this.bookingList[i]);
+            data.push(this.bookingListWithReserved[i]);
           }
         }
         return data;
       }
-      return this.bookingList;
+      return this.bookingListWithReserved;
     },
 
     numberOfAdmit() {
@@ -356,16 +496,14 @@ methods: {
       for (var i in this.bookingList) {
         if (this.bookingList[i].booking_status === "Admitted") {
           count++;
-        } else {
-        }
+        } else {}
       }
       return count;
     },
     isEmpty() {
-      if (this.bookingList.length === 0)  return true;
-
+      if (this.bookingList.length === 0) return true;
       else return false;
-    },
+    }
   },
   destroyed() {
     socket.close();
@@ -388,10 +526,12 @@ methods: {
 </script>
 
 <style>
-
 #attendance {
   margin-top: 20px;
-  margin-left: 85%;
+}
+
+#reservation {
+  margin-top: 20px;
 }
 
 tr.is-success-table {

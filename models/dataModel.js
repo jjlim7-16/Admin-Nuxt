@@ -19,12 +19,11 @@ module.exports = {
 		this.date = date
 		this.limit = limit
 	},
-	Reservation: function (date, stationId, roleId, reservedFrom, reservedTo, remarks) {
-		this.stationId = stationId
-		this.roleId = roleId
+	Reservation: function (date, roleId, sessionId, noOfRSlots, remarks) {
+		this.session_id = sessionId
+		this.role_id = roleId
 		this.date = date
-		this.reservedFrom = reservedFrom
-		this.reservedTo = reservedTo
+		this.noOfRSlots = noOfRSlots
 		this.remarks = remarks
 	},
 	Account: function (account_type_id, username, password) {

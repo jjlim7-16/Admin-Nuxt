@@ -108,8 +108,8 @@ export default {
 			}
 			if (roleExists) {
 				this.$dialog.alert({
-					title: "Role Exists",
-					message: `Error! The Role: \'${this.roleName}\' Already Exists`,
+					title: "Error",
+					message: `<b>${this.roleName}</b> already exists`,
 					type: "is-danger",
 					hasIcon: true
 				})

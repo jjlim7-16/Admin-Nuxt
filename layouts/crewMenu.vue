@@ -23,32 +23,30 @@
               <span></span>
               <span></span>
             </span>
-          </div>
+            </div>
         </div>
         <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
           <div class="navbar-end">
-            <hr />
             <li class="navbar-item">
               <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>&nbsp;Logout</a></ul>
             </li>
-
           </div>
         </div>
       </header>
-    <nuxt/>
-    <BackToTop :visibleoffset="heightOfBrowser"></BackToTop>
+        <nuxt/>
+        <BackToTop :visibleoffset="heightOfBrowser"></BackToTop>
   </aside>
 
   </div>
 </template>
 
 <script>
-import Cookie from "js-cookie"
+import Cookie from "js-cookie";
 import BackToTop from '~/components/BackToTop'
 
 export default {
-  middleware: "crewAuth",
-  components: {
+ middleware: "crewAuth",
+    components: {
     BackToTop
   },
   data() {
@@ -65,11 +63,11 @@ export default {
         this.$router.push("/");
       });
     },
-    toggleMenu() {
+      toggleMenu() {
       this.menuIsActive = !this.menuIsActive;
     }
   },
-  mounted() {
+    mounted() {
     this.heightOfBrowser = window.innerHeight/7
   }
 };
@@ -81,11 +79,6 @@ export default {
   margin: 0px;
 }
 
-.navbar-menu {
-    display: none;
-  }
-
-
 #nav {
   background-color: #565656;
   height: 100vh;
@@ -93,6 +86,11 @@ export default {
   top: 0;
   left: 0;
 }
+
+.navbar-menu {
+    display: none;
+  }
+
 #logout {
   position: fixed;
   display: inline;
@@ -133,29 +131,26 @@ export default {
 .sidebar a {
   color: white;
 }
-
+.container {
+  display: block;
+}
 html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.2rem;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  background-color: #F8F8F8;
-  overflow: hidden;
+  background-color: #f8f8f8;
 }
 *,
 *:before,
 *:after {
   box-sizing: border-box;
   margin: 0;
-}
-
-.menu-list a.nuxt-link-active {
-  background-color: #ff4c65;
-  color: #fff;
 }
 
 #content {
@@ -165,7 +160,6 @@ html {
   margin: 2vw;
   overflow-y: auto;
 }
-
 
 @media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
   html {
@@ -188,7 +182,7 @@ html {
     margin: 0.2rem;
   }
   #mobileNavbarMenu {
-    height: 45vh;
+      height: 45vh;
     padding: 0.5rem 0.7rem;
     overflow-y: scroll;
     box-shadow: none;
@@ -215,7 +209,6 @@ html {
     overflow-y: scroll;
     box-shadow: none;
   }
-
 }
 
 @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
@@ -235,5 +228,4 @@ html {
     width: -webkit-fill-available;
   }
 }
-
 </style>

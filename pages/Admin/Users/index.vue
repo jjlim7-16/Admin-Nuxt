@@ -96,22 +96,24 @@ export default {
     deleteAccount(user_id, account_type) {
       let curruser = this.$store.state.auth.user
       let authorised = false
-      if (curruser.account_type === 'Admin' && account_type === 'Crew') {
+      if (curruser.account_type.includes('Admin') && account_type === 'Crew') {
+        authorised = true
+      } else if (curruser.account_type === 'Master Admin' && account_type === 'Admin') {
         authorised = true
       } else if (curruser.user_id === user_id) {
         authorised = true
-      }
+      } 
       if (!authorised) {
         this.$dialog.alert({
           title: 'Unauthorised',
-          message: 'You Are Unauthorised To Delete This Account',
+          message: 'You are unauthorised to delete this user account',
           type: 'is-danger',
           hasIcon: true
         })
       } else {
         this.$dialog.confirm({
-          title: 'Delete Account',
-          message: 'Are you sure you want to delete this account?',
+          title: 'Delete User Account',
+          message: 'Are you sure you want to permanently delete this user account?',
           confirmText: 'Delete Account',
           type: 'is-danger',
           hasIcon: true,
@@ -121,7 +123,7 @@ export default {
               if (res.status === 200) {
                 this.$dialog.alert({
                   title: 'Delete Account',
-                  message: `The user account has been successfully deleted`,
+                  message: `User account has been successfully deleted`,
                   type: 'is-success',
                   hasIcon: true,
                   icon: 'check-circle',

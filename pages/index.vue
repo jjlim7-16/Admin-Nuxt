@@ -39,7 +39,7 @@ export default {
 				if (res.status === 200) {
 					const auth = res.data
 					this.$store.commit('update', auth)
-          Cookie.set('auth', auth)
+          Cookie.set('auth', auth, { expires: 1 })
           this.$axios.setToken(auth.token, 'Bearer')
 					if (auth.user.account_type.includes('Admin')) {
 						this.$router.push('/Admin/Dashboard')
@@ -49,8 +49,8 @@ export default {
 					}
 				}
 			} catch (err) {
-        let msg = 'Internal Server Error. Please Contact Administrator.'
-        if (err.response.data) {
+        let msg = 'Internal server error. Please contact Administrator.'
+        if (err.response !== undefined) {
           msg = err.response.data.message
         }
         this.$dialog.alert({

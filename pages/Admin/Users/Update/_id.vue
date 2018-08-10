@@ -31,7 +31,7 @@
 
 			<br/>
 			<button class="button is-success is-pulled-right" :disabled="isDisabled"
-			@click="submit()">Save Changes</button>
+			@click="validateBeforeSubmit()">Save Changes</button>
 			<router-link to="/Admin/Users/" class="button is-light right-spaced is-pulled-right">Cancel</router-link>
 		</div>
 	</section>
@@ -90,8 +90,8 @@ export default {
 				let res = await this.$axios.get(`http://${config.serverURL}/user`)
 				let userList = res.data
 				for (let i in userList) {
-					if (userList[i].username.toLowerCase() === this.username.toLowerCase() &&
-					userList[i].user_id != this.$route.params.id) {
+					if ((userList[i].username.toLowerCase() === this.username.toLowerCase() &&
+					userList[i].user_id != this.$route.params.id) || userList[i].account_type === 'Master Admin') {
 						userExist = true
 						break
 					}
@@ -99,8 +99,8 @@ export default {
 			}
 			if (userExist) {
 				this.$dialog.alert({
-					title: 'User Exists',
-					message: `Username already exists`,
+					title: 'Error',
+					message: `<b>${this.username}</b> already exists`,
 					type: 'is-success',
 					hasIcon: true,
 					icon: 'check-circle',
@@ -108,13 +108,17 @@ export default {
 				})
 			}
 			else {
-				let webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+				// let webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+				let webFormData
+				if (this.password !== '') {
+					webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+				}
 				this.$axios.put(`http://${config.serverURL}/user/`+ this.$route.params['id'], webFormData)
 				.then(res => {
 					if (res.status === 200) {
 						this.$dialog.alert({
 							title: 'Edit User',
-							message: `User \'${this.username}\' has been successfully edited.`,
+							message: `<b>${this.username}</b> has been successfully edited`,
 							type: 'is-success',
 							hasIcon: true,
 							icon: 'check-circle',
@@ -127,12 +131,24 @@ export default {
 					console.log(err)
 				})
 			}
+		},
+		validateBeforeSubmit() {
+			this.$validator.validateAll().then(res => {
+				if (res) {
+					this.submit()
+				}
+			})
 		}
 	},
 	computed: {
 		isDisabled() {
 			if (this.curruser) {
-				return (!this.password || !this.confirmPassword) && (this.curruser.username === this.username)
+				if (this.account_type === 'Crew') {
+					return !this.username || !this.password || !this.confirmPassword || !this.account_type_id
+				}
+				else if (this.account_type === 'Admin') {
+					return (!this.username || this.username === this.curruser.username) && (!this.password || !this.confirmPassword)
+				}
 			}
 		}
 	}

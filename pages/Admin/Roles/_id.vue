@@ -104,14 +104,14 @@ export default {
       if (arr.length === 1) {
         this.$dialog.alert({
           title: 'Error',
-          message: 'Each station requires at least one role.',
+          message: 'Each station requires at least one role',
           type: 'is-danger',
           hasIcon: true
         })
       } else {
         this.$dialog.confirm({
           title: 'Delete Role',
-          message: 'Are you sure you want to permanently delete this role?',
+          message: 'Are you sure you want to permanently delete <b>' + role_name + '</b>?',
           confirmText: 'Delete Role',
           type: 'is-danger',
           hasIcon: true,
@@ -121,7 +121,7 @@ export default {
               if (res.status === 200) {
                 this.$dialog.alert({
                   title: 'Delete Role',
-                  message: 'The Role: ' + role_name + ' has been successfully deleted',
+                  message: '<b>' + role_name + '</b> has been successfully deleted',
                   type: 'is-success',
                   hasIcon: true,
                   icon: 'check-circle',
