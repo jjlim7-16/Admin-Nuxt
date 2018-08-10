@@ -19,9 +19,26 @@
               </p>
             </div>
           </div>
+          <span class="navbar-burger burger" :class="{'is-active': menuIsActive}" @click="toggleMenu()">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+        </div>
+        <div class="navbar-menu" :class="{'is-active': menuIsActive}" id="mobileNavbarMenu" @click="toggleMenu()">
+          <div class="navbar-end">
+
+            <hr />
+
+            <li class="navbar-item">
+              <ul class="menu-list"><a @click="logout()"><b-icon class="mdi mdi-logout"></b-icon>&nbsp;Logout</a></ul>
+            </li>
+
+          </div>
         </div>
       </header>
         <nuxt/>
+        <BackToTop :visibleoffset="heightOfBrowser"></BackToTop>
   </aside>
 
   </div>
@@ -29,9 +46,19 @@
 
 <script>
 import Cookie from "js-cookie";
+import BackToTop from '~/components/BackToTop'
 
 export default {
-  middleware: "crewAuth",
+ middleware: "crewAuth",
+    components: {
+    BackToTop
+  },
+  data() {
+    return {
+      menuIsActive: false,
+      heightOfBrowser: 0
+    }
+  },
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {
@@ -39,7 +66,13 @@ export default {
         this.$axios.setToken(false);
         this.$router.push("/");
       });
+    },
+      toggleMenu() {
+      this.menuIsActive = !this.menuIsActive;
     }
+  },
+    mounted() {
+    this.heightOfBrowser = window.innerHeight/7
   }
 };
 </script>
@@ -57,16 +90,21 @@ export default {
   top: 0;
   left: 0;
 }
+
+.navbar-menu {
+    display: none;
+  }
+
 #logout {
   position: fixed;
   display: inline;
   bottom: 30px;
-  /* width: 18.7%; */
   width: 15%;
   text-align: center;
   font-size: 18px;
   color: white;
 }
+
 
 #myPageTitle {
   max-width: 100%;
@@ -130,5 +168,72 @@ html {
   height: 80vh;
   margin: 2vw;
   overflow-y: auto;
+}
+
+@media only screen and (min-width:320px) and (max-width:767px) and (orientation:portrait) {
+  html {
+    font-size: 1rem;
+    overflow-y: scroll;
+    background-color: white;
+  }
+  #myPageTitle {
+    font-size: 1.2rem;
+    padding: 0;
+  }
+  .container {
+    display: block;
+  }
+
+  .myContent {
+    width: 100% !important;
+  }
+  hr {
+    margin: 0.2rem;
+  }
+  #mobileNavbarMenu {
+    padding: 0.5rem 0.7rem;
+  }
+  .mobileNav {
+    height: 7%;
+  }
+}
+
+@media screen and (min-width:320px) and (max-width:767px) and (orientation:landscape) {
+  html {
+    background-color: white;
+    overflow-y: scroll;
+  }
+  .myContent {
+    width: 100% !important;
+  }
+  #myPageTitle {
+    font-size: 1.2rem;
+  }
+  #mobileNavbarMenu {
+    height: 50vh;
+    overflow-y: scroll;
+    box-shadow: none;
+  }
+  hr {
+    margin: 0.2rem;
+  }
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+  html {
+    background-color: white;
+    overflow-y: scroll;
+  }
+  .column.is-10 {
+    flex: auto;
+    width: -webkit-fill-available;
+  }
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
+  .column.is-10 {
+    flex: auto;
+    width: -webkit-fill-available;
+  }
 }
 </style>
