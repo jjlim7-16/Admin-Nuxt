@@ -108,7 +108,11 @@ export default {
 				})
 			}
 			else {
-				let webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+				// let webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+				let webFormData
+				if (this.password !== '') {
+					webFormData = new DataModel.Account(this.account_type_id, this.username, this.password)
+				}
 				this.$axios.put(`http://${config.serverURL}/user/`+ this.$route.params['id'], webFormData)
 				.then(res => {
 					if (res.status === 200) {
@@ -143,7 +147,7 @@ export default {
 					return !this.username || !this.password || !this.confirmPassword || !this.account_type_id
 				}
 				else if (this.account_type === 'Admin') {
-					return !this.username || !this.password || !this.confirmPassword
+					return (!this.username || this.username === this.curruser.username) && (!this.password || !this.confirmPassword)
 				}
 			}
 		}

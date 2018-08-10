@@ -7,7 +7,7 @@
     <span>Add User</span>
   </router-link>
 
-  <b-field grouped group-multiline>
+  <b-field grouped>
     <!-- Search by Username -->
     <b-autocomplete id="searchBar" :data="filteredDataArray" placeholder="Search by Username" v-model="filter" type="search" icon="magnify" @select="option => selected = option" rounded>
       <template slot="empty">No results found</template>
@@ -98,9 +98,11 @@ export default {
       let authorised = false
       if (curruser.account_type.includes('Admin') && account_type === 'Crew') {
         authorised = true
+      } else if (curruser.account_type === 'Master Admin' && account_type === 'Admin') {
+        authorised = true
       } else if (curruser.user_id === user_id) {
         authorised = true
-      }
+      } 
       if (!authorised) {
         this.$dialog.alert({
           title: 'Unauthorised',
