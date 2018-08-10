@@ -56,16 +56,16 @@
 				</section>
 			</template>
   </b-table>
-  <b-field class="level">
-    <b-field id="reservation" class="level-left">
+  <b-field grouped>
+    <b-field  id="reservation" class="column is-6">
       <div class="level-item">
-        <b>Number Of Reservation</b>: {{ noOfReservedSlots }}
+        <b>Number Of Reservation: </b>{{ noOfReservedSlots }}
       </div>
     </b-field>
 
-    <b-field id="attendance" class="level-right">
+    <b-field  id="attendance" class="column is-6">
       <div class="level-item">
-        <b>Present</b>: {{ numberOfAdmit }}/{{ numberOfBooking }}
+        <b>Present:</b> {{ numberOfAdmit }}/{{ numberOfBooking }}
       </div>
     </b-field>
   </b-field>
