@@ -355,7 +355,7 @@ Vue.component('doughnut', {
 					},
 					title: {
 						display: true,
-						text: 'Overall Booking Percentage By Stations',
+						text: 'Overall Daily Booking Percentage By Stations',
 						fontSize: 18,
 						padding: 5,
 						lineHeight: 2

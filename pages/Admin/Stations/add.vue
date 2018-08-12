@@ -8,6 +8,7 @@
 
 		<b-field label='Activity Duration'>
 			<b-select expanded placeholder='Select Activity Duration' @input="getTimeList" v-model="duration" rounded>
+				<option value="10">10 mins</option>
 				<option value="15">15 mins</option>
 				<option value="20">20 mins</option>
 				<option value="25">25 mins</option>
