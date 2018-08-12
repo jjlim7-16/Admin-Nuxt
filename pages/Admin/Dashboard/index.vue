@@ -58,8 +58,9 @@ export default {
   },
   async mounted() {
     this.$store.commit("setPageTitle", "Dashboard");
-    let res = await this.$axios.get(`http://${config.serverURL}/roles/`);
-    this.stationList = res.data[1];
+    let res = await this.$axios.get(`http://${config.serverURL}/stations/`);
+    this.stationList = res.data;
+    this.stationList = this.stationList.filter(i => i.is_active === 1)
     this.stationId = this.stationList[0].station_id;
 
     socket = io.socketio.connect(`http://${config.serverURL}/dashboard`);

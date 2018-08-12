@@ -340,18 +340,18 @@ Vue.component('doughnut', {
 						}
 					},
 					tooltips: {
+						// callbacks: {
+						// 	label: function (tooltipItem, data) {
+						// 		var label = data.datasets[tooltipItem.datasetIndex].label || ''
+						// 		if (label) {
+						// 			label += ': '
+						// 		}
+						// 		label += tooltipItem.yLabel + ' Bookings'
+						// 		return label
+						// 	}
+						// },
 						titleFontSize: 16,
-						bodyFontSize: 16,
-						callbacks: {
-							label: function (tooltipItem, data) {
-								var label = data.datasets[tooltipItem.datasetIndex].label || ''
-								if (label) {
-									label += ': '
-								}
-								label += tooltipItem.yLabel + ' Bookings'
-								return label
-							}
-						}
+						bodyFontSize: 16
 					},
 					title: {
 						display: true,
