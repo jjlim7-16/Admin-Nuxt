@@ -191,6 +191,14 @@ export default {
 							hasIcon: true
 						})
 					}
+					else if (this.duration !== this.origData.durationInMins) {
+						this.$dialog.alert({
+							title: `Alert`,
+							message: `Change of activity duration is not allowed during operating hours`,
+							type: 'is-danger',
+							hasIcon: true
+						})
+					}
 					else {
 						this.submit()
 					}
