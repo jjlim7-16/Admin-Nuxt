@@ -6,5 +6,5 @@ module.exports =  {
 	// serverURL: '152.10.0.239:8000'
 
 	// School ServerURL
-	serverURL: '192.168.1.97:8000'
+	serverURL: '172.22.76.104:8000'
 }
