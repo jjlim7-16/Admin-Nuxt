@@ -20,13 +20,13 @@
 			<b-field label='New Password' :type="errors.has('password') ? 'is-danger': ''"
 				:message="errors.has('password') ? errors.first('password') : ''">
 				<b-input placeholder='Enter Password' v-model="password" name="password"
-				type="password" v-validate="'required|min:8'" ref="password" rounded></b-input>
+				type="password" v-validate="'min:8'" ref="password" rounded></b-input>
 			</b-field>
 
 			<b-field label='Confirm Password' :type="errors.has('confirmPassword') ? 'is-danger': ''"
 				:message="errors.has('confirmPassword') ? errors.first('confirmPassword') : ''">
 				<b-input placeholder='Confirm Password' type="password" v-model="confirmPassword"
-				name="confirmPassword" v-validate="'required|min:8|confirmed:password'" data-vv-as="password" rounded></b-input>
+				name="confirmPassword" v-validate="'min:8|confirmed:password'" data-vv-as="password" rounded></b-input>
 			</b-field>
 
 			<br/>
@@ -150,7 +150,13 @@ export default {
 					return !this.username || !this.password || !this.confirmPassword || !this.account_type_id
 				}
 				else if (this.account_type === 'Admin') {
-					return ((!this.username || this.username === this.curruser.username) && (!this.password && !this.confirmPassword)) || (!this.password || !this.confirmPassword)
+					if ((this.username && this.username !== this.curruser.username)) {
+						return false
+					}
+					else if (this.password && this.confirmPassword) {
+						return false
+					}
+					return true
 				}
 			}
 		}
