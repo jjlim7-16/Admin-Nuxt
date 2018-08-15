@@ -22,6 +22,7 @@ Vue.component('my-line', {
 							borderWidth: 2,
 							radius: 2,
 							backgroundColor: 'rgba(255, 99, 132, 0.2)',
+							lineTension: 0,
 							data: this.chartData.results
 						}
 					]
