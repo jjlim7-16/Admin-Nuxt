@@ -22,6 +22,7 @@ Vue.component('my-line', {
 							borderWidth: 2,
 							radius: 4,
 							backgroundColor: 'rgba(255, 99, 132, 0.2)',
+							lineTension: 0,
 							data: this.chartData.results
 						}
 					]
@@ -340,18 +341,18 @@ Vue.component('doughnut', {
 						}
 					},
 					tooltips: {
+						// callbacks: {
+						// 	label: function (tooltipItem, data) {
+						// 		var label = data.datasets[tooltipItem.datasetIndex].label || ''
+						// 		if (label) {
+						// 			label += ': '
+						// 		}
+						// 		label += tooltipItem.yLabel + ' Bookings'
+						// 		return label
+						// 	}
+						// },
 						titleFontSize: 16,
-						bodyFontSize: 16,
-						callbacks: {
-							label: function (tooltipItem, data) {
-								var label = data.datasets[tooltipItem.datasetIndex].label || ''
-								if (label) {
-									label += ': '
-								}
-								label += tooltipItem.yLabel + ' Bookings'
-								return label
-							}
-						}
+						bodyFontSize: 16
 					},
 					title: {
 						display: true,

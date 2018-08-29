@@ -33,7 +33,7 @@ export default {
     async login() {
 			try {
 				let res = await this.$axios.post(`http://${config.serverURL}/auth/login`, {
-					username: this.username,
+					username: this.username.toLowerCase(),
 					password: this.password
 				})
 				if (res.status === 200) {

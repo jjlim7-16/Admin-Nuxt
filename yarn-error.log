@@ -2,7 +2,7 @@ Arguments:
   C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js run dev
 
 PATH: 
-  C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\MySQL\MySQL Fabric 1.5 & MySQL Utilities 1.5\;C:\Program Files (x86)\MySQL\MySQL Fabric 1.5 & MySQL Utilities 1.5\Doctrine extensions for PHP\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Users\BN\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\BN\AppData\Local\Programs\Python\Python36-32\;C:\Users\BN\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\BN\AppData\Local\atom\bin;C:\Users\BN\AppData\Roaming\npm;C:\Users\BN\AppData\Local\GitHubDesktop\bin;C:\Users\BN\AppData\Local\Yarn\bin;C:\Program Files\Docker Toolbox
+  C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\130\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\nodejs\;C:\Program Files (x86)\MySQL\MySQL Utilities 1.6\;C:\Users\common\AppData\Local\Microsoft\WindowsApps;C:\Users\common\AppData\Local\Yarn\bin;C:\Users\common\AppData\Roaming\npm
 
 Yarn version: 
   1.7.0
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  SyntaxError: C:\Users\BN\Dropbox\SchoolDocument\Year3semester1\FYP\Admin Portal\Admin-Nuxt\package.json: Unexpected token < in JSON at position 165
+  SyntaxError: C:\Users\common\Desktop\KidZania Final\Admin-Nuxt\Admin-Nuxt\package.json: Unexpected token / in JSON at position 168
       at JSON.parse (<anonymous>)
       at C:\Program Files (x86)\Yarn\lib\cli.js:1130:59
       at Generator.next (<anonymous>)
@@ -31,12 +31,9 @@ npm manifest:
   	"private": true,
   	"config": {
   		"nuxt": {
-  <<<<<<< HEAD
-  			"host": "localhost",
-  =======
-  			"host": "172.22.61.5",
-  >>>>>>> 2d19697805d24e13e0c0b65a02f5b1d5fdd3f028
-  			"port": "3000"
+  			// "host": "152.10.0.239",
+  			"host": "25.37.100.106",
+  			"port": "1234"
   		}
   	},
   	"scripts": {
@@ -48,36 +45,29 @@ npm manifest:
   		"precommit": "npm run lint"
   	},
   	"dependencies": {
-  		"@mdi/font": "^2.4.85",
   		"@nuxtjs/axios": "^5.3.1",
   		"@nuxtjs/pwa": "^2.0.8",
   		"bcrypt": "^2.0.1",
   		"body-parser": "^1.18.3",
   		"buefy": "^0.6.6",
   		"chart.js": "^2.7.2",
-  		"chartjs-plugin-streaming": "^1.5.0",
+  		"chart.piecelabel.js": "^0.12.0",
   		"cookie": "^0.3.1",
   		"cookie-parser": "^1.4.3",
   		"cookieparser": "^0.1.0",
   		"express": "^4.16.3",
-  		"express-jwt": "^5.3.1",
-  		"fs": "0.0.1-security",
   		"http-proxy-middleware": "^0.18.0",
   		"js-cookie": "^2.2.0",
-  		"jsonwebtoken": "^8.3.0",
   		"moment": "^2.22.2",
-  		"multer": "^1.3.1",
   		"mysql": "^2.15.0",
   		"node-sass": "^4.9.0",
   		"nuxt": "^1.0.0",
   		"nuxt-buefy": "^0.0.4",
-  		"nuxt-material-design-icons": "^1.0.4",
   		"sass-loader": "^7.0.1",
   		"socket.io": "^2.1.1",
   		"uws": "^10.148.1",
   		"vee-validate": "^2.1.0-beta.1",
-  		"vue-chartjs": "^3.3.2",
-  		"vue-charts": "^0.2.1"
+  		"vue-chartjs": "^3.3.2"
   	},
   	"devDependencies": {
   		"babel-eslint": "^8.2.1",
@@ -177,10 +167,6 @@ Lockfile:
       esutils "^2.0.2"
       lodash "^4.2.0"
       to-fast-properties "^2.0.0"
-  
-  "@mdi/font@^2.4.85":
-    version "2.5.94"
-    resolved "https://registry.yarnpkg.com/@mdi/font/-/font-2.5.94.tgz#c05415b294243962046c398c8ba0b3a2311cf690"
   
   "@nuxtjs/axios@^5.3.1":
     version "5.3.1"
@@ -364,10 +350,6 @@ Lockfile:
       micromatch "^3.1.4"
       normalize-path "^2.1.1"
   
-  append-field@^0.1.0:
-    version "0.1.0"
-    resolved "https://registry.yarnpkg.com/append-field/-/append-field-0.1.0.tgz#6ddc58fa083c7bc545d3c5995b2830cc2366d44a"
-  
   aproba@^1.0.3, aproba@^1.1.1:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
@@ -480,10 +462,6 @@ Lockfile:
   async-limiter@~1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.0.tgz#78faed8c3d074ab81f22b4e985d79e8738f720f8"
-  
-  async@^1.5.0:
-    version "1.5.2"
-    resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
   
   async@^2.1.2, async@^2.4.1:
     version "2.6.1"
@@ -1354,10 +1332,6 @@ Lockfile:
     dependencies:
       bulma "^0.7.1"
   
-  buffer-equal-constant-time@1.0.1:
-    version "1.0.1"
-    resolved "https://registry.yarnpkg.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz#f8e71132f7ffe6e01a5c9697a4c6f3e48d5cc819"
-  
   buffer-equal@0.0.1:
     version "0.0.1"
     resolved "https://registry.yarnpkg.com/buffer-equal/-/buffer-equal-0.0.1.tgz#91bc74b11ea405bc916bc6aa908faafa5b4aac4b"
@@ -1389,13 +1363,6 @@ Lockfile:
   bulma@^0.7.1:
     version "0.7.1"
     resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.1.tgz#73c2e3b2930c90cc272029cbd19918b493fca486"
-  
-  busboy@^0.2.11:
-    version "0.2.14"
-    resolved "https://registry.yarnpkg.com/busboy/-/busboy-0.2.14.tgz#6c2a622efcf47c57bbbe1e2a9c37ad36c7925453"
-    dependencies:
-      dicer "0.2.5"
-      readable-stream "1.1.x"
   
   bytes@3.0.0:
     version "3.0.0"
@@ -1536,12 +1503,18 @@ Lockfile:
     version "0.4.2"
     resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.4.2.tgz#b5473b33dc97c424e5d98dc87d55d4d8a29c8bf2"
   
-  chart.js@^2.7.0, chart.js@^2.7.2:
+  chart.js@^2.1.5, chart.js@^2.7.2:
     version "2.7.2"
     resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.2.tgz#3c9fde4dc5b95608211bdefeda7e5d33dffa5714"
     dependencies:
       chartjs-color "^2.1.0"
       moment "^2.10.2"
+  
+  chart.piecelabel.js@^0.12.0:
+    version "0.12.0"
+    resolved "https://registry.yarnpkg.com/chart.piecelabel.js/-/chart.piecelabel.js-0.12.0.tgz#091242ae3b1728960bd08c8530b6bbf84b718895"
+    dependencies:
+      chart.js "^2.1.5"
   
   chartjs-color-string@^0.5.0:
     version "0.5.0"
@@ -1555,13 +1528,6 @@ Lockfile:
     dependencies:
       chartjs-color-string "^0.5.0"
       color-convert "^0.5.3"
-  
-  chartjs-plugin-streaming@^1.5.0:
-    version "1.5.0"
-    resolved "https://registry.yarnpkg.com/chartjs-plugin-streaming/-/chartjs-plugin-streaming-1.5.0.tgz#5906fd4cf4c6e8aae513205a4a370fa9c864992d"
-    dependencies:
-      chart.js "^2.7.0"
-      moment "^2.10.2"
   
   check-types@^7.3.0:
     version "7.4.0"
@@ -1811,7 +1777,7 @@ Lockfile:
     version "0.0.1"
     resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   
-  concat-stream@^1.5.0, concat-stream@^1.5.2, concat-stream@^1.6.0:
+  concat-stream@^1.5.0, concat-stream@^1.6.0:
     version "1.6.2"
     resolved "https://registry.yarnpkg.com/concat-stream/-/concat-stream-1.6.2.tgz#904bdf194cd3122fc675c77fc4ac3d4ff0fd1a34"
     dependencies:
@@ -2277,13 +2243,6 @@ Lockfile:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
   
-  dicer@0.2.5:
-    version "0.2.5"
-    resolved "https://registry.yarnpkg.com/dicer/-/dicer-0.2.5.tgz#5996c086bb33218c812c090bddc09cd12facb70f"
-    dependencies:
-      readable-stream "1.1.x"
-      streamsearch "0.1.2"
-  
   diffie-hellman@^5.0.0:
     version "5.0.3"
     resolved "https://registry.yarnpkg.com/diffie-hellman/-/diffie-hellman-5.0.3.tgz#40e8ee98f55a2149607146921c63e1ae5f3d2875"
@@ -2371,12 +2330,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.1.tgz#0fc73a9ed5f0d53c38193398523ef7e543777505"
     dependencies:
       jsbn "~0.1.0"
-  
-  ecdsa-sig-formatter@1.0.10:
-    version "1.0.10"
-    resolved "https://registry.yarnpkg.com/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.10.tgz#1c595000f04a8897dfb85000892a0f4c33af86c3"
-    dependencies:
-      safe-buffer "^5.0.1"
   
   ee-first@1.1.1:
     version "1.1.1"
@@ -2794,19 +2747,6 @@ Lockfile:
       snapdragon "^0.8.1"
       to-regex "^3.0.1"
   
-  express-jwt@^5.3.1:
-    version "5.3.1"
-    resolved "https://registry.yarnpkg.com/express-jwt/-/express-jwt-5.3.1.tgz#66f05c7dddb5409c037346a98b88965bb10ea4ae"
-    dependencies:
-      async "^1.5.0"
-      express-unless "^0.3.0"
-      jsonwebtoken "^8.1.0"
-      lodash.set "^4.0.0"
-  
-  express-unless@^0.3.0:
-    version "0.3.1"
-    resolved "https://registry.yarnpkg.com/express-unless/-/express-unless-0.3.1.tgz#2557c146e75beb903e2d247f9b5ba01452696e20"
-  
   express@^4.16.2, express@^4.16.3:
     version "4.16.3"
     resolved "https://registry.yarnpkg.com/express/-/express-4.16.3.tgz#6af8a502350db3246ecc4becf6b5a34d22f7ed53"
@@ -3140,10 +3080,6 @@ Lockfile:
   fs.realpath@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
-  
-  fs@0.0.1-security:
-    version "0.0.1-security"
-    resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
   
   fsevents@^1.2.2:
     version "1.2.4"
@@ -4030,20 +3966,6 @@ Lockfile:
     version "0.0.0"
     resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
   
-  jsonwebtoken@^8.1.0, jsonwebtoken@^8.3.0:
-    version "8.3.0"
-    resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.3.0.tgz#056c90eee9a65ed6e6c72ddb0a1d325109aaf643"
-    dependencies:
-      jws "^3.1.5"
-      lodash.includes "^4.3.0"
-      lodash.isboolean "^3.0.3"
-      lodash.isinteger "^4.0.4"
-      lodash.isnumber "^3.0.3"
-      lodash.isplainobject "^4.0.6"
-      lodash.isstring "^4.0.1"
-      lodash.once "^4.0.0"
-      ms "^2.1.1"
-  
   jsprim@^1.2.2:
     version "1.4.1"
     resolved "https://registry.yarnpkg.com/jsprim/-/jsprim-1.4.1.tgz#313e66bc1e5cc06e438bc1b7499c2e5c56acb6a2"
@@ -4052,21 +3974,6 @@ Lockfile:
       extsprintf "1.3.0"
       json-schema "0.2.3"
       verror "1.10.0"
-  
-  jwa@^1.1.5:
-    version "1.1.6"
-    resolved "https://registry.yarnpkg.com/jwa/-/jwa-1.1.6.tgz#87240e76c9808dbde18783cf2264ef4929ee50e6"
-    dependencies:
-      buffer-equal-constant-time "1.0.1"
-      ecdsa-sig-formatter "1.0.10"
-      safe-buffer "^5.0.1"
-  
-  jws@^3.1.5:
-    version "3.1.5"
-    resolved "https://registry.yarnpkg.com/jws/-/jws-3.1.5.tgz#80d12d05b293d1e841e7cb8b4e69e561adcf834f"
-    dependencies:
-      jwa "^1.1.5"
-      safe-buffer "^5.0.1"
   
   kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
     version "3.2.2"
@@ -4204,29 +4111,9 @@ Lockfile:
     version "4.0.8"
     resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   
-  lodash.includes@^4.3.0:
-    version "4.3.0"
-    resolved "https://registry.yarnpkg.com/lodash.includes/-/lodash.includes-4.3.0.tgz#60bb98a87cb923c68ca1e51325483314849f553f"
-  
-  lodash.isboolean@^3.0.3:
-    version "3.0.3"
-    resolved "https://registry.yarnpkg.com/lodash.isboolean/-/lodash.isboolean-3.0.3.tgz#6c2e171db2a257cd96802fd43b01b20d5f5870f6"
-  
-  lodash.isinteger@^4.0.4:
-    version "4.0.4"
-    resolved "https://registry.yarnpkg.com/lodash.isinteger/-/lodash.isinteger-4.0.4.tgz#619c0af3d03f8b04c31f5882840b77b11cd68343"
-  
-  lodash.isnumber@^3.0.3:
-    version "3.0.3"
-    resolved "https://registry.yarnpkg.com/lodash.isnumber/-/lodash.isnumber-3.0.3.tgz#3ce76810c5928d03352301ac287317f11c0b1ffc"
-  
   lodash.isplainobject@^4.0.6:
     version "4.0.6"
     resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
-  
-  lodash.isstring@^4.0.1:
-    version "4.0.1"
-    resolved "https://registry.yarnpkg.com/lodash.isstring/-/lodash.isstring-4.0.1.tgz#d527dfb5456eca7cc9bb95d5daeaf88ba54a5451"
   
   lodash.memoize@^4.1.2:
     version "4.1.2"
@@ -4235,14 +4122,6 @@ Lockfile:
   lodash.mergewith@^4.6.0:
     version "4.6.1"
     resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.1.tgz#639057e726c3afbdb3e7d42741caa8d6e4335927"
-  
-  lodash.once@^4.0.0:
-    version "4.1.1"
-    resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
-  
-  lodash.set@^4.0.0:
-    version "4.3.2"
-    resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
   
   lodash.tail@^4.1.1:
     version "4.1.1"
@@ -4329,10 +4208,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/map-visit/-/map-visit-1.0.0.tgz#ecdca8f13144e660f1b5bd41f12f3479d98dfb8f"
     dependencies:
       object-visit "^1.0.0"
-  
-  material-design-icons@^3.0.1:
-    version "3.0.1"
-    resolved "https://registry.yarnpkg.com/material-design-icons/-/material-design-icons-3.0.1.tgz#9a71c48747218ebca51e51a66da682038cdcb7bf"
   
   math-expression-evaluator@^1.2.14:
     version "1.2.17"
@@ -4530,23 +4405,6 @@ Lockfile:
   ms@2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
-  
-  ms@^2.1.1:
-    version "2.1.1"
-    resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
-  
-  multer@^1.3.1:
-    version "1.3.1"
-    resolved "https://registry.yarnpkg.com/multer/-/multer-1.3.1.tgz#c3fb3b35f50c7eefe873532f90d3dde02ce6e040"
-    dependencies:
-      append-field "^0.1.0"
-      busboy "^0.2.11"
-      concat-stream "^1.5.2"
-      mkdirp "^0.5.1"
-      object-assign "^3.0.0"
-      on-finished "^2.3.0"
-      type-is "^1.6.4"
-      xtend "^4.0.0"
   
   mustache@^2.3.0:
     version "2.3.0"
@@ -4812,12 +4670,6 @@ Lockfile:
     dependencies:
       buefy latest
   
-  nuxt-material-design-icons@^1.0.4:
-    version "1.0.4"
-    resolved "https://registry.yarnpkg.com/nuxt-material-design-icons/-/nuxt-material-design-icons-1.0.4.tgz#88fad0f7ff10ed9dab281d7510d6f6ab643bc8d2"
-    dependencies:
-      material-design-icons "^3.0.1"
-  
   nuxt@^1.0.0:
     version "1.4.1"
     resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-1.4.1.tgz#78d268c2787b372d835511784a6af2a02ad4c5f3"
@@ -4889,10 +4741,6 @@ Lockfile:
     version "0.8.2"
     resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
   
-  object-assign@^3.0.0:
-    version "3.0.0"
-    resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-3.0.0.tgz#9bedd5ca0897949bca47e7ff408062d549f587f2"
-  
   object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
@@ -4938,7 +4786,7 @@ Lockfile:
     dependencies:
       isobject "^3.0.1"
   
-  on-finished@^2.3.0, on-finished@~2.3.0:
+  on-finished@~2.3.0:
     version "2.3.0"
     resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
     dependencies:
@@ -6046,15 +5894,6 @@ Lockfile:
       isarray "0.0.1"
       string_decoder "~0.10.x"
   
-  readable-stream@1.1.x:
-    version "1.1.14"
-    resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
-    dependencies:
-      core-util-is "~1.0.0"
-      inherits "~2.0.1"
-      isarray "0.0.1"
-      string_decoder "~0.10.x"
-  
   readdirp@^2.0.0:
     version "2.1.0"
     resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-2.1.0.tgz#4ed0ad060df3073300c48440373f72d1cc642d78"
@@ -6799,10 +6638,6 @@ Lockfile:
     version "0.2.2"
     resolved "https://registry.yarnpkg.com/stream-to/-/stream-to-0.2.2.tgz#84306098d85fdb990b9fa300b1b3ccf55e8ef01d"
   
-  streamsearch@0.1.2:
-    version "0.1.2"
-    resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-0.1.2.tgz#808b9d0e56fc273d809ba57338e929919a1a9f1a"
-  
   strict-uri-encode@^1.0.0:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz#279b225df1d582b1f54e65addd4352e18faa0713"
@@ -7073,7 +6908,7 @@ Lockfile:
     dependencies:
       prelude-ls "~1.1.2"
   
-  type-is@^1.6.4, type-is@~1.6.15, type-is@~1.6.16:
+  type-is@~1.6.15, type-is@~1.6.16:
     version "1.6.16"
     resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.16.tgz#f89ce341541c672b25ee7ae3c73dee3b2be50194"
     dependencies:
@@ -7311,13 +7146,6 @@ Lockfile:
     version "3.3.2"
     resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-3.3.2.tgz#1bdbf859d0f5df6cac75d8510e51aee5865638ab"
   
-  vue-charts@^0.2.1:
-    version "0.2.1"
-    resolved "https://registry.yarnpkg.com/vue-charts/-/vue-charts-0.2.1.tgz#4748e1f485b5d4671e314a24c0099db86633bd31"
-    dependencies:
-      lodash "^4.3.0"
-      vue "^2.0.3"
-  
   vue-eslint-parser@^2.0.3:
     version "2.0.3"
     resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-2.0.3.tgz#c268c96c6d94cfe3d938a5f7593959b0ca3360d1"
@@ -7394,7 +7222,7 @@ Lockfile:
     version "1.6.0"
     resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
   
-  vue@^2.0.3, vue@^2.5.13:
+  vue@^2.5.13:
     version "2.5.16"
     resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
   

@@ -26,7 +26,7 @@ module.exports = {
 		this.noOfRSlots = noOfRSlots
 		this.remarks = remarks
 	},
-	Account: function (account_type_id, username, password) {
+	Account: function (account_type_id, username, password=null) {
 		this.account_type_id = account_type_id
 		this.username = username
 		this.password = password

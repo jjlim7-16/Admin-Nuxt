@@ -9,6 +9,7 @@
 
 			<b-field label='Activity Duration'>
 			<b-select expanded placeholder='Select Activity Duration' @input="getTimeList" v-model="duration" rounded>
+				<option value="10">10 mins</option>
 				<option value="15">15 mins</option>
 				<option value="20">20 mins</option>
 				<option value="25">25 mins</option>
@@ -186,6 +187,14 @@ export default {
 						this.$dialog.alert({
 							title: `Alert`,
 							message: `Change of operating hours is not allowed during operation`,
+							type: 'is-danger',
+							hasIcon: true
+						})
+					}
+					else if (this.duration !== this.origData.durationInMins) {
+						this.$dialog.alert({
+							title: `Alert`,
+							message: `Change of activity duration is not allowed during operating hours`,
 							type: 'is-danger',
 							hasIcon: true
 						})

@@ -13,12 +13,12 @@
       <template slot="empty">No results found</template>
     </b-autocomplete>
     <!-- Filter by User Role -->
-    <b-select v-model="userFilter" placeholder="Filter by User Role" rounded>
+    <!-- <b-select id="searchBar" v-model="userFilter" placeholder="Filter by User Role" rounded>
       <option value="All">All User Roles</option>
       <option v-for="userRole in userRoleList" :key="userRole">
         {{userRole}}
       </option>
-    </b-select>
+    </b-select> -->
   </b-field>
 
   <b-table
