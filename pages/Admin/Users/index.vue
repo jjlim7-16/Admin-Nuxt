@@ -74,7 +74,7 @@ export default {
     return {
       currentPage: 1,
       paginated: true,
-      perPage: 5,
+      perPage: 10,
       data: [],
       autocompleteData: [],
       filter: '',

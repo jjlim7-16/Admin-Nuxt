@@ -20,7 +20,7 @@ Vue.component('my-line', {
 							label: this.chartData.station,
 							borderColor: 'rgba(255,99,132,1)',
 							borderWidth: 2,
-							radius: 2,
+							radius: 4,
 							backgroundColor: 'rgba(255, 99, 132, 0.2)',
 							data: this.chartData.results
 						}
@@ -355,7 +355,7 @@ Vue.component('doughnut', {
 					},
 					title: {
 						display: true,
-						text: 'Overall Booking Percentage By Stations',
+						text: 'Daily Booking Percentage By Stations',
 						fontSize: 18,
 						padding: 5,
 						lineHeight: 2

@@ -30,6 +30,7 @@
     </div>
     <div class="column is-half has-text-centered">
       <doughnut class="box fullWidth" :data='byStationData'></doughnut>
+      <!-- <p v-if="zeroBookings">No Bookings Has Been Made Today</p> -->
     </div>
   </div>
 </section>
@@ -60,6 +61,7 @@ export default {
     this.$store.commit("setPageTitle", "Dashboard");
     let res = await this.$axios.get(`http://${config.serverURL}/roles/`);
     this.stationList = res.data[1];
+    this.stationList = this.stationList.filter(i => i.is_active === 1);
     this.stationId = this.stationList[0].station_id;
 
     socket = io.socketio.connect(`http://${config.serverURL}/dashboard`);
@@ -96,6 +98,13 @@ export default {
       data['station'] = station
       data['results'] = this.byTimeData[station]
       return data
+    },
+    zeroBookings() {
+      let count = 0
+      for (let i in this.byStationData.data) {
+        count += this.byStationData.data[i]
+      }
+      if (count <= 0) return true
     }
   },
   destroyed() {

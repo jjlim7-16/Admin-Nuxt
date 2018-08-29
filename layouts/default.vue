@@ -16,6 +16,9 @@
         <li>
           <nuxt-link to="/Admin/Roles">Manage Roles</nuxt-link>
         </li>
+        <li>
+          <nuxt-link to="/Admin/Bookings">Today's Bookings</nuxt-link>
+        </li>
       </ul>
 
       <p class="menu-label">Settings</p>

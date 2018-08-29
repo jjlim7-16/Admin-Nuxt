@@ -112,7 +112,7 @@ export default {
 		return {
 			currentPage: 1,
 			paginated: true,
-			perPage: 5,
+			perPage: 10,
 			hasMobileCards: true,
 			data: [],
 			autocompleteData: [],
@@ -135,8 +135,7 @@ export default {
 			}
 			let action = (newActiveStatus === 1) ? 'Activate' : 'Deactivate'
 			let msg = (newActiveStatus === 0) ? `Warning! All slots will be removed for the day upon deactivation! 
-				Are you sure you want to ${action.toLowerCase()} <b>${station_name}<b>?` : 
-				`Are you sure you want to ${action.toLowerCase()} <b>${station_name}<b>?`
+				Are you sure you want to ${action.toLowerCase()} <b>${station_name}<b>?` : `Are you sure you want to ${action.toLowerCase()} <b>${station_name}<b>?`
 			this.$dialog.confirm({
 				title: `${action} Station`,
 				message: msg,

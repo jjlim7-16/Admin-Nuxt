@@ -6,7 +6,7 @@
 	"private": true,
 	"config": {
 		"nuxt": {
-			"host": "localhost",
+			"host": "local.kidzania.com",
 			"port": "3000"
 		}
 	},

@@ -89,7 +89,7 @@ export default {
       filter: null,
       currentPage: 1,
       paginated: true,
-      perPage: 5,
+      perPage: 10,
       date: new Date()
     }
   },
