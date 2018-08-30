@@ -15,7 +15,7 @@
 				<div class="column is-half">
 					<b-field label='Station Name' v-show="account_type === 'Crew'">
 						<b-select placeholder="Select a station" v-model="account_type_id" expanded rounded>
-							<option v-for="crewAccountType in crewAccountTypeList"
+							<option v-for="crewAccountType in filterStationList"
 											:value="crewAccountType.account_type_id"
 											:key="crewAccountType.account_type_id">
 								{{crewAccountType.station_name}}
@@ -70,11 +70,6 @@ export default {
 	async mounted() {
 		let res = await this.$axios.get(`http://${config.serverURL}/user/getAccountTypeCrewList`)
 		this.crewAccountTypeList = res.data
-		for (let i in this.crewAccountTypeList) {
-			if (this.crewAccountTypeList[i].account_type === 'Admin') {
-				this.account_type_id = this.crewAccountTypeList[i].account_type_id
-			}
-		}
 		if (this.$store.state.auth.user.account_type !== 'Master Admin') {
 			this.account_type = 'Crew'
 		}
@@ -85,6 +80,13 @@ export default {
 				if (stationId == this.crewAccountTypeList[i].station_id) {
 					this.account_type_id = this.crewAccountTypeList[i].account_type_id
 					break
+				}
+			}
+		}
+		else {
+			for (let i in this.crewAccountTypeList) {
+				if (this.crewAccountTypeList[i].account_type === 'Admin') {
+					this.account_type_id = this.crewAccountTypeList[i].account_type_id
 				}
 			}
 		}
@@ -142,14 +144,6 @@ export default {
 				if (res) {
 					this.submit()
 				}
-				// else {
-				// 	this.$dialog.alert({
-				// 		title: 'Error',
-				// 		message: 'Please correct errors before submitting again.',
-				// 		type: 'is-danger',
-				// 		hasIcon: true,
-				// 	})
-				// }
 			})
 		},
 		getAccountTypeId() {
@@ -163,6 +157,9 @@ export default {
 		}
 	},
 	computed: {
+		filterStationList() {
+			return this.crewAccountTypeList.filter(i => i.station_id !== null)
+		},
 		isDisabled() {
 			if (this.$store.state.auth.user) {
 				return (this.$store.state.auth.user.account_type !== 'Master Admin')
