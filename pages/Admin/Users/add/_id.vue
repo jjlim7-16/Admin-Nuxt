@@ -70,7 +70,11 @@ export default {
 	async mounted() {
 		let res = await this.$axios.get(`http://${config.serverURL}/user/getAccountTypeCrewList`)
 		this.crewAccountTypeList = res.data
-		// console.log(res.data)
+		for (let i in this.crewAccountTypeList) {
+			if (this.crewAccountTypeList[i].account_type === 'Admin') {
+				this.account_type_id = this.crewAccountTypeList[i].account_type_id
+			}
+		}
 		if (this.$store.state.auth.user.account_type !== 'Master Admin') {
 			this.account_type = 'Crew'
 		}
@@ -123,7 +127,13 @@ export default {
 						}
 					})
 					.catch(err => {
-						console.log(err)
+						this.$dialog.alert({
+							title: 'Error',
+							message: `Internal Server Error. Please Contact Administrator.`,
+							type: 'is-danger',
+							hasIcon: true,
+							iconPack: 'mdi'
+						})
 					})
 			}
 		},
@@ -154,7 +164,9 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-			return (this.$store.state.auth.user.account_type !== 'Master Admin')
+			if (this.$store.state.auth.user) {
+				return (this.$store.state.auth.user.account_type !== 'Master Admin')
+			}
 		},
 		disableBtn() {
 			if (this.account_type === 'Crew') {
