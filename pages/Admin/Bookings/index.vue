@@ -3,8 +3,8 @@
 
 	<!-- Search by rfid -->
 	<b-field grouped group-multiline>
-		<b-input placeholder="Search By RFID" icon="magnify" v-model="filter" rounded></b-input>
-		<button v-if="filter && filter !== ''" class="button is-danger" @click="clearSearch">Clear Search</button>
+		<b-input placeholder="Search By RFID or Queue No." icon="magnify" v-model="filter" style="width: 20vw;" rounded></b-input>
+		<button v-if="filter && filter !== ''" class="button is-danger" @click="clearSearch"><b-icon icon="close"></b-icon><span>Clear Search</span></button>
 	</b-field>
 
 	<b-table
@@ -38,9 +38,10 @@
 				{{ props.row.queue_no }}
 			</b-table-column>
 
-			<!-- <b-table-column field="booking_status" label="Booking Status" sortable>
-				{{ props.row.booking_status }}
-			</b-table-column> -->
+			<b-table-column field="booking_status" label="Booking Status" sortable centered>
+				<span v-if="props.row.booking_status === 'Confirmed' || props.row.booking_status === 'Admitted'" class="tag is-success">{{ props.row.booking_status }}</span>
+				<span v-else class="tag is-danger">{{ props.row.booking_status }}</span>
+			</b-table-column>
 		</template>
 
 		<template slot="empty">
@@ -90,8 +91,8 @@ export default {
 		filteredData() {
 			let search = this.filter.toLowerCase()
 			if (this.filter !== '') {
-				// return this.data.filter(i => i.rfid.toLowerCase().includes(search) || i.queue_no.toLowerCase().includes(search))
-				return this.data.filter(i => i.rfid.toLowerCase().includes(search))
+				return this.data.filter(i => i.rfid.toLowerCase().includes(search) || i.queue_no.toLowerCase().includes(search))
+				// return this.data.filter(i => i.rfid.toLowerCase().includes(search))
 			}
 			return this.data
 		}

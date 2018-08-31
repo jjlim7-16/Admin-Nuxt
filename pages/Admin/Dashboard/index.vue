@@ -75,6 +75,7 @@ export default {
       this.bardata = data
     })
     socket.on("getBookingByTime", data => {
+      console.log(data)
       this.byTimeData = data
     })
     socket.on("getBookingByStation", data => {

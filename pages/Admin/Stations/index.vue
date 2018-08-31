@@ -179,14 +179,7 @@ export default {
 							type: 'is-success',
 							hasIcon: true,
 							icon: 'check-circle',
-							onConfirm: () => {
-								for (let i in this.data) {
-									if (parseInt(this.data[i].station_id) === parseInt(station_id)) {
-										this.data.splice(i, 1)
-										break
-									}
-								}
-							}
+							onConfirm: () => this.$router.go({path: '/Admin/Stations', force: true})
 						})
 					}
 				})

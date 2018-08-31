@@ -9,7 +9,6 @@
 
 			<b-field label='Activity Duration'>
 			<b-select expanded placeholder='Select Activity Duration' @input="getTimeList" v-model="duration" rounded>
-				<option value="10">10 mins</option>
 				<option value="15">15 mins</option>
 				<option value="20">20 mins</option>
 				<option value="25">25 mins</option>
@@ -20,7 +19,7 @@
 		<div class="columns">
 			<div class="column is-half">
 				<b-field label='Select Start Time'>
-					<b-select expanded placeholder="Select Start Time" v-model="startTime" rounded>
+					<b-select expanded placeholder="Select Start Time" @input="changeTime = true" v-model="startTime" rounded>
 						<option disabled>Please select an activity duration first</option>
 						<option v-for="start in filterStartTime" :value="start" :key="start">
 							{{ start }}
@@ -31,7 +30,7 @@
 
 			<div class="column is-half">
 				<b-field label='Select End Time'>
-					<b-select expanded placeholder="Select End Time" v-model="endTime" rounded>
+					<b-select expanded placeholder="Select End Time" @input="changeTime = true" v-model="endTime" rounded>
 						<option disabled>Please select an activity duration first</option>
 						<option v-for="end in filterEndTime" :value="end" :key="end">
 							{{ end }}
@@ -183,18 +182,18 @@ export default {
 		validateBeforeSubmit() {
 			this.$validator.validateAll().then(res => {
 				if (res) {
-					if (this.changeTime && moment(new Date()).isBetween(moment(this.startTime, 'HH:mm'), moment(this.endTime, 'HH:mm'))) {
+					if (this.duration !== this.origData.durationInMins) {
 						this.$dialog.alert({
 							title: `Alert`,
-							message: `Change of operating hours is not allowed during operation`,
+							message: `Change of activity duration is not allowed during operating hours`,
 							type: 'is-danger',
 							hasIcon: true
 						})
 					}
-					else if (this.duration !== this.origData.durationInMins) {
+					else if (this.changeTime && moment(new Date()).isBetween(moment(this.startTime, 'HH:mm'), moment(this.endTime, 'HH:mm'))) {
 						this.$dialog.alert({
 							title: `Alert`,
-							message: `Change of activity duration is not allowed during operating hours`,
+							message: `Change of operating hours is not allowed during operation`,
 							type: 'is-danger',
 							hasIcon: true
 						})
