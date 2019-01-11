@@ -1,6 +1,6 @@
 # Q-zee Administrative Portal
 
-> This application provides access to both the Admin & Crew Portal. The Admin Portal enables content management of the User Booking Portal and facilitates business decision-making through our dashboard functionalities; On the other hand, the Crew Portal empowers the Crew members at KidZania to admit customers into the role-playing session. Click here to find out more about the [Backend Server Application](https://github.com/jjlim7-16/Kidzania-FYP-Server) and [User Booking Portal](https://github.com/Syoongy/kidzania-fyp-client)
+> This application provides access to both the Admin & Crew Portal of the Queue Management System. The Admin Portal enables content management of the User Booking Portal and facilitates business decision-making through our dashboard functionalities; On the other hand, the Crew Portal empowers the Crew members at KidZania to admit customers into the role-playing session. Click here to find out more about the [Backend Server Application](https://github.com/jjlim7-16/Kidzania-FYP-Server) and [User Booking Portal](https://github.com/Syoongy/kidzania-fyp-client)
 
 ## Project Directory Structure
 ### *The Components Directory*
