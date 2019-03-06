@@ -42,6 +42,11 @@
 				{{ props.row.noOfRoles }}
 			</b-table-column>
 
+			<b-table-column field="booking_limit" label="Booking Limit" sortable centered>
+				<span v-if="props.row.booking_limit !== 0">{{ props.row.booking_limit }}</span>
+				<span v-else>No Limit</span>
+			</b-table-column>
+
 			<b-table-column field="is_active" label="Status" sortable centered>
 				<span v-if="props.row.is_active===1" class="tag is-success">Active</span>
 				<span v-else class="tag is-danger">Inactive</span>

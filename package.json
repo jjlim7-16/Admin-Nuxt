@@ -6,7 +6,7 @@
 	"private": true,
 	"config": {
 		"nuxt": {
-			"host": "25.30.64.144",
+			"host": "localhost",
 			"port": "3000"
 		}
 	},
@@ -23,7 +23,6 @@
 		"@nuxtjs/pwa": "^2.0.8",
 		"bcrypt": "^2.0.1",
 		"body-parser": "^1.18.3",
-		"buefy": "^0.6.6",
 		"chart.js": "^2.7.2",
 		"chart.piecelabel.js": "^0.12.0",
 		"cookie": "^0.3.1",
@@ -35,12 +34,15 @@
 		"moment": "^2.22.2",
 		"mysql": "^2.15.0",
 		"node-sass": "^4.9.0",
-		"nuxt": "^1.0.0",
-		"nuxt-buefy": "^0.0.4",
+		"nuxt": "^2.3.4",
+		"nuxt-buefy": "^0.2.0",
 		"sass-loader": "^7.0.1",
 		"socket.io": "^2.1.1",
 		"uws": "^10.148.1",
 		"vee-validate": "^2.1.0-beta.1",
+		"vue": "2.5.21",
+		"vue-server-renderer": "2.5.21",
+		"vue-template-compiler": "2.5.21",
 		"vue-chartjs": "^3.4.0"
 	},
 	"devDependencies": {

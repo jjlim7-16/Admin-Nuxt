@@ -33,7 +33,7 @@
 		<!-- Upload Image field -->
 		<div class="column is-4" style="margin-left: 2vw;">
 			<b-field label="Role Image">
-				<b-upload v-model="files" drag-drop>
+				<b-upload v-model="files" accept="image/*" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>

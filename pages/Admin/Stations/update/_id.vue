@@ -8,37 +8,46 @@
 			</b-field>
 
 			<b-field label='Activity Duration'>
-			<b-select expanded placeholder='Select Activity Duration' @input="getTimeList" v-model="duration" rounded>
-				<option value="15">15 mins</option>
-				<option value="20">20 mins</option>
-				<option value="25">25 mins</option>
-				<option value="30">30 mins</option>
-			</b-select>
-		</b-field>
+				<b-select expanded placeholder='Select Activity Duration' @input="getTimeList" v-model="duration" rounded>
+					<option value="15">15 mins</option>
+					<option value="20">20 mins</option>
+					<option value="25">25 mins</option>
+					<option value="30">30 mins</option>
+				</b-select>
+			</b-field>
 
-		<div class="columns">
-			<div class="column is-half">
-				<b-field label='Select Start Time'>
-					<b-select expanded placeholder="Select Start Time" @input="changeTime = true" v-model="startTime" rounded>
-						<option disabled>Please select an activity duration first</option>
-						<option v-for="start in filterStartTime" :value="start" :key="start">
-							{{ start }}
-						</option>
-					</b-select>
-				</b-field>
+			<div class="columns">
+				<div class="column is-half">
+					<b-field label='Select Start Time'>
+						<b-select expanded placeholder="Select Start Time" @input="changeTime = true" v-model="startTime" rounded>
+							<option disabled>Please select an activity duration first</option>
+							<option v-for="start in filterStartTime" :value="start" :key="start">
+								{{ start }}
+							</option>
+						</b-select>
+					</b-field>
+				</div>
+
+				<div class="column is-half">
+					<b-field label='Select End Time'>
+						<b-select expanded placeholder="Select End Time" @input="changeTime = true" v-model="endTime" rounded>
+							<option disabled>Please select an activity duration first</option>
+							<option v-for="end in filterEndTime" :value="end" :key="end">
+								{{ end }}
+							</option>
+						</b-select>
+					</b-field>
+				</div>
 			</div>
 
-			<div class="column is-half">
-				<b-field label='Select End Time'>
-					<b-select expanded placeholder="Select End Time" @input="changeTime = true" v-model="endTime" rounded>
-						<option disabled>Please select an activity duration first</option>
-						<option v-for="end in filterEndTime" :value="end" :key="end">
-							{{ end }}
-						</option>
-					</b-select>
-				</b-field>
-			</div>
-		</div>
+			<b-field label='Set Limit'>
+				<b-select expanded v-model='limit' placeholder='Select Limit' required rounded>
+					<option v-for="i in 11" :key="i" :value="i-1">
+						<span v-if="i===1">No Limit</span>
+						<span v-else>{{ i-1 }}</span>
+					</option>
+				</b-select>
+			</b-field>
 
 			<b-field label="Description" :type="errors.has('description') ? 'is-danger': ''"
 				:message="errors.has('description') ? errors.first('description') : ''">
@@ -49,7 +58,7 @@
 
 		<div class="column is-4" style="margin-left: 5vw;">
 			<b-field label="Station Image">
-				<b-upload v-model="files" @input="imageChanged = true" drag-drop>
+				<b-upload v-model="files" accept="image/*" @input="imageChanged = true" drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
@@ -99,6 +108,7 @@ export default {
 			timeList: [],
 			changeTime: false,
 			duration: 15,
+			limit: 0,
 			files: [],
 			imageChanged: false,
 			origData: null
@@ -113,6 +123,7 @@ export default {
 			this.name = this.origData.station_name
 			this.description = this.origData.description
 			this.duration = this.origData.durationInMins
+			this.limit = this.origData.booking_limit
 
 			this.getTimeList()
 			this.startTime = moment(this.origData.station_start, 'HH:mm').format('HH:mm')
@@ -151,7 +162,7 @@ export default {
 			else {
 				let webFormData = new DataModel.Station(this.name.trim(), this.description.trim(),
           moment(this.startTime, 'HH:mm').format('HH:mm'), moment(this.endTime, 'HH:mm').format('HH:mm'),
-          this.duration)
+          this.duration, this.limit)
 
 				let formData = new FormData()
 				if (this.imageChanged === true) {
@@ -219,7 +230,8 @@ export default {
 				return (this.origData.station_name === this.name &&  this.origData.description === this.description &&
 				moment(this.origData.station_start, 'HH:mm').format('HH:mm') === moment(this.startTime, 'HH:mm').format('HH:mm') &&
 				moment(this.origData.station_end, 'HH:mm').format('HH:mm') === moment(this.endTime, 'HH:mm').format('HH:mm') &&
-				this.imageChanged === false && this.duration === this.origData.durationInMins)
+				this.imageChanged === false && this.duration === this.origData.durationInMins &&
+				this.origData.limit === this.limit)
 				|| !this.name || !this.description || !this.files[0]
 			}
 		},

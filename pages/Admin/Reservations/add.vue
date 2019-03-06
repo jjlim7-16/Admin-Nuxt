@@ -108,6 +108,7 @@ export default {
 		let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 		this.roleList = res.data[0]
 		this.stationList = res.data[1]
+		this.stationList = this.stationList.filter(i => i.is_active === 1)
 	},
 	methods: {
 		submit() {

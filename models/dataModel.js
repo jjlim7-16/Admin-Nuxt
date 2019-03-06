@@ -5,12 +5,13 @@ module.exports = {
 		this.file = file
 		this.stationId = stationId
 	},
-	Station: function (name, description, startTime, endTime, duration, roles = null) {
+	Station: function (name, description, startTime, endTime, duration, limit = 0, roles = null) {
 		this.name = name
 		this.description = description
 		this.startTime = startTime
 		this.endTime = endTime
 		this.duration = duration
+		this.limit = limit
 		this.roles = roles
 	},
 	Limit: function (stationId, roleId, date, limit) {
@@ -26,7 +27,7 @@ module.exports = {
 		this.noOfRSlots = noOfRSlots
 		this.remarks = remarks
 	},
-	Account: function (account_type_id, username, password=null) {
+	Account: function (account_type_id, username, password = null) {
 		this.account_type_id = account_type_id
 		this.username = username
 		this.password = password

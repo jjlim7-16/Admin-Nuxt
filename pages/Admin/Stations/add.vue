@@ -40,6 +40,15 @@
 			</div>
 		</div>
 
+		<b-field label='Set Limit'>
+			<b-select expanded v-model='limit' placeholder='Select Limit' required rounded>
+				<option v-for="i in 11" :key="i" :value="i-1">
+					<span v-if="i===1">No Limit</span>
+					<span v-else>{{ i-1 }}</span>
+				</option>
+			</b-select>
+		</b-field>
+
 		<b-field label="Description" :type="errors.has('description') ? 'is-danger': ''"
 			:message="errors.has('description') ? errors.first('description') : ''">
 			<b-input maxlength="500" rows="5" type="textarea" name="description" v-validate="'required'"
@@ -49,7 +58,7 @@
 
 	<div class="column is-4">
 		<b-field label="Station Image">
-			<b-upload v-model="files" drag-drop>
+			<b-upload v-model="files" accept="image/*" drag-drop>
 				<section class="section" v-if="!files || files.length <= 0">
 					<div class="content has-text-centered" id="preview">
 						<p>
@@ -232,6 +241,7 @@ export default {
 			maxTime: max,
 			startTime: null,
 			endTime: null,
+			limit: 0,
 			timeList: [],
 			files: [],
 		}
@@ -263,7 +273,7 @@ export default {
 			else {
 				let station = new DataModel.Station(this.name.trim(), this.description.trim(),
 					moment(this.startTime, 'HH:mm').format('HH:mm'), moment(this.endTime, 'HH:mm').format('HH:mm'),
-					this.duration, this.roles)
+					this.duration, this.limit, this.roles)
 
 				let formData = new FormData()
 				formData.append('webFormData', JSON.stringify(station))
