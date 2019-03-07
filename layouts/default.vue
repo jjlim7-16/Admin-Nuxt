@@ -23,9 +23,9 @@
 
       <p class="menu-label">Settings</p>
       <ul class="menu-list">
-        <li>
+        <!-- <li>
           <nuxt-link to="/Admin/Limit">Manage Limits</nuxt-link>
-        </li>
+        </li> -->
         <li>
           <nuxt-link to="/Admin/Reservations">Manage Reservations</nuxt-link>
         </li>
@@ -77,9 +77,9 @@
 
               <p class="menu-label">Settings</p>
               <ul class="menu-list">
-                <li class="navbar-item">
+                <!-- <li class="navbar-item">
                   <nuxt-link to="/Admin/Limit">Manage Limits</nuxt-link>
-                </li>
+                </li> -->
                 <li class="navbar-item">
                   <nuxt-link to="/Admin/Reservations">Manage Reservations</nuxt-link>
                 </li>
