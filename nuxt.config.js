@@ -65,10 +65,10 @@ module.exports = {
 		/*
 		 ** Run ESLint on save
 		 */
-		vendor: [
-			'chart.js',
-			'vue-chartjs'
-		],
+		// vendor: [
+		// 	'chart.js',
+		// 	'vue-chartjs'
+		// ],
 		extend(config, {
 			isDev,
 			isClient
