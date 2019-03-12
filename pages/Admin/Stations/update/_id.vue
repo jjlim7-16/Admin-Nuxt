@@ -58,7 +58,7 @@
 
 		<div class="column is-4" style="margin-left: 5vw;">
 			<b-field label="Station Image">
-				<b-upload v-model="files" accept="image/*" @input="imageChanged = true" drag-drop>
+				<b-upload v-model="files" accept="image/*" @input="changeImage()" multiple drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
@@ -140,6 +140,10 @@ export default {
 		}
 	},
 	methods: {
+		changeImage() {
+			this.files.splice(0,1)
+			this.imageChanged = true
+		},
 		async submit() {
 			let res = await this.$axios.get(`http://${config.serverURL}/stations/`)
 			let stationList = res.data

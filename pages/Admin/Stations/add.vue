@@ -58,7 +58,7 @@
 
 	<div class="column is-4">
 		<b-field label="Station Image">
-			<b-upload v-model="files" accept="image/*" drag-drop>
+			<b-upload v-model="files" accept="image/*" multiple drag-drop>
 				<section class="section" v-if="!files || files.length <= 0">
 					<div class="content has-text-centered" id="preview">
 						<p>

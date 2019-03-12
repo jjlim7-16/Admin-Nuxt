@@ -33,7 +33,7 @@
 		<!-- Upload Image field -->
 		<div class="column is-4" style="margin-left: 2vw;">
 			<b-field label="Role Image">
-				<b-upload v-model="files" accept="image/*" drag-drop>
+				<b-upload v-model="files" accept="image/*" multiple drag-drop>
 					<section class="section" v-if="!files || files.length <= 0">
 						<div class="content has-text-centered" id="preview">
 							<p><b-icon icon="upload" size="is-large"></b-icon></p>
@@ -97,6 +97,9 @@ export default {
 		}
 	},
 	methods: {
+		changeImage() {
+			this.files.splice(0,1)
+		},
 		async submit() {
 			let res = await this.$axios.get(`http://${config.serverURL}/roles/`)
 			let roleList = res.data[0]
